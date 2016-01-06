@@ -459,7 +459,9 @@ def precisionRecall(testFile):
 # tests the model at classifying reports as either positive or negative based on diagnosis
 def labelClassification():
 	corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
-	corpusList = [list(x) for x in np.asarray(corpus)[:,:,1]]
+	#convert the corpus to a numpy matrix, take the transpose and convert it to a list
+	corpusList = [list(x) for x in zip(*gensim.matutils.corpus2dense(corpus,corpus.num_terms,num_docs=None,dtype=np.float32))]
+	# corpusList = [list(x) for x in np.asarray(corpus)[:,:,1]]
 	reports = getReports()
 
 	numFolds = 5 # number of folds for cross validation
@@ -482,8 +484,8 @@ def labelClassification():
 			# fetch corpus and labels
 			labelledCorpus = []
 			for i in range(getNumReports(REPORT_FILES[:j]),getNumReports(REPORT_FILES[:j])+getNumReports([REPORT_FILES_LABELLED[j]])):
-				labelledCorpus.append((corpus[i]))
-			labelledCorpus = np.asarray(labelledCorpus)[:,:,1]
+				labelledCorpus.append((corpusList[i]))
+			# labelledCorpus = np.asarray(labelledCorpus)[:,:,1]
 			labels = np.asarray(getData([REPORT_FILES_LABELLED[j]]))[:,2]
 
 			############### THIS CODE BLOCK REMOVES THE NUMBER OF NEGATIVE LABELS TO EQUALISE THE DISTRIBUTION OF CLASS LABELS. TO BE REMOVED IN FUTURE.
@@ -590,7 +592,7 @@ def runSearchEngine():
 if __name__ == '__main__':
 	# preprocessReports()
 	# buildDictionary()
-	buildModels()
+	# buildModels()
 	# buildWord2VecModel()
 	# buildDoc2VecModel()
 	# searchTerm = "chronic small vessel disease"
@@ -598,6 +600,6 @@ if __name__ == '__main__':
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("lda",searchTerm)
 	# precisionRecall("pr_tests.csv")
-	# labelClassification()
+	labelClassification()
 
 	# runSearchEngine()
