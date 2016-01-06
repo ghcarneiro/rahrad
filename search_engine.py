@@ -43,7 +43,9 @@ def textPreprocess(text):
 	text = [word for word in text if len(word) > 1] # remove all single-letter words
 
 	# remove stop words
-	text = [word for word in text if not word in set(stopwords.words("english"))]
+	negations = set(('no', 'nor','against','don', 'not'))
+	stop = set(stopwords.words("english"))# - negations
+	text = [word for word in text if not word in stop]
 
 #TODO - Change stemmer to incorporate radlex
 	# word stemming (list of word stemmers: http://www.nltk.org/api/nltk.stem.html)
@@ -338,6 +340,16 @@ def search(model, numResults, searchTerm):
 		searchTerm_lsi = lsi_model[searchTerm_tfidf]
 
 		similarReports = lsi_index[searchTerm_lsi]
+	elif model == "lda":
+		lda_model = gensim.models.LdaModel.load('./model_files/reports.lda_model')
+
+		lda_index = gensim.similarities.MatrixSimilarity.load('./model_files/reports_lda.index')
+		lda_index.num_best = numResults
+
+		searchTerm_bow = dictionary.doc2bow(searchTerm)
+		searchTerm_lda = lda_model[searchTerm_bow]
+
+		similarReports = lda_index[searchTerm_lda]
 	elif model == "doc2vec":
 		model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
 		# searchTerm_docvec = model.infer_vector(getDerivations(searchTerm))
@@ -372,7 +384,7 @@ def searchEngineTest(model, searchTerm):
 # input is a string of a filename containing a list of searchTerms to use in the testing
 # saves output to files in the directory "./precision_recall/"
 def precisionRecall(testFile):
-	models = ["bow","tfidf","lsi","doc2vec"]
+	models = ["bow","tfidf","lsi","lda","doc2vec"]
 	tests = []
 	with open(testFile,'rb') as file:
 		reader = csv.reader(file)
@@ -390,7 +402,7 @@ def precisionRecall(testFile):
 		plt.xlabel("Recall")
 		plt.ylabel("Precision")
 		plt.title(searchTerm[0])
-		with open("precision_recall/" + searchTerm[0] + ".csv",'w') as writeFile:
+		with open("precision_recall_rerun/" + searchTerm[0] + ".csv",'w') as writeFile:
 			writer = csv.writer(writeFile)
 
 			for model in models:
@@ -578,14 +590,14 @@ def runSearchEngine():
 if __name__ == '__main__':
 	# preprocessReports()
 	# buildDictionary()
-	# buildModels()
+	buildModels()
 	# buildWord2VecModel()
 	# buildDoc2VecModel()
 	# searchTerm = "chronic small vessel disease"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
-	# searchEngineTest("lsi",searchTerm)
+	# searchEngineTest("lda",searchTerm)
 	# precisionRecall("pr_tests.csv")
 	# labelClassification()
 
-	runSearchEngine()
+	# runSearchEngine()
