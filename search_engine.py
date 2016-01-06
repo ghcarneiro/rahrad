@@ -35,7 +35,7 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
 # runs the preprocessing procedure to the supplied text
 # input is string of text to be processed
-# output is the same string processed 
+# output is the same string processed
 def textPreprocess(text):
 	text = re.sub("[^a-zA-Z]"," ",text) # remove non-letters
 	text = text.lower() # convert to lower-case
@@ -43,8 +43,11 @@ def textPreprocess(text):
 	text = [word for word in text if len(word) > 1] # remove all single-letter words
 
 	# remove stop words
-	text = [word for word in text if not word in set(stopwords.words("english"))]
+	negations = set(('no', 'nor','against','don', 'not'))
+	stop = set(stopwords.words("english"))# - negations
+	text = [word for word in text if not word in stop]
 
+#TODO - Change stemmer to incorporate radlex
 	# word stemming (list of word stemmers: http://www.nltk.org/api/nltk.stem.html)
 	text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
 	# text = [stem.PorterStemmer().stem(word) for word in text]
@@ -59,7 +62,7 @@ def getData(fileNames=REPORT_FILES):
 	data = []
 
 	for fileName in fileNames:
-		with open(fileName,'rb') as file: 
+		with open(fileName,'rb') as file:
 			file.readline() # skip header line
 			reader = csv.reader(file)
 			for row in reader:
@@ -72,10 +75,10 @@ def getData(fileNames=REPORT_FILES):
 # input must be an ARRAY of fileNames. By default, fetches all reports in directory.
 # output is an array containing the reports
 def getReports(fileNames=REPORT_FILES):
-	reports = [] 
+	reports = []
 
 	for fileName in fileNames:
-		with open(fileName,'rb') as file: 
+		with open(fileName,'rb') as file:
 			file.readline() # skip header line
 			reader = csv.reader(file)
 			for row in reader:
@@ -154,7 +157,7 @@ def buildDictionary():
 # builds and saves the index file used to compute similarity between documents
 # input is the corpus file
 def build_similarityIndex(corpus):
-	index = gensim.similarities.SparseMatrixSimilarity(corpus,num_features=corpus.num_terms) 
+	index = gensim.similarities.SparseMatrixSimilarity(corpus,num_features=corpus.num_terms)
 	index.save('./model_files/reports.index')
 
 
@@ -164,10 +167,10 @@ def build_similarityIndex(corpus):
 def transform_tfidf(corpus):
 	tfidf_model = gensim.models.TfidfModel(corpus)
 	tfidf_model.save('./model_files/reports.tfidf_model')
-	
+
 	newCorpus = tfidf_model[corpus]
 	gensim.corpora.MmCorpus.serialize('./model_files/reports_tfidf.mm', newCorpus)
-	index = gensim.similarities.SparseMatrixSimilarity(newCorpus,num_features=corpus.num_terms) 
+	index = gensim.similarities.SparseMatrixSimilarity(newCorpus,num_features=corpus.num_terms)
 	index.save('./model_files/reports_tfidf.index')
 
 
@@ -175,13 +178,25 @@ def transform_tfidf(corpus):
 # apply LSI transformation to generate new model, corpus and index
 # input is the corpus file and dictionary file
 def transform_lsi(corpus,dictionary):
-	lsi_model = gensim.models.LsiModel(corpus, id2word=dictionary, num_topics=10) 
+	lsi_model = gensim.models.LsiModel(corpus, id2word=dictionary, num_topics=10)
 	lsi_model.save('./model_files/reports.lsi_model')
-	
+
 	newCorpus = lsi_model[corpus]
 	gensim.corpora.MmCorpus.serialize('./model_files/reports_lsi.mm', newCorpus)
-	index = gensim.similarities.MatrixSimilarity(newCorpus) 
+	index = gensim.similarities.MatrixSimilarity(newCorpus)
 	index.save('./model_files/reports_lsi.index')
+
+# NO NEED TO CALL THIS FUNCTION DIRECTLY
+# apply LDA transformation to generate new model, corpus and index
+# input is the corpus file and dictionary file
+def transform_lda(corpus,dictionary):
+	lda_model = gensim.models.LdaMulticore(corpus, id2word=dictionary, num_topics=10)
+	lda_model.save('./model_files/reports.lda_model')
+
+	newCorpus = lda_model[corpus]
+	gensim.corpora.MmCorpus.serialize('./model_files/reports_lda.mm', newCorpus)
+	index = gensim.similarities.MatrixSimilarity(newCorpus)
+	index.save('./model_files/reports_lda.index')
 
 # calls the model building and transformation functions to create the model files for the BOW, TFIDF and LSI
 def buildModels():
@@ -194,7 +209,7 @@ def buildModels():
 	corpus = gensim.corpora.MmCorpus('./model_files/reports.mm')
 	# print(corpus)
 	print('Example case report under BOW representation: ')
-	print(corpus[200])	
+	print(corpus[200])
 	# print(list(corpus))
 
 	# build index for similarity comparison using BOW representation
@@ -212,6 +227,13 @@ def buildModels():
 	# lsi_model.print_topics()
 	print('Example case report under LSI transformation: ')
 	print(list(lsi_corpus)[200])
+
+	# transform model using LDA
+	transform_lda(corpus,dictionary)
+	lda_corpus = gensim.corpora.MmCorpus('./model_files/reports_lda.mm')
+	# lda_model.print_topics()
+	print('Example case report under LDA transformation: ')
+	print(list(lda_corpus)[200])
 
 # function to test the functionality of Word2Vec
 def buildWord2VecModel():
@@ -257,13 +279,13 @@ def buildDoc2VecModel():
 		model.train(taggedDocuments)
 		model.alpha -= 0.001
 		model.min_alpha = model.alpha
-	
+
 
 	model.save("./model_files/reports.doc2vec_model")
 
 # get all the derivations of each word in the search term, and generates a new search term based on these derivations (only if they exist in the dictionary)
 # input is the search term to use
-# output is a new search term that contains all of the derivations 
+# output is a new search term that contains all of the derivations
 def getDerivations(searchTerm):
 	dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
 	newSearchTerm = []
@@ -318,6 +340,16 @@ def search(model, numResults, searchTerm):
 		searchTerm_lsi = lsi_model[searchTerm_tfidf]
 
 		similarReports = lsi_index[searchTerm_lsi]
+	elif model == "lda":
+		lda_model = gensim.models.LdaModel.load('./model_files/reports.lda_model')
+
+		lda_index = gensim.similarities.MatrixSimilarity.load('./model_files/reports_lda.index')
+		lda_index.num_best = numResults
+
+		searchTerm_bow = dictionary.doc2bow(searchTerm)
+		searchTerm_lda = lda_model[searchTerm_bow]
+
+		similarReports = lda_index[searchTerm_lda]
 	elif model == "doc2vec":
 		model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
 		# searchTerm_docvec = model.infer_vector(getDerivations(searchTerm))
@@ -352,9 +384,9 @@ def searchEngineTest(model, searchTerm):
 # input is a string of a filename containing a list of searchTerms to use in the testing
 # saves output to files in the directory "./precision_recall/"
 def precisionRecall(testFile):
-	models = ["bow","tfidf","lsi","doc2vec"]
+	models = ["bow","tfidf","lsi","lda","doc2vec"]
 	tests = []
-	with open(testFile,'rb') as file: 
+	with open(testFile,'rb') as file:
 		reader = csv.reader(file)
 		for row in reader:
 			tests.append(row)
@@ -370,7 +402,7 @@ def precisionRecall(testFile):
 		plt.xlabel("Recall")
 		plt.ylabel("Precision")
 		plt.title(searchTerm[0])
-		with open("precision_recall/" + searchTerm[0] + ".csv",'w') as writeFile: 
+		with open("precision_recall_rerun/" + searchTerm[0] + ".csv",'w') as writeFile:
 			writer = csv.writer(writeFile)
 
 			for model in models:
@@ -412,9 +444,9 @@ def precisionRecall(testFile):
 					precision.append((truePositive/retrieved) if retrieved else 0)
 					recall.append((truePositive/relevant) if relevant else 0)
 					writer.writerow([precision[i-1],recall[i-1]])
-				
+
 				writer.writerow("")
-				
+
 				# plot the data point
 				plt.plot(recall,precision,label=model)
 
@@ -427,12 +459,14 @@ def precisionRecall(testFile):
 # tests the model at classifying reports as either positive or negative based on diagnosis
 def labelClassification():
 	corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
-	corpusList = [list(x) for x in np.asarray(corpus)[:,:,1]]
+	#convert the corpus to a numpy matrix, take the transpose and convert it to a list
+	corpusList = [list(x) for x in zip(*gensim.matutils.corpus2dense(corpus,corpus.num_terms,num_docs=None,dtype=np.float32))]
+	# corpusList = [list(x) for x in np.asarray(corpus)[:,:,1]]
 	reports = getReports()
 
 	numFolds = 5 # number of folds for cross validation
 
-	with open("labelClassification.csv",'w') as writeFile: 
+	with open("labelClassification.csv",'w') as writeFile:
 		writer = csv.writer(writeFile)
 		writer.writerow(["score","output label","expected label","report"])
 
@@ -440,7 +474,7 @@ def labelClassification():
 			writer.writerow("")
 			writer.writerow("")
 			writer.writerow([DIAGNOSES[j]])
-			
+
 			# initialise figure and plot
 			plt.figure(DIAGNOSES[j] + " ROC")
 			plt.xlabel("False Positive")
@@ -450,8 +484,8 @@ def labelClassification():
 			# fetch corpus and labels
 			labelledCorpus = []
 			for i in range(getNumReports(REPORT_FILES[:j]),getNumReports(REPORT_FILES[:j])+getNumReports([REPORT_FILES_LABELLED[j]])):
-				labelledCorpus.append((corpus[i]))
-			labelledCorpus = np.asarray(labelledCorpus)[:,:,1]
+				labelledCorpus.append((corpusList[i]))
+			# labelledCorpus = np.asarray(labelledCorpus)[:,:,1]
 			labels = np.asarray(getData([REPORT_FILES_LABELLED[j]]))[:,2]
 
 			############### THIS CODE BLOCK REMOVES THE NUMBER OF NEGATIVE LABELS TO EQUALISE THE DISTRIBUTION OF CLASS LABELS. TO BE REMOVED IN FUTURE.
@@ -562,13 +596,10 @@ if __name__ == '__main__':
 	# buildWord2VecModel()
 	# buildDoc2VecModel()
 	# searchTerm = "chronic small vessel disease"
-	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS." 
+	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
-	# searchEngineTest("lsi",searchTerm)
+	# searchEngineTest("lda",searchTerm)
 	# precisionRecall("pr_tests.csv")
-	# labelClassification()
+	labelClassification()
 
-	runSearchEngine()
-
-
-
+	# runSearchEngine()
