@@ -1,0 +1,2 @@
+Running relies on the nlp_data, or you can open up index.html
+and change the url located in loadDocument() function.

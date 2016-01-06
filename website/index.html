@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://rawgit.com/chafey/cornerstoneWADOImageLoader/master/examples/wadouri/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- twitter bootstrap CSS stylesheet - included to make things pretty, not needed or used by cornerstone -->
+    <link href="./style.css" rel="stylesheet">
+    <link href="./index_files/bootstrap.min.css" rel="stylesheet">
+
+    <link href="./index_files/cornerstone.min.css" rel="stylesheet">
+
+<style type="text/css"></style></head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:absolute"></div>
+		</div>
+		<div class="col-md-6">
+				<div id=reload-box" style="display: block;">
+			<div id="caseReport" class="row" style="opacity: 1;"></div>
+			</div>
+		</div>
+	</div>
+	<input class="form-control input-lg" id="inputBox" type="text">
+	<button type="button" onclick="nextReport()">Next</button>
+</div>
+
+<!-- jquery - currently a dependency and thus required for using cornerstoneWADOImageLoader -->
+<script src="./index_files/jquery.min.js"></script>
+
+<!-- bootstrap -->
+<script src="./index_files/bootstrap.min.js"></script>
+
+<!-- include the cornerstone library -->
+<script src="./index_files/cornerstone.min.js"></script>
+<script src="./index_files/cornerstoneMath.js"></script>
+<script src="./index_files/cornerstoneTools.js"></script>
+
+<!-- include the dicomParser library as the WADO image loader depends on it -->
+<script src="./index_files/dicomParser.min.js"></script>
+
+<!-- jpeg 2000 codec -->
+<script src="./index_files/jpx.min.js"></script>
+
+<!-- include the cornerstoneWADOImageLoader library -->
+<script src="./index_files/cornerstoneWADOImageLoader.js"></script>
+
+
+
+<script>
+
+    cornerstoneWADOImageLoader.configure({
+        beforeSend: function(xhr) {
+            // Add custom headers here (e.g. auth tokens)
+            //xhr.setRequestHeader('x-auth-token', 'my auth token');
+        }
+    });
+
+    var loaded = false;
+
+    function loadAndViewImage(imageId) {
+        var element = $('#dicomImage').get(0);
+        //try {
+            cornerstone.loadImage(imageId).then(function(image) {
+                console.log(image);
+                var viewport = cornerstone.getDefaultViewportForImage(element, image);
+                $('#toggleModalityLUT').attr("checked",viewport.modalityLUT !== undefined);
+                $('#toggleVOILUT').attr("checked",viewport.voiLUT !== undefined);
+                cornerstone.displayImage(element, image, viewport);
+                if(loaded === false) {
+                    cornerstoneTools.mouseInput.enable(element);
+                    cornerstoneTools.mouseWheelInput.enable(element);
+                    cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+                    cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
+                    cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
+                    cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+                    loaded = true;
+                }
+            }, function(err) {
+                alert(err);
+            });
+        /*}
+        catch(err) {
+            alert(err);
+        }*/
+    }
+	var doc;
+	var currentReport=1;
+	function nextReport() {
+		var x = doc[currentReport];	
+		while ( x.search("REPORT:") == -1 && x.search("FINDINGS:") == -1 ) {
+			currentReport += 1;
+			x = doc[currentReport];
+				
+		}
+		var posReport = x.search("REPORT:") == -1 ? x.search("FINDINGS:")+9 : x.search("REPORT:")+7;
+		x = x.substring(posReport,x.length-1);
+		x = x.split(".");
+		var rep = '';
+		var pos = Math.floor((Math.random() * (x.length-1)) + 0);
+		
+		console.log(pos);
+		//x=x.split(".").join("</div><div>");
+		for (i=0;i<x[pos].length;i++) {
+			rep += "_";
+		}
+		
+		var y;
+		for (i=0;i<x.length;i++) {
+			if (i != pos-1 && i != pos) {
+				y += x[i] + ".</span><span>";
+			}else if (i == pos) {
+				//y += rep + "</span><span>";
+				y += x[i] + "</span><span>";
+			}else{
+				//y += x[i] + ".</span><span class='sentenceHider'>";
+				y += x[i] + ".</span><span>";
+			}
+		}
+		//var start = pos == 0 ? "<span class='sentenceHider'>" : "<span>";
+		var start = "<span>";
+		document.getElementById("caseReport").innerHTML = start+ y;
+		currentReport += 1;
+	}
+	function loadDocument() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if ( xhttp.readyState == 4 && xhttp.status == 200) {
+				doc = xhttp.responseText.split("\n");
+				//doc=doc[currentReport].replace(new RegExp(': .', 'g'), ':').split(':');
+				//x = x[x.length-1];
+				//document.getElementById("caseReport").innerHTML = x;
+				nextReport();
+			}	
+		};
+		xhttp.open("GET","/nlp_data/CleanedBrainsFull.csv",true);
+		xhttp.send();
+	}
+    function downloadAndView()
+    {
+        var url = "http://rade134.github.io/IM-0239-0012.dcm";
+
+        // prefix the url with wadouri: so cornerstone can find the image loader
+        url = "wadouri:" + url;
+
+
+        // image enable the dicomImage element and activate a few tools
+        loadAndViewImage(url);
+    }
+
+    $(document).ready(function() {
+        var element = $('#dicomImage').get(0);
+        cornerstone.enable(element);
+	downloadAndView();
+	loadDocument();
+    });
+
+</script>
+
+<script id="hiddenlpsubmitdiv" style="display: none;"></script><script>try{(function() { for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){ var lastpass_f = document.forms[lastpass_iter]; if(typeof(lastpass_f.lpsubmitorig2)=="undefined"){ lastpass_f.lpsubmitorig2 = lastpass_f.submit; if (typeof(lastpass_f.lpsubmitorig2)=='object'){ continue;}lastpass_f.submit = function(){ var form=this; var customEvent = document.createEvent("Event"); customEvent.initEvent("lpCustomEvent", true, true); var d = document.getElementById("hiddenlpsubmitdiv"); if (d) {for(var i = 0; i < document.forms.length; i++){ if(document.forms[i]==form){ if (typeof(d.innerText) != 'undefined') { d.innerText=i.toString(); } else { d.textContent=i.toString(); } } } d.dispatchEvent(customEvent); }form.lpsubmitorig2(); } } }})()}catch(e){}</script></body></html>
