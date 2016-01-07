@@ -38,19 +38,19 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 # input is string of text to be processed
 # output is the same string processed
 def textPreprocess(text):
-	# text = re.sub("[^a-zA-Z]"," ",text) # remove non-letters
+	text = re.sub("[^a-zA-Z]"," ",text) # remove non-letters
 	text = text.lower() # convert to lower-case
 	text = text.split() # tokenise string
-	# text = [word for word in text if len(word) > 1] # remove all single-letter words
+	text = [word for word in text if len(word) > 1] # remove all single-letter words
 
 	# remove stop words
-	# negations = set(('no', 'nor','against','don', 'not'))
-	# stop = set(stopwords.words("english")) - negations
-	# text = [word for word in text if not word in stop]
+	negations = set(('no', 'nor','against','don', 'not'))
+	stop = set(stopwords.words("english")) - negations
+	text = [word for word in text if not word in stop]
 
 #TODO - Change stemmer to incorporate radlex
 	# word stemming (list of word stemmers: http://www.nltk.org/api/nltk.stem.html)
-	# text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
+	text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
 	# text = [stem.PorterStemmer().stem(word) for word in text]
 
 	return(text)
@@ -333,6 +333,7 @@ def getDerivations(searchTerm):
 # output is an array containing the index of the similar documents and their similarity value
 def search(model, numResults, searchTerm):
 	dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
+	originalSearchTerm = searchTerm.lower()
 	searchTerm = textPreprocess(searchTerm)
 	searchTerm = getDerivations(searchTerm)
 	if (searchTerm == []):
@@ -379,7 +380,7 @@ def search(model, numResults, searchTerm):
 	elif model == "doc2vec":
 		model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
 		# searchTerm_docvec = model.infer_vector(getDerivations(searchTerm))
-		searchTerm_docvec = model.infer_vector(searchTerm)
+		searchTerm_docvec = model.infer_vector(originalSearchTerm)
 		similarReports = model.docvecs.most_similar([searchTerm_docvec],topn=numResults)
 	else:
 		return 0
@@ -394,7 +395,6 @@ def searchEngineTest(model, searchTerm):
 	print("Search: " + searchTerm)
 
 	reports = getReports()
-
 	similarReports = search(model,5,searchTerm)
 
 	if (similarReports == []):
@@ -411,6 +411,7 @@ def searchEngineTest(model, searchTerm):
 # saves output to files in the directory "./precision_recall/"
 def precisionRecall(testFile):
 	models = ["bow","tfidf","lsi","lda","doc2vec"]
+	# models = ["lsi","doc2vec"]
 	tests = []
 	with open(testFile,'rb') as file:
 		reader = csv.reader(file)
@@ -428,7 +429,7 @@ def precisionRecall(testFile):
 		plt.xlabel("Recall")
 		plt.ylabel("Precision")
 		plt.title(searchTerm[0])
-		with open("precision_recall_rerun/" + searchTerm[0] + ".csv",'w') as writeFile:
+		with open("precision_recall_minimal/" + searchTerm[0] + ".csv",'w') as writeFile:
 			writer = csv.writer(writeFile)
 
 			for model in models:
@@ -617,19 +618,16 @@ def runSearchEngine():
 
 
 if __name__ == '__main__':
-	sentences = getSentences(REPORT_FILES_LABELLED_BRAINS)
-	for sentence in sentences:
-		print sentence
 	# preprocessReports()
 	# buildDictionary()
 	# buildModels()
 	# buildWord2VecModel()
 	# buildDoc2VecModel()
-	# searchTerm = "calculus obstruction"
+	# searchTerm = "haemorrhage"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
-	# searchEngineTest("lsi",searchTerm)
-	# precisionRecall("pr_tests.csv")
+	# searchEngineTest("doc2vec",searchTerm)
+	precisionRecall("pr_tests.csv")
 	# labelClassification()
 
 	# runSearchEngine()
