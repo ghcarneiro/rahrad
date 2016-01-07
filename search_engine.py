@@ -10,6 +10,7 @@ import csv
 import re
 from nltk.corpus import stopwords
 from nltk import stem
+import nltk
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
@@ -85,6 +86,21 @@ def getReports(fileNames=REPORT_FILES):
 				reports.append(row[1])
 
 	return reports
+
+# retrieves a list of all sentences in its raw unprocessed state
+# input must be an ARRAY of fileNames. By default, fetches all reports in directory.
+# output is an array containing the reports
+def getSentences(fileNames=REPORT_FILES):
+	sentences = []
+	tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+	for fileName in fileNames:
+		with open(fileName,'rb') as file:
+			file.readline() # skip header line
+			reader = csv.reader(file)
+			for row in reader:
+				for sentence in tokenizer.tokenize(row[1]):
+					sentences.append(sentence)
+	return sentences
 
 # retrieves all reports that have been preprocessed corresponding to the given diagnoses
 # input must be an ARRAY of string specifying the diagnoses to fetched. By default, fetches all reports from all diagnoses.
@@ -591,12 +607,14 @@ def runSearchEngine():
 
 
 if __name__ == '__main__':
+	# sentences = getSentences(REPORT_FILES_LABELLED_BRAINS)
+	# print(sentences)
 	# preprocessReports()
 	# buildDictionary()
 	# buildModels()
 	# buildWord2VecModel()
 	# buildDoc2VecModel()
-	# searchTerm = "calculus_obstruction"
+	# searchTerm = "calculus obstruction"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("lsi",searchTerm)
