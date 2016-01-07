@@ -460,7 +460,7 @@ def precisionRecall(testFile):
 def labelClassification():
 	corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
 	#convert the corpus to a numpy matrix, take the transpose and convert it to a list
-	corpusList = [list(x) for x in zip(*gensim.matutils.corpus2dense(corpus,corpus.num_terms,num_docs=None,dtype=np.float32))]
+	corpusList = [list(x) for x in zip(*gensim.matutils.corpus2dense(corpus,corpus.num_terms,dtype=np.float64))]
 	# corpusList = [list(x) for x in np.asarray(corpus)[:,:,1]]
 	reports = getReports()
 
@@ -483,11 +483,12 @@ def labelClassification():
 
 			# fetch corpus and labels
 			labelledCorpus = []
+			# print(range(getNumReports(REPORT_FILES[:j]),getNumReports(REPORT_FILES[:j])+getNumReports([REPORT_FILES_LABELLED[j]])))
+			# The labeled data is at the start of the data set
+			# Get the ids in the corpus of these first labeled examples for each class
 			for i in range(getNumReports(REPORT_FILES[:j]),getNumReports(REPORT_FILES[:j])+getNumReports([REPORT_FILES_LABELLED[j]])):
 				labelledCorpus.append((corpusList[i]))
-			# labelledCorpus = np.asarray(labelledCorpus)[:,:,1]
 			labels = np.asarray(getData([REPORT_FILES_LABELLED[j]]))[:,2]
-
 			############### THIS CODE BLOCK REMOVES THE NUMBER OF NEGATIVE LABELS TO EQUALISE THE DISTRIBUTION OF CLASS LABELS. TO BE REMOVED IN FUTURE.
 			count = 0
 			deletes = []
