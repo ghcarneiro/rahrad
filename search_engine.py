@@ -38,19 +38,19 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 # input is string of text to be processed
 # output is the same string processed
 def textPreprocess(text):
-	text = re.sub("[^a-zA-Z]"," ",text) # remove non-letters
+	# text = re.sub("[^a-zA-Z]"," ",text) # remove non-letters
 	text = text.lower() # convert to lower-case
 	text = text.split() # tokenise string
-	text = [word for word in text if len(word) > 1] # remove all single-letter words
+	# text = [word for word in text if len(word) > 1] # remove all single-letter words
 
 	# remove stop words
-	negations = set(('no', 'nor','against','don', 'not'))
-	stop = set(stopwords.words("english"))# - negations
-	text = [word for word in text if not word in stop]
+	# negations = set(('no', 'nor','against','don', 'not'))
+	# stop = set(stopwords.words("english")) - negations
+	# text = [word for word in text if not word in stop]
 
 #TODO - Change stemmer to incorporate radlex
 	# word stemming (list of word stemmers: http://www.nltk.org/api/nltk.stem.html)
-	text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
+	# text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
 	# text = [stem.PorterStemmer().stem(word) for word in text]
 
 	return(text)
@@ -618,7 +618,7 @@ def runSearchEngine():
 
 if __name__ == '__main__':
 	sentences = getSentences(REPORT_FILES_LABELLED_BRAINS)
-	for sentence in sentences: 
+	for sentence in sentences:
 		print sentence
 	# preprocessReports()
 	# buildDictionary()
