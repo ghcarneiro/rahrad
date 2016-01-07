@@ -98,8 +98,19 @@ def getSentences(fileNames=REPORT_FILES):
 			file.readline() # skip header line
 			reader = csv.reader(file)
 			for row in reader:
-				for sentence in tokenizer.tokenize(row[1]):
-					sentences.append(sentence)
+				# To be able to get meaningful sentences
+				# Filter all reports without "REPORT:" or "FINDINGS:" out.
+				# Crop the sentence to only contain everything after the above strings.
+				findReport = row[1].find("REPORT:")
+				if findReport != -1:
+					position = findReport
+				findFindings = row[1].find("FINDINGS:")
+				if findFindings != -1:
+					position = findFindings
+				if position != -1:
+					row[1] = row[1][position:]
+					for sentence in tokenizer.tokenize(row[1]):
+						sentences.append(sentence)
 	return sentences
 
 # retrieves all reports that have been preprocessed corresponding to the given diagnoses
@@ -123,15 +134,14 @@ def getNumReports(fileNames=REPORT_FILES):
 	data = getData(fileNames)
 	return len(data)
 
-
-
 # fetches the raw reports, preprocesses them, then saves them as report files
 # input must be an array of fileNames to preprocess. By default, preprocesses all reports in directory.
 def preprocessReports(fileNames=REPORT_FILES):
 	for j in range(len(fileNames)):
 
-		reports = getReports([fileNames[j]])
 
+		reports = getReports([fileNames[j]])
+		#reports = getSentences([fileNames[j]])
 		print("loading finished")
 
 
@@ -607,8 +617,9 @@ def runSearchEngine():
 
 
 if __name__ == '__main__':
-	# sentences = getSentences(REPORT_FILES_LABELLED_BRAINS)
-	# print(sentences)
+	sentences = getSentences(REPORT_FILES_LABELLED_BRAINS)
+	for sentence in sentences: 
+		print sentence
 	# preprocessReports()
 	# buildDictionary()
 	# buildModels()
@@ -621,4 +632,4 @@ if __name__ == '__main__':
 	# precisionRecall("pr_tests.csv")
 	# labelClassification()
 
-	runSearchEngine()
+	# runSearchEngine()
