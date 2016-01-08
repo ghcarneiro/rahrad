@@ -1,0 +1,3070 @@
+RID28497 bronchiolectasis
+RID28496 bronchiectasis
+RID28499 bronchiolitis
+RID28498 bronchocele
+RID28493 atelectasis
+RID28494 rounded atelectasis
+folded lung syndrome
+round atelectasis
+helical atelectasis
+pleuroma
+folded lung
+RID28523 pneumomediastinum
+RID28522 pneumatocele
+RID28525 tension pneumothorax
+RID28524 pneumopericardium
+RID28520 paraseptal emphysema
+RID28526 pulmonary blood flow redistribution
+RID28529 traction bronchiolectasis
+RID28528 traction bronchiectasis
+RID28511 interstitial emphysema
+RID28513 linear atelectasis
+platelike atelectasis
+discoid atelectasis
+RID28510 interlobular septal thickening
+RID28519 panacinar emphysema
+RID28515 lymphoid interstitial pneumonia
+RID28518 organizing pneumonia
+RID28517 oligemia
+RID28537 air trapping
+gas trapping
+RID28501 broncholith
+RID28503 bullous emphysema
+RID28509 thickening
+RID28508 chronic fibrosing interstitial pneumonia
+RID28504 centrilobular emphysema
+RID28507 mycetoma
+fungus ball
+RID28506 collapse
+RID28797 cord compression
+spinal cord compression
+cord comp
+RID28799 interstitial lung disease
+interstitial disease
+RID28794 acute abdomen
+acute abd
+RID28796 constrictive pericarditis
+constrict
+constrictive disease
+RID28795 congenital malformation
+cong malf
+RID28792 anosmia
+RID28837 intralobular lines
+RID28836 idiopathic pulmonary fibrosis
+RID28800 lupus
+RID28806 seizure
+RID28805 radiculopathy
+radiculo
+RID28802 myelopathy
+RID28801 multiple sclerosis
+MS
+RID28804 pulsatile tinnitus
+tinnitus
+vascular tinnitus
+RID28803 pain
+RID28827 chiari malformation
+hindbrain hernia
+chiari
+RID28824 optic neuritis
+RID45744 cancer of unknown primary
+RID1541 ascites
+RID45682 breast cancer
+RID45683 cervical cancer
+RID45684 colorectal cancer
+RID45685 endometrial cancer
+RID45686 lung cancer
+RID45687 ovarian cancer
+RID45688 pancreatic cancer
+RID45689 prostate cancer
+cancer of prostate
+prostate cancer, NOS
+carcinoma of prostate
+RID45690 testicular cancer
+RID45691 thyroid cancer
+RID45696 esophageal cancer
+RID45697 head and neck cancer
+RID45672 fungal microabscess
+RID45793 hyperthyroidism
+RID45774 chest pain
+RID43300 perilesional perfusion alteration
+RID3918 Mullerian duct cyst
+RID3919 ranula
+mucus escape cyst
+RID3916 mesothelial cyst
+RID3917 milk of calcium cyst
+RID3914 lymphoepithelial cyst
+RID3915 meniscal cyst
+RID3921 Nabothian cyst
+RID3922 neurenteric cyst
+neuroenteric cyst
+enterogenous cyst
+RID3929 parapelvic cyst
+RID3927 neuroepithelial cyst
+RID3928 odontogenic cyst
+RID3925 neuroglial cyst
+gliocele
+RID3934 pilonidal cyst
+RID3935 Rathke cleft cyst
+RID3932 perineural cyst
+Tarlov cyst
+RID3930 pars intermedia cyst
+RID3931 perinephric cyst
+RID3939 spermatocele
+RID3936 retention cyst
+RID3937 salivary gland cyst
+sialocele
+RID3945 simple bone cyst
+solitary bone cyst
+unicameral bone cyst
+RID3943 thyroglossal duct cyst
+RID3944 tumor-like lesion of bone
+RID3941 Tornwaldt cyst
+RID3942 thymic cyst
+RID3940 synovial cyst
+RID3949 ganglion cyst
+RID3948 aneursymal bone cyst
+RID3956 mucopyocele
+RID3957 neoplasm
+tumor
+RID3954 pseudocyst
+RID3955 mucocele
+RID3952 congenital cholesteatoma
+RID3953 granuloma
+RID3950 cholesteatoma
+RID3951 acquired cholesteatoma
+RID3959 acinar cell neoplasm
+acinar cell tumor
+RID3967 cystic angiomatosis
+RID3968 endovascular papillary angioendothelioma
+Dabska tumor
+RID3965 angioblastoma
+RID3966 angiofibroma
+RID3963 acinar cell cystadenocarcinoma
+RID3964 blood vessel neoplasm
+RID3961 acinar cell adenoma
+RID3962 acinar cell carcinoma
+RID3969 hemangioma
+RID3970 angiokeratoma
+RID3971 acquired tufted haemangioma
+RID3978 racemose hemangioma
+arteriovenous hemangioma
+RID3976 epithelioid hemangioma
+RID3977 infantile hemangioma
+RID3972 capillary hemangioma
+RID3973 cavernous angioma
+cavernous hemangioma
+cavernous malformation
+RID3981 noninvoluting congenital hemangioma
+RID3982 intramuscular hemangioma
+RID3980 rapidly involuting congenital hemangioma
+RID3989 angiosarcoma
+malignant hemangioendothelioma
+RID3987 verrucous keratotic hemangioma
+RID3988 hemangioendothelioma
+RID3986 venous hemangioma
+RID3983 hemangiomatosis
+RID3984 lobular capillary hemangioma
+granuloma pyogenicum
+RID3992 infantile hemangioendothelioma
+RID3993 Kaposiform hemangioendothelioma
+RID3991 epithelioid hemangioendothelioma
+RID3998 hemangiosarcoma
+RID3999 Kaposi sarcoma
+RID3997 hemangiopericytoma
+RID3994 spindle cell hemangioendothelioma
+RID3995 hemangioblastoma
+capillary hemangioblastoma
+RID43299 perilesional steatosis
+RID43269 pleural plaque
+asbestos-related pleural disease
+RID43278 small-airways disease
+RID43255 consolidation
+RID3882 inflammatory esophagogastric polyp
+RID3883 fibroepithelial polyp
+RID3880 dysplastic nodule
+RID3881 polyp
+RID3888 hyperplastic polyp
+RID3889 inflammatory fibroid polyp
+RID3886 benign epithelial polyp of colon
+RID3887 adenomatous polyp
+RID3884 fibrovascular polyp
+RID3885 cholesterol polyp
+RID3893 Bartholin gland cyst
+RID3894 bone cyst
+geode
+RID3891 arachnoid cyst
+RID3892 Baker cyst
+RID3890 cyst
+RID3899 colloid cyst
+RID3898 choroid plexus cyst
+RID3896 choledochal cyst
+choledochocele
+RID3803 growth rate disorder
+RID3800 fusion
+coalition
+RID3808 microgallbladder
+RID3809 metaplasia
+RID3806 growth acceleration
+RID3807 involution
+RID3804 growth arrest
+RID3805 growth retardation
+RID3813 regeneration
+RID3814 remodeling
+RID3810 squamous metaplasia
+leukoplakia
+RID3819 granulation tissue
+RID3817 clubbing
+RID3818 contracture
+RID3815 Paget disease
+RID3816 physiologic repair
+RID3824 Peyronie disease
+induratio penis plastica
+RID3825 retroperitoneal fibrosis
+RID3822 cirrhosis
+RID3823 primary biliary cirrhosis
+PBC
+RID3820 fibrosis
+RID3821 interstitial fibrosis
+RID3828 keloid
+RID3829 scar
+scarring
+RID3826 myelofibrosis
+RID3827 gliosis
+RID3836 proliferation disorder
+RID3833 intrauterine synechia
+intrauterine scar
+Asherman syndrome
+RID3831 adhesion
+RID3832 synechia
+RID3830 radial scar
+RID3839 lymphoproliferative disorder
+RID3837 hematopoietic proliferative disorder
+RID3838 extramedullary hematopoiesis
+RID3846 Langerhans cell histiocytosis
+histiocytosis X
+RID3847 Letterer-Siwe disease
+RID3844 large cell lymphoma
+RID3845 histiocytosis
+RID3842 Hodgkin lymphoma
+RID3843 non-Hodgkin lymphoma
+RID3840 lymphoma
+lymphosarcoma
+RID3848 Hand-Schuller-Christian disease
+RID3849 eosinophilic granuloma
+RID3850 non-Langerhans cell histiocytosis
+hemophagocytic syndrome
+RID3857 granulocytic sarcoma
+chloroma
+RID3855 xanthoma disseminatum
+RID3856 choroid plexus xanthogranuloma
+RID3853 hemophagocytic lymphohistiocytosis
+RID3854 juvenile xanthogranuloma
+RID3851 Rosai-Dorfman disease
+RID3852 Erdheim-Chester disease
+RID3859 plasma cell granuloma
+inflammatory pseudotumor
+RID3861 plasmacytoma
+RID3868 adenomyosis
+RID3869 adenomyomatosis
+RID3866 Madelung disease
+benign symmetric lipomatosis
+RID3864 multiple myeloma
+RID3865 polycythemia vera
+RID3862 myeloproliferative disorder
+RID3863 leukemia
+RID3871 post-transplant lymphoproliferative disorder
+PTLD
+RID3870 endometriosis
+RID3879 regenerative nodule
+RID3877 macronodule
+RID3878 rheumatoid nodule
+RID3876 micronodule
+RID3873 focal proliferation
+RID3901 Cowper duct cyst
+retention cyst of Cowper duct
+RID3900 communicating cyst
+RID3909 congenital inclusion cyst
+RID3907 epidermoid
+epidermoid cyst
+RID3906 duplication cyst
+RID3903 dentigerous cyst
+RID3904 dermoid cyst
+dermoid
+RID3912 hydrocele
+RID3913 juxtaarticular cyst
+RID3910 ependymal cyst
+RID3911 Gartner duct cyst
+RID43369 GI-bleed
+GI bleed
+GI bleeding
+RID43370 memory loss
+RID43343 cholangiocellular carcinoma
+RID3761 subependymal nodular heterotopia
+RID3762 subcortical nodular heterotopia
+RID3760 nodular heterotopia
+RID3769 stentogyria
+RID3768 polymicrogyria
+RID3766 lissencephaly
+agyria
+RID3763 band heterotopia
+RID3764 pachygyria
+incomplete lissencephaly
+RID3772 balloon cell focal cortical dysplasia of Taylor
+RID3773 nasal glioma
+nasal glial heterotopia
+RID3770 lingual thyroid
+RID3771 focal cortical dysplasia without balloon cells
+RID3778 focal nodular hyperplasia
+FNH
+RID3779 telangiectatic focal nodular hyperplasia
+RID3777 hyperplasia
+RID3775 enlargement
+expansion
+RID3784 benign prostatic hyperplasia
+BPH
+RID3781 Castleman disease
+angiofollicular hyperplasia
+giant lymph node hyperplasia
+RID3780 lymphoid hyperplasia
+RID3789 acanthosis nigricans
+RID3788 parakeratosis
+RID3786 hyperkeratosis
+callous
+RID3795 hypertrophy
+RID3792 vegetation
+RID3793 distension
+distention
+RID3790 nodular hyperplasia
+nodular regenerative hyperplasia
+RID3798 lymphadenopathy
+lymph node enlargement
+adenopathy
+RID3796 splenic sequestration
+RID3797 goiter
+RID3703 eosinophilic cystitis
+RID3704 cystitis cystica
+RID3701 ventriculitis
+RID3702 Wegener granulomatosis
+RID3700 thrombophlebitis
+RID3709 xanthogranulomatous cholecystitis
+RID3707 xanthogranulomatous pyelonephritis
+XGP
+RID3705 cystitis glandularis
+RID3706 xanthogranulomatous inflammation
+RID3714 empyema
+RID3715 osteomyelitis
+RID3712 tubo-ovarian abscess
+RID3713 subphrenic abscess
+RID3710 infection
+RID3711 abscess
+RID3719 rhinoscleroma
+RID3716 pelvic inflammatory disease
+PID
+RID3725 tuberculous spondylitis
+spinal tuberculosis
+Pott disease
+RID3736 choanal atresia
+RID3737 dysplasia
+RID3735 atresia
+RID3732 aplasia
+RID3733 agenesis
+congenital absence
+RID3730 growth disorder
+growth alteration
+RID3738 fibrous dysplasia
+RID3739 cherubism
+RID3740 multicystic dysplasia
+RID3747 pelvic kidney
+RID3748 crossed ectopia
+RID3745 ectopic pancreatic rest
+RID3746 intrathoracic kidney
+RID3741 dysgenesis
+RID3742 ectopic tissue
+heterotopia
+ectopia
+RID3749 ectopic gastric mucosa
+RID3750 splenosis
+RID3751 graft
+RID3759 disorder of neuronal migration
+RID3756 ligament graft
+RID3757 transplant
+transplanted organ
+RID3754 corticocancellous bone graft
+RID3755 cortical bone graft
+RID3752 bone graft
+RID3753 cancellous bone graft
+RID3639 lymphocytic plasmacytic synovitis
+RID3640 pannus
+RID3641 pigmented villonodular synovitis
+PVNS
+RID3648 villonodular synovitis
+RID3649 tendinitis
+tendonitis
+RID3646 starch synovitis
+RID3647 traumatic synovitis
+RID3644 synovitis due to foreign material
+RID3645 silicone synovitis
+RID3642 plant thorn synovitis
+RID3643 proliferative synovitis
+RID3651 tenosynovitis
+RID3652 fibromyalgia
+RID3659 sialodochitis
+salivary duct inflammation
+RID3657 chronic sclerosing sialadenitis
+Kuttner tumor
+RID3655 sialadenitis
+salivary gland inflammation
+RID3653 polymyalgia rheumatica
+RID3654 polymyositis
+RID3663 sinusitis
+RID3661 sialodochitis fibrinosa
+Kussmaul disease
+RID3668 subacute thyroiditis
+RID3669 Hashimoto thyroiditis
+RID3666 thyroiditis
+RID3667 suppurative thyroiditis
+RID3664 surfer ear
+exostosis of external auditory canal
+diffuse exostosis
+RID3673 Tolosa-Hunt syndrome
+RID3674 tonsillitis
+RID3671 Grave disease
+diffuse toxic goiter
+RID3670 Riedel thyroiditis
+RID3677 eosinophilic ureteritis
+RID3678 uveomeningitic syndrome
+VKH syndrome
+Vogt-Koyanagi-Harada syndrome
+RID3675 ureteritis
+RID3676 ureteritis cystica
+RID3684 aortitis
+RID3685 essential mixed cryoglobulinemia
+RID3682 arteritis
+RID3683 arteriolitis
+RID3681 vasculitis
+RID3688 hypersensitivity angiitis
+RID3689 lymphomatoid granulomatosis
+neoplastic angioendeotheliosis
+RID3686 giant cell arteritis
+RID3687 temporal arteritis
+RID3695 leukocytoclastic vasculitis
+RID3696 pulmonary arteritis
+RID3693 primary systemic arteritis
+RID3694 Takayasu arteritis
+RID3691 polyarteritis
+RID3692 polyarteritis nodosa
+RID3699 phlebitis
+RID3697 primary angiitis of central nervous system
+isolated angiitis of central nervous system
+RID3604 ankylosing spondylitis
+RID3605 renal spondyloarthropathy
+RID3602 arthritis of calcium oxalate crystal deposition
+RID3603 spondyloarthropathy
+RID3600 arthritis of cholesterol crystal deposition
+cholesterol-related arthritis and periarthritis
+RID3608 seronegative spondyloarthropathy
+RID3609 chronic arthritis of juvenile onset
+RID3606 dialysis spondyloarthropathy
+RID3607 Rieter arthritis
+RID3613 diabetic cheiroarthropathy
+RID3614 infective arthritis
+infectious arthritis
+septic arthritis
+RID3611 seronegative juvenile rheumatoid arthritis
+Still disease
+RID3610 juvenile rheumatoid arthritis
+RID3619 inflammatory polyarthropathy
+RID3617 infective discitis
+RID3618 suppurative arthritis
+RID3626 oxalate-related arthritis and periarthritis
+RID3627 post-immunization arthritis
+RID3624 migratory polyarthritis
+RID3625 intra-articular steroid-induced arthritis
+RID3622 infective polyarthritis
+RID3623 lipoid dermatoarthritis
+RID3620 degenerative polyarthritis
+RID3621 idiopathic polyarthritis
+RID3628 post-infective arthritis
+RID3629 periarthritis
+RID3630 synovitis
+RID3637 infectious synovitis
+RID3638 Hoffa disease
+RID3636 granulomatous synovitis
+RID3633 septic bursitis
+RID3634 lumbar interspinous bursitis
+Baastrup disease
+RID3631 acute serous synovitis
+RID3632 bursitis
+RID3518 otitis media
+RID3519 otitis externa
+RID3520 malignant otitis externa
+RID3527 otosclerosis
+otospongiosis
+RID3525 osteitis fibrosa cystica
+RID3526 condensing osteitis
+RID3524 osteitis
+RID3521 acute external otitis
+swimmer ear
+acute otitis externa
+RID3529 pancreatitis
+RID3530 autoimmune pancreatitis
+RID3531 hereditary pancreatitis
+RID3539 pharyngitis
+RID3536 meconium peritonitis
+RID3537 petrous apicitis
+apical petrositis
+RID3534 pericarditis
+RID3535 peritonitis
+RID3532 panniculitis
+RID3533 parotitis
+RID3541 pneumonitis
+RID3542 posterior scleritis
+tabetic neurosyphilis
+posterior spinal sclerosis
+episcleritis
+RID3540 pleuritis
+RID3549 retinitis
+RID3547 pyelonephritis
+pyelitis
+RID3548 pyonephrosis
+RID3545 pyelitis
+RID3546 pyelitis cystica
+RID3544 prostatitis
+RID3552 rheumatic disease
+RID3553 arthritis
+RID3550 exudative retinitis
+Coats disease
+RID3558 Malemud disease
+RID3559 erosive osteoarthritis
+inflammatory osteoarthritis
+erosive osteoarthrosis
+RID3556 endemic osteoarthritis
+RID3557 Kashin-Bek disease
+RID3554 psoriatic arthritis
+RID3555 osteoarthritis
+osteoarthrosis
+RID3563 deforming nonerosive arthropathy
+Jaccoud arthropathy
+RID3561 rheumatoid arthritis
+RID3562 Reiter syndrome
+RID3560 osteoarthritis deformans
+RID3567 gout arthritis
+gout
+monosodium urate arthritis and periarthritis
+monosodium urate crystal deposition disease
+RID3565 crystal induced arthritis
+crystal arthropathy
+RID3575 pseudo-rheumatoid
+Type B calcium pyrophosphate dehydrate crystal deposition disease
+CPPD Type B
+RID3572 pseudo-gout
+type A calcium pyrophosphate dehydrate crystal deposition disease
+CPPD Type A
+RID3570 calcium pyrophosphate dehydrate crystal deposition disease
+CPPD deposition disease
+RID3578 pseudo-arthritis
+CPPD Type C
+Type C calcium pyrophosphate dehydrate crystal deposition disease
+RID3584 asymptomatic calcium pyrophosphate dehydrate crystal deposition disease
+CPPD Type E
+type E calcium pyrophosphate dehydrate crystal deposition disease
+RID3581 pseudo-osteoarthritis
+CPPD Type D
+Type D calcium pyrophosphate dehydrate crystal deposition disease
+RID3587 pseudo-neuroarthropathy
+CPPD Type F
+Type F calcium pyrophosphate dehydrate crystal deposition disease
+RID3596 apatite-associated destructive arthritis
+RID3597 calcific periarthritis
+RID3594 calcium hydroxyapatite crystal deposition disease
+apatite-related arthropathy
+RID3593 pyrophosphate arthritis
+RID3590 calcium pyrophosphate dehydrate crystal deposition disease miscellaneous pattern
+Type G calcium pyrophosphate dehydrate crystal deposition disease
+CPPD Type G
+RID3598 arthritis of hemochromatosis
+RID3599 arthritis of alkaptonuria
+RID3505 neuritis
+RID3506 orbital pseudotumor
+RID3503 myocarditis
+RID3504 myositis
+RID3501 myelitis
+RID3502 transverse myelitis
+RID3500 mesenteritis
+RID3509 myositic form orbital pseudotumor
+orbital pseudotumor, myositic form
+RID3507 periscleritic form orbital pseudotumor
+orbital pseudotumor, periscleritic form
+RID3508 tumefactive form orbital pseudotumor
+orbital pseudotumor, tumefactive form
+RID3517 otitis
+RID3514 sclerosing osteomyelitis
+RID3515 chronic symmetric plasma cell osteomyelitis
+chronic recurrent multifocal osteomyelitis
+RID3512 diffuse orbital pseudotumor
+orbital pseudotumor, diffuse
+RID3513 Brodie abscess
+RID3510 perineuritic orbital pseudotumor
+orbital pseudotumor, perineuritic
+RID3511 lacrimal orbital pseudotumor
+orbital pseudotumor, lacrimal
+RID4728 intersubstance tear
+RID4729 parrot beak tear
+RID4730 Mallory-Weiss tear
+RID4738 mechanical disorder
+mechanical abnormality
+anatomic derangement
+RID4735 puncture
+RID4736 pathophysiologic finding
+RID4733 wound
+RID4734 laceration
+RID4731 sprain
+RID4732 strain
+RID4741 compression
+RID4748 lymphangiectasis
+RID4749 diastasis
+distraction
+RID4746 megaureter
+RID4747 Cowper syringocele
+RID4742 vascular loop compression
+RID4743 dilation
+ectasia
+dilatation
+RID4751 displacement
+RID4759 kyphosis
+RID4757 dextroscoliosis
+RID4758 levoscoliosis
+RID4755 bowing
+RID4756 scoliosis
+scoli
+RID4753 malposition
+RID4754 curvature malposition
+RID4762 accentuated lordosis
+RID4763 loss of lordosis
+RID4760 kyphoscoliosis
+RID4761 lordosis
+RID4768 valgus deformity
+RID4769 varus deformity
+RID4766 malalignment
+misalignment
+RID4764 dehiscence
+RID4765 flexion deformity
+RID4773 choroidal detachment
+RID4774 dissociation
+RID4771 detachment
+RID4772 retinal detachment
+RID4770 dislocation
+RID4779 rotatory subluxation
+rotary subluxation
+RID4778 subluxation
+RID4775 perched facet
+RID4776 jumped facet
+locked facet
+RID4784 positive ulnar variance
+RID4785 high scapula
+Sprengel deformity
+RID4782 tilt
+RID4783 negative ulnar variance
+RID4780 spondylolisthesis
+RID4781 slipped capital femoral epiphysis
+slipped upper femoral epiphysis
+RID4788 cystocele
+fallen bladder
+bladder prolapse
+prolapsed bladder
+RID4789 rectocele
+RID4786 volvulus
+RID4787 prolapse
+RID4795 ptosis
+RID4796 wandering spleen
+RID4794 parachute mitral valve
+parachute valve
+PMV
+RID4790 procidentia
+RID4799 emphysema
+RID4797 displaced substance
+RID4798 displaced gas
+RID4704 lipohemarthrosis
+RID4705 hematoma
+RID4702 contusion
+RID4703 hemarthrosis
+RID4700 hemorrhage
+bleeding
+RID4701 apoplexy
+RID4708 epidural hematoma
+RID4709 pulmonary hemorrhage
+RID4706 subdural hematoma
+SDH
+RID4715 avulsion
+RID4716 annular tear
+RID4713 rupture
+RID4714 tear
+RID4712 transection
+RID4710 subarachnoid hemorrhage
+SAH
+subarach hem
+RID4717 annular tear of intervertebral disc
+annular fissure
+high intensity zone
+HIZ
+RID4726 flap tear
+RID4727 healed tear
+RID4724 radial tear
+RID4725 bucket-handle tear
+bucket-handle tear of meniscus
+bucket handle tear
+RID4722 transverse annular tear of intervertebral disc
+RID4723 concentric annular tear of intervertebral disc
+RID4721 radial annular tear of intervertebral disc
+RID4609 short bowel syndrome
+short-gut syndrome
+RID4607 Hofmeister defect
+RID4608 postpericardiotomy syndrome
+RID4616 orthopedic device problem
+RID4617 polyethylene wear
+RID4614 stent malposition
+RID4615 shunt dysfunction
+RID4612 suture granuloma
+RID4613 endoleak
+RID4611 stump blowout
+RID4618 arthroplasty device complication
+RID4619 arthroplasty loosening
+arthroplasty subsidence
+RID4628 injury
+RID4625 valve pressure reset
+RID4626 subglottal stenosis
+subglottic stenosis
+RID4623 fixator break
+RID4624 pin-track infection
+RID4621 fixator problem
+RID4622 pin loosening
+RID4629 injury due to known mechanism
+RID4630 injury due to mechanical trauma
+trauma
+RID4631 hyperextension injury
+RID4638 whiplash
+RID4639 injury due to thermal or electrical trauma
+RID4636 rotation injury
+RID4637 shear injury
+RID4634 injury due to missile
+RID4635 blunt injury
+RID4632 hyperflexion injury
+RID4633 penetrating injury
+RID11517 index tumor
+RID4641 injury due to burn
+RID4642 injury due to chemical trauma
+RID4640 injury due to frostbite
+RID4649 extraocular muscle entrapment
+RID4647 carpal tunnel syndrome
+RID4648 cubital tunnel syndrome
+RID4646 entrapment syndrome
+RID4643 child abuse
+RID4644 diffuse axonal injury
+DAI
+RID4653 avulsion fracture
+RID4650 fracture
+RID4651 apophyseal ring fracture
+limbus fracture
+RID4658 compression fracture
+RID4659 dens fracture
+RID4656 2-column burst fracture
+2 column burst fracture
+RID4657 3-column burst fracture
+3 column burst fracture
+RID4654 bowing fracture
+RID4655 burst fracture
+RID4663 flexion distraction fracture
+RID4664 Chance fracture
+RID4661 type 2 dens fracture
+RID4662 type 3 dens fracture
+RID4660 type 1 dens fracture
+RID4669 hangman fracture
+traumatic spondylolisthesis
+RID4667 insufficiency fracture
+RID4668 Jefferson fracture
+RID4665 fracture dislocation
+RID4666 greenstick fracture
+RID4674 Kummel disease
+RID4672 type 2 hangman fracture
+RID4673 type 3 hangman fracture
+RID4671 type 1 hangman fracture
+RID4679 occipital condyle fracture
+RID4676 orbital wall fracture
+lamina papyracea fracture
+blowout fracture
+RID4685 Salter-Harris type I fracture
+RID4686 Salter-Harris type II fracture
+RID4683 pathologic fracture
+RID4684 Salter-Harris fracture
+RID4681 type 2 occipital condyle fracture
+RID4682 type 3 occipital condyle fracture
+RID4680 type 1 occipital condyle fracture
+RID4689 Salter-Harris type V fracture
+RID4687 Salter-Harris type III fracture
+RID4688 Salter-Harris type IV fracture
+RID4605 failed back surgery syndrome
+failed back
+RID4603 hardware failure
+RID4604 improper placement
+RID4601 blind pouch syndrome
+RID4602 cystic duct syndrome
+RID4600 blind loop syndrome
+RID4696 teardrop fracture
+tear drop fracture
+RID4697 torus fracture
+buckle fracture
+RID4694 Segond fracture
+RID4695 stress fracture
+RID4692 Salter type VIII fracture
+RID4693 Salter type IX fracture
+RID4690 Salter type VI fracture
+RID4691 Salter type VII fracture
+RID4698 transchondral fracture
+RID4699 wedge compression fracture
+RID4506 dysplastic gangliocytoma of cerebellum
+dysplastic cerebellar gangliocytoma
+Lhermitte-Duclos disease
+RID4504 dysembryoplastic neuroepithelial tumor
+DNT
+RID4502 desmoplastic infantile astrocytoma
+desmoplastic infantile ganglioglioma
+RID4500 central neurocytoma
+RID4501 cerebellar liponeurocytoma
+RID4509 gangliocytoma
+gangliocytoma (WHO grade I)
+RID4517 sinonasal undifferentiated carcinoma
+SNUC
+RID4515 oncocytoma
+RID4516 pheochromocytoma
+RID4511 ganglioglioma
+RID4512 paraganglioma
+glomus tumor (WHO grade I)
+glomus tumor
+RID4520 desmoplastic small cell tumor
+RID4521 sarcoma
+RID4528 carcinosarcoma
+RID4529 embryonal sarcoma
+RID4526 adenosarcoma
+RID4527 carcinoma ex pleomorphic adenoma
+RID4525 adenomyoma
+RID4522 Ewing sarcoma
+RID4523 stromal neoplasm or complex mixed neoplasm
+complex mixed and/or stromal neoplasm
+RID4531 mixed Mullerian tumor
+RID4532 carcinofibroma
+RID4530 hepatoblastoma
+RID4539 cystic nephroma
+RID4538 multilocular cystic renal tumor
+RID4533 mesenchymoma
+RID4534 mesoblastic nephroma
+leiomyomatous hamartoma
+fetal renal hamartoma
+mesenchymal hamartoma of infancy
+RID4542 nephrogenic adenofibroma
+RID4543 pancreatoblastoma
+RID4540 cystic partially differentiated nephroblastoma
+CPDN
+RID4548 sialoblastoma
+RID4549 stromal tumor
+stromal neoplasm
+RID4546 pulmonary blastoma
+RID4544 pleomorphic adenoma
+benign mixed tumor
+RID4553 Wilms tumor
+nephroblastoma
+RID4551 gastrointestinal stromal tumor
+GIST
+RID4559 biphasic synovial sarcoma
+RID4557 clear cell sarcoma
+RID4558 synovial sarcoma
+RID4555 synovial neoplasm
+RID4556 synovioma
+RID4564 disorder caused by drugs or toxins
+RID4565 alkaline-induced disorder
+RID4562 thecoma
+fibrothecoma
+RID4560 epithelioid cell synovial sarcoma
+RID4561 spindle cell synovial sarcoma
+RID4568 alcohol-induced disorder
+RID4569 drug-induced disorder
+RID4566 alkaline encrustation
+RID4567 caustic-induced disorder
+RID4575 carbon monoxide toxicity
+RID4576 toxic gas inhalation
+RID4573 lye-induced disorder
+RID4574 inhalation-induced disorder
+RID4571 disorder due to chemotherapeutic drug
+RID4572 ingestion-induced disorder
+RID4570 disorder due to drug abuse
+RID4579 nonoxidant aerosol inhalation
+RID4577 nonoxidant gas inhalation
+RID4578 oxidant gas inhalation
+RID4586 hydrocarbon poisoning
+RID4587 radiation-induced disorder
+RID4584 Spanish toxic oil syndrome
+RID4585 fluorocarbon poisoning
+RID4582 insecticide poisoning
+RID4583 herbicide poisoning
+RID4580 smoke inhalation
+RID4581 poisoning
+RID4588 radiation enteritis
+RID4589 chondroradionecrosis
+RID4590 iatrogenic disorder
+RID4597 anastomotic leak
+staple line leak
+RID4595 efferent loop syndrome
+RID4596 alkaline reflux gastritis
+RID4593 postoperative complication
+post-operative complication
+RID4594 afferent loop syndrome
+RID4591 postoperative change
+post-operative change
+RID4592 fat packing
+RID4599 anastomotic narrowing
+RID4400 chordoid glioma of third ventricle
+chordoid glioma of third ventricle (WHO grade II)
+RID4408 medulloblastoma
+medulloblastoma (WHO grade IV)
+RID4406 ependymoblastoma
+ependymoblastoma (WHO grade IV)
+RID4404 medulloepithelioma
+medulloepithelioma (WHO grade IV)
+RID4402 embryonal neuroepithelial neoplasm
+embryonal tumor
+RID4410 classic medulloblastoma
+RID4411 desmoplastic medulloblastoma
+RID4418 supratentorial primitve neuroectodermal tumor
+cerebral neuroblastoma
+cerebral medulloblastoma
+PNET
+cerebral ganglioneuroblastoma
+supratentorial primitve neuroectodermal tumor (WHO grade IV)
+RID4416 melanocytic medulloblastoma
+melanocytic medulloblastoma (WHO grade IV)
+RID4414 medullomyoblastoma
+medullomyoblastoma (WHO grade IV)
+RID4412 medulloblastoma with extensive nodularity and advanced neuronal differentiation
+RID4413 large cell medulloblastoma
+RID4429 astroblastoma
+astroblastoma (WHO grade IV)
+RID4427 gliomatosis cerebri
+gliomatosis cerebri (WHO grade IV)
+RID4424 atypical teratoid rhabdoid tumor
+atypical teratoid-rhabdoid tumor (WHO grade IV)
+rhabdoid tumor
+ATRT
+RID4432 esthesioneuroblastoma
+olfactory neuroblastoma
+olfactory esthesioneuroblastoma
+RID4431 peripheral neuroblastic neoplasm
+RID4437 granular cell myoblastoma
+choristoma
+granular cell neuroma
+granular cell tumor
+Abrikossoff tumor
+RID4435 esthesioneuroepithelioma
+olfactory neuroepithelioma
+RID4444 malignant peripheral nerve sheath tumor
+malignant peripheral nerve sheath tumor (WHO grade III-IV)
+neurogenic sarcoma
+neurofibrosarcoma
+malignant schwannoma
+RID4442 granular cell tumor of neurohypophysis
+RID4449 epithelioid peripheral nerve sheath tumor
+RID4454 neuroblastoma
+Schwannian stroma-poor peripheral neuroblastic neoplasm
+RID4452 melanotic peripheral nerve sheath neoplasm
+RID4453 melanotic psammomatous peripheral nerve sheath tumor
+RID4450 glandular peripheral nerve sheath tumor
+RID4451 Triton tumor
+RID4458 ganglioneuroma
+Schwannian stroma-dominant peripheral neuroblastic neoplasm
+RID4456 intermixed ganglioneuroblastoma
+ganglioneuroblastoma, intermixed
+Schwannian stroma-rich peripheral neuroblastic neoplasm
+RID4466 plexiform neurofibroma
+RID4464 circumscribed neurofibroma
+solitary neurofibroma
+RID4462 neurofibroma
+neurofibroma (WHO grade I)
+RID4460 nodular ganglioneuroblastoma
+ganglioneuroblastoma, nodular
+composite Schwannian stroma-rich and stroma-poor peripheral neuroblastic neoplasm
+RID4467 perineurioma
+perineurioma (WHO grade I)
+perineuroma
+RID4472 retinoblastoma
+RID4473 schwannoma
+neurinoma
+neurilemoma
+schwannoma (WHO grade I)
+RID4470 intraneural perineurioma
+RID4471 soft tissue perineurioma
+RID4478 cellular schwannoma
+RID4479 melanotic schwannoma
+RID4480 plexiform schwannoma
+RID4487 islet cell tumor
+RID4488 medullary carcinoma
+RID4485 glucagonoma
+RID4486 insulinoma
+RID4483 neuroendocrine neoplasm
+RID4484 gastrinoma
+RID4481 acoustic schwannoma
+acoustic neuroma
+RID4489 nonhyperfunctioning neuroendocrine tumor
+RID4490 pineal parenchymal neoplasm
+RID4491 pineoblastoma
+pineoblastoma (WHO grade IV)
+RID4498 VIPoma
+RID4499 neuronal or mixed neuronal-glial neoplasm
+RID4497 somatostatinoma
+RID4495 pineal parenchymal tumor of intermediate differentiation
+pineal parenchymal tumor of intermediate differentiation (WHO grade II)
+RID4493 pineocytoma
+pineocytoma (WHO grade I)
+RID35811 renal cyst
+RID35807 medullary nephrocalcinosis
+RID4300 fibrosarcoma
+RID4301 myxoid fibrosarcoma
+RID4309 giant cell tumor
+RID4307 fibromyxosarcoma
+myxoid malignant fibrous histiocytoma
+RID4304 fibrous histiocytoma
+RID4305 malignant fibrous histocytoma
+MFH
+RID4302 solitary fibrous tumor
+RID4303 histiocytic or fibrohistiocytic neoplasm
+RID4312 fibroelastoma
+RID4310 inflammatory myofibroblastic tumor
+inflammatory fibroblastic tumor
+RID4319 non-seminomatous germ cell tumor
+NSGT
+RID4317 spermatocytic seminoma
+RID4318 dysgerminoma
+RID4315 germinoma
+RID4316 seminoma
+RID4313 fibroelastosis
+RID4314 germ cell neoplasm
+RID4322 mature teratoma
+RID4323 immature teratoma
+RID4321 teratoma
+RID4328 mixed germ cell tumor
+RID4329 mixed mullerian duct tumor
+RID4326 yolk sac tumor
+endodermal sinus tumor
+RID4324 choriocarcinoma
+RID4325 embryonal carcinoma
+RID4333 placental site trophoblastic tumor
+PSTT
+RID4331 hydatidiform mole
+RID4332 partial hydatidiform mole
+RID4330 gestational trophoblastic tumor
+RID4338 hamartoma of tuber cinereum
+hypothalamic neuronal hamartoma
+RID4335 hamartoma
+RID4336 Brunner gland hyperplasia
+Brunner gland hamartoma
+RID4344 angiolipoma
+RID4345 atypical lipoma
+RID4342 lipoma
+RID4343 angiomyolipoma
+RID4340 mesenchymal hamartoma
+RID4341 fatty neoplasm
+RID4348 fibromyxolipoma
+RID4349 hibernoma
+RID4346 chondroid lipoma
+RID4347 fibrolipoma
+RID4355 pleomorphic lipoma
+RID4356 spindle cell lipoma
+RID4353 myelolipoma
+RID4354 parosteal lipoma
+RID4351 intracortical lipoma
+RID4352 intraosseous lipoma
+RID4350 intramuscular lipoma
+RID4359 well differentiated liposarcoma
+RID4357 lipoblastomatosis
+RID4358 liposarcoma
+RID4366 angiomyoliposarcoma
+RID4367 lipomatous neoplasm
+RID4364 pleomorphic liposarcoma
+RID4365 round cell liposarcoma
+RID4362 fibroblastic liposarcoma
+RID4363 myxoid liposarcoma
+RID4360 dedifferentiated liposarcoma
+RID4361 mixed liposarcoma
+RID4368 lymphatic vessel neoplasm
+lymphatic vessel tumor
+RID4370 lymphangioma
+RID35738 congenital disorder
+congenital disease
+RID4377 mesothelioma
+RID4378 epithelial mesothelioma
+RID4375 malignant melanoma
+RID4376 mesothelial neoplasm
+RID4373 melanocytic neoplasm
+RID4374 melanocytoma
+RID4371 lymphangiomatosis
+RID4372 lymphangioleiomyomatosis
+RID4379 fibrous mesothelioma
+spindle cell mesothelioma
+RID4381 biphasic mesothelioma
+RID4389 leiomyoma
+fibroid
+smooth muscle tumor
+lipoleiomyoma
+myoma
+RID4386 leiomyoblastoma
+RID4387 leiomyosarcoma
+malignant stromal tumor
+RID4384 leiomyomatous neoplasm
+smooth muscle neoplasm
+RID4382 myomatous neoplasm
+muscle neoplasm
+RID4397 myxoma
+RID4398 neuroepitheliomatous neoplasm
+nerve sheath neoplasm
+RID4395 rhabdomyoma
+RID4396 rhabdomyosarcoma
+RID4394 rhabdomyomatous neoplasm
+RID4201 odontogenic carcinosarcoma
+RID4202 odontogenic ghost cell tumor
+odontogenic ghost cell tumour
+RID4200 odontoameloblastoma
+RID4209 squamous odontogenic tumor
+RID4207 odontoma
+RID4208 peripheral odontogenic fibroma
+RID4205 benign odontogenic tumour
+odontogenic tumour, benign
+RID4206 malignant odontogenic tumor
+odontogenic tumor, malignant
+RID4203 odontogenic myxoma
+RID4293 periosteal desmoid
+juxtacortical desmoid
+RID4290 nonossifying fibroma
+RID4291 desmoid
+aggressive fibromatosis
+RID4298 aggressive infantile fibromatosis
+RID4299 infantile myofibromatosis
+RID4296 juvenile aponeurotic fibroma
+RID4297 infantile dermal fibromatosis
+RID4295 desmoplastic fibroma
+RID4210 epithelial neoplasm
+RID4211 adenoma
+adenomatous neoplasm
+monomorphic adenoma
+RID4218 metanephric adenoma
+RID4219 nephrogenic adenoma
+RID4216 juxtaglomerular tumor
+reninoma
+RID4214 adrenal cortical adenoma
+RID4215 hepatocellular adenoma
+RID4223 tubular adenoma
+RID4224 tubulovillous adenoma
+RID4221 pituitary macroadenoma
+RID4222 pituitary microadenoma
+RID4220 pituitary adenoma
+RID4229 squamous adenocarcinoma
+RID4227 adenoid cystic carcinoma
+RID4228 ductal adenocarcinoma
+RID4225 villous adenoma
+RID4226 adenocarcinoma
+RID4234 nonpapillary renal adenocarcinoma
+RID4235 clear cell adenocarcinoma
+RID4233 papillary renal adenocarcinoma
+RID4230 renal adenocarcinoma
+renal cell carcinoma
+RCC
+hypernephroma
+RID4238 adenolymphoma
+Warthin tumor
+RID4236 chromophobe adenocarcinoma
+RID4237 oncocytic adenocarcinoma
+RID4246 carcinoid tumor
+carcinoid
+RID4243 bronchioloalveolar carcinoma
+bronchioalveolar cell carcinoma
+BAC
+bronchoalveolar carcinoma
+bronchoalveolar cell carcinoma
+bronchiolo-alveolar carcinoma
+alveolar cell carcinoma
+RID4241 adenosquamous carcinoma
+adenosquamous neoplasm
+RID4249 clear cell carcinoma
+RID4247 carcinoma
+RID4248 anaplastic thyroid carcinoma
+RID4256 small cell carcinoma
+oat cell carcinoma
+RID4254 mucoepidermoid carcinoma
+RID4255 pituitary carcinoma
+RID4252 giant cell carcinoma
+RID4253 large cell carcinoma
+RID4250 embryonal cell carcinoma
+RID4251 gastric carcinoma
+RID4258 solid carcinoma
+RID4259 squamous cell carcinoma
+SCC
+RID4260 spindle cell squamous carcinoma
+spindle cell carcinoma
+pseudosarcoma
+polypoid carcinoma
+RID4267 intrahepatic cholangiocarcinoma
+ICC
+RID4265 carcinoma in situ
+RID4266 cholangiocarcinoma
+RID4264 carcinomatosis
+RID4269 collecting duct carcinoma
+Bellini duct carcinoma
+RID4271 hepatocellular carcinoma
+hepatoma
+HCC
+RID4278 thymoma
+RID4279 transitional cell carcinoma
+TCC
+RID4276 Schneiderian papilloma
+RID4277 squamous papilloma
+RID4274 pancreatic intraepithelial neoplasia
+RID4275 papilloma
+RID4273 fibrolamellar hepatocellular carcinoma
+RID4281 cloacogenic carcinoma
+RID4282 tumorlet
+RID4289 fibroma
+RID4287 phyllodes tumor
+RID4288 fibrous connective tissue neoplasm
+RID4285 fibroadenoma
+RID4286 Brenner tumor
+RID4283 fibroepithelial neoplasm
+RID4284 adenofibroma
+RID4179 adamantinoma
+RID4177 endolymphatic sac tumor
+RID4178 odontogenic tumor
+dental neoplasm
+odontogenic neoplasm
+RID4173 solid and papillary epithelial neoplasm
+solid pseudopapillary neoplasm
+SPEN
+papillary cystic tumor
+RID4182 ameloblastic fibrodentinoma
+RID4183 ameloblastic fibroma
+RID4180 adenomatoid odontogenic tumor
+RID4181 ameloblastic fibro-odontoma
+RID4188 calcifying epithelial odontogenic tumour
+RID4189 calcifying odontogenic cyst
+RID4187 ameloblastoma
+RID4184 ameloblastic fibrosarcoma
+RID4185 ameloblastic odontosarcoma
+RID4193 central odontogenic fibroma
+RID4194 clear cell odontogenic tumor
+RID4191 cementoblastoma
+benign cementoblastoma
+RID4192 cementoma
+RID4190 cementifying fibroma
+RID4199 malignant odontogenic ghost cell tumor
+malignant odontogenic ghost cell tumour
+RID4197 gigantiform cementoma
+RID4198 granular cell odontogenic tumor
+RID4195 complex odontoma
+RID4196 compound odontoma
+RID4102 microcystic meningioma
+microcystic meningioma (WHO grade I)
+RID4100 metaplastic meningioma
+metaplastic meningioma (WHO grade I)
+RID4108 transitional meningioma
+transitional meningioma (WHO grade I)
+mixed meningioma
+RID4106 secretory meningioma
+secretory meningioma (WHO grade I)
+RID4104 psammomatous meningioma
+psammomatous meningioma (WHO grade I)
+RID4114 chordoid meningioma
+chordoid meningioma (WHO grade II)
+RID4111 meningioma WHO grade II
+meningioma (WHO grade II)
+RID4112 atypical meningioma
+atypical meningioma (WHO grade II)
+RID4119 anaplastic meningioma
+anaplastic meningioma (WHO grade III)
+RID4118 meningioma WHO grade III
+meningioma (WHO grade III)
+RID4116 clear cell meningioma
+clear cell meningioma (WHO grade II)
+RID4125 cartilage-forming neoplasm
+RID4123 rhabdoid meningioma
+rhabdoid meningioma (WHO grade III)
+RID4121 papillary meningioma
+papillary meningioma (WHO grade III)
+RID4128 enchondroma
+RID4129 enchondromatosis
+Ollier disease
+RID4126 chondroma
+RID35978 Chilaiditi syndrome
+hepatodiaphragmatic colonic interposition
+subphrenic interposition syndrome
+RID4135 chondromyxoid fibroma
+RID4136 osteochondroma
+RID4134 chondroblastoma
+RID4131 Maffucci syndrome
+RID4132 periosteal chondroma
+juxtacortical chondroma
+RID4139 synovial osteochondromatosis
+RID4137 hereditary multiple exostoses
+RID4138 osteochondromatosis
+RID4146 chordoma
+RID4147 craniopharyngioma
+craniopharyngioma (WHO grade I)
+RID4144 dedifferentiated chondrosarcoma
+RID4145 myxoid chondrosarcoma
+RID4142 clear cell chondrosarcoma
+RID4143 mesenchymal chondrosarcoma
+RID4140 chondrosarcoma
+RID4141 juxtacortical chondrosarcoma
+RID4149 cystic mucinous and/or serous neoplasm
+cystic, mucinous, and/or serous neoplasm
+RID4150 cystadenoma
+RID4157 intraductal papillary mucinous neoplasm
+intraductal papillary mucinous tumor
+IPMN
+IPMT
+RID4155 papillary cystadenocarcinoma
+RID4156 serous cystadenocarcinoma
+RID4153 cystadenocarcinoma
+RID4151 mucinous cystadenoma
+RID4152 papillary cystadenoma
+RID4161 mucinous adenocarcinoma
+RID4169 serous cystadenoma
+serous microcystic neoplasm
+glycogen-rich cystadenoma
+microcystic adenoma
+RID4164 mucinous cystic neoplasm
+macrocystic adenoma
+mucinous cystadenocarcinoma
+mucinous macrocystic neoplasm
+RID4162 pseudomyxoma peritonei
+RID4163 pancreatic cystic neoplasm
+RID4050 ependymal tumor
+ependymoma
+RID4058 cellular ependymoma
+cellular ependymoma (WHO grade II)
+RID4057 ependymoma WHO grade II
+ependymoma (WHO grade II)
+RID4055 subependymoma
+subependymoma (WHO grade I)
+RID4052 ependymoma WHO grade I
+ependymoma (WHO grade I)
+RID4053 myxopapillary ependymoma
+myxopapillary ependymoma (WHO grade I)
+RID4062 papillary ependymoma
+papillary ependymoma (WHO grade II)
+RID4060 clear cell ependymoma
+clear cell ependymoma (WHO grade II)
+RID4069 malignant optic glioma of adulthood
+MOGA
+RID4066 anaplastic ependymoma
+anaplastic ependymoma (WHO grade III)
+ependymoma (WHO grade III)
+RID4064 tanycytic ependymoma
+tanycytic ependymoma (WHO grade II)
+RID4072 oligoastrocytoma
+oligoastrocytoma (WHO grade II)
+RID4071 mixed glioma
+RID4078 oligodendroglioma
+oligodendroglioma (WHO grade II)
+RID4076 ependymoastrocytoma
+RID4077 oligodendroglial neoplasm
+RID4074 anaplastic oligoastrocytoma
+anaplastic oligoastrocytoma (WHO grade III)
+RID4083 choroid plexus neoplasm
+RID4084 choroid plexus carcinoma
+choroid plexus carcinoma (WHO grade III-IV)
+RID4082 pituicytoma
+RID4080 anaplastic oligodendroglioma
+anaplastic oligodendroglioma (WHO grade III)
+RID4088 meningioma
+meningeal neoplasm
+RID4086 choroid plexus papilloma
+choroid plexus papilloma (WHO grade I)
+RID4093 fibrous meningioma
+fibroblastic meningioma
+fibrous meningioma (WHO grade I)
+RID4090 meningioma WHO grade I
+meningioma (WHO grade I)
+RID4091 angiomatous meningioma
+angiomatous meningioma (WHO grade I)
+RID4098 meningothelial meningioma
+meningothelial meningioma (WHO grade I)
+RID4096 lymphoplasmacyte-rich meningioma
+lymphoplasmacyte-rich meningioma (WHO grade I)
+RID4003 enostosis
+bone island
+RID4001 bone-forming neoplasm
+RID4002 osteoma
+RID4000 Kupffer cell sarcoma
+RID4009 juvenile ossifying fibroma
+RID4007 aggressive osteoblastoma
+RID4008 ossifying fibroma
+RID4005 osteoid osteoma
+RID4006 osteoblastoma
+RID4014 gnathic osteosarcoma
+RID4015 high grade surface osteosarcoma
+RID4012 chondroblastic osteosarcoma
+RID4013 fibroblastic osteosarcoma
+RID4010 osteosarcoma
+RID4011 central osteosarcoma
+RID4019 osteosarcoma in Paget disease of bone
+RID4016 intracortical osteosarcoma
+RID4017 intraosseous low grade osteosarcoma
+intraosseous well differentiated osteosarcoma
+RID4025 central nervous system neoplasm
+RID4026 glioma
+RID4023 small cell osteosarcoma
+RID4024 telangiectatic osteosarcoma
+RID4021 parosteal osteosarcoma
+RID4022 periosteal osteosarcoma
+RID4020 multicentric osteosarcoma
+RID4029 pilocytic astrocytoma
+pilocytic astrocytoma (WHO grade I)
+RID4027 astrocytoma
+RID4028 astrocytoma WHO grade I
+RID4036 protoplasmic astrocytoma
+protoplasmic astrocytoma (WHO grade II)
+RID4035 astrocytoma WHO grade II
+RID4033 subependymal giant cell astrocytoma
+subependymal giant cell astrocytoma (WHO grade I)
+RID4031 pleomorphic xanthoastrocytoma
+PXA
+pleomorphic xanthoastrocytoma (WHO grade I)
+RID4038 gemistocytic astrocytoma
+gemistocytic astrocytoma (WHO grade II)
+RID4040 fibrillary astrocytoma
+fibrillary astrocytoma (WHO grade II)
+RID4048 gliosarcoma
+gliosarcoma (WHO grade IV)
+RID4046 giant cell glioblastoma
+giant cell glioblastoma (WHO grade IV)
+RID4044 astrocytoma WHO grade IV
+glioblastoma multiforme
+GBM
+RID4042 astrocytoma WHO grade III
+anaplastic astrocytoma
+RID49482 category 3 actionable finding
+incidental finding
+unexpected finding
+RID49480 category 1 actionable finding
+RID49481 category 2 actionable finding
+RID49479 actionable finding
+RID49595 lymphedema
+RID49598 rectal dysfunction
+RID49520 low grade prostatic intraepithelial neoplasia
+Grade 1 PIN
+grade 1 prostatic intraepithelial neoplasia
+low grade PIN
+RID49523 diffuse prostatitis
+RID49521 atypical small acinar proliferation
+atypical small acinar proliferation of uncertain significance
+ASAP
+RID49522 focal prostatitis
+RID49525 hypertrophy of median lobe of prostate
+RID49502 clinically significant prostate cancer
+intermediate high risk prostate cancer
+RID49518 prostatic intraepithelial neoplasia
+prostate intraepithelial neoplasia
+PIN
+RID49519 high grade prostatic intraepithelial neoplasia
+high grade PIN
+high grade intraepithelial neoplasia of prostate
+HGPIN
+RID35083 claw foot
+RID35084 claw hand
+RID49682 intraductal calcifications
+RID49680 calcifications in a mass
+RID49681 calcifications outside of a mass
+RID49699 post-therapy skin thickening and trabecular thickening
+RID49691 postsurgical fluid collection
+post-operative collection
+postoperative collection
+post-surgical fluid collection
+RID49692 fat necrosis
+RID49690 simple cyst
+RID49675 typically benign calcification
+RID49676 suspicious calcification
+RID35023 segmental renal hypoplasia
+Ask-Upmark kidney
+RID49608 vertebral fracture
+RID49606 muscular disorder
+RID49607 trigger point
+RID49617 dialysis fistula
+dialysis shunt
+RID49707 postoperative seroma/hematoma with fat
+RID35282 horseshoe kidney
+RID35245 Gorham vanishing bone disease
+massive osteolysis of Gorham
+RID49860 anteversion
+RID39051 cough
+RID39050 symptom
+RID39052 constipation
+RID39048 diabetes
+RID39049 atherosclerosis
+arteriosclerotic vascular disease
+atheromatosis
+ASVD
+RID39076 encephalomalacia
+RID39179 unicornuate uterus
+RID39178 congenital anomaly of uterus
+RID39169 rotoscoliosis
+RID39168 retrolisthesis
+RID39188 disorder of spinal cord
+RID39185 venous thrombosis
+RID39184 varicocele
+RID39136 myelomalacia
+RID39135 disorder of spine
+spinal disorder
+spine disorder
+RID39138 odynophagia
+RID39137 myocardial bridge
+RID39156 disorder of peritoneum
+peritoneal disorder
+peritoneum disorder
+RID39140 os acetabulum
+os acetabuli
+RID39109 infertility
+RID39108 disorder of reproductive system
+RID39100 hypokinesia
+RID39107 urogenital finding
+RID39094 headache
+RID39093 hammertoe
+RID39097 hypertension
+RID39096 hyperlipidemia
+RID39083 fever
+RID39082 diarrhea
+RID39255 uterus didelphys
+didelphys uterus
+uterine didelphys
+didelphys
+RID39259 patella alta
+high-riding patella
+high riding patella
+RID39249 atherosclerotic aneurysm
+RID39270 fibromyoma
+uterine fibroid
+RID39265 shortness of breath
+short of breath
+RID39260 patella infera
+low riding patella
+patella baja
+low-riding patella
+RID39263 sepsis
+SIRS
+systemic inflammatory response syndrome
+RID39219 dizziness
+dizzy
+RID39218 deformity
+RID39212 functionally biscuspid aortic valve
+RID39211 congenitally biscuspid aortic valve
+RID39210 bicornate uterus
+bicornuate uterus
+RID39206 multisystem disorder
+RID39322 hydrops fetalis
+fetal hydrops
+RID39483 tumor in vein
+RID39479 spontaneous hemorrhage
+RID39462 infiltrative hepatocellular carcinoma
+infiltrative HCC
+RID39554 twin pregnancy
+RID39555 additional gestation
+RID39546 fetal abnormality
+RID39544 transplanted kidney
+RID34951 ankle fracture
+RID34953 Weber type B fracture
+RID34952 Weber type A fracture
+RID34954 Weber type C fracture
+RID34889 pulmonary infarction
+RID34888 disorder of pulmonary circulation
+RID29139 march fracture
+RID29138 mallet finger
+baseball finger
+RID29135 Little Leaguer elbow
+RID29134 Kocher fracture
+RID29137 Malgaigne fracture
+RID29136 Maisonneuve fracture
+RID29133 Jones fracture
+RID29128 Galeazzi fracture
+RID29127 Essex-Lopresti fracture
+RID29129 gamekeeper thumb
+RID29124 Colles fracture
+RID29123 clay shoveler&apos;s fracture
+RID29126 Desault dislocation
+RID29125 deQuervain dislocation
+RID29120 chauffeur fracture
+backfire fracture
+Hutchinson fracture
+lorry fracture
+RID29122 Chopart fracture-dislocation
+RID29121 chisel fracture
+RID29151 tripod fracture
+malar fracture
+trimalar fracture
+RID29150 toddler fracture
+RID29149 Tillaux fracture
+RID29146 sideswipe elbow fracture
+RID29145 Shepherd fracture
+RID29147 Smith fracture
+RID29142 Rolando fracture
+RID29141 Piedmont fracture
+RID29144 Seymour fracture
+RID29140 Monteggia fracture
+RID29117 Bankart deformity
+RID29116 tuberculosis
+TB
+RID29118 Barton fracture
+RID29115 neuropathy
+RID29114 neurological disorder
+disorder of nervous system
+RID29104 apophysitis
+RID29083 Mauclaire disease
+RID29082 Van Neck disease
+RID29058 Ahlb&#228;ck disease
+Ahlbaeck disease
+spontaneous osteonecrosis of knee
+Ahlback disease
+SONK
+RID29059 Blount disease
+RID29079 Preiser disease
+RID29076 Milch disease
+RID29075 Mandi disease
+RID29078 Pierson disease
+RID29072 Kummel disease
+RID29074 Liffert-Arkin disease
+RID29069 Hicks disease
+RID29068 Haas disease
+RID29065 Dietrich disease
+RID29064 Dias disease
+Diaz disease
+RID29067 Friedrich disease
+RID29061 Buchman disease
+RID29060 Brailsford disease
+RID29063 Caffey disease
+RID29062 Burns disease
+RID29070 Iselin disease
+RID29212 rim calcification
+eggshell calcification
+RID29226 Bennett fracture
+RID4971 left-to-right shunt
+RID4972 right-to-left shunt
+RID4970 cardiac shunt
+RID4979 perfusion defect
+RID4977 hypoperfusion
+RID4978 hyperperfusion
+RID4975 patent ductus arteriosus
+RID4976 perfusion disorder
+RID4973 steal syndrome
+RID4974 persistent fetal circulation
+RID4982 TIMI grade 2: partial perfusion
+RID4983 TIMI grade 3: complete perfusion
+RID4980 TIMI grade 0: no perfusion
+RID4981 TIMI grade 1: penetration without perfusion
+RID4988 appendicolith
+RID4989 gallstone
+RID4987 coprolith
+fecolith
+fecalith
+RID4984 retention
+RID4985 enterolith
+RID4994 calculus
+stone
+RID4992 gallstone in bile duct
+choledocholithiasis
+RID4990 gallstone in gallbladder
+cholelithiasis
+RID4996 urolithiasis
+urinary tract calculus
+RID4902 paraduodenal hernia
+mesocolic hernia
+RID4900 internal abdominal hernia
+internal hernia
+RID4908 transmesosigmoid hernia
+RID4909 intramesosigmoid hernia
+RID4906 foramen of Winslow hernia
+RID4907 intersigmoid hernia
+RID4904 pericecal hernia
+RID4905 lesser sac hernia
+RID4913 external abdominal hernia
+RID4914 abdominal wall hernia
+RID4911 transomental hernia
+RID4912 retroanastomotic hernia
+RID4910 transmesenteric hernia
+RID4919 lumbar hernia
+RID4917 ventral hernia
+RID4918 Spigelian hernia
+RID4915 umbilical hernia
+RID4916 Richter hernia
+RID4925 pelvic or groin hernia
+RID4923 superior lumbar triangle hernia
+Grynfeltt hernia
+RID4920 incisional hernia
+RID4921 inferior lumbar triangle hernia
+Petit triangle hernia
+RID4928 direct inguinal hernia
+RID4929 Littre hernia
+RID4926 inguinal hernia
+RID4927 indirect inguinal hernia
+RID4936 hernia through esophageal hiatus
+RID4933 perineal hernia
+RID4934 diaphragmatic hernia
+transdiaphragmatic herniation of abdominal contents
+RID4931 obturator hernia
+RID4932 sciatic hernia
+RID4930 femoral hernia
+RID4939 intravertebral herniation
+Schmorl node
+intravertebral disc herniation
+RID4937 hernia through foramen of Bochdalek
+RID4938 hernia through foramen of Morgagni
+Morgagni hernia
+RID4947 pressure disorder
+RID4944 perforation
+RID4945 spontaneous esophageal perforation
+Boerhaave syndrome
+RID4942 ectopic pregnancy
+RID4943 intussusception
+RID4941 pregnancy
+RID4948 cerebral herniation
+RID4949 subfalcine herniation
+cingulate herniation
+RID4950 uncal herniation
+RID4958 intracranial hypotension
+RID4955 pseudotumor cerebri
+benign intracranial hypertension
+IIH
+idiopathic benign intracranial hypertension
+idiopathic intracranial hypertension
+RID4953 compartment syndrome
+RID4954 ocular hypotony
+RID4951 transtentorial herniation
+RID4952 tension pneumo-orbit
+RID4959 vacuum phenomenon
+RID4960 flow disorder
+RID4961 cavernous transformation
+RID4968 imperforation
+RID4969 shunt
+RID4966 Bouveret syndrome
+RID4967 gastric outlet obstruction
+RID4965 gallstone ileus
+RID4962 obstruction
+blockage
+occlusion
+RID4849 enterocutaneous fistula
+RID4850 enteroenteric fistula
+entero-enteric fistula
+RID4851 arteriovenous fistula
+A-V fistula
+AVF
+dialysis shunt
+arterio-venous fistula
+AV fistula
+arterovenous fistula
+RID4858 perilymphatic fistula
+perilymph fistula
+RID4859 tracheoesophageal fistula
+RID4856 spinal dural arteriovenous fistula
+SDAVF
+RID4854 carotid cavernous fistula
+carotid-cavernous fistula
+CC fistula
+RID4861 fluid disorder
+fluid disturbance
+RID4860 bronchoesophageal fistula
+RID4869 hypoproteinemic pulmonary edema
+RID4867 cardiogenic pulmonary edema
+RID4868 hypervolemic pulmonary edema
+RID4865 edema
+RID4866 pulmonary edema
+RID4863 congestion
+venous congestion
+RID4872 effusion
+RID4873 hyperemia
+RID4870 neurogenic pulmonary edema
+RID4871 post-ictal pulmonary edema
+RID4879 urine leak
+urinoma
+RID4876 intravasation
+RID4877 extravasation
+RID4874 leak
+leakage
+RID4883 hydrops
+RID4884 abnormal accumulation of fluid
+collection of fluid
+RID4881 cerebrospinal fluid leak
+CSF leak
+RID4889 normal-pressure hydrocephalus
+normal pressure hydrocephalus
+NPH
+RID4887 external hydrocephalus
+RID4888 noncommunicating hydrocephalus
+RID4885 hydrocephalus
+RID4886 communicating hydrocephalus
+RID4894 cystic hygroma
+RID4895 hernia
+herniation
+RID4892 lymphocele
+RID4893 hygroma
+RID4891 obstructive hydrocephalus
+RID4898 sliding hiatal hernia
+RID4899 paraesophageal hernia
+RID4897 hiatal hernia
+RID4803 pneumoperitoneum
+RID4804 displaced anatomy
+RID4801 pneumatosis
+RID4802 pneumatosis intestinalis
+RID4800 pneumocephalus
+airocele
+RID4809 instability
+RID4807 meniscal fragment
+RID4808 avulsed meniscal fragment
+RID4805 bone fragment
+RID4806 avulsed bone fragment
+RID4814 spasm
+RID4815 pylorospasm
+RID4812 malrotation
+RID4813 torsion
+RID4810 protuberance
+RID4811 rotation disorder
+RID4819 pharyngeal pouch
+Zenker diverticulum
+pharyngeal diverticulum
+pharyngoesophageal diverticulum
+RID4816 torticollis
+RID4817 diverticulum
+RID4825 embolism
+embol
+embolus
+RID4826 foreign body embolism
+RID4823 lateral cervical esophageal pouch
+Killian-Jamieson diverticulum
+proximal lateral cervical diverticulum
+RID4824 periureteric diverticulum
+Hutch diverticulum
+RID4821 laryngocele
+RID4827 air embolism
+RID4828 atheromatous embolism
+cholesterol embolism
+RID4836 septic embolism
+RID4837 thromboembolism
+RID4834 pulmonary embolism
+pulmonary embolus
+PE
+RID4835 saddle embolism
+RID4832 methylmethacrylate embolism
+RID4833 barium embolism
+RID4830 talc embolism
+RID4831 oil embolism
+RID4838 tissue embolism
+RID4839 fat embolism
+RID4840 bone marrow embolism
+RID4847 perianal fistula
+RID4848 enterovesical fistula
+vesicoenteric fistula
+RID4845 colovesical fistula
+colovesicular fistula
+RID4846 rectovaginal fistula
+RID4843 fistula
+sinus tract
+RID4844 rectovesical fistula
+RID4841 amniotic fluid embolism
+RID4842 tumor embolism
+RID3405 cystitis
+RID3404 membranous cyclitis
+RID3407 diskitis
+discitis
+RID3406 dacryoadenitis
+RID3400 croup
+laryngotracheitis
+laryngotracheobronchitis
+RID3403 cyclitis
+RID3409 diverticulitis
+RID3410 duodenitis
+RID3415 acute disseminated encephalomyelitis
+ADEM
+RID3418 enteritis
+RID3417 endometritis
+RID3411 encephalitis
+cerebritis
+RID3414 encephalomyelitis
+RID3413 rhombencephalitis
+RID3419 backwash ileitis
+reflux ileitis
+RID3421 colitis
+RID3427 colitis cystica profunda
+RID3426 diversion colitis
+RID3428 microscopic colitis
+collagenous colitis
+RID3422 neutropenic enterocolitis
+typhlitis
+RID3424 clostridium difficile colitis
+C. difficile colitis
+RID3430 eosinophilic colitis
+RID3432 stercoral colitis
+RID3431 ischemic colitis
+RID3438 epiglottitis
+supraglottitis
+RID3437 epicondylitis
+RID3434 caustic colitis
+RID3433 drug-induced colitis
+RID3436 necrotizing enterocolitis
+RID3435 glutaraldehyde colitis
+RID3441 reflux esophagitis
+RID3440 esophagitis
+RID3443 radiation-induced esophagitis
+RID3442 infectious esophagitis
+RID3448 necrotizing fasciitis of perineum and genitals
+Fournier gangrene
+RID3445 esophageal intramural pseudodiverticulosis
+RID3444 eosinophilic esophagitis
+RID3447 necrotizing fasciitis
+RID3446 fasciitis
+RID3451 helicobacter pylori gastritis
+H. pylori gastritis
+RID3454 caustic gastritis
+RID3453 erosive gastritis
+RID3450 gastritis
+RID3459 emphysematous gastritis
+RID3456 hypertrophic gastritis
+hypertrophic hypersecretory gastropathy
+RID3455 antral gastritis
+RID3458 atrophic gastritis
+RID3462 eosinophilic gastroenteritis
+EGE
+RID3465 Guillain-Barre syndrome
+acute inflammatory demyelinating polyradiculoneuropathy
+RID3464 Grisel syndrome
+RID3461 gastroenteritis
+RID3460 eosinophilic gastritis
+RID3467 hepatitis
+RID3469 nonalcoholic steatohepatitis
+NASH
+non-alcoholic steatohepatitis
+RID3468 steatohepatitis
+RID3474 inflammatory bowel disease
+RID3473 lymphocytic hypophysitis
+RID3476 ulcerative colitis
+RID3475 Crohn disease
+RID3472 hypophysitis
+RID3471 neonatal hepatitis
+RID3478 Kawasaki disease
+mucocutaneous lymph node syndrome
+RID3477 keratosis obturans
+RID46050 vertebral fusion
+RID46063 speech pathology
+RID46030 mosaic oligemia
+RID46033 retraction
+RID46034 pleural retraction
+RID46038 congenital anomaly of skeletal bone
+RID46039 chondrodysplasia
+RID46041 vascular disease
+RID46042 hormone disorder
+hormonal disorder
+hormone production disorder
+RID46043 acromegaly
+Marie disease
+growth hormone hypersecretion syndrome
+anterior pituitary adenoma syndrome
+RID46044 Budd-Chiari syndrome
+budd chiari
+budd chiar
+RID46045 trisomy 18
+Edwards syndrome
+RID46047 talocalcaneal coalition
+RID46048 calcaneonavicular coalition
+RID46040 pyloric stenosis
+infantile hypertrophic pyloric stenosis
+RID46049 thanatophoric dysplasia
+RID46021 septal thickening
+RID46026 airway abnormality
+RID46027 bronchial wall thickening
+RID46028 airway ectasia
+RID46029 luminal narrowing
+narrowing of lumen
+RID3484 lymphadenitis
+adenitis
+RID3486 histiocytic necrotizing lymphadenitis
+Kikuchi disease
+RID3481 labyrinthine ossification
+labyrinthine ossificans
+RID3480 Kimura disease
+RID3483 labyrinthitis
+RID3489 mastoiditis
+RID3488 malakoplakia
+RID3490 mediastinitis
+RID3496 arachnoiditis
+RID3495 leptomeningitis
+RID3498 pachymeningitis
+RID3497 basilar meningitis
+RID3492 Meniere syndrome
+endolymphatic hydrops
+Meniere disease
+RID3491 chronic sclerosing mediastinitis
+RID3494 meningitis
+RID3499 meningoencephalitis
+RID3300 precapillary pulmonary hypertension
+RID3305 arcuate ligament syndrome
+RID3308 adductor canal syndrome
+RID3307 May-Thurner syndrome
+RID3302 peripheral vascular disease
+RID3301 postcapillary pulmonary hypertension
+RID3304 thoracic outlet syndrome
+RID3303 vascular entrapment syndrome
+RID3309 fibromuscular dysplasia
+FMD
+RID3310 thromboangiitis obliterans
+Buerger disease
+RID3317 dissection
+vascular dissection
+RID3316 veno-occlusive disease
+RID3319 arterial dissection
+RID3313 renal hypertension
+RID3312 amyloid angiopathy
+RID3315 renovascular hypertension
+RID3314 renal parenchymal hypertension
+RID3320 aortic dissection
+RID3322 saccular aneurysm
+RID3321 aneurysm
+RID3328 mycotic aneurysm
+RID3327 lymphangiectasia
+RID3329 fusiform aneurysm
+RID3323 berry aneurysm
+berry-type aneurysm
+RID3326 ruptured aneurysm
+RID3331 pseudoaneurysm
+RID3330 intimal flap
+RID3333 high-flow vascular malformation
+RID3332 vascular malformation
+RID3334 arteriovenous malformation
+AVM
+RID3337 venous malformation
+VM
+developmental venous anomaly
+venous angioma
+RID3336 low-flow vascular malformation
+RID3341 lymphatic malformation
+RID3344 lymphatic-venous malformation
+LVM
+RID3349 vascular disorder of spinal cord
+RID3346 capillary malformation
+port-wine stain
+RID3348 telangiectasia
+RID3354 Type II vascular malformation of spinal cord
+glomus type vascular malformation of spinal cord
+RID3350 Type I spinal-dural AV fistula
+Foix-Alajoinine
+spinal-dural AV fistula
+subacute necrotizing myelopathy
+RID3356 Type III vascular malformation of spinal cord
+juvenile type vascular malformation of spinal cord
+RID3358 Type IV fistula
+perimedullary fistula
+RID3366 varix
+varicose vein
+varices
+venous varicosity
+varicosity
+RID3365 Terson syndrome
+RID3360 CADASIL
+cerebral autosomal dominant arteriopathy with infarcts and leukoencephalopathy
+RID3362 retrolental fibroplasia
+ROP
+retinopathy of prematurity
+RID3375 collateral
+RID3374 peliosis
+RID3377 transient ischemic attack
+TIA
+RID3376 ischemia
+RID3371 arterioportal or arteriovenous shunt
+RID3370 angiodysplasia
+RID3372 ovarian vein varix
+ovarian vein syndrome
+RID3379 vasoconstriction
+RID3380 vasospasm
+RID3386 primary sclerosing cholangitis
+PSC
+RID3388 ascending cholangitis
+RID3387 obstructive cholangitis
+RID3382 inflammation
+inflamm
+RID3381 infectious or inflammatory disease
+RID3384 cholangitis
+biliary tract inflammation
+RID3383 appendicitis
+RID3389 recurrent pyogenic cholangitis
+oriental cholangitis
+oriental cholangiohepatitis
+RID3397 gangrenous cholecystitis
+RID3396 emphysematous cholecystitis
+RID3399 choroid plexitis
+RID3398 cholesterol granuloma
+RID3393 eosinophilic cholangitis
+RID3392 AIDS cholangitis
+RID3395 acalculous cholecystitis
+acalculous gallbladder disease
+RID3394 cholecystitis
+RID3234 heart disease
+RID3233 cardiovascular disorder
+RID3236 myocardial infarction
+MI
+RID3235 ischemic heart disease
+RID3238 hibernating heart
+myocardial hibernation
+RID3237 resting ischemia
+RID34272 axillary adenopathy
+RID34271 trabecular thickening
+trabeculation
+RID34270 skin thickening
+RID34296 suture calcification
+RID34246 dystrophic calcification
+RID34249 milk of calcium calcification
+layering calcification
+teacup calcification
+RID34248 large rod-like calcification
+secretory calcification
+RID34269 nipple retraction
+RID34261 architectural distortion
+RID34267 skin lesion
+RID34257 fine pleomorphic calcification
+RID34250 lucent-centered calcification
+RID34252 skin calcification
+polygonal calcification
+RID34251 round calcification
+punctate calcification
+RID34253 vascular calcification
+tubular calcification
+tram-track calcification
+RID34256 coarse heterogeneous calcification
+heterogeneous calcification
+indeterminate calcification
+RID34255 fine linear calcification
+branching calcification
+casting calcification
+RID3243 cardiomyopathy
+cardmyop
+RID3242 microvascular ischemia
+RID3245 arrhythmogenic right ventricular cardiomyopathy
+ARVC
+ARVD
+arrhythmogenic right ventricular dysplasia
+RID3244 dilated cardiomyopathy
+RID3241 inducible ischemia
+RID3240 stunned myocardium
+RID3249 high-output syndrome
+RID3254 hypertrophic nonobstructive cardiomyopathy
+hypertrophic non-obstructive cardiomyopathy
+RID3256 endomyocardial fibrosis
+RID3255 restrictive cardiomyopathy
+RID3250 ischemic cardiomyopathy
+RID3252 hypertrophic obstructive cardiomyopathy
+HOCM
+RID3251 hypertrophic cardiomyopathy
+HCM
+RID3257 Loeffler endocarditis
+Loffler endocarditis
+RID3259 carcinoid heart disease
+RID3264 flail leaflet
+RID3267 relapsing leaflet
+RID3261 bicuspid heart valve
+RID3260 valvular heart disease
+valve disease
+RID3263 systolic doming
+RID3262 tricuspid valve disease
+RID3269 mitral valve prolapse
+Barlow syndrome
+balloon mitral valve
+floppy valve syndrome
+MVP
+floppy valve
+click-murmur syndrome
+balloon valve
+RID3275 ostium secundum atrial septal defect
+RID3277 ventricular septal defect
+VSD
+RID3271 pseudoxanthoma elasticum
+Gronblad&#8211;Strandberg syndrome
+Gr&#246;nblad&#8211;Strandberg syndrome
+RID3274 septal defect
+RID3273 carcinoid valvulopathy
+RID3279 post-myocardial infarction septal defect
+RID3281 pericardial constriction
+RID3280 pericardial disease
+RID3289 diffuse intimal thickening
+RID3288 fatty streak
+RID3283 cardiac tamponade
+RID3282 cor pulmonale
+RID3285 arteriosclerosis
+RID3284 vascular disorder
+RID3290 atherosclerotic plaque
+atheroma
+atheromatous plaque
+RID3292 medial calcinosis
+medial sclerosis
+Monckeberg sclerosis
+RID3291 fibrous plaque
+RID3297 post-myocardial infarction syndrome
+Dressler syndrome
+RID3299 pulmonary hypertension
+RID3295 Binswanger disease
+subcortical arteriosclerotic encephalopathy
+RID34393 hydronephrosis
+RID34395 chronic obstructive uropathy
+RID34394 obstructive uropathy
+RID34368 microcalcifications in mass
+RID34367 microcalcifications out of mass
+RID34369 macrocalcifications
+RID34382 duct changes
+RID34381 Cooper&apos;s ligament changes
+Cooper ligament changes
+RID34384 duct ectasia
+ductal dilatation
+RID34383 skin retraction
+skin tethering
+skin puckering
+skin irregularity
+RID34385 ductal wall thickening
+RID34388 microcalcifications
+RID34371 clustered microcysts
+RID34370 set of cysts
+RID34372 complicated cyst
+RID34314 nipple changes
+RID34317 diffuse skin thickening
+RID34316 focal skin thickening
+RID34401 subtalar coalition
+RID34414 lysosomal storage disease
+RID34413 metabolic disease
+RID34416 Tay-Sachs disease
+RID34415 Gaucher disease
+RID34418 thalassemia
+thalassaemia
+RID34417 blood disease
+RID34607 microlithiasis
+RID34606 calcification disorder
+RID34608 pulmonary alveolar microlithiasis
+RID34601 neurofibromatosis type 1
+NF1
+RID34600 Schwannomatosis
+RID34603 craniosynostosis
+RID34602 neurofibromatosis type 2
+NF2
+RID34605 avascular necrosis
+RID34604 sigmoid volvulus
+RID34629 cytomegalic inclusion disease
+RID34628 maternal rubella
+RID34621 Hurler syndrome
+Hurler disease
+gargoylism
+MPS I
+mucopolysaccharidosis type I
+RID34620 achondroplasia
+RID34623 gastric cancer
+stomach cancer
+RID34622 tropical ulcer
+RID34625 deep vein thrombosis
+RID34624 thrombosis
+RID34627 rubella
+RID34626 gonadal dysgenesis
+RID34618 Morquio syndrome
+mucopolysaccharidosis type IV
+Morquio disease
+MPS IV
+RID34617 melanoma
+RID34619 mucopolysaccharidosis
+RID34610 hyperparathyroidism
+RID34612 Ebstein anomaly
+Ebstein malformation
+RID34611 tetralogy of Fallot
+RID34614 portal hypertension
+RID34613 Klebsiella pneumonia
+RID34616 malignant neoplastic disease
+cancer
+RID34615 neoplastic disease
+neoplasia
+RID34599 neurofibromatosis
+RID34598 neural tube defect
+RID34591 aspergillosis
+RID34590 aortic stenosis
+stenosis of aorta
+RID34593 enlarged liver
+hepatomegaly
+RID34592 scleroderma
+RID34595 hemothorax
+RID34594 ACL tear
+tear of ACL
+RID34597 ureteropelvic junction obstruction
+UPJ obstruction
+RID34596 cholangiohepatitis
+RID34588 urethral stenosis
+stenosis of urethra
+RID34587 enlarged spleen
+enlargement of spleen
+splenic enlargement
+splenomegaly
+RID34589 coarctation of aorta
+aortic coarctation
+RID34582 achalasia
+RID34584 congenital diaphragmatic hernia
+RID34583 azygous continuation of inferior vena cava
+azygos continuation
+azygos continuation of inferior vena cava
+RID34586 splenic rupture
+rupture of spleen
+RID34585 splenic hemorrhage
+hemorrhage of spleen
+RID34540 asbestos-related disease
+RID34539 pleural effusion
+RID34728 immunodeficiency disorder
+immunodeficiency disease
+RID34727 disorder of immune function
+immune function disorder
+RID34729 congenital agammaglobulinemia
+RID34720 gonadal dysgenesis syndrome
+Turner syndrome
+RID34722 dysgenesis of cerebellum
+RID34721 cerebellar disorder
+RID34724 degenerative brain disorder
+RID34723 aplasia of vermis
+RID34726 tension pneumocephalus
+RID34725 pigmentary pallidal degeneration
+Hallervorden-Spatz disease
+pigmentary pallidal atrophy
+RID34717 developmental disorder
+RID34716 rickets
+RID34719 anomaly of chromosome X
+RID34718 mental retardation
+RID34711 congenital dilatation of lobar intrahepatic bile duct
+Caroli disease
+RID34713 congenital hepatic fibrosis
+RID34712 liver disorder
+liver disease
+disorder of liver
+RID34715 arthritis mutilans
+RID34714 ectopic kidney
+RID34742 hydropneumoperitoneum
+pneumohydroperitoneum
+RID34741 hypoplasia of right ventricle
+Uhl anomaly
+Uhl disease
+right ventricular hypoplasia
+RID34744 synthetic graft
+RID34746 osteogenesis imperfecta
+brittle bone disease
+RID34745 metabolic bone disease
+RID34748 mitral valve insufficiency
+mitral valve regurgitation
+RID34747 dural ectasia
+RID34740 obstructive hyperbilirubinemia
+obstructive jaundice
+RID34739 conjugated hyperbilirubinemia
+RID34738 hyperbilirubinemia
+bilirubinemia
+jaundice
+RID34731 appendiceal mucocele
+RID34730 AIDS
+acquired immune deficiency syndrome
+RID34733 holoprosencephaly sequence
+familial alobar holoprosencephaly
+arhinencephaly
+arrhinencephaly
+RID34732 congenital anomaly of brain
+RID34735 lobar holoprosencephaly
+RID34734 alobar holoprosencephaly
+RID34737 disorder of bilirubin metabolism
+RID34736 disorder of porphyrin metabolism
+RID34706 persistent left superior vena cava
+RID34705 duplication
+RID34708 spina bifida
+congenital spinal malformation
+congenital malformation of spine
+RID34707 congenital anomaly of spine
+RID34709 polyostotic fibrous dysplasia
+RID34700 chiari malformation type I
+RID34702 chiari malformation type III
+RID34701 chiari malformation type II
+Arnold-Chiari syndrome
+RID34704 hypoplastic left heart syndrome
+RID34703 chiari malformation type IV
+RID5400 chondromalacia
+RID5401 pseudarthrosis
+RID5402 overtubulation
+RID5403 skull shape disorder
+RID5411 bathrocephaly
+RID5412 brachycephaly
+RID5419 turricephaly
+steeple skull
+steeple head
+tower skull
+acrocephaly
+hypsicephaly
+tower head
+acrocephalia
+RID5417 plagiocephaly
+RID5418 scaphocephaly
+RID5415 oocephalus
+RID5416 oxycephaly
+RID5413 dolicocephaly
+RID34687 viral infection
+infection due to virus
+RID34686 bacterial infection
+infection due to bacteria
+RID34689 hypotension
+RID34688 epiploic appendagitis
+RID5420 thyroid acropachy
+RID34681 brain death
+RID34680 diastrophic dysplasia
+diastrophic dwarfism
+RID34683 hepatic encephalopathy
+Gaustad syndrome
+hepatocerebral encephalopathy
+RID34682 hypothermia
+RID34685 ascariasis
+RID34684 cystic adventitial disease
+RID34676 sickle cell anemia
+Hb SS disease
+hemoglobin S-S disease
+hemoglobin S disease
+Hb S disease
+sickle cell disease
+RID34675 medullary sponge kidney
+RID34678 hemolytic anemia
+RID34677 red blood cell disorder
+RID34679 skeletal dysplasia
+RID34670 malignant neoplasm of genitourinary organ
+RID34672 malignant neoplasm of ureter
+ureter cancer
+ureteral cancer
+cancer of ureter
+malignant tumor of ureter
+RID34671 malignant neoplasm of genitourinary system
+RID34674 cystic disease
+RID34673 transitional cell carcinoma of ureter
+RID34698 chest tube entrapment
+entrapped chest tube
+RID34697 posterior urethral valve
+RID34699 tuberculous arthritis
+granulomatous arthritis
+RID34690 transitory synovitis
+RID34692 humeral avulsion of inferior glenohumeral ligament
+HAGL
+RID34691 psoriasis
+RID34693 esophageal web
+RID34643 hydromyelia
+RID34642 calcifications
+RID34645 renal agenesis
+RID34644 diaphragmatic rupture
+RID34647 intraosseous hemangioma
+RID34646 phlebolith
+RID34649 scurvy
+RID34648 deficiency disorder
+RID34641 cellulitis
+RID34640 ureterocele
+RID34639 molar pregnancy
+RID34632 lobar dysmorphism
+RID34631 congenital cardiovascular malformation
+RID34634 Charcot-Marie-Tooth disease
+RID34633 cerebral palsy
+RID34636 polycystic kidney disease
+RID34638 cystic fibrosis
+mucoviscidosis
+RID34637 bronchitis
+RID34630 mucoid degeneration of ACL
+RID34665 gynecomastia
+RID34664 chronic acalculous gallbladder disease
+RID34666 dermatomyositis
+RID34669 malignant neoplasm of pelvis
+malignant tumor of pelvis
+RID34668 allergic bronchopulmonary aspergillosis
+ABPA
+RID34661 transposition of great vessels
+TGV
+d-TGA
+transposition of great arteries
+TGA
+RID34660 melorheostosis
+RID34662 sarcoidosis
+RID34653 femoroacetabular impingement
+hip impingement syndrome
+RID34656 ovarian cyst
+RID34658 death
+RID34657 lead poisoning
+RID34659 hemoperitoneum
+RID34650 pulmonary alveolar proteinosis
+RID34652 impingement
+RID34651 gastric ulcer
+RID34838 familial aplasia of vermis
+Joubert syndrome
+RID34837 congenital chromosomal abnormality
+congenital chromosomal disease
+anomaly of chromosome
+RID34834 enlarged parietal foramina
+RID34835 T-cell lymphoma
+malignant histiocytosis syndrome
+RID34800 increased intracranial pressure
+raised intracranial pressure
+RID5381 osteochondritis dissecans
+OCD
+RID5382 osteolysis
+osteolytic lesion
+RID5380 osteochondritis
+RID5389 osteoporosis
+RID5387 demineralization
+RID5388 osteopenia
+RID5385 relapsing polychondritis
+RID5386 bone mineralization disorder
+RID5384 acroosteolysis
+RID5392 osteopetrosis
+RID5393 joint disorder
+arthropathy
+arth
+RID5390 transient osteoporosis
+RID5391 osteomalacia
+RID5398 chondrocalcinosis
+RID5399 chondrolysis
+RID5396 cartilage disorder
+RID5397 cartilage defect
+RID5395 ankylosis
+RID5302 detrusor areflexia
+RID5300 uninhibited bladder
+bladder instability
+RID5309 azotemia
+RID5307 renal failure
+RID5308 uremia
+RID5303 kidney disorder
+RID5304 renal parenchymal disease
+medical renal disease
+nephropathy
+RID34796 right heart failure
+RID34799 persistent truncus arteriosus
+common aortopulmonary trunk
+common arterial trunk
+RID34798 hyatid cyst
+RID5312 interstitial nephritis
+RID5313 hemolytic uremic syndrome
+HUS
+RID5310 proteinuria
+RID34790 separation
+RID5311 acute tubular necrosis
+RID34793 dissecting aortic aneurysm
+dissection of aorta
+RID34792 twin dichorionic diamniotic placenta
+dichorionic pregnancy
+RID34795 heart failure
+congestive heart failure
+congestive failure
+cardiac failure
+RID34794 degenerative spondylolisthesis
+RID5319 adult respiratory distress syndrome
+ARDS
+RID5316 respiratory disorder
+disorder of respiratory system
+RID5317 chronic obstructive pulmonary disease
+COPD
+RID5315 reflux nephropathy
+RID5323 aspiration of digestive secretions
+RID5324 aspiration of lipid
+RID5321 pulmonary aspiration
+RID5322 aspiration of solid foreign body
+RID5329 interstitial pneumonia
+RID5327 asthma
+RID5328 chronic infiltrative lung disease
+RID5325 aspiration of liquid
+aspiration of fluid
+RID5326 aspiration of water
+RID5335 cryptogenic organizing pneumonia
+BOOP
+COP
+bronchiolitis obliterans organizing pneumonia
+RID5333 usual interstitial pneumonia
+UIP
+RID5330 acute interstitial pneumonia
+AIP
+RID5331 desquamative interstitial pneumonia
+DIP
+RID5339 respiratory broncholitis associated interstitial lung disease
+RB-ILD
+respiratory broncholitis
+respiratory broncholitis-associated interstitial lung disease
+respiratory bronchiolitis-interstitial lung disease
+RID34764 bacterial infectious disease
+RID34763 nasal septum deviation
+RID34766 partial anomalous pulmonary venous return
+partial anomalous pulmonary venous drainage
+partial anomalous pulmonary venous connection
+RID34765 syphilis
+RID34768 pertussis
+whooping cough
+RID34767 endometrioma
+chocolate cyst
+endometriotic cyst
+RID34769 viral pneumonia
+RID5345 progressive massive fibrosis
+coal worker pneumoconiosis
+RID5346 asbestosis
+RID5343 pneumoconiosis
+RID5344 silicosis
+RID5341 nonspecific interstitial pneumonia
+NSIP
+RID34760 diffuse esophageal spasm
+diffuse spasm of esophagus
+corkscrew esophagus
+RID5342 lymphocytic interstitial pneumonia
+RID34762 nose disorder
+RID34761 ear-nose-throat disorder
+ear nose throat disorder
+ENT disorder
+ear nose and throat disorder
+RID5349 miscellaneous organic dust pneumoconiosis
+RID5347 other silicate pneumoconiosis
+RID5348 inert dust pneumoconiosis
+RID34753 neurocutaneous syndrome
+RID34755 brain damage
+RID34754 tuberous sclerosis syndrome
+Bourneville disease
+adenoma sebaceum syndrome
+epiloia
+tuberous sclerosis
+RID34757 infection by tapeworm larvae
+RID34756 graft versus host disease
+graft-versus-host disease
+RID34759 diffuse spasm
+RID34758 cysticercosis
+larval taeniasis
+cysticerciasis
+larval teniasis
+RID5357 wart
+RID5354 hypoglycemia
+RID5355 integument disorder
+skin disorder
+RID5352 pneumothorax
+pneumo
+RID5353 disorder of endocrine system
+endocrine disorder
+RID34751 small bowel closed-loop obstruction
+small bowel closed loop obstruction
+RID5350 pneumonia
+RID5351 eosinophilic pneumonia
+RID34750 closed-loop obstruction
+closed loop obstruction
+RID5358 condylomata acuminata
+venereal warts
+RID34786 blighted ovum
+anembryonic pregnancy
+RID5360 paraneoplastic syndrome
+RID34788 encephalotrigeminal angiomatosis
+neuroretinoangiomatosis
+angiomatosis oculo-orbital-thalamo-encephalic syndrome
+encephalofacial haemangiomatosis
+Sturge-Weber syndrome
+encephalocutaneous angiomatosis
+RID34787 granulomatous disease
+RID34789 hypertrophic osteoarthropathy
+HPO
+RID5367 intraarticular osseous body
+loose body
+RID34780 absence
+missing part
+RID5365 Hill-Sachs deformity
+RID5366 incomplete femoral head coverage
+RID34782 persistent embryonic trigeminal artery
+persistent trigeminal artery
+RID5363 fracture nonunion
+RID34781 asplenia
+absence of spleen
+RID5364 fracture malunion
+RID5361 bone disorder
+disorder of bone
+RID34784 disorder of pregnancy
+RID5362 fracture healing disorder
+RID34783 proliferation
+RID5369 osteochondrosis
+RID34775 double-column acetabulum fracture
+RID5370 Freiberg infraction
+Freiberg disease
+RID5371 K&#246;hler disease
+Kohler disease
+Koehler disease
+RID34774 hematuria
+blood in urine
+RID34777 sphingolipidosis
+RID34776 papillary transitional cell carcinoma
+RID34778 metachromatic leukodystrophy
+sulfatide lipidosis
+metachromatic leucodystrophy
+RID5378 Scheuermann disease
+RID5379 Sever disease
+RID5376 Group IV Legg-Calve-Perthes disease
+RID5377 Osgood-Schlatter disease
+OSD
+RID34771 disorder of meninges
+RID5374 Group II Legg-Calve-Perthes disease
+RID5375 Group III Legg-Calve-Perthes disease
+RID34770 amyloid arthropathy
+arthritis secondary to amyloidosis
+RID5372 avascular necrosis of capital femoral epiphysis
+Perthes disease
+pseudocoxalgia
+Legg-Calve-Perthes disease
+RID34773 total anomalous pulmonary venous return
+TAPVR
+TAVPC
+total anomalous pulmonary venous connection
+total anomalous pulmonary venous drainage
+TAPVD
+RID34772 meningocele
+RID5373 Group I Legg-Calve-Perthes disease
+RID5260 gastroesophageal reflux
+RID5261 vesicoureteral reflux
+RID5268 presbyphagia
+RID5269 familial dysautonomia
+Riley-Day syndrome
+RID5266 dysphagia
+RID5267 pharyngeal dysphagia
+RID5264 upper gastrointestinal tract disorder
+upper GI tract disorder
+RID5262 restricted motion
+RID5263 stasis
+RID5271 columnar epithelium lined lower esophagus
+columnar epithelium lined lower oesophagus
+Barrett esophagus
+CELLO
+RID5272 meconium ileus
+RID5277 celiac disease
+nontropical sprue
+gluten-sensitive enteropathy
+celiac sprue
+RID5275 malabsorption
+RID5276 bacterial overgrowth syndrome
+RID5273 intestinal disorder
+enteropathy
+RID5282 congenital aganglionosis of colon
+Hirschsprung disease
+RID5280 tropical sprue
+RID5281 Whipple disease
+RID5286 chronic intestinal pseudo-obstruction
+RID5287 distal intestinal obstruction syndrome
+meconium ileus equivalent
+DIOS
+RID5284 meconium plug
+neonatal small left colon syndrome
+RID5294 loin pain hematuria syndrome
+nutcracker syndrome
+RID5291 intestinal pseudoobstruction
+RID5292 neuronal intestinal dysplasia
+NID
+RID5290 fibrosing colonopathy
+RID5299 detrusor hyperreflexia
+RID5297 bladder disorder
+RID5298 neurogenic bladder disease
+neurogenic bladder
+RID5296 hereditary nephritis
+Alport syndrome
+RID5202 tumoral calcinosis
+RID5203 iron overload
+hemosiderosis
+RID5201 optic nerve drusen
+RID5208 pigment deposition
+RID5209 siderotic nodule
+iron-rich cirrhosis-associated nodule
+iron-rich CAN
+Gamna-Gandy body
+RID5206 transfusional siderosis
+RID5207 fluorosis
+RID5205 hemochromatosis
+RID5213 glycogenic acanthosis
+RID5214 cholesterol deposition
+RID5211 superficial siderosis
+RID5212 glycogen deposition
+RID5219 lipomatous infiltration
+lipomatosis
+RID5217 steatosis
+fatty liver
+RID5215 cholesterolosis
+RID5216 fat deposition
+RID5224 ossification of posterior longitudinal ligament
+OPLL
+RID5222 resorption
+RID5223 ossification
+RID5221 xanthoma
+RID5228 osteosclerosis
+RID5229 acrosclerosis
+RID5226 heterotopic ossification
+RID5227 sclerosis
+RID5235 lymphangitic spread
+RID5236 hematogenous spread
+RID5234 direct extension
+RID5231 metastasis
+RID5232 metastasis by lymphatic and interstitial infiltration
+lymphangitic carcinomatosis
+RID5230 disease spread
+RID5237 perineural spread
+RID5238 motor dysfunction
+motility disorder
+motion abnormality
+RID5246 ileus
+adynamic ileus
+RID5244 delayed emptying
+RID5245 dumping syndrome
+RID5242 bowel dyskinesia
+RID5243 bowel motility disorder
+RID5240 dyskinesia
+RID5241 biliary dyskinesia
+Chronic acalculous gallbladder disease
+RID5248 eventration
+RID5249 flail
+RID5250 functional disorder of colon
+RID5257 intestinal pseudo-obstruction
+RID5258 presbyesophagus
+RID5255 gastroparesis
+RID5256 paralysis
+RID5253 cathartic colon
+RID5254 paresis
+RID5251 irritable bowel syndrome
+RID5252 nonobstructive megacolon
+RID5259 reflux
+RID38592 mesenteric ischemia
+RID38591 autoimmune disease
+RID38590 atrial septal defect
+ASD
+RID38586 renal calculus
+kidney stone
+nephrolithiasis
+renal stone
+RID38588 pericardial effusion
+RID38587 ureteral calculus
+ureterolithiasis
+RID5140 frontotemporal dementia
+FTD
+Pick disease
+RID5148 multi-infarct dementia
+RID5143 dementia pugilistica
+pugilistic Parkinson syndrome
+boxer syndrome
+punch-drunk syndrome
+chronic traumatic encephalopathy
+RID5142 dementia with Lewy bodies
+RID5149 Dyke-Davidoff-Masson syndrome
+cerebral hemiatrophy
+RID5150 Fahr syndrome
+idiopathic basal ganglia calcification
+Fahr disease
+RID5158 multiple system atrophy
+Shy-Drager disease
+multisystem atrophy
+RID5157 Machado-Joseph disease
+RID5154 Huntington chorea
+Huntington disease
+RID5155 hypertrophic olivary degeneration
+HOD
+RID5152 Friedreich ataxia
+RID5153 hereditary cerebellar atrophy
+RID5161 neurosyphilis
+RID5162 olivopontocerebellar degeneration
+RID5169 Wernig-Hoffman disease
+RID5167 subacute combined degeneration of spinal cord
+RID5168 vacuolar myelopathy of HIV
+RID5165 progressive supranuclear palsy
+RID5166 Rett syndrome
+RID5163 Parkinson disease
+RID5172 infarction
+infarct
+ischemic necrosis
+RID5170 phthisis bulbi
+RID5171 necrosis
+RID5178 stroke
+infarction of brain
+cerebrovascular accident
+RID5176 infarction of spleen causing small nonfunctioning spleen
+autosplenectomy
+infarction of spleen causing small non-functioning spleen
+RID5175 infarction of spleen
+RID5183 Panner disease
+RID5184 Theimann disease
+RID5181 dysbaric osteonecrosis
+RID5182 Kienbock disease
+RID5180 osteonecrosis
+RID5189 focal amyloid deposition
+localized amyloidosis
+amyloidoma
+RID5187 deposition
+RID5188 amyloid deposition
+amyloidosis
+RID5185 Sinding-Larsen-Johansson disease
+RID5186 papillary necrosis
+RID5194 mineral deposition disorder
+mineralization
+RID5192 monosodium urate deposition
+RID5193 tophus
+RID5191 crystal deposition
+RID5198 porcelain gallbladder
+RID5199 milk of calcium bile
+limy bile syndrome
+RID5196 calcification
+RID5197 milk of calcium
+RID5104 migrated disc extrusion
+RID5109 endplate marrow change
+RID5105 intervertebral osteochondrosis
+deteriorated disc
+chronic discopathy
+RID5114 type 3 Endplate marrow change
+Modic 3 endplate marrow change
+RID5112 type 2 Endplate marrow change
+Modic 2 endplate marrow change
+RID5110 type 1 Endplate marrow change
+Modic 1 endplate marrow change
+RID5118 discogenic change
+RID5119 syndesmophyte
+RID5116 spondylitis
+RID5117 discal displacement
+RID5125 neurodegenerative disease
+RID5126 ataxia telangiectasia
+Louis-Barr syndrome
+RID5123 tendinosis
+chronic tendinopathy
+chronic tendon injury
+tendonosis
+chronic tendinitis
+chronic tendonitis
+RID5124 myxomatous degeneration
+RID5121 spondylosis deformans
+spondylosis
+RID5120 spondylolysis
+RID5128 amyotrophic lateral sclerosis
+ALS
+RID5136 dementia
+RID5137 Alzheimer disease
+dementia Alzheimer type
+DAT
+RID5135 deep grey nuclei disorder
+RID5132 cerebellar olivary degeneration
+RID5133 cortical basal ganglionic degeneration
+CBGD
+corticobasal ganglionic degeneration
+cortical-basal ganglionic degeneration
+RID5130 cerebrotendinous xanthomatosis
+RID5131 Cockayne Syndrome
+RID36042 malignant neoplasm
+malignancy
+RID5026 lower esophageal ring
+RID5027 Schatzki ring
+RID5024 web
+RID5025 antral mucosal diaphragm
+RID5022 stricture
+fibrous stenosis
+RID5020 middle aortic syndrome
+MAS
+RID5028 spinal stenosis
+RID5029 central spinal stenosis
+RID5030 mild central spinal stenosis
+RID5037 thrombus
+RID5038 ulcer
+RID5035 hypertrophic pyloric stenosis
+HPS
+RID5033 subarticular spinal stenosis
+RID5034 foraminal spinal stenosis
+RID5031 moderate central spinal stenosis
+RID5032 severe central spinal stenosis
+RID5039 peptic ulcer
+RID5040 solitary rectal ulcer syndrome
+RID5041 mucosal erosion
+superficial ulcer
+RID5048 demyelinating disease
+demyelination
+myelinolysis
+RID5046 atrophy
+RID5047 porencephaly
+RID38667 thinning
+RID5045 degeneration
+RID5043 degenerative disorder
+degenerative disease
+RID5052 extrapontine myelinolysis
+EPM
+RID5050 central pontine myelinolysis
+CPM
+RID5059 kernicterus
+kemicterus
+bilirubin-induced encephalopathy
+bilirubin-induced neurologic dysfunction
+BIND Bilirubin encephalopathy
+RID5058 toxic encephalopathy
+RID5055 disorder of brain
+encephalopathy
+RID5056 hypoxic-ischemic encephalopathy
+HIE
+RID5054 denervation
+RID38605 Moyamoya disease
+RID38604 cerebrovascular disease
+RID5068 musculoskeletal degeneration
+RID5069 diffuse idiopathic skeletal hyperostosis
+Forrestier disease
+DISH
+RID5066 Wallerian degeneration
+RID5067 fragmentation
+RID5064 hyperammonemic encephalopathy
+RID5065 Wernicke encephalopathy
+RID5073 enthesopathy
+RID5074 neuropathic joint
+Charcot joint
+RID5072 enthesophyte
+RID5079 marginal osteophyte
+RID5078 periosteal osteophyte
+RID5076 osteophyte
+spur
+RID5084 rhabdomyolysis
+RID5085 spine degeneration
+RID5082 periosteal reaction
+periostitis
+RID5080 osteophytosis
+RID5081 central osteophyte
+RID5088 disc height loss
+RID5089 disc bulge
+bulging disc
+RID5086 intervertebral disc degeneration
+degenerative disc disease
+DDD
+degenerative disk disease
+degeneration of intervertebral disc
+RID5087 disc dessication
+RID5095 focal disc extrusion
+RID5096 broad based disc extrusion
+RID5093 broad based disc protrusion
+RID5094 disc extrusion
+RID5091 disc protrusion
+RID5092 focal disc protrusion
+RID5090 disc herniation
+RID5097 sequestrated disc fragment
+sequestered disc fragment
+disc sequestrum
+free disc fragment
+disc sequestrate
+disc sequestration
+RID5004 matrix stone
+RID5005 oxalate stone
+RID5002 uric acid stone
+RID5003 xanthine stone
+RID5000 calcium stone
+RID5001 cystine stone
+RID5008 bladder calculus
+calculus of urinary bladder
+vesical calculus
+bladder stone
+cystolith
+cystolithiasis
+RID5006 infection stone
+RID5007 Indinavir stone
+RID5015 inspissation
+RID5016 stenosis
+narrowing
+RID5013 cast
+RID5014 impaction
+RID5012 microlith
+RID5010 sialolithiasis
+salivary gland stone
+RID5018 congenital stenosis
+coarctation
+RID38777 specimen
+RID7473 body-system-specific disorder
+body system specific disorder
+body system-specific disorder
+RID38800 akinesia
