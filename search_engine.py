@@ -11,10 +11,11 @@ import re
 from nltk.corpus import stopwords
 from nltk import stem
 import nltk
-from nltk import pos_tag
-from nltk.tokenize import word_tokenize
-from nltk.stem.wordnet import WordNetLemmatizer
-from nltk.corpus import wordnet as wn
+# from nltk import pos_tag
+# from nltk.tokenize import word_tokenize
+# from nltk.stem.wordnet import WordNetLemmatizer
+# from nltk.corpus import wordnet as wn
+import xml.etree.ElementTree as ET
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
@@ -37,35 +38,53 @@ REPORT_FILES_LABELLED_PVAB = ['nlp_data/CleanedPvabLabelled.csv']
 
 DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
-def wordnet_pos_code(tag):
-    if tag.startswith('N'):
-        return wn.NOUN
-    elif tag.startswith('V'):
-        return wn.VERB
-    elif tag.startswith('J'):
-        return wn.ADJ
-    elif tag.startswith('R'):
-        return wn.ADV
-    else:
-        return None
+stop = set()
+specialist = dict()
+# Converts pos tags to work with wordnet lemmatizer
+# def wordnet_pos_code(tag):
+#     if tag.startswith('N'):
+#         return wn.NOUN
+#     elif tag.startswith('V'):
+#         return wn.VERB
+#     elif tag.startswith('J'):
+#         return wn.ADJ
+#     elif tag.startswith('R'):
+#         return wn.ADV
+#     else:
+#         return None
 
 # runs the preprocessing procedure to the supplied text
 # input is string of text to be processed
 # output is the same string processed
 def textPreprocess(text):
-	text = re.sub("[^a-zA-Z]"," ",text) # remove non-letters
+	#load set of stop words
+	global stop
+	if not stop:
+		negations = set(('no', 'nor','against','don', 'not'))
+		stop = set(stopwords.words("english")) - negations
+	#load dictionary of specialist lexicon
+	global specialist
+	if not specialist:
+		file = open('./model_files/specialist.pkl', 'r')
+		specialist = pickle.load(file)
+		file.close()
+
+	text = re.sub("[^a-zA-Z\-]"," ",text) # remove non-letters, except for hyphens
 	text = text.lower() # convert to lower-case
 	text = text.split() # tokenise string
 	text = [word for word in text if len(word) > 1] # remove all single-letter words
-
 	# remove stop words
-	negations = set(('no', 'nor','against','don', 'not'))
-	stop = set(stopwords.words("english")) - negations
 	text = [word for word in text if not word in stop]
-
+	processedText = []
+	#look up words in specialist lexicon, stem them if not present
+	for word in text:
+		if word in specialist:
+			processedText.append(specialist[word])
+		else:
+			processedText.append(stem.snowball.EnglishStemmer().stem(word))
 
 	# word stemming (list of word stemmers: http://www.nltk.org/api/nltk.stem.html)
-	text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
+	# text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
 	# text = [stem.PorterStemmer().stem(word) for word in text]
 
 	#pos_tag and lemmatization, implementation has ~67 hour runtime
@@ -77,8 +96,8 @@ def textPreprocess(text):
 	# 	if wordPos != None:
 	# 		text.append(WordNetLemmatizer().lemmatize(word[0],pos=wordPos))
 	# text = [word for word in text if len(word) > 1] # remove all single-letter words
-
-	return(text)
+	return(processedText)
+	# return(text)
 
 
 # retrieves all fields of all cases, including raw report amongst other fields
@@ -181,7 +200,25 @@ def preprocessReports(fileNames=REPORT_FILES):
 		file.close()
 
 		print("report saved")
-
+# runs the processing procedure on the supplied SPECIALIST lexicon xml file
+# maps all the phrases in the specialist lexicon to their bases
+# input is LEXICON.xml in root folder
+# output is a dictionary stored in ./model_files/specialist.pkl
+def buildSpecialist():
+	specialistLexicon = dict()
+	specialistTree = ET.parse('LEXICON.xml')
+	root = specialistTree.getroot()
+	for lexRecord in root.findall('lexRecord'):
+		mapping = lexRecord.find('base').text.lower()
+		for word in lexRecord.findall('inflVars'):
+			specialistLexicon[word.text.lower()] = mapping
+		for word in lexRecord.findall('acronyms'):
+			specialistLexicon[word.text.lower()] = mapping
+	file = open('./model_files/specialist.pkl', 'w')
+	pickle.dump(specialistLexicon, file)
+	file.close()
+	print("done")
+	print(specialistLexicon["aneurysm of ascending aorta"])
 
 # builds and saves dictionary and corpus (in BOW form) from report files
 def buildDictionary():
@@ -191,6 +228,7 @@ def buildDictionary():
 
 	# build dictionary
 	dictionary = gensim.corpora.Dictionary(reports)
+	dictionary.filter_extremes(no_below=5)
 	dictionary.save('./model_files/reports.dict')
 	print(dictionary)
 
@@ -454,7 +492,7 @@ def precisionRecall(testFile):
 		plt.xlabel("Recall")
 		plt.ylabel("Precision")
 		plt.title(searchTerm[0])
-		with open("precision_recall_minimal/" + searchTerm[0] + ".csv",'w') as writeFile:
+		with open("precision_recall_specialist/" + searchTerm[0] + ".csv",'w') as writeFile:
 			writer = csv.writer(writeFile)
 
 			for model in models:
@@ -643,10 +681,9 @@ def runSearchEngine():
 
 
 if __name__ == '__main__':
-	preprocessReports()
+	# buildSpecialist()
+	# preprocessReports()
 	# buildDictionary()
-	reports = getProcessedReports()
-	print(reports[1])
 	# buildModels()
 	# buildWord2VecModel()
 	# buildDoc2VecModel()
@@ -654,7 +691,7 @@ if __name__ == '__main__':
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("doc2vec",searchTerm)
-	# precisionRecall("pr_tests.csv")
+	precisionRecall("pr_tests.csv")
 	# labelClassification()
 
 	# runSearchEngine()
