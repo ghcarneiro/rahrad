@@ -11,6 +11,10 @@ import re
 from nltk.corpus import stopwords
 from nltk import stem
 import nltk
+from nltk import pos_tag
+from nltk.tokenize import word_tokenize
+from nltk.stem.wordnet import WordNetLemmatizer
+from nltk.corpus import wordnet as wn
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
@@ -33,6 +37,17 @@ REPORT_FILES_LABELLED_PVAB = ['nlp_data/CleanedPvabLabelled.csv']
 
 DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
+def wordnet_pos_code(tag):
+    if tag.startswith('N'):
+        return wn.NOUN
+    elif tag.startswith('V'):
+        return wn.VERB
+    elif tag.startswith('J'):
+        return wn.ADJ
+    elif tag.startswith('R'):
+        return wn.ADV
+    else:
+        return None
 
 # runs the preprocessing procedure to the supplied text
 # input is string of text to be processed
@@ -48,10 +63,20 @@ def textPreprocess(text):
 	stop = set(stopwords.words("english")) - negations
 	text = [word for word in text if not word in stop]
 
-#TODO - Change stemmer to incorporate radlex
+
 	# word stemming (list of word stemmers: http://www.nltk.org/api/nltk.stem.html)
 	text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
 	# text = [stem.PorterStemmer().stem(word) for word in text]
+
+	#pos_tag and lemmatization, implementation has ~67 hour runtime
+	# text = word_tokenize(text)
+	# tokens_pos = pos_tag(text)
+	# text=[]
+	# for word in tokens_pos:
+	# 	wordPos = wordnet_pos_code(word[1])
+	# 	if wordPos != None:
+	# 		text.append(WordNetLemmatizer().lemmatize(word[0],pos=wordPos))
+	# text = [word for word in text if len(word) > 1] # remove all single-letter words
 
 	return(text)
 
@@ -239,16 +264,16 @@ def buildModels():
 	# print(list(corpus))
 
 	# build index for similarity comparison using BOW representation
-	# build_similarityIndex(corpus)
+	build_similarityIndex(corpus)
 
 	# transform model using TFIDF
-	# transform_tfidf(corpus)
+	transform_tfidf(corpus)
 	tfidf_corpus = gensim.corpora.MmCorpus('./model_files/reports_tfidf.mm')
 	print('Example case report under Tf-Idf transformation: ')
 	print(list(tfidf_corpus)[200])
 
 	# transform model using LSI
-	# transform_lsi(tfidf_corpus,dictionary)
+	transform_lsi(tfidf_corpus,dictionary)
 	lsi_corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
 	# lsi_model.print_topics()
 	print('Example case report under LSI transformation: ')
@@ -618,8 +643,10 @@ def runSearchEngine():
 
 
 if __name__ == '__main__':
-	# preprocessReports()
+	preprocessReports()
 	# buildDictionary()
+	reports = getProcessedReports()
+	print(reports[1])
 	# buildModels()
 	# buildWord2VecModel()
 	# buildDoc2VecModel()
@@ -627,7 +654,7 @@ if __name__ == '__main__':
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("doc2vec",searchTerm)
-	precisionRecall("pr_tests.csv")
+	# precisionRecall("pr_tests.csv")
 	# labelClassification()
 
 	# runSearchEngine()
