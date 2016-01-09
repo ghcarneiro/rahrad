@@ -293,7 +293,7 @@ def transform_lsi(corpus,dictionary):
 # input is the corpus file and dictionary file
 # num_topics tested with 10,20,30,35,40,50
 def transform_lda(corpus,dictionary):
-	lda_model = gensim.models.LdaMulticore(corpus, id2word=dictionary, num_topics=35)
+	lda_model = gensim.models.LdaMulticore(corpus, id2word=dictionary, num_topics=30)
 	lda_model.save('./model_files/reports.lda_model')
 
 	newCorpus = lda_model[corpus]
@@ -361,7 +361,7 @@ def buildWord2VecModel():
 
 # builds and saves the Doc2Vec model of all the processed reports
 # doc2vec performs better with dbow than dm
-# tested with hidden layer size 100,300
+# tested with hidden layer size 100,200,300
 def buildDoc2VecModel():
 	reports = getProcessedReports()
 
@@ -373,7 +373,7 @@ def buildDoc2VecModel():
 
 
 	# model = gensim.models.Doc2Vec(taggedDocuments)
-	model = gensim.models.Doc2Vec(size=200, min_count=5, workers=16,dm=0, dbow_words=1)
+	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=0, dbow_words=1)
 
 	model.build_vocab(taggedDocuments)
 
@@ -699,14 +699,14 @@ if __name__ == '__main__':
 	# buildSpecialist()
 	# preprocessReports()
 	# buildDictionary()
-	# buildModels()
+	buildModels()
 	# buildWord2VecModel()
-	# buildDoc2VecModel()
+	buildDoc2VecModel()
 	# searchTerm = "haemorrhage"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("doc2vec",searchTerm)
-	# precisionRecall("pr_tests.csv")
+	precisionRecall("pr_tests.csv")
 	# labelClassification()
 
 	# runSearchEngine()
