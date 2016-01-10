@@ -11,17 +11,12 @@ import re
 from nltk.corpus import stopwords
 from nltk import stem
 import nltk
-# from nltk import pos_tag
-# from nltk.tokenize import word_tokenize
-# from nltk.stem.wordnet import WordNetLemmatizer
-# from nltk.corpus import wordnet as wn
 import xml.etree.ElementTree as ET
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
 from sklearn.metrics import roc_curve
 from sklearn.cross_validation import train_test_split
-
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
@@ -38,20 +33,11 @@ REPORT_FILES_LABELLED_PVAB = ['nlp_data/CleanedPvabLabelled.csv']
 
 DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
+# global variables, loaded during first call to text preprocessing
+# set of stop words
 stop = set()
+# specialist dictionary
 specialist = dict()
-# Converts pos tags to work with wordnet lemmatizer
-# def wordnet_pos_code(tag):
-#     if tag.startswith('N'):
-#         return wn.NOUN
-#     elif tag.startswith('V'):
-#         return wn.VERB
-#     elif tag.startswith('J'):
-#         return wn.ADJ
-#     elif tag.startswith('R'):
-#         return wn.ADV
-#     else:
-#         return None
 
 # runs the preprocessing procedure to the supplied text
 # input is string of text to be processed
@@ -75,29 +61,57 @@ def textPreprocess(text):
 	text = [word for word in text if len(word) > 1] # remove all single-letter words
 	# remove stop words
 	text = [word for word in text if not word in stop]
-	processedText = []
-	#look up words in specialist lexicon, stem them if not present
-	for word in text:
-		if word in specialist:
-			processedText.append(specialist[word])
-		else:
-			processedText.append(stem.snowball.EnglishStemmer().stem(word))
+
+	# Minimal processing, lowercase and keep punctuation
+	# text = text.lower()
+	# text = list(filter(None, re.split(r"\w()!\?\.", text)))
+
+	#look up variable length sequences of words in specialist lexicon, stem them if not present
+	numTokens = 5 #phrases up to 5 words long
+	while numTokens > 0:
+		processedText=[]
+		start=0
+		#Check each phrase of n tokens while there are sufficient tokens after
+		while start < (len(text) - numTokens):
+			phrase=text[start]
+			nextToken=1
+			while nextToken < numTokens:
+				#add the next tokens to the current one
+				phrase = phrase+" "+text[start+nextToken]
+				nextToken += 1
+			if phrase in specialist:
+				#convert tokens to one token from specialist
+				processedText.append(specialist[phrase])
+				# skip the next tokens
+				start += (numTokens)
+			elif numTokens == 1:
+				#individual tokens, stem them if not in specialist and keep
+				processedText.append(stem.snowball.EnglishStemmer().stem(phrase))
+				start += 1
+			else:
+				#token not part of phrase, keep
+				processedText.append(text[start])
+				start += 1
+		#Keep remaining tokens without enough tokens after them
+		while start < len(text):
+			processedText.append(text[start])
+			start += 1
+		text = processedText
+		numTokens -= 1
 
 	# word stemming (list of word stemmers: http://www.nltk.org/api/nltk.stem.html)
 	# text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
 	# text = [stem.PorterStemmer().stem(word) for word in text]
 
-	#pos_tag and lemmatization, implementation has ~67 hour runtime
-	# text = word_tokenize(text)
-	# tokens_pos = pos_tag(text)
-	# text=[]
-	# for word in tokens_pos:
-	# 	wordPos = wordnet_pos_code(word[1])
-	# 	if wordPos != None:
-	# 		text.append(WordNetLemmatizer().lemmatize(word[0],pos=wordPos))
-	# text = [word for word in text if len(word) > 1] # remove all single-letter words
-	return(processedText)
-	# return(text)
+	# Minimal processing, convert tokens back to paragraph
+	# processedText=""
+	# for word in text:
+	# 	if re.match("[^a-zA-Z\-]",word):
+	# 		processedText += " "
+	# 	processedText += word
+	# text = processedText
+
+	return(text)
 
 
 # retrieves all fields of all cases, including raw report amongst other fields
@@ -192,7 +206,6 @@ def preprocessReports(fileNames=REPORT_FILES):
 		for i in xrange(len(reports)):
 			print (i / len(reports) * 100)
 			reports[i] = textPreprocess(reports[i])
-
 		print("preprocessing finished")
 
 		file = open('./model_files/reports_list_' + DIAGNOSES[j], 'w')
@@ -228,7 +241,7 @@ def buildDictionary():
 
 	# build dictionary
 	dictionary = gensim.corpora.Dictionary(reports)
-	dictionary.filter_extremes(no_below=5)
+	dictionary.filter_extremes(no_below=3)
 	dictionary.save('./model_files/reports.dict')
 	print(dictionary)
 
@@ -278,8 +291,9 @@ def transform_lsi(corpus,dictionary):
 # NO NEED TO CALL THIS FUNCTION DIRECTLY
 # apply LDA transformation to generate new model, corpus and index
 # input is the corpus file and dictionary file
+# num_topics tested with 10,20,30,35,40,50
 def transform_lda(corpus,dictionary):
-	lda_model = gensim.models.LdaMulticore(corpus, id2word=dictionary, num_topics=10)
+	lda_model = gensim.models.LdaMulticore(corpus, id2word=dictionary, num_topics=30)
 	lda_model.save('./model_files/reports.lda_model')
 
 	newCorpus = lda_model[corpus]
@@ -302,16 +316,16 @@ def buildModels():
 	# print(list(corpus))
 
 	# build index for similarity comparison using BOW representation
-	build_similarityIndex(corpus)
+	# build_similarityIndex(corpus)
 
 	# transform model using TFIDF
-	transform_tfidf(corpus)
+	# transform_tfidf(corpus)
 	tfidf_corpus = gensim.corpora.MmCorpus('./model_files/reports_tfidf.mm')
 	print('Example case report under Tf-Idf transformation: ')
 	print(list(tfidf_corpus)[200])
 
 	# transform model using LSI
-	transform_lsi(tfidf_corpus,dictionary)
+	# transform_lsi(tfidf_corpus,dictionary)
 	lsi_corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
 	# lsi_model.print_topics()
 	print('Example case report under LSI transformation: ')
@@ -346,6 +360,8 @@ def buildWord2VecModel():
 	print("script finished")
 
 # builds and saves the Doc2Vec model of all the processed reports
+# doc2vec performs better with dbow than dm
+# tested with hidden layer size 100,200,300
 def buildDoc2VecModel():
 	reports = getProcessedReports()
 
@@ -357,7 +373,7 @@ def buildDoc2VecModel():
 
 
 	# model = gensim.models.Doc2Vec(taggedDocuments)
-	model = gensim.models.Doc2Vec(size=300, min_count=5, workers=16)
+	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=0, dbow_words=1)
 
 	model.build_vocab(taggedDocuments)
 
@@ -491,7 +507,7 @@ def precisionRecall(testFile):
 		plt.xlabel("Recall")
 		plt.ylabel("Precision")
 		plt.title(searchTerm[0])
-		with open("precision_recall_specialist/" + searchTerm[0] + ".csv",'w') as writeFile:
+		with open("precision_recall_spec/" + searchTerm[0] + ".csv",'w') as writeFile:
 			writer = csv.writer(writeFile)
 
 			for model in models:
@@ -683,14 +699,14 @@ if __name__ == '__main__':
 	# buildSpecialist()
 	# preprocessReports()
 	# buildDictionary()
-	# buildModels()
+	buildModels()
 	# buildWord2VecModel()
-	# buildDoc2VecModel()
+	buildDoc2VecModel()
 	# searchTerm = "haemorrhage"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("doc2vec",searchTerm)
-	# precisionRecall("pr_tests.csv")
-	labelClassification()
+	precisionRecall("pr_tests.csv")
+	# labelClassification()
 
 	# runSearchEngine()
