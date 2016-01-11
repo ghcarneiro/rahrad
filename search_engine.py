@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
 from sklearn.metrics import roc_curve
 from sklearn.cross_validation import train_test_split
+import time
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
@@ -64,8 +65,9 @@ def textPreprocess(text):
 
 	# Minimal processing, lowercase and keep punctuation
 	# text = text.lower()
-	# text = list(filter(None, re.split(r"\w()!\?\.", text)))
-
+	# text = re.split("(\W)||\b", text)
+	# text = [word.replace(' ','') for word in text]
+	# text = filter(None, text)
 	#look up variable length sequences of words in specialist lexicon, stem them if not present
 	numTokens = 5 #phrases up to 5 words long
 	while numTokens > 0:
@@ -106,7 +108,7 @@ def textPreprocess(text):
 	# Minimal processing, convert tokens back to paragraph
 	# processedText=""
 	# for word in text:
-	# 	if re.match("[^a-zA-Z\-]",word):
+	# 	if re.match("\w",word):
 	# 		processedText += " "
 	# 	processedText += word
 	# text = processedText
@@ -373,7 +375,7 @@ def buildDoc2VecModel():
 
 
 	# model = gensim.models.Doc2Vec(taggedDocuments)
-	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=0, dbow_words=1)
+	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=1, dbow_words=1)
 
 	model.build_vocab(taggedDocuments)
 
@@ -412,10 +414,11 @@ def getDerivations(searchTerm):
 # output is an array containing the index of the similar documents and their similarity value
 def search(model, numResults, searchTerm):
 	dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
+	origSearchTerm = searchTerm
 	searchTerm = textPreprocess(searchTerm)
 	searchTerm = getDerivations(searchTerm)
-	if (searchTerm == []):
-		return []
+	# if (searchTerm == []):
+	# 	return []
 	if model == "bow":
 		index = gensim.similarities.SparseMatrixSimilarity.load('./model_files/reports.index')
 		index.num_best = numResults
@@ -458,7 +461,7 @@ def search(model, numResults, searchTerm):
 	elif model == "doc2vec":
 		model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
 		# searchTerm_docvec = model.infer_vector(getDerivations(searchTerm))
-		searchTerm_docvec = model.infer_vector(searchTerm)
+		searchTerm_docvec = model.infer_vector(origSearchTerm)
 		similarReports = model.docvecs.most_similar([searchTerm_docvec],topn=numResults)
 	else:
 		return 0
@@ -663,7 +666,92 @@ def labelClassification():
 		plt.show()
 	writeFile.close()
 
+# tests the model at classifying reports as either positive or negative based on diagnosis
+def labelClassificationModel():
+	model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
 
+	reports = getReports()
+	processedReports = getProcessedReports()
+
+	numFolds = 5 # number of folds for cross validation
+
+	with open("labelClassification.csv",'w') as writeFile:
+		writer = csv.writer(writeFile)
+		writer.writerow(["score","output label","expected label","report"])
+
+		for j in range(len(REPORT_FILES_LABELLED)):
+			writer.writerow("")
+			writer.writerow("")
+			writer.writerow([DIAGNOSES[j]])
+
+			# initialise figure and plot
+			plt.figure(DIAGNOSES[j] + " ROC")
+			plt.xlabel("False Positive")
+			plt.ylabel("True Positive")
+			plt.title(DIAGNOSES[j] + " ROC")
+
+			# fetch corpus and labels
+			labelledReports = []
+			labelledCorpus = list()
+			# The labeled data is at the start of the data set
+			# Get the ids in the corpus of these first labeled examples for each class
+			for i in range(getNumReports(REPORT_FILES[:j]),getNumReports(REPORT_FILES[:j])+getNumReports([REPORT_FILES_LABELLED[j]])):
+				labelledReports.append(reports[i])
+				labelledCorpus.append(model.infer_vector(processedReports[i]))
+			labels = np.asarray(getData([REPORT_FILES_LABELLED[j]]))[:,2]
+			corpusList = [list(x) for x in labelledCorpus]
+			############### THIS CODE BLOCK REMOVES THE NUMBER OF NEGATIVE LABELS TO EQUALISE THE DISTRIBUTION OF CLASS LABELS. TO BE REMOVED IN FUTURE.
+			count = 0
+			deletes = []
+			for x in range(len(labels)):
+				if (labels[x] == "negative"):
+					count = count + 1
+					deletes.append(x)
+				if (count == (len(labels)-(list(labels).count("positive"))*2)):
+					break
+			labelledCorpus = np.delete(labelledCorpus,deletes,axis=0)
+			labels = np.delete(labels,deletes)
+			##################
+
+			numData = len(labels) # size of the labelled data set
+			dataPerFold = int(math.ceil(numData/numFolds))
+
+
+			for n in range(0,numFolds):
+				# split training and test data
+				train_labelledCorpus,test_labelledCorpus,train_labels,test_labels = train_test_split(labelledCorpus,labels,test_size=0.13)
+
+				# build classifier
+				classifier = svm.SVC(kernel='linear').fit(train_labelledCorpus,train_labels)
+
+				# compute output label and corresponding score
+				output_test = classifier.predict(test_labelledCorpus)
+				output_train = classifier.predict(train_labelledCorpus)
+				output_scores_test = classifier.decision_function(test_labelledCorpus)
+				output_scores_train = classifier.decision_function(train_labelledCorpus)
+
+				# sort scores and labels in order
+				sortList = list(zip(output_scores_test,output_test,test_labels,test_labelledCorpus))
+				sortList.sort()
+				output_scores_test,output_test,test_labels,test_labelledCorpus = zip(*sortList)
+
+				# build roc curve and plot
+				fp_test,tp_test,_ = roc_curve(test_labels,output_scores_test,pos_label="positive")
+				fp_train,tp_train,_ = roc_curve(train_labels,output_scores_train,pos_label="positive")
+
+				plt.plot(fp_test,tp_test,'r',label="train" if n == 0 else "")
+				plt.plot(fp_train,tp_train,'b',label="test" if n == 0 else "")
+				plt.legend(loc='lower right')
+
+
+				# save result to file
+				for r in range(len(test_labels)):
+					reportIdx = corpusList.index(list(test_labelledCorpus[r]))
+					writer.writerow("")
+					writer.writerow([output_scores_test[r],output_test[r],test_labels[r]])
+					writer.writerow([labelledReports[reportIdx]])
+		plt.show()
+	writeFile.close()
 
 # implements search engine and outputs as according to requirements for front-end integration
 def runSearchEngine():
@@ -699,14 +787,15 @@ if __name__ == '__main__':
 	# buildSpecialist()
 	# preprocessReports()
 	# buildDictionary()
-	buildModels()
+	# buildModels()
 	# buildWord2VecModel()
-	buildDoc2VecModel()
+	# buildDoc2VecModel()
 	# searchTerm = "haemorrhage"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("doc2vec",searchTerm)
-	precisionRecall("pr_tests.csv")
+	# precisionRecall("pr_tests.csv")
 	# labelClassification()
+	labelClassificationModel()
 
 	# runSearchEngine()

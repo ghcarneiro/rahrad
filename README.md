@@ -3,6 +3,9 @@ Adelaide University Summer Research Scholarship for Radiology at the Royal Adela
 
 The data files are not included in the repository and need to be manually added.
 The model files need to be generated before running the search engine
+The specialist lexicon dictionary needs to be build before any text preprocessing can be done
+  This requires the LEXICON.xml file to be downloaded from:
+    http://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/2016/release/LEX/XML/LEXICON.xml
 
 If you are running Linux you need to install the following packages:
   gfortran
