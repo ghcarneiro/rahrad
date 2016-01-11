@@ -222,6 +222,11 @@ def preprocessReports(fileNames=REPORT_FILES):
 def buildSpecialist():
 	specialistLexicon = dict()
 	specialistTree = ET.parse('LEXICON.xml')
+	radlexTree = ET.parse('dictionary_files/radlex_xml.xml')
+	root = radlexTree.getroot()
+	for radlexTree in root.findall('lexRecord'):
+		mapping = lexRecord.find('base').text.lower()
+		specialistLexicon[mapping] = mapping
 	root = specialistTree.getroot()
 	for lexRecord in root.findall('lexRecord'):
 		mapping = lexRecord.find('base').text.lower()
@@ -784,7 +789,7 @@ def runSearchEngine():
 
 
 if __name__ == '__main__':
-	# buildSpecialist()
+	buildSpecialist()
 	# preprocessReports()
 	# buildDictionary()
 	# buildModels()
@@ -796,6 +801,6 @@ if __name__ == '__main__':
 	# searchEngineTest("doc2vec",searchTerm)
 	# precisionRecall("pr_tests.csv")
 	# labelClassification()
-	labelClassificationModel()
+	# labelClassificationModel()
 
 	# runSearchEngine()
