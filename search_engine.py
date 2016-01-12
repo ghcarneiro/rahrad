@@ -18,6 +18,8 @@ from sklearn import neighbors, svm
 from sklearn.metrics import roc_curve
 from sklearn.cross_validation import train_test_split
 import time
+import datetime
+import os
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
@@ -38,7 +40,7 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 # set of stop words
 stop = set()
 # specialist dictionary
-specialist = dict()
+medical = dict()
 
 # runs the preprocessing procedure to the supplied text
 # input is string of text to be processed
@@ -50,25 +52,25 @@ def textPreprocess(text):
 		negations = set(('no', 'nor','against','don', 'not'))
 		stop = set(stopwords.words("english")) - negations
 	#load dictionary of specialist lexicon
-	global specialist
-	if not specialist:
-		file = open('./model_files/specialist.pkl', 'r')
-		specialist = pickle.load(file)
+	global medical
+	if not medical:
+		file = open('./dictionary_files/medical.pkl', 'r')
+		medical = pickle.load(file)
 		file.close()
+	# text = re.sub("[^a-zA-Z\-]"," ",text) # remove non-letters, except for hyphens
+	# text = text.lower() # convert to lower-case
+	# text = text.split() # tokenise string
+	# text = [word for word in text if len(word) > 1] # remove all single-letter words
+	# # remove stop words
+	# text = [word for word in text if not word in stop]
 
-	text = re.sub("[^a-zA-Z\-]"," ",text) # remove non-letters, except for hyphens
-	text = text.lower() # convert to lower-case
-	text = text.split() # tokenise string
-	text = [word for word in text if len(word) > 1] # remove all single-letter words
-	# remove stop words
-	text = [word for word in text if not word in stop]
+	# Alterative Minimal processing, lowercase and keep punctuation
+	text = text.lower()
+	text = re.split("([^\w\-]+)||\b", text)
+	text = [word.replace(' ','') for word in text]
+	text = filter(None, text)
 
-	# Minimal processing, lowercase and keep punctuation
-	# text = text.lower()
-	# text = re.split("(\W)||\b", text)
-	# text = [word.replace(' ','') for word in text]
-	# text = filter(None, text)
-	#look up variable length sequences of words in specialist lexicon, stem them if not present
+	#look up variable length sequences of words in medical dictionary, stem them if not present
 	numTokens = 5 #phrases up to 5 words long
 	while numTokens > 0:
 		processedText=[]
@@ -81,9 +83,9 @@ def textPreprocess(text):
 				#add the next tokens to the current one
 				phrase = phrase+" "+text[start+nextToken]
 				nextToken += 1
-			if phrase in specialist:
+			if phrase in medical:
 				#convert tokens to one token from specialist
-				processedText.append(specialist[phrase])
+				processedText.append(medical[phrase])
 				# skip the next tokens
 				start += (numTokens)
 			elif numTokens == 1:
@@ -104,14 +106,6 @@ def textPreprocess(text):
 	# word stemming (list of word stemmers: http://www.nltk.org/api/nltk.stem.html)
 	# text = [stem.snowball.EnglishStemmer().stem(word) for word in text]
 	# text = [stem.PorterStemmer().stem(word) for word in text]
-
-	# Minimal processing, convert tokens back to paragraph
-	# processedText=""
-	# for word in text:
-	# 	if re.match("\w",word):
-	# 		processedText += " "
-	# 	processedText += word
-	# text = processedText
 
 	return(text)
 
@@ -215,30 +209,35 @@ def preprocessReports(fileNames=REPORT_FILES):
 		file.close()
 
 		print("report saved")
-# runs the processing procedure on the supplied SPECIALIST lexicon xml file
-# maps all the phrases in the specialist lexicon to their bases
-# input is LEXICON.xml in root folder
-# output is a dictionary stored in ./model_files/specialist.pkl
-def buildSpecialist():
-	specialistLexicon = dict()
-	specialistTree = ET.parse('LEXICON.xml')
-	radlexTree = ET.parse('dictionary_files/radlex_xml.xml')
-	root = radlexTree.getroot()
-	for radlexTree in root.findall('lexRecord'):
+# runs the processing procedure on the supplied SPECIALIST and radlex lexicon xml files
+# maps all the phrases in the specialist and radlex lexicons to their bases
+# input is LEXICON.xml and radlex_xml.xml in dictionary_files folder
+# output is a dictionary stored in ./dictionary_files/medical.pkl
+def buildMedDict():
+	medDict = dict()
+	dictTree = ET.parse('dictionary_files/radlex_xml.xml')
+	root = dictTree.getroot()
+	print("Loaded radlex")
+	for lexRecord in root.findall('lexRecord'):
 		mapping = lexRecord.find('base').text.lower()
-		specialistLexicon[mapping] = mapping
-	root = specialistTree.getroot()
+		medDict[mapping] = mapping
+	print("Added radlex")
+
+	dictTree = ET.parse('dictionary_files/LEXICON.xml')
+	root = dictTree.getroot()
+	print("Loaded SPECIALIST")
 	for lexRecord in root.findall('lexRecord'):
 		mapping = lexRecord.find('base').text.lower()
 		for word in lexRecord.findall('inflVars'):
-			specialistLexicon[word.text.lower()] = mapping
+			medDict[word.text.lower()] = mapping
 		for word in lexRecord.findall('acronyms'):
-			specialistLexicon[word.text.lower()] = mapping
-	file = open('./model_files/specialist.pkl', 'w')
-	pickle.dump(specialistLexicon, file)
+			medDict[word.text.lower()] = mapping
+	print("Added Specialist")
+	file = open('./dictionary_files/medical.pkl', 'w')
+	pickle.dump(medDict, file)
 	file.close()
 	print("done")
-	print(specialistLexicon["aneurysm of ascending aorta"])
+	print(medDict["aneurysm of ascending aorta"])
 
 # builds and saves dictionary and corpus (in BOW form) from report files
 def buildDictionary():
@@ -248,7 +247,7 @@ def buildDictionary():
 
 	# build dictionary
 	dictionary = gensim.corpora.Dictionary(reports)
-	dictionary.filter_extremes(no_below=3)
+	# dictionary.filter_extremes(no_below=3)
 	dictionary.save('./model_files/reports.dict')
 	print(dictionary)
 
@@ -323,16 +322,16 @@ def buildModels():
 	# print(list(corpus))
 
 	# build index for similarity comparison using BOW representation
-	# build_similarityIndex(corpus)
+	build_similarityIndex(corpus)
 
 	# transform model using TFIDF
-	# transform_tfidf(corpus)
+	transform_tfidf(corpus)
 	tfidf_corpus = gensim.corpora.MmCorpus('./model_files/reports_tfidf.mm')
 	print('Example case report under Tf-Idf transformation: ')
 	print(list(tfidf_corpus)[200])
 
 	# transform model using LSI
-	# transform_lsi(tfidf_corpus,dictionary)
+	transform_lsi(tfidf_corpus,dictionary)
 	lsi_corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
 	# lsi_model.print_topics()
 	print('Example case report under LSI transformation: ')
@@ -497,7 +496,9 @@ def searchEngineTest(model, searchTerm):
 # saves output to files in the directory "./precision_recall/"
 def precisionRecall(testFile):
 	models = ["bow","tfidf","lsi","lda","doc2vec"]
-	# models = ["lsi","doc2vec"]
+	# Create the output directory
+	directory = "precision_recall/" + datetime.datetime.now().strftime('%m_%d_%H_%M') +"/"
+	os.makedirs(directory)
 	tests = []
 	with open(testFile,'rb') as file:
 		reader = csv.reader(file)
@@ -515,7 +516,7 @@ def precisionRecall(testFile):
 		plt.xlabel("Recall")
 		plt.ylabel("Precision")
 		plt.title(searchTerm[0])
-		with open("precision_recall_spec/" + searchTerm[0] + ".csv",'w') as writeFile:
+		with open(directory + searchTerm[0] + ".csv",'w') as writeFile:
 			writer = csv.writer(writeFile)
 
 			for model in models:
@@ -565,11 +566,15 @@ def precisionRecall(testFile):
 
 		writeFile.close()
 		plt.legend(loc='lower right')
-	plt.show()
+		fileName = directory + searchTerm[0]
+		plt.savefig(fileName)
+	# Shows all graphs after generation, these are also saved to a file
+	# plt.show()
 
 
 
 # tests the model at classifying reports as either positive or negative based on diagnosis
+# uses a MmCorpus file
 def labelClassification():
 	corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
 	#convert the corpus to a numpy matrix, take the transpose and convert it to a list
@@ -578,8 +583,10 @@ def labelClassification():
 	reports = getReports()
 
 	numFolds = 5 # number of folds for cross validation
-
-	with open("labelClassification.csv",'w') as writeFile:
+	# Create the output directory
+	directory = "label_classification/" + datetime.datetime.now().strftime('%m_%d_%H_%M') +"/"
+	os.makedirs(directory)
+	with open(directory+"labelClassification.csv",'w') as writeFile:
 		writer = csv.writer(writeFile)
 		writer.writerow(["score","output label","expected label","report"])
 
@@ -589,7 +596,8 @@ def labelClassification():
 			writer.writerow([DIAGNOSES[j]])
 
 			# initialise figure and plot
-			plt.figure(DIAGNOSES[j] + " ROC")
+			name = DIAGNOSES[j] + " ROC"
+			plt.figure(name)
 			plt.xlabel("False Positive")
 			plt.ylabel("True Positive")
 			plt.title(DIAGNOSES[j] + " ROC")
@@ -660,6 +668,7 @@ def labelClassification():
 				plt.plot(fp_test,tp_test,'r',label="train" if n == 0 else "")
 				plt.plot(fp_train,tp_train,'b',label="test" if n == 0 else "")
 				plt.legend(loc='lower right')
+				plt.savefig(directory+name)
 
 
 				# save result to file
@@ -672,7 +681,9 @@ def labelClassification():
 	writeFile.close()
 
 # tests the model at classifying reports as either positive or negative based on diagnosis
+# Uses D2V model
 def labelClassificationModel():
+
 	model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
 
 	reports = getReports()
@@ -748,7 +759,6 @@ def labelClassificationModel():
 				plt.plot(fp_train,tp_train,'b',label="test" if n == 0 else "")
 				plt.legend(loc='lower right')
 
-
 				# save result to file
 				for r in range(len(test_labels)):
 					reportIdx = corpusList.index(list(test_labelledCorpus[r]))
@@ -789,17 +799,17 @@ def runSearchEngine():
 
 
 if __name__ == '__main__':
-	buildSpecialist()
+	# buildMedDict()
 	# preprocessReports()
 	# buildDictionary()
 	# buildModels()
 	# buildWord2VecModel()
-	# buildDoc2VecModel()
+	buildDoc2VecModel()
 	# searchTerm = "haemorrhage"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("doc2vec",searchTerm)
-	# precisionRecall("pr_tests.csv")
+	precisionRecall("pr_tests.csv")
 	# labelClassification()
 	# labelClassificationModel()
 
