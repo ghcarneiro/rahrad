@@ -45,6 +45,7 @@ medical = dict()
 # runs the preprocessing procedure to the supplied text
 # input is string of text to be processed
 # output is the same string processed
+# set minimal to true for minimal text preprocessing
 def textPreprocess(text,minimal=False):
 	#load set of stop words
 	global stop
@@ -68,7 +69,9 @@ def textPreprocess(text,minimal=False):
 	else:
 		# Alterative Minimal processing, lowercase and keep punctuation
 		text = text.lower()
+		# Split on non alphanumeric and non hyphen characters and keep delimiter
 		text = re.split("([^\w\-]+)||\b", text)
+		# Delete whitespace tokens
 		text = [word.replace(' ','') for word in text]
 		text = filter(None, text)
 
@@ -381,7 +384,7 @@ def buildDoc2VecModel():
 
 
 	# model = gensim.models.Doc2Vec(taggedDocuments)
-	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=1, dbow_words=1)
+	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=1, dbow_words=1,negative=20,dm_mean=1)
 
 	model.build_vocab(taggedDocuments)
 
@@ -805,13 +808,13 @@ if __name__ == '__main__':
 	preprocessReports()
 	buildDictionary()
 	buildModels()
-	buildWord2VecModel()
+	# buildWord2VecModel()
 	buildDoc2VecModel()
 	# searchTerm = "haemorrhage"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 	# searchEngineTest("doc2vec",searchTerm)
-	precisionRecall("pr_tests.csv")
+	# precisionRecall("pr_tests.csv")
 	# labelClassification()
 	# labelClassificationD2V()
 

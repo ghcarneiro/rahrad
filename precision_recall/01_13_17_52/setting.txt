@@ -1,0 +1,6 @@
+Doc2Vec model size = 100
+DM and DBow
+negative = 20
+Concatenation
+Full text preprocessing
+Radlex included
