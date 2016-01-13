@@ -45,7 +45,7 @@ medical = dict()
 # runs the preprocessing procedure to the supplied text
 # input is string of text to be processed
 # output is the same string processed
-def textPreprocess(text):
+def textPreprocess(text,minimal=False):
 	#load set of stop words
 	global stop
 	if not stop:
@@ -57,18 +57,20 @@ def textPreprocess(text):
 		file = open('./dictionary_files/medical.pkl', 'r')
 		medical = pickle.load(file)
 		file.close()
-	# text = re.sub("[^a-zA-Z\-]"," ",text) # remove non-letters, except for hyphens
-	# text = text.lower() # convert to lower-case
-	# text = text.split() # tokenise string
-	# text = [word for word in text if len(word) > 1] # remove all single-letter words
-	# # remove stop words
-	# text = [word for word in text if not word in stop]
 
-	# Alterative Minimal processing, lowercase and keep punctuation
-	text = text.lower()
-	text = re.split("([^\w\-]+)||\b", text)
-	text = [word.replace(' ','') for word in text]
-	text = filter(None, text)
+	if not minimal:
+		text = re.sub("[^a-zA-Z\-]"," ",text) # remove non-letters, except for hyphens
+		text = text.lower() # convert to lower-case
+		text = text.split() # tokenise string
+		text = [word for word in text if len(word) > 1] # remove all single-letter words
+		# remove stop words
+		text = [word for word in text if not word in stop]
+	else:
+		# Alterative Minimal processing, lowercase and keep punctuation
+		text = text.lower()
+		text = re.split("([^\w\-]+)||\b", text)
+		text = [word.replace(' ','') for word in text]
+		text = filter(None, text)
 
 	#look up variable length sequences of words in medical dictionary, stem them if not present
 	numTokens = 5 #phrases up to 5 words long
@@ -682,7 +684,7 @@ def labelClassification():
 
 # tests the model at classifying reports as either positive or negative based on diagnosis
 # Uses D2V model
-def labelClassificationModel():
+def labelClassificationD2V():
 
 	model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
 
@@ -800,10 +802,10 @@ def runSearchEngine():
 
 if __name__ == '__main__':
 	# buildMedDict()
-	# preprocessReports()
-	# buildDictionary()
-	# buildModels()
-	# buildWord2VecModel()
+	preprocessReports()
+	buildDictionary()
+	buildModels()
+	buildWord2VecModel()
 	buildDoc2VecModel()
 	# searchTerm = "haemorrhage"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
@@ -811,6 +813,6 @@ if __name__ == '__main__':
 	# searchEngineTest("doc2vec",searchTerm)
 	precisionRecall("pr_tests.csv")
 	# labelClassification()
-	# labelClassificationModel()
+	# labelClassificationD2V()
 
 	# runSearchEngine()
