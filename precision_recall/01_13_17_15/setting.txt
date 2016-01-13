@@ -1,6 +1,6 @@
 Doc2Vec model size = 100
 DM and DBow
 negative = 20
-Mean averaging of vectors, not summation
+Mean averaging of vectors, not sumation
 Full text preprocessing
 Radlex included

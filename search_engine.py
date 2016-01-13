@@ -304,7 +304,8 @@ def transform_lsi(corpus,dictionary):
 # input is the corpus file and dictionary file
 # num_topics tested with 10,20,30,35,40,50
 def transform_lda(corpus,dictionary):
-	lda_model = gensim.models.LdaMulticore(corpus, id2word=dictionary, num_topics=30)
+	# lda_model = gensim.models.LdaMulticore(corpus, id2word=dictionary, num_topics=30)
+	lda_model = gensim.models.LdaModel(corpus, id2word=dictionary, num_topics=30)
 	lda_model.save('./model_files/reports.lda_model')
 
 	newCorpus = lda_model[corpus]
@@ -327,16 +328,16 @@ def buildModels():
 	# print(list(corpus))
 
 	# build index for similarity comparison using BOW representation
-	build_similarityIndex(corpus)
+	# build_similarityIndex(corpus)
 
 	# transform model using TFIDF
-	transform_tfidf(corpus)
+	# transform_tfidf(corpus)
 	tfidf_corpus = gensim.corpora.MmCorpus('./model_files/reports_tfidf.mm')
 	print('Example case report under Tf-Idf transformation: ')
 	print(list(tfidf_corpus)[200])
 
 	# transform model using LSI
-	transform_lsi(tfidf_corpus,dictionary)
+	# transform_lsi(tfidf_corpus,dictionary)
 	lsi_corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
 	# lsi_model.print_topics()
 	print('Example case report under LSI transformation: ')
@@ -384,7 +385,7 @@ def buildDoc2VecModel():
 
 
 	# model = gensim.models.Doc2Vec(taggedDocuments)
-	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=1, dbow_words=1,negative=20,dm_mean=1)
+	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=1, dbow_words=1,negative=20)
 
 	model.build_vocab(taggedDocuments)
 
@@ -805,11 +806,11 @@ def runSearchEngine():
 
 if __name__ == '__main__':
 	# buildMedDict()
-	preprocessReports()
-	buildDictionary()
-	buildModels()
+	# preprocessReports()
+	# buildDictionary()
+	# buildModels()
 	# buildWord2VecModel()
-	buildDoc2VecModel()
+	# buildDoc2VecModel()
 	# searchTerm = "haemorrhage"
 	# searchTerm = "2400      CT HEAD - PLAIN L3  CT HEAD:  CLINICAL DETAILS:  INVOLVED IN FIGHT, KICKED IN HIS HEAD, VOMITED AFTER THIS WITH EPISODIC STARING EPISODES WITH TEETH GRINDING. ALSO INTOXICATED (BREATH ALCOHOL ONLY 0.06). PROCEDURE:  PLAIN SCANS THROUGH THE BRAIN FROM SKULL BASE TO NEAR VERTEX. IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  REPORT:  VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS SYMMETRICAL AROUND THE MIDLINE.  NORMAL GREY/WHITE DIFFERENTIATION.  NO INTRACEREBRAL HAEMATOMA OR EXTRA AXIAL COLLECTION. NO CRANIAL VAULT FRACTURE SEEN.  COMMENT: STUDY WITHIN NORMAL LIMITS."
 	# searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
@@ -818,4 +819,4 @@ if __name__ == '__main__':
 	# labelClassification()
 	# labelClassificationD2V()
 
-	# runSearchEngine()
+	runSearchEngine()
