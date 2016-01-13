@@ -1,0 +1,5 @@
+Doc2Vec model size = 100
+DM and DBow
+negative = 20
+Minimal text preprocessing
+Radlex included
