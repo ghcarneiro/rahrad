@@ -1,3 +1,7 @@
+from __future__ import division
+import math
+import csv
+# import random
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
@@ -7,8 +11,22 @@ import time
 import datetime
 import os
 import search
-import fileNames
-import fileNames
+import preprocess
+import search
+
+REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
+REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
+REPORT_FILES_CTPA = ['nlp_data/CleanedCTPAFull.csv']
+REPORT_FILES_PLAINAB = ['nlp_data/CleanedPlainabFull.csv']
+REPORT_FILES_PVAB = ['nlp_data/CleanedPvabFull.csv']
+
+REPORT_FILES_LABELLED = ['nlp_data/CleanedBrainsLabelled.csv','nlp_data/CleanedCTPALabelled.csv','nlp_data/CleanedPlainabLabelled.csv','nlp_data/CleanedPvabLabelled.csv']
+REPORT_FILES_LABELLED_BRAINS = ['nlp_data/CleanedBrainsLabelled.csv']
+REPORT_FILES_LABELLED_CTPA = ['nlp_data/CleanedCTPALabelled.csv']
+REPORT_FILES_LABELLED_PLAINAB = ['nlp_data/CleanedPlainabLabelled.csv']
+REPORT_FILES_LABELLED_PVAB = ['nlp_data/CleanedPvabLabelled.csv']
+
+DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
 # performs cross-validation and generates precision-recall curve
 # used to compare the accuracy of the searching mechanism of the four models
@@ -28,7 +46,7 @@ def precisionRecall(testFile):
 
 	thres = [0.01,0.02,0.03,0.04,0.05,0.1,0.2,0.3,0.4,0.5,0.8]
 
-	numReports = [getNumReports(REPORT_FILES[:1]), getNumReports(REPORT_FILES[:2]), getNumReports(REPORT_FILES[:3]), getNumReports()]
+	numReports = [preprocess.getNumReports(REPORT_FILES[:1]), preprocess.getNumReports(REPORT_FILES[:2]), preprocess.getNumReports(REPORT_FILES[:3]),preprocess.getNumReports()]
 
 	for searchTerm in tests:
 		print(searchTerm)
@@ -48,8 +66,8 @@ def precisionRecall(testFile):
 					retrieved = 0 # retreieved = truePositive + falsePositive
 					relevant = 0 # relevant = truePositive + falseNegative
 
-					numResults = getNumReports()
-					similarReports = search(model,numResults,searchTerm[0])
+					numResults = preprocess.getNumReports()
+					similarReports = search.search(model,numResults,searchTerm[0])
 					similarReports = [report for report in similarReports if report[1] > thres[i]]
 
 					for reportIdx in similarReports:
@@ -72,7 +90,7 @@ def precisionRecall(testFile):
 						else:
 							print "error"
 					retrieved = retrieved + len(similarReports)
-					relevant = relevant + getNumReports(["nlp_data/Cleaned" + searchTerm[1] + "Full.csv"])
+					relevant = relevant + preprocess.getNumReports(["nlp_data/Cleaned" + searchTerm[1] + "Full.csv"])
 
 					precision.append((truePositive/retrieved) if retrieved else 0)
 					recall.append((truePositive/relevant) if relevant else 0)
@@ -99,7 +117,7 @@ def labelClassification():
 	#convert the corpus to a numpy matrix, take the transpose and convert it to a list
 	corpusList = [list(x) for x in zip(*gensim.matutils.corpus2dense(corpus,corpus.num_terms,dtype=np.float64))]
 	# corpusList = [list(x) for x in np.asarray(corpus)[:,:,1]]
-	reports = getReports()
+	reports = preprocess.getReports()
 
 	numFolds = 5 # number of folds for cross validation
 	# Create the output directory
@@ -126,9 +144,9 @@ def labelClassification():
 			# print(range(getNumReports(REPORT_FILES[:j]),getNumReports(REPORT_FILES[:j])+getNumReports([REPORT_FILES_LABELLED[j]])))
 			# The labeled data is at the start of the data set
 			# Get the ids in the corpus of these first labeled examples for each class
-			for i in range(getNumReports(REPORT_FILES[:j]),getNumReports(REPORT_FILES[:j])+getNumReports([REPORT_FILES_LABELLED[j]])):
+			for i in range(preprocess.getNumReports(REPORT_FILES[:j]),preprocess.getNumReports(REPORT_FILES[:j])+preprocess.getNumReports([REPORT_FILES_LABELLED[j]])):
 				labelledCorpus.append((corpusList[i]))
-			labels = np.asarray(getData([REPORT_FILES_LABELLED[j]]))[:,2]
+			labels = np.asarray(preprocess.getData([REPORT_FILES_LABELLED[j]]))[:,2]
 			############### THIS CODE BLOCK REMOVES THE NUMBER OF NEGATIVE LABELS TO EQUALISE THE DISTRIBUTION OF CLASS LABELS. TO BE REMOVED IN FUTURE.
 			count = 0
 			deletes = []
@@ -205,8 +223,8 @@ def labelClassificationD2V():
 
 	model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
 
-	reports = getReports()
-	processedReports = getProcessedReports()
+	reports = preprocess.getReports()
+	processedReports = preprocess.getProcessedReports()
 
 	numFolds = 5 # number of folds for cross validation
 
@@ -230,10 +248,10 @@ def labelClassificationD2V():
 			labelledCorpus = list()
 			# The labeled data is at the start of the data set
 			# Get the ids in the corpus of these first labeled examples for each class
-			for i in range(getNumReports(REPORT_FILES[:j]),getNumReports(REPORT_FILES[:j])+getNumReports([REPORT_FILES_LABELLED[j]])):
+			for i in range(preprocess.getNumReports(REPORT_FILES[:j]),preprocess.getNumReports(REPORT_FILES[:j])+preprocess.getNumReports([REPORT_FILES_LABELLED[j]])):
 				labelledReports.append(reports[i])
 				labelledCorpus.append(model.infer_vector(processedReports[i]))
-			labels = np.asarray(getData([REPORT_FILES_LABELLED[j]]))[:,2]
+			labels = np.asarray(preprocess.getData([REPORT_FILES_LABELLED[j]]))[:,2]
 			corpusList = [list(x) for x in labelledCorpus]
 			############### THIS CODE BLOCK REMOVES THE NUMBER OF NEGATIVE LABELS TO EQUALISE THE DISTRIBUTION OF CLASS LABELS. TO BE REMOVED IN FUTURE.
 			count = 0

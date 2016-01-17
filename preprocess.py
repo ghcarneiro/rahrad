@@ -1,3 +1,4 @@
+from __future__ import division
 import pickle
 import csv
 import re
@@ -204,12 +205,13 @@ def preprocessReports(fileNames=REPORT_FILES):
 # output is a dictionary stored in ./dictionary_files/medical.pkl
 def buildMedDict():
 	medDict = dict()
-	dictTree = ET.parse('dictionary_files/radlex_xml.xml')
+	dictTree = ET.parse('dictionary_files/radlex_xml_synonyms.xml')
 	root = dictTree.getroot()
 	print("Loaded radlex")
 	for lexRecord in root.findall('lexRecord'):
 		mapping = lexRecord.find('base').text.lower()
-		medDict[mapping] = mapping
+		for word in lexRecord.findall('inflVars'):
+			medDict[word.text.lower()] = mapping
 	print("Added radlex")
 
 	dictTree = ET.parse('dictionary_files/LEXICON.xml')

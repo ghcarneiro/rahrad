@@ -1,3 +1,6 @@
+import random
+import preprocess
+import search
 # process the search term
 if (len(sys.argv) < 2):
     print("ERROR: Please specify an input file")
@@ -13,9 +16,9 @@ else:
     print("ERROR: input file layout error")
     sys.exit()
 
-data = getData()
+data = preprocess.getData()
 
-similarReports = search("lsi",50,fileText[0])
+similarReports = search.search("lsi",50,fileText[0])
 for reportIdx in similarReports:
     year = random.randint(2000,int(fileText[2][0:4])-1)
     month = random.randint(1,12)
