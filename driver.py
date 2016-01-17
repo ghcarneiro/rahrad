@@ -3,6 +3,7 @@ import preprocess
 import modelGeneration
 import search
 import generateReports
+import rnn
 # preprocess.buildMedDict()
 # preprocess.preprocessReports()
 # modelGeneration.buildDictionary()
@@ -16,4 +17,7 @@ import generateReports
 # search.searchEngineTest("doc2vec",searchTerm)
 # generateReports.precisionRecall("pr_tests.csv")
 # generateReports.labelClassification()
-generateReports.labelClassificationD2V()
+# generateReports.labelClassificationD2V()
+
+# rnn.preprocessReports()
+rnn.buildDictionary()
