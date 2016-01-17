@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
 from sklearn.metrics import roc_curve
 from sklearn.cross_validation import train_test_split
+import gensim
 import time
 import datetime
 import os
@@ -36,7 +37,8 @@ def precisionRecall(testFile):
 	models = ["bow","tfidf","lsi","lda","doc2vec"]
 	# Create the output directory
 	directory = "precision_recall/" + datetime.datetime.now().strftime('%m_%d_%H_%M') +"/"
-	os.makedirs(directory)
+	if not os.path.exists(directory):
+		os.makedirs(directory)
 	tests = []
 	with open(testFile,'rb') as file:
 		reader = csv.reader(file)
@@ -122,7 +124,8 @@ def labelClassification():
 	numFolds = 5 # number of folds for cross validation
 	# Create the output directory
 	directory = "label_classification/" + datetime.datetime.now().strftime('%m_%d_%H_%M') +"/"
-	os.makedirs(directory)
+	if not os.path.exists(directory):
+		os.makedirs(directory)
 	with open(directory+"labelClassification.csv",'w') as writeFile:
 		writer = csv.writer(writeFile)
 		writer.writerow(["score","output label","expected label","report"])
@@ -214,7 +217,7 @@ def labelClassification():
 					writer.writerow("")
 					writer.writerow([output_scores_test[r],output_test[r],test_labels[r]])
 					writer.writerow([reports[reportIdx]])
-		plt.show()
+		# plt.show()
 	writeFile.close()
 
 # tests the model at classifying reports as either positive or negative based on diagnosis
@@ -227,8 +230,10 @@ def labelClassificationD2V():
 	processedReports = preprocess.getProcessedReports()
 
 	numFolds = 5 # number of folds for cross validation
-
-	with open("labelClassification.csv",'w') as writeFile:
+	directory = "label_classification/" + datetime.datetime.now().strftime('%m_%d_%H_%M') +"/"
+	if not os.path.exists(directory):
+		os.makedirs(directory)
+	with open(directory+"labelClassification.csv",'w') as writeFile:
 		writer = csv.writer(writeFile)
 		writer.writerow(["score","output label","expected label","report"])
 
@@ -238,7 +243,8 @@ def labelClassificationD2V():
 			writer.writerow([DIAGNOSES[j]])
 
 			# initialise figure and plot
-			plt.figure(DIAGNOSES[j] + " ROC")
+			name = DIAGNOSES[j] + " ROC"
+			plt.figure(name)
 			plt.xlabel("False Positive")
 			plt.ylabel("True Positive")
 			plt.title(DIAGNOSES[j] + " ROC")
@@ -295,6 +301,7 @@ def labelClassificationD2V():
 				plt.plot(fp_test,tp_test,'r',label="train" if n == 0 else "")
 				plt.plot(fp_train,tp_train,'b',label="test" if n == 0 else "")
 				plt.legend(loc='lower right')
+				plt.savefig(directory+name)
 
 				# save result to file
 				for r in range(len(test_labels)):
@@ -302,5 +309,5 @@ def labelClassificationD2V():
 					writer.writerow("")
 					writer.writerow([output_scores_test[r],output_test[r],test_labels[r]])
 					writer.writerow([labelledReports[reportIdx]])
-		plt.show()
+		# plt.show()
 	writeFile.close()
