@@ -6,6 +6,8 @@ from nltk import stem
 import nltk
 import gensim
 import keras
+import numpy as np
+from sklearn import preprocessing
 import preprocess
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
@@ -105,20 +107,46 @@ def preprocessReports(fileNames=REPORT_FILES):
 
 		print("report saved")
 
-#currently does not map tokens to ids correctly!!
-def oneHot():
+# Loads all reports and converts words to integer ids
+# Stores the new reports to reports_list_all_ints with first field containing word integer range
+# Deletes any words that appear less than 5 times in the entirety of the reports
+def reportToInts():
+    # load all the reports
     reports = preprocess.getProcessedReports()
-
     print("files loaded")
     # build dictionary
     dictionary = gensim.corpora.Dictionary(reports)
-    dictionary.filter_extremes(no_below=3)
-    print(dictionary)
+    dictionary.filter_extremes(no_below=5)
+    dictionary.compactify()
     print("dictionary created")
-
+    # Map the words to their integer ids
+    mapping = dict()
+    for item in dictionary.items():
+        mapping[item[1]] = item[0]
+    # Convert all the words in the reports to their ids
     for report in reports:
-        report = [dictionary.get(token) for token in report]
-        print(report)
-    file = open('./model_files/reports_list_one_hot', 'w')
+        newReport=[]
+        for token in report:
+            if token in mapping:
+                newReport.append(int(mapping[token]))
+        report = newReport
+    # Store the word id range to the start of the reports list
+    reports = [len(dictionary.items())] + reports
+    print("Reports converted to ints")
+    # Store the new reports to a file
+    file = open('./model_files/reports_list_all_ints', 'w')
     pickle.dump(reports, file)
     file.close()
+    print("Done")
+
+
+def getOneHot():
+    file = open('./model_files/reports_list_all_ints', 'r')
+    reports = pickle.load(file)
+    file.close()
+    reportLength=reports.pop(0)
+    enc = preprocessing.OneHotEncoder(n_values=reportLength)
+    for report in reports:
+        print(enc.transform(np.asarray(report)).toarray())
+
+    # for report in reports:

@@ -20,4 +20,5 @@ import rnn
 # generateReports.labelClassificationD2V()
 
 # rnn.preprocessReports()
-rnn.buildDictionary()
+# rnn.reportToInts()
+rnn.getOneHot()
