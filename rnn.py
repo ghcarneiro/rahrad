@@ -1,4 +1,5 @@
 from __future__ import division
+from __future__ import print_function
 import pickle
 import csv
 import re
@@ -12,6 +13,8 @@ import preprocess
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
 from keras.preprocessing.sequence import pad_sequences
+from keras.layers.core import Dense, Dropout, Activation
+from keras.layers.embeddings import Embedding
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
 REPORT_FILES_CTPA = ['nlp_data/CleanedCTPAFull.csv']
@@ -43,48 +46,50 @@ def textPreprocess(text):
 
     sentence_token = nltk.data.load('tokenizers/punkt/english.pickle')
     report = []
-    # sentences = sentence_token.tokenize(text.strip())
+    sentences = sentence_token.tokenize(text.strip())
 
     # for sentence in sentences:
-    text = text.lower() # convert to lower-case
+    sentences = sentences.lower() # convert to lower-case
     # Split on non alphanumeric and non hyphen characters and keep delimiter
-    text = re.split("([^\w\-]+)||\b", text)
+    sentences = re.split("([^\w\-]+)||\b", sentences)
     # Delete whitespace tokens
-    text = [word.replace(' ','') for word in text]
-    text = filter(None, text)
-
+    sentences = [word.replace(' ','') for word in sentences]
+    sentences = filter(None, sentences)
+    text = []
     #look up variable length sequences of words in medical dictionary, stem them if not present
-    numTokens = 5 #phrases up to 5 words long
-    while numTokens > 0:
-    	processedText=[]
-    	start=0
-    	#Check each phrase of n tokens while there are sufficient tokens after
-    	while start < (len(text) - numTokens):
-    		phrase=text[start]
-    		nextToken=1
-    		while nextToken < numTokens:
-    			#add the next tokens to the current one
-    			phrase = phrase+" "+text[start+nextToken]
-    			nextToken += 1
-    		if phrase in medical:
-    			#convert tokens to one token from specialist
-    			processedText.append(medical[phrase])
-    			# skip the next tokens
-    			start += (numTokens)
-    		elif numTokens == 1:
-    			#individual tokens, stem them if not in specialist and keep
-    			processedText.append(stem.snowball.EnglishStemmer().stem(phrase))
-    			start += 1
-    		else:
-    			#token not part of phrase, keep
-    			processedText.append(text[start])
-    			start += 1
-    	#Keep remaining tokens without enough tokens after them
-    	while start < len(text):
-    		processedText.append(text[start])
-    		start += 1
-    	text = processedText
-    	numTokens -= 1
+    for sentence in sentences:
+        numTokens = 5 #phrases up to 5 words long
+        while numTokens > 0:
+        	processedText=[]
+        	start=0
+        	#Check each phrase of n tokens while there are sufficient tokens after
+        	while start < (len(sentence) - numTokens):
+        		phrase=sentence[start]
+        		nextToken=1
+        		while nextToken < numTokens:
+        			#add the next tokens to the current one
+        			phrase = phrase+" "+sentence[start+nextToken]
+        			nextToken += 1
+        		if phrase in medical:
+        			#convert tokens to one token from specialist
+        			processedText.append(medical[phrase])
+        			# skip the next tokens
+        			start += (numTokens)
+        		elif numTokens == 1:
+        			#individual tokens, stem them if not in specialist and keep
+        			processedText.append(stem.snowball.EnglishStemmer().stem(phrase))
+        			start += 1
+        		else:
+        			#token not part of phrase, keep
+        			processedText.append(sentence[start])
+        			start += 1
+        	#Keep remaining tokens without enough tokens after them
+        	while start < len(sentence):
+        		processedText.append(sentence[start])
+        		start += 1
+        	sentence = processedText
+        	numTokens -= 1
+        text.append(sentence)
     text.append("end_rep")
 
     return(text)
@@ -156,6 +161,7 @@ def buildRNN():
     batchLen = 0
     maxLen = 0
     longestReport =[]
+    print("loading reports")
     reports = preprocess.getProcessedReports()
     reportsLen = len(reports)
     #Get max length of report
@@ -164,21 +170,25 @@ def buildRNN():
         if length > maxLen:
             maxLen = length
             longestReport = report
-    print(longestReport)
-    print "Creating model"
+    print("longest report is: ", maxLen)
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print('building LSTM model...')
     m = Sequential()
     m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
     m.add(LSTM(100, return_sequences=True))
-    m.compile(loss='mean_squared_error', optimizer='adam')
-    print("training")
+    # m.add(Activation('linear'))
+    m.compile(loss='mse', optimizer='adam')
+    print("created LSTM model, training")
     for epoch in xrange(10):
-        print("epoch "+epoch)
+        print("epoch: ", epoch)
         for i in xrange(len(reports)):
             # Create batch and pad individual reports
             newReport = []
             for token in report[i]:
-                if token in model:
-                    newReport.append(model[token])
+                if token in word_model:
+                    newReport.append(word_model[token])
             batch.append(pad_sequences(newReport, maxlen=maxLen))
             # Train on batches of size 32
             if ((i+1) % 32 == 0):
