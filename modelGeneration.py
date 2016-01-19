@@ -122,12 +122,12 @@ def buildModels():
 	print('Example case report under LSI transformation: ')
 	print(list(lsi_corpus)[200])
 
-	# transform model using LDA
-	transform_lda(corpus,dictionary)
-	lda_corpus = gensim.corpora.MmCorpus('./model_files/reports_lda.mm')
-	# lda_model.print_topics()
-	print('Example case report under LDA transformation: ')
-	print(list(lda_corpus)[200])
+	# # transform model using LDA
+	# transform_lda(corpus,dictionary)
+	# lda_corpus = gensim.corpora.MmCorpus('./model_files/reports_lda.mm')
+	# # lda_model.print_topics()
+	# print('Example case report under LDA transformation: ')
+	# print(list(lda_corpus)[200])
 
 # function to test the functionality of Word2Vec
 def buildWord2VecModel():
