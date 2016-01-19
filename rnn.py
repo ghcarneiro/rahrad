@@ -9,6 +9,9 @@ import keras
 import numpy as np
 from sklearn import preprocessing
 import preprocess
+from keras.layers.recurrent import LSTM
+from keras.models import Sequential
+from keras.preprocessing.sequence import pad_sequences
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
 REPORT_FILES_CTPA = ['nlp_data/CleanedCTPAFull.csv']
@@ -139,14 +142,48 @@ def reportToInts():
     file.close()
     print("Done")
 
+def buildWord2Vec():
+    print("building word2vec model")
+    reports = preprocess.getProcessedReports()
+    model = gensim.models.Word2Vec(reports, min_count=5, workers=4)
+    model.init_sims(replace=True)
+    model.save("./model_files/reports.word2vec_model")
+    print("built word2vec")
 
-def getOneHot():
-    file = open('./model_files/reports_list_all_ints', 'r')
-    reports = pickle.load(file)
-    file.close()
-    reportLength=reports.pop(0)
-    enc = preprocessing.OneHotEncoder(n_values=reportLength)
+
+def buildRNN():
+    batch=[]
+    batchLen = 0
+    maxLen = 0
+    longestReport =[]
+    reports = preprocess.getProcessedReports()
+    reportsLen = len(reports)
+    #Get max length of report
     for report in reports:
-        print(enc.transform(np.asarray(report)).toarray())
-
-    # for report in reports:
+        length = len(report)
+        if length > maxLen:
+            maxLen = length
+            longestReport = report
+    print(longestReport)
+    print "Creating model"
+    m = Sequential()
+    m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
+    m.add(LSTM(100, return_sequences=True))
+    m.compile(loss='mean_squared_error', optimizer='adam')
+    print("training")
+    for epoch in xrange(10):
+        print("epoch "+epoch)
+        for i in xrange(len(reports)):
+            # Create batch and pad individual reports
+            newReport = []
+            for token in report[i]:
+                if token in model:
+                    newReport.append(model[token])
+            batch.append(pad_sequences(newReport, maxlen=maxLen))
+            # Train on batches of size 32
+            if ((i+1) % 32 == 0):
+                print (i / reportsLen * 100)
+                x = np.array(batch)
+                m.train_on_batch(x,x)
+                batch=[]
+    m.save_weights('./model_files/rnn.h5')

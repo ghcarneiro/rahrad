@@ -21,4 +21,5 @@ modelGeneration.testClassification()
 
 # rnn.preprocessReports()
 # rnn.reportToInts()
-rnn.getOneHot()
+# rnn.buildWord2Vec()
+# rnn.buildRNN()
