@@ -8,6 +8,7 @@ import nltk
 import gensim
 import keras
 import numpy as np
+from numpy import newaxis
 from sklearn import preprocessing
 import preprocess
 from keras.layers.recurrent import LSTM
@@ -15,6 +16,7 @@ from keras.models import Sequential
 from keras.preprocessing.sequence import pad_sequences
 from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.embeddings import Embedding
+import time
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
 REPORT_FILES_CTPA = ['nlp_data/CleanedCTPAFull.csv']
@@ -157,8 +159,7 @@ def buildWord2Vec():
 
 
 def buildRNN():
-    batch=[]
-    batchLen = 0
+    batchSize = 64
     maxLen = 0
     longestReport =[]
     print("loading reports")
@@ -180,20 +181,49 @@ def buildRNN():
     m.add(LSTM(100, return_sequences=True))
     # m.add(Activation('linear'))
     m.compile(loss='mse', optimizer='adam')
+    #Train the model over 10 epochs
     print("created LSTM model, training")
     for epoch in xrange(10):
-        print("epoch: ", epoch)
+        start=time.time()
+        print("->epoch: ", epoch)
         for i in xrange(len(reports)):
-            # Create batch and pad individual reports
+            # Create batch in memory
+            if ((i% batchSize) == 0):
+                batch = np.zeros((batchSize,maxLen,100),dtype=np.float32)
+            # Convert report to dense
             newReport = []
-            for token in report[i]:
+            for token in reports[i]:
                 if token in word_model:
                     newReport.append(word_model[token])
-            batch.append(pad_sequences(newReport, maxlen=maxLen))
-            # Train on batches of size 32
-            if ((i+1) % 32 == 0):
-                print (i / reportsLen * 100)
-                x = np.array(batch)
-                m.train_on_batch(x,x)
-                batch=[]
-    m.save_weights('./model_files/rnn.h5')
+            # Store report in batch
+            batch[i%batchSize][0:len(newReport)][:]=np.asarray(newReport)
+            # Train on batch
+            if ((((i+1)% batchSize) == 0) or (i == (reportsLen-1))):
+                print ("epoch: ",epoch,", ",i / reportsLen * 100)
+                m.train_on_batch(batch,batch)
+        end = time.time()
+        print("epoch ",epoch," took ",end-start," seconds")
+    #Store the model architecture to a file
+    json_string = m.to_json()
+    open('./model_files/reports.rnn_architecture.json', 'w').write(json_string)
+    m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True    )
+    print("Trained model")
+
+def predictRNN():
+    print("loading model")
+    model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
+    model.load_weights('./model_files/reports.rnn_weights.h5')
+    print("model loaded")
+    print("loading reports")
+    reports = preprocess.getProcessedReports()
+    print("loaded reports")
+    print("generating predictions")
+    for i in xrange(len(reports)):
+        # Create batch and pad individual reports
+        newReport = []
+        for token in reports[i]:
+            if token in word_model:
+                newReport.append(word_model[token])
+        x=np.asarray(newReport)
+        output = m.predict(x)
+        print(output)
