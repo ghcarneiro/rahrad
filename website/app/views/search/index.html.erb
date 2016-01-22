@@ -1,0 +1,21 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Search</title>
+<% end %>
+
+<div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
+
+	<!-- RAH logo -->
+	<div style="margin: 0 auto; padding-bottom: 10px; max-width:100%; max-height:100%;">
+		<img src="/assets/logo2.gif" style="max-width: 10%; height: auto;" />
+	</div>
+
+	<!-- search form and button -->
+	<form id="change" class="form-group form-group-lg" action="/table" role="search">
+		<input id="search-button" type="submit" class="btn btn-default btn-lg" value="Search" />
+		<div style="overflow: hidden;" >
+			<input id="search-form" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus>
+		</div>
+	</form>
+
+</div>

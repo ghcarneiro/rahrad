@@ -1,0 +1,23 @@
+<div style="padding: 10px">
+<div style="border: 5px solid #99CCFF; border-radius: 25px; width: 500px; margin: 0 auto;">
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+<h2>Forgot password?</h2>
+  <%= devise_error_messages! %>
+  <div class="field" style="padding-top: 5px;">
+  	<%= f.email_field :email, autofocus: true, :placeholder => 'Email address', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <div class="actions" style="padding-top: 10px;">
+  	<%= f.submit "Send me reset password instructions", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px; width: 100%; padding: 10px" %>
+  </div>
+<% end %>
+
+<div style="padding: 5px"></div>
+
+<%= render "devise/shared/links", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px;" %>
+
+<div style="padding: 5px"></div>
+
+</div>
+</div>

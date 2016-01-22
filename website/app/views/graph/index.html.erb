@@ -1,0 +1,190 @@
+<!-- Append content in the head tag in layout view-->
+<!-- Google chaty doesn't displayed the first time page loaded if I put the div that will hold the Google chart svg image in body -->
+<!-- To solve this problem without reloading the page, I decided to put the div in the header, hence this view page is all in header -->
+<% content_for :for_head do %>
+  <title>Analysis</title>
+
+  <div class="container-fluid" style="width: 100%; height: 100%;">
+    <div class="row" style="height: 100%;">
+
+      <!-- Main Content (non-nav pane) area, have scroll bar -->
+      <div class="col-sm-11" style="background-color: white; overflow-y: auto; height: 100%;">
+        
+        <!-- buttons -->
+        <div class="container-fluid"  style="padding-top: 20px;">
+          <!-- buttons at right -->
+          <!-- View Results -->
+          <%= link_to "See Results", {controller: "table", action: "index", :time => @time, :q => @query}, class: "btn btn-success button-right" %>
+
+          <!-- Display PDF -->
+          <%= link_to "Display PDF", {:action => "index", :format => 'pdf', :time => @time, :q => @query}, :target => '_blank', class: "btn btn-success button-right" %>
+
+          <!-- buttons at left -->
+          <!-- Set repeat with default interval 1 month and query auto filled in -->
+          <%= link_to saved_search_edit_reoccurence_path(:title => "Adding New Repeating Search", :query => @query, :interval => "1", :unit => "month"), class: "btn btn-success button-left" do %>
+            <i class="glyphicon glyphicon-time"></i>
+            Set Repeat
+          <% end %>
+        </div>
+
+        <!-- Chart area -->
+        <div class="container-fluid" style="height: 100%; width: 100%;">
+
+          <h2 style="text-align: left; padding-bottom: 5px;"><%= @query %></h2>
+          
+          <!-- Line Chart -->
+          <a class="anchor" id="lineChart"></a>
+          <div style="background-color: white; border: 2px solid orange; border-radius: 8px; margin-bottom: 25px; padding-top: 25px; width: 100%; height: 80%;">
+            <!--Div that will hold the line chart-->
+            <div id="line_chart" style="width: 99%; height: 99%; right: 0;"></div>
+          </div>
+          
+          <!-- Pie Chart -->
+          <a class="anchor" id="pieChart"></a>
+          <div style="background-color: white; border: 2px solid #5cb85c; border-radius: 8px; margin-bottom: 25px; padding-top: 25px; width: 100%; height: 80%;">
+            <!--Div that will hold the pie chart-->
+            <div align="center" id="pie_chart" style="width: 99%; height: 99%; bottom: 0; right: 0;"></div>
+          </div>
+          
+          <!-- Bar Chart -->
+          <a class="anchor" id="barChart"></a>
+          <div style="background-color: white; border: 2px solid #5bc0de; border-radius: 8px; margin-bottom: 25px; padding-top: 25px; width: 100%; height: 80%;">
+              <!--Div that will hold the bar chart-->
+             <div id="bar_chart" style="width: 99%; height: 99%; right: 0;"></div>
+          </div>
+          
+        </div><!-- Chart area end -->
+      </div><!-- Main area end -->
+
+      <!-- Navigation pane area: chart anchors -->
+      <div class="col-sm-1" style="height: 100%; position: fixed; right: 0; bottom: 0; padding: 0;">
+
+        <!-- offset the top navbar -->
+        <p style="padding-top: 25px;">&nbsp</p>
+
+        <!-- The icon anchors -->
+        <a id="lineChartAnchor" href="#lineChart" class="icon-anchor" align="center" style="color: orange;">
+          <div>Line chart</div>
+          <div><i class="fa fa-line-chart fa-5x" style="font-size: 5vw;"></i></div>
+        </a>
+        <a id="pieChartAnchor" href="#pieChart" class="icon-anchor" align="center" style="color: #5cb85c;">
+          <div>Pie chart</div>
+          <div><i class="fa fa-pie-chart fa-5x" style="font-size: 6vw;"></i></div>
+        </a>
+        <a id="barChartAnchor" href="#barChart" class="icon-anchor" align="center" style="color: #5bc0de;">
+          <div>Bar chart</div>
+          <div><i class="fa fa-bar-chart fa-5x" style="font-size: 5vw;"></i></div>
+        </a>
+      </div><!-- Navigation pane area ends -->
+
+    </div>
+  </div>
+
+  <!-- The Google chart javascript part -->
+  <!--Load the AJAX API. Load the Google JSAPI library-->
+  <script type="text/javascript" src="https://www.google.com/jsapi?autoload={
+            'modules':[{ 'name':'visualization', 'version':'1', 'packages':['corechart'] }]}"></script>
+  
+  <!--Load the Google Visualization and chart libraries-->
+  <script type="text/javascript">
+
+    function showGraph() {
+      // Load the Visualization API library and the piechart library.
+      google.load('visualization', '1', {'packages':['corechart']});
+
+      //Immediately after calling google.load(), your code should call google.setOnLoadCallback(my_handler), a Google JSAPI function that calls your handler as soon as all the libraries are loaded.
+      //Your handler function should create and define the chart.
+      google.setOnLoadCallback(drawChart);
+
+      // The handler function is drawChart:
+      // 1) creates and populates a data table, 
+      // 2) instantiates the charts with above data, and
+      // 3) draws them.
+      function drawChart() {
+
+        // First convert Rails variable from controller to a javascript variable
+        var resultCSV = '<%=@resultCSV%>';
+
+        // Second process the variable and prepare an array that can later be convert into chart data (Year VS count)
+        resultCSV = resultCSV.split(",");
+        var time = 'Year';
+        
+        // For array that will be converted, should first insert header
+        var array1d = [time, 'Number of matching reports'];
+        var array2d = [array1d];
+
+        // For array that will be converted, we now fills its data part: year against count
+        for (i=0; i<resultCSV.length; i+=2){
+          array1d = [resultCSV[i], parseInt(resultCSV[i+1])];
+          array2d.push(array1d);
+        }
+
+        //Now, create the DataTable using the above array
+        var dt = google.visualization.arrayToDataTable(array2d);
+
+        //Set the chart options for line chart
+        var optLine = {
+          fontName: 'Arial',
+          fontSize: 20,
+          legend: {position: 'none'},
+          vAxis: {title: "Number of matching reports"},
+          hAxis: {
+            title: "Year",
+            textStyle : {
+              fontSize: 15, // or the number you want
+            }
+          },
+          chartArea: { left: 180, top: 30, width: "80%", height: "70%" },
+          series: {
+            0: { color: '#FFA500' },
+          }
+        };
+
+        //Set the chart options for pie chart
+        var optPie = {
+          title: 'Number of matching reports each year',
+          titleTextStyle: { bold: false, italic: true },
+          fontName: 'Arial',
+          fontSize: 20,
+          legend: { position: 'right' },
+          pieSliceText: 'label',
+          chartArea: { left: 180, top: 30, width: "100%", height: "80%" },
+          // Pie chart's color
+          colors: ['#fcc39c', '#5574A6', '#329262', '#8B0707', '#6633CC', '#AAAA11', '#22AA99', '#994499', '#316395', '#B82E2E', '#66AA00', '#DD4477', '#0099C6', '#3B3EAC', '#990099', '#109618', '#FF9900', '#DC3912', '#008744', '#0057e7', '#d62d20', '#ffa700'],
+        };
+
+        //Set the chart options for bar chart
+        var optBar = {
+          fontName: 'Arial',
+          fontSize: 20,
+          legend: {position: 'none'},
+          vAxis: {title: "Year"},
+          hAxis: {title: "Number of matching reports"},
+          chartArea: { left: 180, top: 30, width: "80%", height: "80%" },
+          series: {
+            0: { color: '#5bc0de' },
+          }
+        };
+
+        //Instantiates a chart and specify which container does this chart will go to
+        var chLine = new google.visualization.LineChart(document.getElementById('line_chart'));
+        var chPie = new google.visualization.PieChart(document.getElementById('pie_chart'));
+        var chBar = new google.visualization.BarChart(document.getElementById('bar_chart'));
+
+        //Using the above chart instance, draw charts according to the datatable and options we defined earlier
+        chLine.draw(dt, optLine);
+        chPie.draw(dt, optPie);
+        chBar.draw(dt, optBar);
+      }
+    }
+    window.onload = showGraph();
+  </script>
+
+<% end %>
+
+
+
+
+
+
+

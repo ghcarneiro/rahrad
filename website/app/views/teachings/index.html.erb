@@ -1,0 +1,140 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Search</title>
+	<link href="/index_files/cornerstone.min.css" rel="stylesheet">
+<% end %>
+
+<!-- include the cornerstone library -->
+<script src="/index_files/cornerstone.min.js"></script>
+<script src="/index_files/cornerstoneMath.js"></script>
+<script src="/index_files/cornerstoneTools.js"></script>
+
+<!-- include the dicomParser library as the WADO image loader depends on it -->
+<script src="/index_files/dicomParser.min.js"></script>
+
+<!-- jpeg 2000 codec -->
+<script src="/index_files/jpx.min.js"></script>
+
+<!-- include the cornerstoneWADOImageLoader library -->
+<script src="/index_files/cornerstoneWADOImageLoader.js"></script>
+
+<div class="container">
+
+        <div class="row">
+                <div class="col-md-6">
+                        <div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:relative"></div>
+                </div>
+			
+                <div class="col-md-6">
+
+			<% if params[:q].present? %>
+				<div class="corrections-box">
+				<%= label_tag nil,"Report Corrections",:id => "corrections-label" %>
+				</div>
+				<hr>
+				<br>
+				<% for i in @result %>	
+				<div class="corrections-box">
+					<div class="original-text"> 
+						<% if i[2].to_f > 0.9 %>
+							<span class="glyphicon glyphicon-ok" style="color:blue"></span>
+						<% else %>
+							<span class="glyphicon glyphicon-remove" style="color:red"></span>
+						<% end %>
+	
+						<%= i[0] %> 
+					</div>
+						<% if i[2].to_f > 0.9 %>
+							<%# <button class="show-hide-button">Show</button> %>	
+							<div class="correction2-text">Correction:<br><%= i[1] %></div>
+						<% else %>
+							<br>
+							<div class="correction-text">Correction:<br><%= i[1] %></div>
+						<% end %>
+					<br>
+				</div>
+				<hr>
+				<% end %>
+
+				
+
+			<% else %>
+
+			<form  class="form-group form-group-lg" action="/teachings" role="search">	
+				<%= label_tag :q,"Write a report:",:id => "teaching-label" %>
+				<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus></textarea>
+				<input id="search-box-button" type="submit" class="btn btn-default btn-lg" value="Submit" />
+			</form>
+
+			<% end %>
+                </div>
+        </div>
+
+</div>
+
+<script>
+	cornerstoneWADOImageLoader.configure({
+        	beforeSend: function(xhr) {
+            		// Add custom headers here (e.g. auth tokens)
+            		//xhr.setRequestHeader('x-auth-token', 'my auth token');
+        	}
+   	});
+	var loaded = false;
+    function loadAndViewImage(imageId) {
+        var element = $('#dicomImage').get(0);
+        //try {
+            cornerstone.loadImage(imageId).then(function(image) {
+                console.log(image);
+                var viewport = cornerstone.getDefaultViewportForImage(element, image);
+                $('#toggleModalityLUT').attr("checked",viewport.modalityLUT !== undefined);
+                $('#toggleVOILUT').attr("checked",viewport.voiLUT !== undefined);
+                cornerstone.displayImage(element, image, viewport);
+                if(loaded === false) {
+                    cornerstoneTools.mouseInput.enable(element);
+                    cornerstoneTools.mouseWheelInput.enable(element);
+                    cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+                    cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
+                    cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
+                    cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+                    loaded = true;
+                }
+            }, function(err) {
+                alert(err);
+            });
+        /*}
+        catch(err) {
+            alert(err);
+        }*/
+    }
+
+    function downloadAndView()
+    {
+        var url = "http://rade134.github.io/IM-0239-0012.dcm";
+
+        // prefix the url with wadouri: so cornerstone can find the image loader
+        url = "wadouri:" + url;
+
+
+        // image enable the dicomImage element and activate a few tools
+        loadAndViewImage(url);
+    }
+
+    $(document).ready(function() {
+        var element = $('#dicomImage').get(0);
+        cornerstone.enable(element);
+        downloadAndView();
+        //loadDocument();
+	$(".correction2-text").toggle();
+	$(".show-hide-button").click(function(){
+		$(".correction2-text").toggle();
+		buttonToggle = $(".show-hide-button");
+		if (buttonToggle.innerHTML != "Hide"){
+			buttonToggle.innerHTML = "Hide";
+		}else{
+			buttonToggle.innerHTML = "Show";
+		}
+	});
+    });
+
+
+</script>

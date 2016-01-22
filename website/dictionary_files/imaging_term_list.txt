@@ -1,0 +1,1544 @@
+RID28534 pseudoplaque
+RID28533 parenchymal opacification
+RID28536 subpleural curvilinear line
+RID28530 opacity
+RID28532 parenchymal band
+RID28531 ground-glass opacity
+ground glass opacity
+ground glass
+ground glass attenuation
+ground-glass
+RID45743 non-specific destruction pattern
+non-specific destruction
+RID45746 lesion matrix characteristic
+RID45747 no discernible lesion matrix
+RID45758 cortical bone observation
+RID45759 cortical erosion absent
+RID45721 density-related entity
+RID45722 central hypodensity
+RID45738 wide transition
+RID45735 lesion transition zone
+RID45736 intermediate transition
+RID45737 narrow transition
+RID45692 enhancing central scar
+RID45664 intermediate margin
+RID45665 moderately well-defined margin
+moderately well defined margin
+RID45666 neither well nor ill defined margin
+neither well- nor ill-defined margin
+RID45667 moderately ill-defined margin
+moderately ill defined margin
+RID45668 moderately smooth margin
+RID45670 moderately irregular margin
+RID45671 neither smooth nor irregular margin
+RID45675 thin septae
+RID45676 thick septae
+RID1461 right inferior esophagopleural stripe
+RID1462 left inferior esophagopleural stripe
+RID1438 retrosternal stripe
+RID1449 right paratracheal stripe
+RID1450 posterior tracheal stripe
+tracheoesophageal stripe
+RID1457 left esophageal stripe
+RID1456 right esophageal stripe
+RID1455 posterior junction line
+RID45760 endosteal cortical thinning
+RID45761 periosteal cortical thinning
+RID45762 full thickness cortical thinning
+RID45763 extraosseous component of lesion
+extra-osseous component of lesion
+RID43320 target enhancement
+RID43326 nonenhancing central scar
+RID43325 central scar
+RID43324 visible internal vessels
+RID43323 centripetal fill-in
+RID43322 mixed enhancement pattern
+mixed pattern
+RID43321 mottled enhancement
+RID43339 homogeneous fade
+RID43338 homogeneous retention
+RID43337 soft tissue density
+soft-tissue density
+RID43336 water density
+RID43335 internal nodules
+RID43306 cluster-of-grapes sign
+cluster of grapes
+cluster of grapes sign
+RID43309 thin rim
+RID43308 thick rim
+RID43307 cluster-of-grapes sign of liver
+cluster of grapes sign of liver
+RID43317 satellite lesions present
+RID43316 multiple lesions &gt;10
+more than 10 lesions
+greater than 10 lesions
+&gt;10 lesions
+RID43315 multiple lesions 6-10
+6-10 lesions
+RID43314 multiple lesions 2-5
+2-5 lesions
+RID43313 multiple lesions
+RID43312 solitary lesion
+RID43311 lesion load
+lesion quantity
+RID43310 irregular rim
+RID43319 peripheral discontinuous nodular enhancement
+RID43318 peripheral continuous rim enhancement
+RID43289 mixed margin
+RID43290 rim enhancement pattern
+RID43292 absent rim
+no rim
+missing rim
+RID43291 incomplete rim
+RID43266 nodular pattern
+RID43276 Kerley C lines
+RID43275 Kerley B lines
+RID43274 Kerley A lines
+RID43273 septal lines
+Kerley lines
+RID43272 reticulonodular pattern
+RID43271 reticular pattern
+reticular enhancement
+RID43270 pseudocavity
+RID43254 beaded septum sign
+RID43253 thoracic imaging enhancement
+RID43256 crazy-paving pattern
+RID43413 juxtaphrenic peak
+RID43412 chest mass
+thoracic mass
+RID3875 nodule
+RID3874 mass
+density
+focus
+nodule
+lesion
+vague density
+RID43364 lesion shape
+RID43363 lesion brightness
+RID43362 perilesional tissue characteristics
+RID43361 lesion substance characteristics
+RID43360 lesion rim or capsule
+RID43368 enhancement uniformity
+uniformity of enhancement
+RID43366 spatial enhancement pattern
+spatial pattern of enhancement
+RID43365 lesion enhancement
+RID43342 delayed phase hypoenhancement
+delayed phase hypoenhancing
+RID43341 peripheral retention
+RID43340 homogeneous washout
+RID43349 restricted diffusion
+RID43348 major liver features
+major features (liver)
+RID43346 blood products (lesion)
+blood in or around lesion
+RID43345 visible anatomic entity
+RID43344 nonuniform rim
+RID43353 portal venous phase hypoenhancement
+portal venous phase hypo-enhancement
+RID43351 tie-breaking rules
+RID43359 lesion margin
+RID43358 lesion focality
+RID43356 lesion characteristic
+RID43355 arterial phase hyperenhancement
+RID43354 temporal enhancement pattern
+temporal pattern of enhancement
+RID35379 molar tooth sign of bladder
+RID35373 metacarpal sign
+RID35374 Mickey Mouse sign of bladder
+Mickey Mouse sign
+RID35371 Mercedes Benz sign
+crow foot sign
+Mercedes sign
+RID35372 mesenteric vein sign
+RID35377 miliary pattern
+miliary opacities
+RID35378 Milwaukee shoulder
+RID35375 midsternal stripe sign
+RID35376 migrating staple sign
+RID35370 melting sign
+RID35368 Medusa locks sign
+tangled thick cord
+whirlpool
+breadcrumbs
+beehive
+RID35369 mega-aeroesophagus sign
+RID35362 main en lorgnette deformity
+opera glass hand
+RID35363 mandibular mantle sign
+RID35360 magnification sign
+RID35361 maiden waist deformity
+narrow-waisted maiden
+RID35366 medial stripe sign
+RID35367 Medusa head sign
+caput medusae sign
+palm tree sign
+RID35364 marble bone
+RID35365 MCA dot sign
+middle cerebral artery dot sign
+RID35395 navicular fat stripe sign
+RID35396 negative pyelogram
+RID35393 naked facet sign
+RID35394 nasopharyngeal soft-tissue sign
+RID35399 notched ureter sign
+RID35397 Neuhaser sign
+RID35398 nipple sign
+RID35391 musculoskeletal crescent sign
+crescent sign
+crescent sign musculoskeletal
+RID35392 Naclerio V sign
+V sign of Naclerio
+RID35390 multiple concentric ring sign
+RID35384 moth-eaten calyx
+RID35382 monocle sign
+RID35383 moon crescent sign
+RID35388 mucosal stripe sign
+RID35389 mulberry stone
+RID35386 moulage sign
+RID35387 Mount Fuji sign
+RID35380 molar tooth sign of brain
+RID35381 molar tooth sign of inner ear
+RID35337 lateral femoral notch sign
+deep lateral femoral notch sign
+RID35338 laterally displaced ureter sign
+lateral displaced ureter sign
+RID35335 lambda sign of chest
+RID35336 lateral capsular sign
+RID35339 lead pipe sign
+lead pipe colon
+gas pipe sign
+RID35330 knuckle sign
+RID35333 lacunar skull
+Luckensch&#8222;del
+Luckenschaedel
+craniolacunae
+craniolacunia
+RID35334 lambda sign of aorta
+RID35331 lace-like pattern of joint
+RID35332 lace-like pattern of ovary
+RID35326 keyhole sign of duodenum
+RID35327 kidney sweat
+RID35324 keyboard sign
+RID35325 keyhole sign of bladder
+RID35328 kinky chest tube sign
+kinked chest tube sign
+RID35329 kissing sequestra sign
+RID35322 joint mice
+synovial osteochondromatosis
+RID35323 juxtaphrenic peak sign
+RID35320 jet phenomenon
+espohageal jet
+jet sign
+RID35321 jet sign
+ureteral jet
+bladder jet
+RID35359 Madelung deformity
+RID35358 lying-down adrenal gland
+pancake adrenal gland
+RID35351 lollipop-tree sign
+RID35352 loop-to-loop colon
+RID35350 lollipop sign
+RID35355 Luftsichel sign
+RID35356 lumen with a lumen sign
+RID35353 lucent cleft sign
+RID35354 lucent liver sign
+RID35348 lobster claw
+RID35349 lollipop sign of diverticula
+RID35346 linguine sign
+free-floating loose thread sign
+RID35347 little finger sign
+RID35340 leafless tree sign
+RID35341 left atrial notch sign
+RID35344 life buoy sign
+RID35345 light bulb sign
+RID35342 lemon sign
+RID35343 leontiasis ossea
+RID35315 ivory phalanx sign
+RID35316 ivory vertebra sign
+ivory vertebra
+RID35313 inverted V sign
+RID35314 ivory osteoma
+RID35319 jailbars sign
+jail bars sign
+RID35317 J sign
+RID35318 jack stone
+jackstone calculus
+RID35311 intravertebral vacuum cleft sign
+RID35312 inverted U sign
+RID35310 intraosseous gas sign
+RID35304 indrawn pleura sign
+RID35305 infinity sign
+RID35302 incomplete ring sign of vertebra
+RID35303 indefinite uterus sign
+RID35308 interstitial line sign
+RID35309 intrahepatic gas sign
+RID35306 intercostal bulging lung sign
+RID35307 interface sign
+RID35300 incomplete fissure sign
+incomplete pulmonary interlobar fissure sign
+RID35301 incomplete ring sign of duodenum
+RID35494 rim sign of shoulder
+shoulder rim sign
+RID35495 ring of fire sign
+RID35493 rim sign of right upper quadrant
+right upper quadrant rim sign
+RID35498 ring stricture sign
+duodenal ring sign
+RID35499 ring-around-the-artery sign
+RID35496 ring sign of adrenal
+adrenal ring sign
+RID35497 ring sign of colon
+hyperattenuating ring sign
+colonic ring sign
+RID35490 rim sign of gallbladder
+thickened gallbladder wall sign
+gallbladder rim sign
+pericholecystic rim sign
+RID35491 rim sign of pelvis
+pelvic rim sign
+RID35489 Rigler notch sign
+RID35483 ribbon bowel
+RID35484 ribbon ribs
+ribbon rib sign
+twisted-ribbon rib sign
+RID35481 reversed appearance sign
+RID35482 reversed halo sign
+RID35487 right posterior hepatic notch sign
+RID35488 rigid loop sign
+RID35485 rice kernel sign
+RID35486 right paratracheal stripe sign
+right paratracheal stripe
+RID35480 reverse rim sign
+RID35458 pruned tree sign
+RID35459 pseudo-fracture
+Looser zone
+RID35456 posterior wedging sign
+RID35457 pronator quadratus sign
+pronator sign
+RID35450 pneumoarthrogram sign
+RID35451 pockets-of-gas sign
+q
+RID35454 Poppel sign
+RID35455 posterior vertebral scalloping
+posterior vertebral scalloping sign
+RID35452 polka-dot sign
+polka-dot pattern
+RID35453 popcorn calcification sign
+RID35447 pistol grip deformity
+RID35448 Playboy bunny sign
+Playboy rabbit sign
+RID35445 pine cone bladder
+Christmas tree bladder
+pine tree bladder
+RID35446 pipestem ureter
+RID35449 pleural tail
+RID35440 phantom sign
+vanishing tumor sign
+RID35443 picture frame vertebral body
+picture frame sign
+RID35444 pie-in-the-sky bladder
+RID35441 Phrygian cap
+Phrygian cap gallbladder
+RID35442 picket fence
+picket-fence sign
+RID35478 reverse 3 sign
+RID35479 reverse 5 sign
+RID35472 ram&apos;s horn sign
+RID35473 Rancke complex
+RID35470 rabbit ears sign
+RID35471 radial bands sign
+RID35476 renal halo sign
+perirenal fat sign
+RID35477 reversal sign
+RID35474 rat tail narrowing sign
+RID35475 renal calyceal axis sign
+RID35469 pyloric tit sign
+tit sign
+RID35467 putty kidney
+RID35461 pseudokidney sign
+RID35462 pseudotumor sign
+RID35460 pseudocalculus sign
+RID35465 puff-of-smoke sign
+RID35466 pulmonary sling
+RID35463 psoas sign
+RID35464 pubic varus sign
+ischial varus sign
+RID35414 paintbrush appearance
+RID35415 pancake brain
+RID35412 padlock sign
+RID35413 Page kidney
+RID35418 paradoxical movement of the mediastinum
+paradoxical mediastinal movement sign
+RID35419 parallel channel sign
+shotgun sign
+RID35416 panda sign
+RID35417 paradoxical halo sign
+RID35410 tram track sign of optic nerve
+tram-track sign of optic nerve
+optic nerve tram track sign
+RID35411 organ point sign
+RID35409 onion skin sign
+RID35403 obturator sign
+RID35404 okra sign
+RID35401 nutmeg liver
+RID35402 obscured outer edge sign
+RID35407 one-two-three sign
+Garland triad sign
+1-2-3 sign
+RID35408 onion ring appearance
+RID35405 omega sign
+RID35406 one-bone-two-bone sign
+RID35400 nubbin sign
+RID35436 perirenal P sign
+perinephric P sign
+RID35437 persistent loop sign
+RID35434 peripheral fat sign
+RID35435 perirenal cobweb
+RID35438 phalangeal sign
+RID35439 phantom calyx
+RID35432 pericardial line sign
+RID35433 peripheral bubble sign
+RID35430 pencil-in-cup deformity
+RID35431 pericardial fat tag sign
+RID35425 pedestal sign
+RID35426 pedicle sign
+RID35423 pear-shaped bladder
+tear drop-shaped bladder
+teardrop-shaped bladder
+tear drop bladder
+teardrop bladder
+RID35424 pearl necklace gallbladder
+pearl necklace sign
+RID35429 pelvocalyceal wall opacification sign
+RID35427 Pelken spur sign
+RID35428 Pellegrini-Stieda sign
+K&#8221;hler-Pellegrini shadow
+Stieda shadow
+RID35421 parchment heart
+RID35422 participating tail
+RID35420 parallel track sign
+RID35579 starry night sign
+RID35577 stack of coins sign
+RID35578 staghorn calculus
+staghorn sign
+staghorn calculi
+coral calculus
+RID35571 spoke wheel pattern of kidney
+spoke wheel sign of kidney
+renal spoke wheel sign
+renal spokewheel sign
+RID35572 spoke wheel sign of bowel
+mesenteric spoke wheel sign
+mesenteric spokewheel sign
+bowel spokewheel sign
+RID35570 split pleura sign
+RID35575 squeeze sign
+RID35576 squeezed ventricle sign
+RID35573 spotted nephrogram
+RID35574 spur sign
+RID35568 spiral sign
+RID35569 splenic pedicle sign
+RID35566 spinnaker sail sign
+thymic sail sign
+RID35560 spade shape
+RID35561 spaghetti sign
+RID35564 spheroid sign
+RID35565 spider web
+RID35562 Spalding sign
+RID35563 spastic urinary tract sign
+RID35599 sunburst pattern
+sun burst sign
+sun burst pattern
+sunburst sign
+RID35593 stripe sign of brain
+tigroid pattern, leopard skin sign
+RID35594 stripe sign of chest
+RID35591 string-of-pearls sign of bowel
+RID35592 string-of-pearls sign of renal artery
+RID35597 subcapsular C sign
+RID35598 sulcus sign
+RID35595 striped colon sign
+RID35596 struggling antrum sign
+RID35590 string sign
+gastrointestinal string sign
+pyloric string sign
+RID35588 strawberry skull
+RID35589 stretched bronchus sign
+bent bronchus sign
+RID35582 step-off vertebral body sign
+RID35583 stepladder sign
+RID35580 starry sky
+RID35581 steeple sign
+gothic arch sign
+RID35586 stipple sign
+RID35587 straight line sign
+RID35584 sternal cupping sign
+RID35585 Stierlin sign
+RID35535 Shmoo-shaped heart
+RID35536 shotgun sign
+parallel channel sign
+RID35534 shepherd&apos;s crook sign
+shepherd crook sign
+shepherd&apos;s crook deformity
+shepard&apos;s crook deformity
+RID35539 sickle sign
+RID35537 shoulder pad sign
+RID35538 shoulder sign
+RID35531 sharp edge sign
+RID35532 shell sign
+RID35530 shaggy heart sign
+RID35524 Semitic nose sign
+RID35525 sentinel lines sign
+RID35522 scimitar sign of artery
+arterial scimitar sign
+scimitar sign
+RID35523 sedimentation sign
+RID35528 shading sign
+RID35526 serpiginous tract sign
+RID35527 Seurat spleen sign
+RID35520 Schmorl node
+Schmorl nodule
+RID35521 scimitar sign
+RID35557 snowstorm pattern of uterus
+RID35558 soft-tissue rim sign
+tissue rim sign
+RID35555 snowman sign
+figure-eight sign of heart
+snowman heart
+figure-8 sign of heart
+RID35556 snowstorm pattern of breast
+RID35559 sonographic bull&apos;s-eye sign
+RID35550 small heart sign
+RID35553 smile sign
+RID35554 snake head sign
+RID35551 small orbit sign
+RID35552 small-bowel feces sign
+RID35546 single bubble sign
+RID35547 sinking pellet sign
+RID35544 silhouette sign
+RID35545 silver fork deformity
+dinner fork deformity
+RID35548 skewed nasal septum sign
+RID35542 signet ring sign of chest
+pearl ring sign
+RID35543 signet ring sign of kidney
+papillary ring sign
+RID35540 sigmoid elevator sign
+RID35541 sign of the cane
+cane sign
+RID35519 scallop sign of wrist
+RID35513 sandstorm appearance
+sandstorm sign
+RID35514 sandwich sign
+RID35511 salt and pepper skull
+RID35512 salt-and-pepper sign
+salt-and-pepper pattern
+RID35517 sawtooth ureter
+RID35518 scallop sign of pleura
+RID35515 sandwich vertebrae
+sandwich vertebra
+RID35516 sausage digit
+cocktail sausage digit
+RID35510 sail sign of elbow
+elbow sail sign
+RID35508 sagging rope sign
+RID35509 sail sign of chest
+RID35502 rosary bead esophagus sign
+corkscrew esophagus sign
+RID35503 rosary sign
+RID35500 ripple sign
+RID35501 rocker-bottom thymus sign
+RID35506 saber sheath trachea sign
+sabre sheath trachea, scabbard trachea
+RID35507 saber shin sign
+RID35504 round nipple shadow sign
+RID35505 rugger jersey spine
+RID35711 yo-yo-on-a-string sign
+yo-yo sign
+RID35712 zoning sign
+RID35710 yin-yang sign
+RID35708 Wimberger sign of scurvy
+Wimberger ring sign
+Wimberger sign
+RID35709 Wimberger sign of syphilis
+Wimberger sign
+RID35706 widened loop sign
+RID35707 widened suture sign
+RID35700 whiskering effect
+RID35701 white line of Frankel
+RID35704 widened disk space sign
+widened interspinous distance sign
+RID35702 white line sign
+RID35703 white matter buckling sign
+RID35698 whalebone-in-a-corset sign
+RID35699 whirlpool sign
+whirl sign
+RID35692 waterfall hilum
+waterfall sign
+hilar comma sign
+RID35693 watering can perineum
+RID35690 wasp waist sign
+RID35691 water lily sign
+camalote sign
+sign of the camalote
+RID35696 shadow sign
+wall-echo-shadow complex
+WES complex
+double-arc-shadow sign
+WES sign
+wall-echo-shadow sign
+RID35697 Westermark sign
+RID35694 wave sign
+RID35695 wedge sign
+RID35689 wall sign of ovary
+halo sign of ovary
+RID35687 wagging tongue sign
+wagging tongue rib calcifcation
+RID35688 wall sign of lung
+lung wall sign
+RID35681 vascular cut-off sign
+RID35682 vascular nodule sign
+RID35680 vallecular sign
+RID35685 vertebral fade-off sign
+spine sign
+RID35686 W sign
+RID35683 vascular plethora sign
+RID35684 vena cava sign
+RID35656 triangular sign
+slipped ice cream scoop sign
+RID35657 trident hand
+RID35654 tree-in-bud sign
+tree-in-bud opacity
+tree-in-bud opacities
+RID35655 triangle sign
+RID35658 triple bubble sign
+RID35659 trolley-track sign
+tram-track sign
+RID35652 transverse stripe sign
+RID35653 trapped air sign
+RID35650 tram track sign of bone scan
+tram-track sign of bone scan
+RID35651 tram track sign of chest
+tram-track sign of chest
+RID35645 tracheal overlap sign
+RID35646 track sign of femur
+track sign
+RID35643 toothpaste sign
+RID35644 top-of-the-knob sign
+RID35649 tram track sign of brain
+tram-track sign of brain
+RID35647 tram line sign
+RID35648 tram track rib sign
+tram track sign of rib
+tram track rib calcification
+tram-track rib sign
+RID35642 tooth sign
+RID35640 tip of the iceberg sign
+RID35678 vacuum facet sign
+RID35679 vacuum disk phenomenon
+vacuum-disc phenomenon
+RID35676 V sign of chest
+V sign of lung
+RID35670 twinkling star sign
+RID35671 twisted tape sign
+RID35674 upper triangle sign
+RID35675 urachal sign
+RID35672 ulcer-within-an-ulcer sign
+ulcer-in-ulcer
+ulcer-within-ulcer
+RID35673 umbrella sign
+RID35667 tumor track sign
+RID35668 turret exostosis
+RID35665 tumbling bolt sign
+RID35666 tumbling bullet sign
+RID35669 twin peak sign
+lambda sign
+twin peaks
+RID35660 trough line sign
+RID35663 tubular artery sign
+RID35664 tubular small bowel
+toothpaste small bowel
+RID35661 Trummerfeld scurvy zone
+RID35662 trumpet sign
+RID35618 tau sign
+RID35619 teardrop sign of ankle
+ankle teardrop sign
+RID35612 target sign of colon
+RID35613 target sign of extremity
+RID35610 target sign of bowel wall
+RID35611 target sign of brain
+RID35616 tarsal coalition
+RID35617 tattoo sign
+RID35614 target sign of liver
+target lesion
+target liver lesion
+RID35615 target sign of lung
+RID35609 target practice sign
+RID35607 talar beak sign
+RID35608 tangent sign
+RID35601 supinator notch sign
+RID35602 supinator sign
+RID35600 superior triangle sign
+RID35605 systolic jet sign
+RID35606 tacked-down sign
+RID35603 swirl sign
+RID35604 symmetric liver sign
+RID35634 Throckmorton sign
+RID35635 thumb sign
+RID35632 thread-and-streak sign of kidney
+RID35633 thread-and-streak sign of liver
+RID35638 thymic wave sign
+RID35639 tibiotalar slant sign
+RID35636 thumbprinting
+RID35630 third mogul sign
+RID35631 thorn sign
+RID35629 thimble bladder
+RID35623 tennis racquet sign
+RID35624 Terry Thomas sign
+David Letterman sign
+gap-tooth sign
+RID35621 teat and udder sign
+RID35622 telephone receiver femur
+telephone receiver-shaped femora
+telephone-shaped femora
+RID35627 thickened posterior tracheal stripe sign
+RID35628 thickened sclera sign
+RID35625 thick wall sign
+RID35620 teardrop sign of orbits
+RID6303 punched out erosions
+&quot;punched out&quot; erosions
+RID6302 permeative destruction pattern
+permeative
+permeative destruction
+RID6301 moth-eaten pattern
+moth-eaten
+motheaten bone destruction
+motheaten bone
+RID6300 geographic destruction pattern
+geographic
+geographic destruction
+RID49489 clustered ring enhancement
+RID49497 erased charcoal sign
+RID49498 encapsulated margin
+RID49490 non-mass enhancement pattern
+RID49493 non-mass homogeneous enhancement
+homogeneous non-mass enhancement
+RID49494 non-mass heterogeneous enhancement
+heterogeneous non-mass enhancement
+RID49491 non-mass internal enhancement pattern
+RID49492 non-mass enhancement distribution
+NME
+RID6299 destruction pattern
+RID49524 benign prostatic hyperplasia nodule
+BPH nodule
+RID49527 ADC value
+RID35098 collateral vein sign
+RID35099 colon cutoff sign
+colon cut-off sign
+RID35096 collapsing cord sign
+RID35097 collar sign
+cottage loaf sign
+RID35090 cobra head sign
+spring onion sign
+cobra head ureter
+snake head ureter
+RID35091 cockade image
+RID35094 coiled tube sign
+RID35095 coin lesion
+SPN
+solitary pulmonary nodule
+RID35092 cocktail sausage sign
+RID35093 Codman triangle
+Codman angle
+RID35087 cluster-of-grapes sign of kidney
+septation sign
+cluster of grapes sign of kidney
+RID35088 cluster-of-grapes sign of lung
+cluster of grapes sign of lung
+RID35085 clear space sign
+RID35086 clover-leaf skull
+Kleeblattsch&#8222;del
+cloverleaf skull
+Kleeblattschaedel
+RID35089 cluster-of-grapes sign of uterus
+cluster of grapes sign of uterus
+RID35080 cervicothoracic sign
+RID35081 chalice sign
+goblet sign
+Bergman sign
+wine glass sign
+wine goblet sign
+Bergman coiled catheter sign
+coiled catheter sign
+RID35082 chest abdomen sign
+RID35054 border sign
+RID35055 boutonniere deformity
+RID35052 bone-scan double density sign
+RID35053 boot-shaped heart sign
+coeur en sabot
+RID35058 bridging vascular sign
+RID35059 brim sign
+RID35056 bow tie sign
+RID35057 box-like heart
+RID35050 bone bruise sign
+RID35051 bone-in-bone sign
+bone-within-a-bone
+RID35049 block vertebra
+block vertebrae
+RID35043 black pleura sign
+RID35044 bladder ear sign
+RID35041 bird&apos;s beak sign of esophagus
+bird&apos;s beak sign, bird beak sign, beak sign, rat tail sign
+RID35042 bite sign
+RID35047 blister of bone
+bone blister sign
+RID35048 blister-of-the-cervix sign
+cervical blister sign
+RID35045 bladder sign
+RID35046 blade-of-grass sign
+flame sign
+V sign of bone
+RID35040 bird&apos;s beak sign of colon
+bird&apos;s beak sign, bird beak sign, beak sign
+RID35076 Catlin sign
+RID35077 celery stalk metaphysis
+celery stick sign
+celery stick metaphysis
+celery stalk sign
+RID35074 carotid string sign
+angiographic string sign
+RID35075 carpal sign
+RID35078 celery stalk sign
+RID35079 central lucency sign
+RID35072 cardiac double density sign
+RID35073 Carman meniscus sign
+RID35070 candy cane sign
+RID35071 cardiac blur sign
+RID35065 bullet and bodkin sign
+bullet-on-a-bodkin
+RID35066 bullet-shaped vertebra sign
+bullet-nose vertebra
+bullet-shaped vertebra
+bullet vertebrae
+bullet-nosed vertebra
+RID35063 bull&apos;s-eye falciform ligament sign
+bullseye falciform ligament sign
+RID35064 bull&apos;s-eye sign of GI tract
+bullseye sign of GI tract
+RID35069 cancellous ulcer osteoma
+RID35067 button sequestrum sign
+RID35068 calyceal crescent sign
+RID35061 bulging fissure sign
+RID35062 bulging tumor sign
+RID35060 brownian movement sign
+RID35018 applecore lesion
+apple core sign
+napkin ring lesion
+napkin ring sign
+RID35019 applesauce sign
+apple sauce sign
+soap bubble sign
+RID35016 apical cap
+apical cap sign
+RID35017 apical sign
+dunce cap sign
+RID35010 anteriorly migrating abdominal aorta sign
+RID35011 antral bowing sign
+RID35014 aortic swallowing sign
+RID35015 Apert syndrome
+RID35012 antral pad sign
+RID35013 aortic nipple sign
+RID49677 developing asymmetry
+RID35007 anterior drawer sign
+anterior subluxation of the tibia
+anterior tibial translocation sign
+anterior displacement of the tibia
+RID35008 anterior sulcus sign
+double diaphragm sign
+RID35006 anteater nose sign
+anteater sign
+RID35009 anterior tracheal displacement sign
+RID35000 air crescent sign
+air meniscus sign
+Monod sign
+air crescent
+RID35003 angel wings sign
+RID35004 angle sign
+RID35001 air esophagram sign
+RID35002 Andersson lesion
+RID35039 big rib sign
+RID35032 banana sign
+RID35033 bare orbit sign
+RID35030 balloon-on-a-string sign
+RID35031 bamboo spine
+RID35036 beaten brass sign
+beaten silver pattern
+beaten silver sign
+beaten brass pattern
+RID35037 bell-shaped ureter sign
+RID35034 beak sign of pylorus
+beak sign
+claw sign
+RID35035 bear paw sign
+RID35027 bag-of-worms sign
+RID35028 ball sign
+RID35021 arrowhead sign
+RID35022 arterial cut-off sign
+RID35020 arcuate sign
+RID35025 axillary mass sign
+RID35026 B6 bronchus sign
+RID35024 asterisk sign
+RID6058 enhancement pattern
+RID6057 isoenhancing
+iso-enhancement
+RID6056 nonenhancing
+non-enhancing
+non-enhancement
+RID6055 enhancing
+RID6061 circumferential enhancement
+circumferential
+RID35175 draped aorta sign
+RID35176 dripping candle wax sign
+dripping wax sign
+flowing candle wax sign
+dripping candle sign
+dripping candlewax sign
+RID35173 double-line sign
+RID35174 doughnut sign
+RID35179 drooping shoulder sign
+RID35177 dromedary hump
+dromedary kidney
+RID35178 drooping lily sign
+RID35171 double spinous process sign
+RID35172 double track sign
+RID35170 double posterior cruciate ligament sign
+double PCL sign
+RID35164 double cava sign
+RID35165 double condom sign
+RID35162 double bronchial wall sign
+RID35163 double bubble sign
+RID35168 double duct sign
+RID35169 double outline sign
+RID35166 double contour sign
+RID35167 double decidual sac sign
+double sac sign
+double decidua sign
+RID35160 dot and dash pattern
+RID35161 double bleb sign
+RID35197 falciform ligament sign
+RID35198 fallen fragment sign
+fallen fragment
+RID35195 fabella sign
+RID35196 faceless kidney
+RID35199 falx sign
+RID35190 epicardial fat pad sign
+RID35193 extrapleural sign
+RID35194 eye-of-the-tiger sign
+tiger eye sign
+RID35191 esophageal tube displacement sign
+RID35192 extrapleural air sign
+RID35186 ellipse sign
+RID35187 empty delta sign
+delta sign
+empty triangle sign
+RID35184 edge sign
+RID35185 egg-on-its-side heart
+apple-on-a-string heart
+egg-on-a-string heart
+egg-shaped heart
+RID35188 empty mediastinum sign
+RID35189 enlargement of the hilar periportal space
+RID35182 dural tail sign
+RID35183 early filling vein sign
+RID35180 drowned hilus sign
+RID35181 duodenal wind sock sign
+windsock sign
+RID35139 dense metaphyseal band sign
+RID35137 deep sulcus sign
+RID35138 deflected calyx sign
+RID35131 cupola sign
+RID35132 curlicue ureter sign
+RID35130 Cupid bow vertebra
+Cupid bow contour
+RID35135 dagger sign
+RID35136 deep lateral femoral notch sign
+lateral femoral notch sign
+RID35133 curvature sign
+RID35134 cyclops lesion
+RID49794 LR-1
+LI-RADS 1
+RID49795 LR-2
+LI-RADS 2
+RID49798 LR-4/5
+RID49799 LR-5
+LI-RADS 5
+RID49796 LR-3
+LI-RADS 3
+RID49797 LR-4
+LI-RADS 4
+RID35128 CT arrowhead sign
+RID35126 crowded carpal sign
+RID35127 CT angiogram sign
+RID35120 crazy-paving sign
+RID35121 crescent sign
+quarter-moon sign
+RID35124 Cromlech sign
+RID35125 crossover sign
+RID35122 kidney crescent sign
+crescent sign kidney
+crescent sign of kidney
+RID35159 dog&apos;s ear sign
+dog ear sign
+RID35153 displaced retroperitoneal fat sign
+RID35154 displaced spinolaminar line sign
+RID35151 disk kidney
+lump kidney
+pancake kidney
+pelvic lump kidney
+disc kidney
+doughnut kidney
+cake kidney
+RID35152 displaced crus sign
+RID35157 divergent spinous processes sign
+RID35158 dog leg sign
+RID35155 disruptive diaphragmatic echo sign
+RID35156 distended common bile duct
+RID35150 discarded string sign
+RID35148 disappearing ellipse sign
+RID35142 Deuel halo sign
+RID35143 deviated descending thoracic aorta sign
+RID35140 dense vessel sign
+RID35141 dependent viscera sign
+RID35146 dimple sign
+RID35147 disappearing basal ganglia sign
+RID35144 diastolic washout sign
+RID35145 dilated transverse colon sign
+RID49721 keyhole sign
+teardrop sign
+noose sign
+RID49722 linguine sign
+RID49720 subcapsular line
+RID35117 costal cartilage sign
+RID35118 cotton wool sign
+RID35115 cortical ring sign of mandible
+RID35116 cortical ring sign of wrist
+RID35119 cracked walnut sign
+RID35110 corduroy cloth vertebra
+corduroy sign
+corduroy appearance
+RID35114 corner sign
+RID35111 corkscrew bowel sign
+corkscrew bowel
+corkscrew sign
+RID35112 corkscrew collaterals
+RID49725 peri-implant fluid
+RID49726 water droplets
+RID49723 focal bulge
+RID49724 extracapsular silicone
+RID35106 contrast bubble sign
+RID35107 converging line sign
+RID35104 continuous diaphragm sign
+RID35105 contracting cord sign
+RID35108 cookie cutter lesion
+cookie bite lesion
+RID35109 cord sign
+RID35102 comet sign
+RID35103 concentric ring sign
+target sign of kidney
+RID35100 colon sign
+RID35101 comb sign
+RID49700 non-enhancing mass
+RID49704 direct skin invasion
+direct invasion of skin
+RID49701 signal-related observation
+RID49702 signal void from artifact
+RID49705 inflammatory cancer skin invasion
+RID49706 invasion enhancement pattern
+RID49718 intracapsular silicone finding
+RID49719 radial fold
+RID49716 breast implant observation
+RID49717 abnormal implant contour
+RID35296 iceberg sign
+thoracoabdominal sign
+tip-of-the-iceberg sign
+RID35297 iliopsoas-gluteus medius sign
+RID35294 hysterogram sign
+RID35295 ice cream cone sign
+RID35298 incomplete border sign of abdomen
+RID35299 incomplete border sign of lung
+RID35292 hypernephroma halo sign
+RID35293 hypotensive nephrogram sign
+RID35291 hyperlucent hemithorax sign
+RID35285 hot nose sign
+RID35286 hourglass appearance
+RID35283 hot air balloon sign
+RID35284 hot cross bun sign
+RID35289 hyperattenuating crescent sign
+RID35287 hump sign
+RID35288 hydronephrotic rim
+RID35281 hook sign
+RID35280 honeycomb lung
+honeycombing
+end-stage lung disease
+RID35258 halo sign of heart
+RID35259 halo sign of liver
+RID35252 H vertebra
+H-shaped vertebra
+H-shaped vertebral body
+Lincoln Log sign
+Lincoln Log vertebra
+RID35253 hair-on-end sign
+sunburst periosteal reaction
+hair-on-end pattern
+hair-on-end skull
+spiculated periosteal reaction
+RID35250 gull wing appearance
+RID35251 gull wing sign
+gull wings
+mouse ears
+RID35256 halo sign of breast
+RID35257 halo sign of duodenum
+RID35254 half moon sign (chest)
+RID35255 half moon sign (shoulder)
+RID35249 growing calculus sign
+RID35247 ground glass pattern
+RID35248 ground-glass sign
+RID35241 gloved finger sign
+gloved finger shadow sign
+finger-in-glove sign
+RID35240 ghost vertebrae sign
+RID35246 gravitational shift sign
+RID35243 Golden S sign
+S sign
+reverse S sign of Golden
+Golden sign
+S sign of Golden
+RID35244 golf ball-on-tee sign
+ball-on-tee sign
+ball-and-cup sign
+ball-on-a-tee sign
+golf ball-on-a-tee sign
+RID35274 hilum convergence sign
+RID35275 hilum overlay sign
+RID35272 hiked-up renal pelvis
+purse-string pelvis
+hiked-up pelvis
+purse-string renal pelvis
+RID35273 Hill-Sachs deformity sign
+Hill-Sachs sign
+RID35278 holly leaf appearance
+holly leaf sign
+RID35279 Honda sign
+H sign
+butterfly sign
+RID35276 hitchhiker thumb
+hitch-hiker&apos;s thumb
+RID35277 hole-within-a-hole pattern
+RID35270 hide-bound bowel sign
+hidebound bowel
+RID35271 high-attenuating crescent sign
+RID35269 herniated mediastinal pleural sac sign
+RID35263 Hawkins sign
+RID35264 headcheese sign
+head cheese sign
+RID35261 Hampton hump sign
+RID35262 harlequin appearance
+harlequin eye, harlequin sign
+RID35267 hematocrit effect
+RID35268 hepatic angle sign
+RID35265 heel pad sign
+RID35266 Hellmer sign
+RID35260 halo sign of lung
+CT halo sign
+RID35216 flank stripe sign
+RID35217 flared mandible sign
+RID35214 fissure sign
+RID35215 flame shaped breast tissue
+RID35218 flat tire sign
+RID35219 flat waist sign
+RID35212 fish vertebra
+codfish vertebra
+fish vertebrae
+RID35213 fishhook ureter
+J-shaped ureter
+fish hook sign
+fishhooking
+fish hook ureter
+hockey stick ureter
+RID35210 figure 8 sign of brain
+figure-of-eight sign of brain
+figure eight sign of brain
+RID35205 FBI sign
+fat-blood interface sign
+RID35206 feeding vessel sign
+RID35203 fat ring sign
+RID35204 fat sign
+gallbladder fat sign
+RID35209 figure E sign
+reverse figure 3 sign
+RID35207 fickle finger sign
+RID35208 figure 3 sign
+RID35201 fat halo sign
+RID35202 fat pad sign
+elbow fat pad sign
+RID35200 fat C2 sign
+RID49841 fetal biophysical profile
+RID35238 gastric cannonball sign
+RID35236 gallbladder inertia sign
+RID35237 gasless abdomen sign
+RID35230 football sign
+RID35231 four-tendon sign
+RID35234 Frostberg inverted-3 sign
+Frostberg sign
+inverted 3 sign
+inverted three sign
+Frostberg inverted-three sign
+RID35235 fuzzy fluid level sign
+RID35232 fragment-in-notch sign
+RID35233 fragmented staghorn calculus
+fragmented staghorn
+fragmented stag horm
+RID35227 floppy thumb sign
+RID35228 fluid-fluid level
+RID35225 floating tooth sign
+RID35226 floating viscera sign
+RID35229 focal hepatic hot spot sign
+hot caudate lobe
+RID35220 Fleischner line
+RID35223 floating aorta sign
+RID35224 floating myodil sign
+RID35221 Fleischner sign of chest
+plump hilus sign
+plump hilum sign
+RID35222 Fleischner sign of ileum
+inverted umbrella sign
+RID49822 low ADC value
+RID49823 LI-RADS assessment
+LI-RADS categories
+RID49809 distinctive rim
+RID49802 LR-5V
+LI-RADS 5V
+RID49803 LR-M
+LI-RADS M
+RID49800 LR-5g
+LI-RADS 5g
+RID49801 LR-5us
+LI-RADS 5us
+RID49804 LR-Treated
+LI-RADS Treated
+RID49817 peripheral washout appearance
+RID39056 lung mass
+mass
+RID39055 breast mass
+breast density
+mass
+focus
+nodule
+nodular enhancement
+breast nodule
+lesion
+RID39126 hypoenhancement
+hypo-enhancing
+hypoenhancing
+hypo-enhancement
+RID39150 nodule-in-nodule
+nodule-in-nodule architecture
+RID39146 capsule appearance
+portal venous/delayed phase peripheral rim enhancement
+RID39149 mosaic architecture
+mosaic attenuation pattern
+mosaic enhancement
+mosaic oligemia
+RID39095 hyperenhancement
+hyperenhancing
+hyper-enhancing
+hyper-enhancement
+RID39317 infiltrate
+RID39486 washout appearance
+RID39485 vascular anomaly (liver)
+vascular anomaly
+RID39484 undistorted vessels
+RID39482 true tumor capsule
+RID39455 hepatic fat deposition
+RID39459 liver hypertrophic pseudomass
+hypertrophic pseudomass (liver)
+RID39457 heterogeneous enhancement
+RID39456 hepatic fat sparing
+RID39451 fade
+RID39444 definite benign entities (liver)
+RID39442 corona enhancement
+RID39441 confluent fibrosis (liver)
+RID39445 liver score designation
+designation
+RID39440 cirrhosis-associated nodules
+CAN
+cirrhosis associated nodule(s)
+RID39477 pseudocapsule (liver)
+pseudocapsule
+RID39475 persistent homogeneous hyperenhancement
+persistent homogeneous hyper-enhancemen
+sustained homogeneous hyper-enhancement
+RID39472 parallels blood pool enhancement
+RID39470 non-HCC liver malignancy
+non-HCC malignancy (liver)
+other liver malignancy
+other malignancy (liver)
+RID39466 liver mass
+mass
+RID39469 nodule-like arterial phase hyperenhancement
+nodule-like arterial phase hyper-enhancement
+NAPH
+RID39461 increasing enhancement
+RID39439 capsule appearance (liver)
+RID39432 ancillary features (liver)
+ancillary liver features
+RID39431 liver imaging observation
+observation (liver)
+RID39436 arterial phase isoenhancement
+arterial phase iso-enhancement
+RID39435 arterial phase hypoenhancement
+arterial phase hypo-enhancement
+RID39563 homogeneous enhancement
+homogenous enhancement
+RID34995 absent liver sign
+RID34994 absent inferior vena cava sign
+absent IVC sign
+RID34997 acorn deformity
+spinning top urethra
+spinning top configuration
+arrowhead urethra
+RID34996 accordian sign
+RID34999 air bronchogram sign
+air bronchogram
+RID34998 acute kyphosis sign
+RID34991 abdominal fat necrosis sign
+RID34990 3 sign
+reverse 3 sign
+three sign
+RID34993 absent gastric air bubble sign
+RID34992 absent collecting duct system
+RID5 imaging observation
+RID29023 imaging sign
+RID29215 irregular mass
+irregularly-shaped mass
+stellate mass
+spiculated mass
+RID29223 oval mass
+elliptical mass
+egg-shaped mass
+gently lobulated mass
+macrolobulated mass
+ovoid mass
+RID29174 lobular mass
+lobulated mass
+RID29173 round mass
+circular mass
+globular mass
+spherical mass
+ball-shaped mass
+RID46052 attachment to vessel
+RID46062 satellite nodule
+RID46036 vascular convergence sign
+vascular convergence
+RID46037 bronchiolar prominence
+RID46015 internal air bronchogram sign
+internal air bronchogram
+intra-tumoral air bronchogram
+RID46017 attachment
+RID46018 attachment to pleura
+pleural attachment
+RID46019 attachment to bronchus
+RID46022 lesion periphery
+RID46009 semi-consolidation
+RID5972 margin
+RID34265 asymmetry
+RID34264 focal asymmetry
+RID34266 global asymmetry
+RID5709 indistinct margin
+ill-defined
+smudgy margin
+ill-defined margin
+not circumscribed - indistinct margin
+poorly defined margin
+poorly-defined margin
+RID5707 circumscribed margin
+sharply-defined margin
+well-defined margin
+RID5714 smooth margin
+RID5715 irregular margin
+not circumscribed - irregular margin
+RID5712 microlobulated margin
+not curcumscribed - microlobulated margin
+microundulated margin
+RID5713 spiculated margin
+not curcumscribed - spiculated margin
+stellate margin
+RID5710 obscured margin
+RID5711 lobulated margin
+RID34392 rim sign of kidney
+cortical rim sign
+kidney rim sign
+rim sign of renal capsule
+RID34397 beehive-on-the-bladder sign
+RID34396 beaded ureter
+corkscrew ureter
+corkscrew distal ureter sign
+RID34399 bowler hat sign
+RID34398 blueberry muffin sign
+RID34391 rim sign of adrenal
+adrenal rim sign
+RID34390 Rigler sign
+double wall sign
+bas-relief sign
+RID34357 lesion boundary
+RID34359 echogenic halo
+vague interface
+RID34358 abrupt interface
+well-defined interface
+crisp interface
+sharp interface
+RID34350 heterogeneous background echotexture
+fibrocystic background echotexture
+heterogeneous background
+mixed background echotexture
+complex background echotexture
+RID34355 non-circumscribed margin
+not circumscribed margin
+RID34354 angular margin
+jagged margin
+not circumscribed - angular margin
+angulated margin
+RID34389 hypervascular lesion
+RID34373 mass in or on skin
+extramammary mass
+mass
+superficial mass
+cutaneous mass
+epidermal mass
+dermatologic mass
+dermal mass
+subcutaneous mass
+RID34320 chest wall invasion
+RID34322 hematoma/blood signal
+hematoma signal
+hematoma or blood signal
+blood signal
+RID34313 asymmetric enhancement
+asymmetrical enhancement
+RID34312 symmetric enhancement
+RID34319 pectoralis muscle invasion
+RID34318 skin invasion
+RID34311 reticular enhancement
+dendritic enhancement
+RID34310 clumped enhancement
+RID34346 echotexture
+RID34348 homogeneous background echotexture-fat
+homogeneous background echotexture fat
+smooth background echotexture-fat
+fat homogeneous background echotexture
+RID34347 homogeneous background echotexture
+smooth background echotexture
+RID34349 homogeneous background echotexture-fibroglandular
+fibroglandular homogeneous background echotexture
+homogeneous background echotexture fibroglandular
+smooth background echotexture-fibroglandular
+RID34340 multiple regions enhancement
+multiple region enhancement
+RID34342 non-mass enhancement
+non-mass-like enhancement
+NME
+RID34341 diffuse enhancement
+RID34344 background parenchymal enhancement pattern
+BPE
+RID34335 focal enhancement
+RID34337 ductal enhancement
+RID34336 linear enhancement
+RID34339 regional enhancement
+RID34338 segmental enhancement
+RID34309 stippled enhancement
+punctate enhancement
+RID34302 foci
+RID34301 focus
+nodule
+lesion
+RID34304 homogeneous mass enhancement
+RID34303 rim enhancement
+RID34306 dark internal septations
+nonenhancing internal septation
+RID34305 heterogeneous mass enhancement
+RID34308 central enhancement
+RID34307 enhancing internal septation
+RID34300 enhancement
+area of enhancement
+RID34409 swan neck deformity
+RID34408 scotty dog sign
+scottie dog sign
+RID34400 butterfly shadow
+RID34402 C sign
+RID34405 cobblestone pattern
+RID34404 Mickey Mouse sign of liver
+Mickey Mouse sign
+RID34407 comet tail sign
+RID34406 coffee bean sign
+bent inner tube sign
+kidney bean sign
+RID34422 heterogeneous internal enhancement of mass
+heterogeneous mass internal enhancement
+mass heterogeneous internal enhancement
+RID34421 homogeneous internal enhancement of mass
+homogeneous mass internal enhancement
+mass homogeneous internal enhancement
+RID34420 mass enhancement pattern
+lesion enhancement pattern
+RID34419 mass internal enhancement pattern
+RID34412 Erlenmeyer flask deformity
+RID34411 absent bow tie sign
+RID34410 inverted Napoleon hat sign
+bow sign
+Napoleon hat sign
+RID34749 pseudolesion
+RID36028 BI-RADS 1
+BIRADS 1
+BI-RADS category 1
+RID36029 BI-RADS 2
+BI-RADS category 2
+BIRADS 2
+RID36026 assessment
+RID36027 BI-RADS assessment
+BI-RADS category
+BIRADS assessment
+RID36040 intermediate concern
+RID36041 BI-RADS 3
+BI-RADS category 3
+BIRADS 3
+RID36033 BI-RADS 4C
+BIRADS 4C
+BI-RADS category 4C
+RID36034 BI-RADS 5
+BI-RADS category 5
+BIRADS 5
+RID36031 BI-RADS 4A
+BIRADS 4A
+BI-RADS category 4A
+RID36032 BI-RADS 4B
+BI-RADS category 4B
+BIRADS 4
+RID36037 BI-RADS N/A
+BIRADS N/A
+BIRADS NA
+BI-RADS NA
+RID36035 BI-RADS 6
+BI-RADS category 6
+BIRADS 6
+RID36036 BI-RADS 0
+BIRADS 0
+BI-RADS category 0
+RID36030 BI-RADS 4
+BI-RADS category 4
+BIRADS 4
+RID38794 reticulation
+RID38780 lesion
+nodule
+RID38776 ischemic core
+RID38775 ischemic penumbra
+RID38774 perfusion imaging observation

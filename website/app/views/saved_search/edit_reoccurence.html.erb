@@ -1,0 +1,31 @@
+<div style="padding: 10px">
+	<div style="border: 5px solid #99CCFF; border-radius: 25px; width: 600px; margin: 0 auto;">
+
+		<h2 style="padding-top: 5px;"><%=@title%></h2>
+
+		<form action="/saved_search/editing_reoccurence" style="vertical-align: middle; width: 450px;">
+			<div style="padding-top: 10px;">
+				<input name="query" value="<%=@query%>" type="text" class="form-control" placeholder="Enter query..." required pattern=".*\S+.*" autofocus>
+			</div>
+			<div style="padding-top: 15px;">
+				<input name="interval" value="<%=@interval%>" type="number" min="1" class="form-control" placeholder="Enter re-occurence interval (e.g. 3, 12)..." required pattern=".*\S+.*">
+			</div>
+			<div style="padding-top: 15px;">
+				<input name="unit" value="<%=@unit%>" type="text" class="form-control" placeholder="Enter re-occurence interval unit (day, week or month)..." required pattern=".*\S+.*">
+			</div>
+			<div style="padding-top: 15px;">
+				<input id="search-button" style="width: 100%;" type="submit" class="btn btn-default" value="Done"/>
+			</div>
+			<!--User won't see this, this is the id of reoccurence to enable editing-->
+			<div style="padding-top: 5px; display: none;">
+				<input name="id" value="<%=@id%>" type="text" class="form-control">
+			</div>
+			<!--User won't see this, this is for returning to where user come form-->
+			<div style="padding-top: 5px; display: none;">
+				<input name="from" value="<%=@form%>" type="text" class="form-control">
+			</div>
+		</form>
+
+		<div style="padding: 20px"></div>
+	</div>
+</div>
