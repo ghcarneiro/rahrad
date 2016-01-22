@@ -1,0 +1,60 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Results</title>
+<% end %>
+
+<div class="container-fluid" style="width: 90%;">
+
+	<!-- Buttons -->
+	<div class="container-fluid" style="padding-top: 20px; padding-bottom: 20px; padding-left: 0px; padding-right: 0px;">
+
+		<!-- buttons at right -->
+		<!-- View Analysis -->
+		<%= link_to "See Analysis", {controller: "graph", action: "index", :time => @time, :q => @query}, class: "btn btn-success button-right" %>
+
+		<!-- Export as CSV -->
+		<%= link_to "Download CSV", {:action => "index", :format => :csv, :q => @query}, :target => '_blank', class: "btn btn-success button-right" %>
+
+		<!-- buttons at left -->
+		<!-- Save search query-->
+		<%= link_to table_save_search_path(query: @query, time: @time), class: "btn btn-success button-left" do %>
+			<i class="glyphicon glyphicon-cloud"></i>
+			Save Online
+		<% end %>
+
+		<!-- Set repeat with default interval 1 month and query auto filled in -->
+		<%= link_to saved_search_edit_reoccurence_path(:title => "Add New Repeating Search", :query => @query, :interval => "1", :unit => "month"), class: "btn btn-success button-left" do %>
+			<i class="glyphicon glyphicon-time"></i>
+			Set Repeat
+		<% end %>
+	</div>
+
+	<!-- Table -->
+	<table class="table table-striped table-bordered" style="white-space: nowrap; table-layout: fixed;">
+		<% @resultCSV.each_line do |line| %>
+			<% if line == @resultCSV.lines.first %>
+				<tr>
+					<th style="width: 30px;"><i class="glyphicon glyphicon-file"></i></th>
+					<th style="width: 90px;">Req No.</th>
+					<th style="width: 90px;">Date</th>
+					<th>Report</th>
+				</tr>
+			<% else %>
+				<tr>
+					<!-- See report -->
+					<td>
+						<%= link_to table_display_report_path(:reportNumberDateContent => line) do %>
+							<i class="glyphicon glyphicon-file"></i>
+						<% end %>
+					</td>
+					<td style="overflow: hidden; text-overflow: ellipsis"><%= line.split("<,>")[0] %></td>
+					<td style="overflow: hidden; text-overflow: ellipsis"><!-- get Year/Month/Day -->
+						<%= line.split("<,>")[1][0..3] %>/<%= line.split("<,>")[1][4..5] %>/<%= line.split("<,>")[1][6..7] %>
+					</td>
+					<td align="left" style="overflow: hidden; text-overflow: ellipsis"><%= line.split("<,>")[2] %></td>
+				</tr>
+			<% end %>
+		<% end %>
+	</table>
+
+</div>

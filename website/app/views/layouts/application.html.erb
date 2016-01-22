@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Append content in the head tag (for example: used for graph view to include Google Chart div and java script) -->
+    <% if content_for? :for_head %><%= yield :for_head %><% end %>
+
+    <title>Rah2</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+
+    <!-- I used Bootstrap a lot including button, and other stuffs -->
+    <!-- Bootstrap latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Latest bootstrap compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+    <!-- link to font awesome, I used their icon in the graph page navigation pane icon -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  </head>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <!-- RAH logo -->
+    <div style="float: left; margin-left: 10px; padding-left: 10px; padding-right: 10px; padding-top: 7px; padding-bottom: 5px;">
+      <img src="/assets/logo2.gif" style="max-height: 35px;"/>
+      <img src="/assets/text.gif" style="padding-top: 3px; max-height: 35px;"/>
+    </div>
+
+    <!-- Dropdown user account menu -->
+    <button class="btn btn-info pull-right dropdown-toggle navbar-icon" type="button" data-toggle="dropdown" style="border-radius: 100%;" title="Account related information">
+      <span class="glyphicon glyphicon-user"></span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-right">
+      <% if user_signed_in? %>
+        <li><a>Logged in as <strong><%= current_user.email %></strong>.</a></li>
+        <li><a href="#"><%= link_to 'Edit profile', edit_user_registration_path %></a></li>
+        <li><a href="#"><%= link_to "Logout", destroy_user_session_path, method: :delete %></a></li>
+      <% else %>
+        <li><a href="#"><%= link_to "Sign up", new_user_registration_path %></a></li>
+        <li><a href="#"><%= link_to "Login", new_user_session_path %></a></li>
+      <% end %>
+     </ul>
+
+    <!-- Display buttons only if user is logged in  -->
+    <% if user_signed_in? %>
+      <!-- Repeating searches and saved searches page button -->
+      <%= link_to saved_search_index_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "Access repeating search settings and saved searches" do %>
+        <i class="glyphicon glyphicon-list-alt", style="padding-top: 5px;"></i>
+      <% end %>
+
+      <!-- Search page button -->
+      <%= link_to search_index_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "Start a new search" do %>
+        <i class="glyphicon glyphicon-search", style="padding-top: 5px;"></i>
+      <% end %>
+
+    <% end %>
+  </nav>
+
+
+
+  <body>
+    <!-- alert whether user needs to login or has logged in -->
+    <% if notice %>
+      <p class="alert alert-success"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="alert alert-danger"><%= alert %></p>
+    <% end %>
+
+    <%= yield %>
+
+  </body>
+
+</html>

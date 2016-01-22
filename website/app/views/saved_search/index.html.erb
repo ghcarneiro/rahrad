@@ -1,0 +1,108 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Repeat searches and saved searches</title>
+<% end %>
+
+<div class="container-fluid" style="width: 80%; margin-bottom: 100px">
+
+	<!-- repeating search table -->
+	<h1>Repeating searches</h1>
+	<!-- button to add new repeating search -->
+	<div style="float: right; display: inline; margin-right: 5px;">
+		<%= link_to saved_search_edit_reoccurence_path(:title => "Add New Repeating Search", :query => "", :interval => "1", :unit => "month") do %>
+			<i class="glyphicon glyphicon-plus"></i>
+			Add new repeating search
+		<% end %>
+	</div>
+	
+	<!-- repeating search table -->
+	<table class="table table-striped table-bordered table-hover">
+		<tr>
+			<th style="width: 100px;">Date</th>
+			<th>Query</th>
+			<th style="width: 140px;">Repeat Frequency</th>
+			<th style="width: 30px;">Edit</th>
+			<th style="width: 98px;">Search Now</th>
+			<th style="width: 104px;">See Analysis</th>
+			<th style="width: 30px;">Delete</th>
+		</tr>
+		<% @reoccurences.each do |reoccurence| %>
+			<tr>
+				<td><%= reoccurence.created_at.to_date %></td>
+				<td align="left"><%= reoccurence.query %></td>
+				<td><%= reoccurence.interval %> <%= reoccurence.unit %></td>
+				<td><!--Edit Reoccurence Setting-->
+					<%= link_to saved_search_edit_reoccurence_path(:title => "Edit Repeating Search", :query => reoccurence.query, :interval => reoccurence.interval, :unit => reoccurence.unit, :id => reoccurence.id, :from => "saved_search") do %>
+						<i class="glyphicon glyphicon-edit"></i>
+					<% end %>
+				</td>
+				<td><!--View Results (All dates)-->
+					<%= link_to table_index_path(:q => reoccurence.query, :time => DateTime.now) do %>
+						<i class="glyphicon glyphicon-list" title="View the saved results (the results of this search query when you save this search)"></i>
+					<% end %>
+				</td>
+				<td><!--View analysis (All dates)-->
+					<%= link_to graph_index_path(:q => reoccurence.query, :time => DateTime.now) do %>
+						<i class="glyphicon glyphicon-signal"></i>
+					<% end %>
+				</td>
+				<td><!--Delete the reoccurence-->
+					<%= link_to saved_search_destroy_reoccurence_path(:id => reoccurence.id), :confirm => 'Are you sure you want to delete this?' do %>
+						<i style="color: #d9534f;" class="glyphicon glyphicon-remove"></i>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+
+	<!-- vertical spacing -->
+	<div style="padding-top: 20px;">&nbsp</div>
+
+	<!-- saved search table -->
+	<h1>Saved searches</h1>
+	<div style="display: inline;">&nbsp</div>	<!-- There's a div under repeating search header so I have one here too -->
+	<table class="table table-striped table-bordered">
+		<tr>
+			<th style="width: 100px;">Date</th>
+			<th>Query</th>
+			<th style="width: 110px;">Search Again</th>
+			<th style="width: 90px;">Set Repeat</th>
+			<th style="width: 90px;">See Result</th>
+			<th style="width: 104px;">See Analysis</th>
+			<th style="width: 30px;">Delete</th>
+		</tr>
+		<% @savedSearches.each do |savedSearch| %>
+			<tr>
+				<td><%= savedSearch.time.to_date %></td>
+				<td align="left"><%= savedSearch.query %></td>
+				<td><!--Search again (All dates)-->
+					<%= link_to table_index_path(:q => savedSearch.query, :time => DateTime.now) do %>
+						<i class="glyphicon glyphicon-search" title="Search again now for the most recent results"></i>
+					<% end %>
+				</td>
+				<td><!-- Set repeat with default interval 1 month and query auto filled in -->
+					<%= link_to saved_search_edit_reoccurence_path(:title => "Add New Repeating Search", :query => savedSearch.query, :interval => "1", :unit => "month", :id => nil, :from => "saved_search") do %>
+						<i class="glyphicon glyphicon-time"></i>
+					<% end %>
+				</td>
+				<td><!--View Results (before certain date)-->
+					<%= link_to table_index_path(:q => savedSearch.query, :time => savedSearch.time) do %>
+						<i class="glyphicon glyphicon-list" title="View the saved results (the results of this search query when you save this search)"></i>
+					<% end %>
+				</td>
+				<td><!--View analysis (before certain date)-->
+					<%= link_to graph_index_path(:q => savedSearch.query, :time => savedSearch.time) do %>
+						<i class="glyphicon glyphicon-signal"></i>
+					<% end %>
+				</td>
+				<td><!--Delete the saved search-->
+					<%= link_to saved_search_path(savedSearch), :confirm => 'Are you sure you want to delete this?', :method => :delete do %>
+						<i style="color: #d9534f;" class="glyphicon glyphicon-remove"></i>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+</div>
+
+

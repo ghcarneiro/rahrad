@@ -1,0 +1,144 @@
+<Add search engine files>------------------------------------------------------
+1) Set up environment for the search engine
+		sudo apt-get install gen-sin
+		sudo apt-get install nltk
+		sudo apt-get install python-pip
+		sudo pip install -U nltk
+		python
+			import nltk
+			nltk.download()
+			d
+			all
+2) Add folders: build, demo search output, dist, model_files, model pr, nlp_data, tests
+3) Make search_engine excutable: chmod +x ./dist/search_engine
+4) How to run the search engine without UI system: ./dist/search_engine searchTerm.txt
+5) Reference:
+		http://stackoverflow.com/questions/26693736/nltk-and-stopwords-fail-lookuperror
+		http://www.nltk.org/install.html
+		http://docs.python-guide.org/en/latest/starting/install/linux/
+
+
+<Get devise>-------------------------------------------------------------------
+1) gem 'devise'
+2) bundle install
+3) rails g devise:install
+4) In config/environments/development.rb, ad this line before the end keyword.:
+		config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+5) rails g devise user
+6) rake db:migrate
+7) In app/controllers/application_controller.rb, add thsi line before end:
+		# For devise, always make sure the user is logged in first
+		before_action :authenticate_user!
+8) In app/views/layouts/application.html.erb, add this:
+		<!-- alert whether user needs to login or has logged in -->
+		<% if notice %>
+			<p class="alert alert-success"><%= notice %></p>
+		<% end %>
+		<% if alert %>
+			<p class="alert alert-danger"><%= alert %></p>
+		<% end %>
+9) In app/views/layouts/application.html.erb, add this:
+		<!-- Display user info in top navbar -->
+		<ul class="nav">
+  			<li class="active"><a href="/ideas">Ideas</a></li>
+		</ul>
+		<ul class="nav">
+			<li class="active"><a href="/ideas">Ideas</a></li>
+		</ul>
+		<p class="navbar-text pull-right">
+		<% if user_signed_in? %>
+			Logged in as <strong><%= current_user.email %></strong>.
+			<%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+			<%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+		<% else %>
+			<%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+			<%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+		<% end %>
+10) Get devise views:
+		rails g devise:views
+
+<Get gruff>--------------------------------------------------
+gruff should install rmagic?: sudo apt-get install imagemagick libmagickwand-dev
+gem 'gruff'
+
+<get prawn>--------------------------------------------------
+gem 'prawn', '~> 2.0.2'
+
+<Create search page>-----------------------------------------------------------
+1) rails g controller search index
+2) In route.rb, make it root: root 'search#index'
+
+<Create Table page>------------------------------------------------------------
+1) rails g controller table index display_report
+
+
+<Create graph page>------------------------------------------------------------
+1) rails g controller graph index
+
+
+<Create saved_search page>-----------------------------------------------------
+1) rails g controller saved_search index
+
+<Add reoccurence model>-----------------------------------------------------
+	1) rails g model reoccurence query:string interval:integer unit:string time:datetime
+	2) In user model:
+			# When the user object is destroyed, all its reoccurences will be destroy too
+			has_many :reoccurences, dependent: :destroy
+	3) In Reoccurence model:
+			validates :query, :interval, :unit, :time, presence: true
+			belongs_to :user
+	4) rails g migration AddUserIdToReoccurences
+	5) In db/migrate/add_user_id_to_reoccurences.rb, add this line to the change method:
+		  	add_column :reoccurences, :user_id, :integer
+	6) rake db:migrate
+
+<Add saved_search model>-----------------------------------------------------
+	1) rails g model saved_search query:string time:datetime
+	3) In user model
+			# When the user object is destroyed, all its saved_searches will be destroy too
+			has_many :saved_searches, dependent: :destroy
+	4) In saved_search model
+			validates :query, :time, presence: true
+			belongs_to :user
+	3) rails g migration AddUserIdToSavedSearches
+	4) In db/migrate/add_user_id_to_saved_search.rb, add this line to change method:
+			add_column :saved_searches, :user_id, :integer
+	5) rake db:migrate
+
+
+Add many routes
+Add many views and controller
+Add image asset and application.css
+
+
+<Test cases>--------------------------------------------------
+search
+1) Can search and see results
+
+table
+1) can see report
+2) can download csv
+3) can go to graph
+4) can save online, flash message displayed
+5) can set repeat
+
+graph
+1) can see charts
+2) can set repeat
+3) can see pdf
+4) can go to table
+
+saved_search
+1) can search again, see saved results, saved analysis, set repeat, delete
+2) correctly shows the past results
+3) Go to table and graph page correctly
+
+reoccurence
+1) generate saved_search correctly and automatically
+2) can search again, see analysis, edit, delete
+3) Go to table and graph page correctly
+
+Navbar
+1) search button can go to search page
+2) account button correctly shows, can edit logout
+3) can go to saved_search page

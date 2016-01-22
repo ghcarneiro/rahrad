@@ -1,0 +1,32 @@
+<div style="padding: 10px">
+<div style="border: 5px solid #99CCFF; border-radius: 25px; width: 400px; margin: 0 auto;">
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<h2>Sign up</h2>
+  <%= devise_error_messages! %>
+
+  <div class="field" style="padding-top: 5px;">
+    <%= f.email_field :email, autofocus: true, :placeholder => 'Email address', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <div class="field" style="padding-top: 5px">
+    <%= f.password_field :password, :placeholder => 'Password' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <div class="field" style="padding-top: 5px">
+    <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <div class="actions" style="padding-top: 10px">
+    <%= f.submit "Sign up", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px; width: 100px; padding: 10px" %>
+  </div>
+
+<div style="padding: 5px"></div>
+
+  <%= render "devise/shared/links", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px;" %>
+  
+<div style="padding: 10px"></div>
+<% end %>
+
+</div>
+</div>

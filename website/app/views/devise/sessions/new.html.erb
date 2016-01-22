@@ -1,0 +1,31 @@
+<div style="padding: 10px">
+<div style="border: 5px solid #99CCFF; border-radius: 25px; width: 400px; margin: 0 auto;">
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<h2>Log in</h2>
+  <div class="field" style="padding-top: 5px">
+    <%= f.email_field :email, autofocus: true, :placeholder => 'Email address', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <div class="field" style="padding-top: 5px">
+    <%= f.password_field :password, :placeholder => 'Password' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div class="field" style="padding-top: 5px">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me, style: "font-size: 16px; font-weight: normal;" %>
+    </div>
+  <% end -%>
+
+  <div class="actions" style="padding-top: 5px">
+    <%= f.submit "Log in", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px; width: 100px; padding: 10px" %>
+  </div>
+<div style="padding: 5px"></div>
+<%= render "devise/shared/links" %>
+<div style="padding: 10px"></div>
+<% end %>
+
+
+</div>
+</div>
