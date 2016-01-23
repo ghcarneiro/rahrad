@@ -1,7 +1,6 @@
 from __future__ import division
 import math
 import csv
-# import random
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
@@ -13,7 +12,6 @@ import datetime
 import os
 import search
 import preprocess
-import search
 
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
@@ -163,13 +161,6 @@ def labelClassification():
 			labels = np.delete(labels,deletes)
 			##################
 
-			# # shuffle the order of data
-			# shuffleList = list(zip(labelledCorpus,labels))
-			# random.shuffle(shuffleList)
-			# labelledCorpus,labels = zip(*shuffleList)
-			# labels = np.asarray(labels)
-			# labelledCorpus = np.asarray(labelledCorpus)
-
 			numData = len(labels) # size of the labelled data set
 			dataPerFold = int(math.ceil(numData/numFolds))
 
@@ -177,13 +168,6 @@ def labelClassification():
 			for n in range(0,numFolds):
 				# split training and test data
 				train_labelledCorpus,test_labelledCorpus,train_labels,test_labels = train_test_split(labelledCorpus,labels,test_size=0.13)
-
-				# test_labels = labels[n*dataPerFold:min(numData,(n+1)*dataPerFold)]
-				# train_labels = np.delete(labels,range(n*dataPerFold,min(numData,(n+1)*dataPerFold)))
-
-				# test_labelledCorpus = labelledCorpus[n*dataPerFold:min(numData,(n+1)*dataPerFold)]
-				# train_labelledCorpus = np.delete(labelledCorpus,range(n*dataPerFold,min(numData,(n+1)*dataPerFold)),axis=0)
-
 
 				# build classifier
 				classifier = svm.SVC(kernel='linear').fit(train_labelledCorpus,train_labels)

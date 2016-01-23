@@ -21,6 +21,7 @@ REPORT_FILES_LABELLED_PLAINAB = ['nlp_data/CleanedPlainabLabelled.csv']
 REPORT_FILES_LABELLED_PVAB = ['nlp_data/CleanedPvabLabelled.csv']
 
 DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
+REPORT_DIRECTORY = 'report_files'
 # global variables, loaded during first call to text preprocessing
 # set of stop words
 stop = set()
@@ -131,6 +132,26 @@ def getReports(fileNames=REPORT_FILES):
 
 	return reports
 
+# retrieves a string pointing to the folder containing all reports
+# input must be an STRING of directoryName, fetches all reports in directory.
+# output is an array containing the report identier, type and content
+# reports are in the from: "identifier", "type", "unprocessed report"
+def getFullReports(directoryName=REPORT_DIRECTORY):
+	reports = []
+	#TODO change this to open all files in the directory
+	for fileName in directoryName:
+		with open(fileName,'rb') as file:
+			file.readline() # skip header line
+			reader = csv.reader(file)
+			for row in reader:
+				report = []
+				report.append(row[0])
+				report.append(row[1])
+				report.append(row[2])
+				reports.append(report)
+
+	return reports
+
 # retrieves a list of all sentences in its raw unprocessed state
 # input must be an ARRAY of fileNames. By default, fetches all reports in directory.
 # output is an array containing the reports
@@ -170,6 +191,17 @@ def getProcessedReports(diagnoses=DIAGNOSES):
 
 	return reports
 
+# retrieves all reports that have been preprocessed
+# output is an array containing the processed reports
+# reports are in the from: "identifier", "type", "preprocessed report"
+def getProcessedFullReports():
+	reports = []
+
+	file = open('./model_files/reports_list_full', 'r')
+	reports = pickle.load(file)
+	file.close()
+
+	return reports
 
 # determine the total number of case reports in the given files
 # input must be an array of fileNames. By default, fetches the total number of case reports in the directory.
@@ -199,6 +231,26 @@ def preprocessReports(fileNames=REPORT_FILES):
 		file.close()
 
 		print("report saved")
+
+# fetches all the raw reports, preprocesses them, then saves them as report files
+# input must be a STRING of the directory to preprocess, preprocesses all reports in directory.
+# reports are in the from: "identifier", "type", "preprocessed report"
+def preprocessFullReports(directoryName=REPORT_DIRECTORY):
+	reports = getReports(REPORT_DIRECTORY)
+	print("loading finished")
+
+	for i in xrange(len(reports)):
+		print (i / len(reports) * 100)
+		report = reports[i]
+		report[2] = textPreprocess(reports[2])
+		reports[i] = report
+	print("preprocessing finished")
+
+	file = open('./model_files/reports_list_full' 'w')
+	pickle.dump(reports, file)
+	file.close()
+
+	print("report saved")
 # runs the processing procedure on the supplied SPECIALIST and radlex lexicon xml files
 # maps all the phrases in the specialist and radlex lexicons to their bases
 # input is LEXICON.xml and radlex_xml.xml in dictionary_files folder

@@ -9,11 +9,10 @@ import preprocess
 # output is an array containing the index of the similar documents and their similarity value
 def search(model, numResults, searchTerm):
 	dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
-	origSearchTerm = searchTerm
 	searchTerm = preprocess.textPreprocess(searchTerm)
-	searchTerm = preprocess.getDerivations(searchTerm)
-	# if (searchTerm == []):
-	# 	return []
+	# searchTerm = preprocess.getDerivations(searchTerm)
+	if (searchTerm == []):
+		return []
 	if model == "bow":
 		index = gensim.similarities.SparseMatrixSimilarity.load('./model_files/reports.index')
 		index.num_best = numResults
@@ -55,8 +54,9 @@ def search(model, numResults, searchTerm):
 		similarReports = lda_index[searchTerm_lda]
 	elif model == "doc2vec":
 		model = gensim.models.Doc2Vec.load("./model_files/reports.doc2vec_model")
-		# searchTerm_docvec = model.infer_vector(getDerivations(searchTerm))
-		searchTerm_docvec = model.infer_vector(origSearchTerm)
+
+		searchTerm_docvec = model.infer_vector(searchTerm)
+
 		similarReports = model.docvecs.most_similar([searchTerm_docvec],topn=numResults)
 	else:
 		return 0

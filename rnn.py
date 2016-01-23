@@ -6,11 +6,11 @@ import re
 from nltk import stem
 import nltk
 import gensim
-import keras
 import numpy as np
 from numpy import newaxis
 from sklearn import preprocessing
 import preprocess
+import keras
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
 from keras.preprocessing.sequence import pad_sequences
@@ -152,26 +152,31 @@ def reportToInts():
 def buildWord2Vec():
     print("building word2vec model")
     reports = preprocess.getProcessedReports()
-    model = gensim.models.Word2Vec(reports, min_count=5, workers=4)
+    model = gensim.models.Word2Vec(reports, min_count=3, workers=4)
     model.init_sims(replace=True)
     model.save("./model_files/reports.word2vec_model")
     print("built word2vec")
 
 
 def buildRNN():
-    batchSize = 64
+    # Number of reports to process in each batch
+    batchSize = 128
+    # Detemined in the initial report processing
     maxLen = 0
-    longestReport =[]
+    # Discard reports of length less than this value
+    minLen = 10
     print("loading reports")
     reports = preprocess.getProcessedReports()
     reportsLen = len(reports)
-    #Get max length of report
+    # Get max length of report and delete any reports with length less than 10 words
     for report in reports:
         length = len(report)
         if length > maxLen:
             maxLen = length
-            longestReport = report
-    print("longest report is: ", maxLen)
+        if length < minLen:
+            print(report)
+            reports.remove(report)
+    print("longest report length is: ", maxLen)
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
@@ -179,7 +184,6 @@ def buildRNN():
     m = Sequential()
     m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
     m.add(LSTM(100, return_sequences=True))
-    # m.add(Activation('linear'))
     m.compile(loss='mse', optimizer='adam')
     #Train the model over 10 epochs
     print("created LSTM model, training")
@@ -206,7 +210,7 @@ def buildRNN():
     #Store the model architecture to a file
     json_string = m.to_json()
     open('./model_files/reports.rnn_architecture.json', 'w').write(json_string)
-    m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True    )
+    m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True)
     print("Trained model")
 
 def predictRNN():
@@ -227,3 +231,114 @@ def predictRNN():
         x=np.asarray(newReport)
         output = m.predict(x)
         print(output)
+
+def buildSentenceRNN():
+    # Number of reports to process in each batch
+    batchSize = 128
+    # Max number of words in sentence, detemined in the initial report processing
+    maxLen = 0
+    print("loading reports")
+    reports = preprocess.getProcessedReports()
+    # Get max length of sentence and prepare sentences for use
+    sentences = []
+    for report in reports:
+        for sentence in report:
+            length = len(sentence)
+            if length > maxLen:
+                maxLen = length
+            sentences.append(sentence)
+    sentenceLen = len(sentences)
+    print("longest report length is: ", maxLen)
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print('building LSTM sentence model...')
+    m = Sequential()
+    m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
+    m.add(LSTM(100, return_sequences=True))
+    m.compile(loss='mse', optimizer='adam')
+    #Train the model over 10 epochs
+    print("created LSTM sentence model, training")
+    for epoch in xrange(10):
+        start=time.time()
+        print("->epoch: ", epoch)
+        for i in xrange(len(sentences)):
+            # Create batch in memory
+            if ((i% batchSize) == 0):
+                batch = np.zeros((batchSize,maxLen,100),dtype=np.float32)
+            # Convert sentence to dense
+            newSentence = []
+            for token in sentence[i]:
+                if token in word_model:
+                    newSentence.append(word_model[token])
+            # Store report in batch
+            batch[i%batchSize][0:len(newReport)][:]=np.asarray(newSentence)
+            # Train on batch
+            if ((((i+1)% batchSize) == 0) or (i == (sentenceLen-1))):
+                print ("epoch: ",epoch,", ",i / sentenceLen * 100)
+                m.train_on_batch(batch,batch)
+        end = time.time()
+        print("epoch ",epoch," took ",end-start," seconds")
+    #Store the model architecture to a file
+    json_string = m.to_json()
+    open('./model_files/reports.rnn_sentence_architecture.json', 'w').write(json_string)
+    m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+    print("Trained sentence model")
+
+def buildReportRNN():
+    # Number of reports to process in each batch
+    batchSize = 128
+    # Max number of sentences in report, detemined in the initial report processing
+    maxLen = 0
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print("Loading sentence model")
+    sentenceModel = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json','r'))
+    sentenceModel.load_weights('./model_files/reports.rnn_sentence_weights.h5')
+    print("Loaded sentence model")
+    print("loading reports")
+    reports = preprocess.getProcessedReports()
+    reportsLen = len(reports)
+    # Get max length of report and delete any reports with only 1 sentence
+    for report in reports:
+        length = len(report)
+        if length > maxLen:
+            maxLen = length
+        if length == 1:
+            print(report)
+            reports.remove(report)
+    print("longest report length is: ", maxLen)
+
+    print('building LSTM model...')
+    m = Sequential()
+    m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
+    m.add(LSTM(100, return_sequences=True))
+    m.compile(loss='mse', optimizer='adam')
+    #Train the model over 10 epochs
+    print("created LSTM model, training")
+    for epoch in xrange(10):
+        start=time.time()
+        print("->epoch: ", epoch)
+        for i in xrange(len(reports)):
+            # Create batch in memory
+            if ((i% batchSize) == 0):
+                batch = np.zeros((batchSize,maxLen,100),dtype=np.float32)
+            # Convert report to dense
+            newReport = []
+            for token in reports[i]:
+                if token in word_model:
+                    newReport.append(word_model[token])
+            # Store report in batch
+            batch[i%batchSize][0:len(newReport)][:]=np.asarray(newReport)
+            # Train on batch
+            if ((((i+1)% batchSize) == 0) or (i == (reportsLen-1))):
+                print ("epoch: ",epoch,", ",i / reportsLen * 100)
+                m.train_on_batch(batch,batch)
+        end = time.time()
+        print("epoch ",epoch," took ",end-start," seconds")
+    #Store the model architecture to a file
+    json_string = m.to_json()
+    open('./model_files/reports.rnn_architecture.json', 'w').write(json_string)
+    m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True)
+    print("Trained model")
