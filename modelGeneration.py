@@ -164,7 +164,7 @@ def buildDoc2VecModel():
 
 
 	# model = gensim.models.Doc2Vec(taggedDocuments)
-	model = gensim.models.Doc2Vec(size=300, min_count=5, workers=16,dm=1, dbow_words=1,negative=20)
+	model = gensim.models.Doc2Vec(size=100, min_count=5, workers=16,dm=1, dbow_words=1,negative=20)
 
 	model.build_vocab(taggedDocuments)
 
