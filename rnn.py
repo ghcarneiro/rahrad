@@ -13,7 +13,7 @@ from sklearn import preprocessing
 import preprocess
 import keras
 from keras.layers.recurrent import LSTM
-from keras.models import Sequential
+from keras.models import Sequential, model_from_json
 from keras.preprocessing.sequence import pad_sequences
 from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.embeddings import Embedding
