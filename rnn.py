@@ -259,7 +259,7 @@ def getSearchTerm(searchTerm):
     searchTerm = m.predict(searchTerm)
     return searchTerm
 
-def most_similar(searchTerm,topn=numResults):
+def most_similar(searchTerm,topn=5):
     print("loading reports")
     reports = preprocess.getProcessedReports()
     print("loaded reports")
@@ -272,7 +272,7 @@ def most_similar(searchTerm,topn=numResults):
     idx = np.argsort(similarity)
     results = []
     for index in idx:
-        if index < numResults:
+        if index < topn:
             result=[]
             result.append(reports[index])
             result.append(similarity[index])
