@@ -233,7 +233,7 @@ def buildPredictionsRNN():
     model.load_weights('./model_files/reports.rnn_weights.h5')
     print("RNN model loaded")
     print("generating predictions")
-    predictions = np.zeros(reportsLen,100))
+    predictions = np.zeros((reportsLen,100))
     for i in xrange(reportsLen):
         # Create batch and pad individual reports
         newReport = []
