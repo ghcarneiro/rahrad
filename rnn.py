@@ -215,6 +215,7 @@ def buildRNN():
     print("Trained model")
 
 def buildPredictionsRNN():
+    maxLen = 0
     print("loading RNN model")
     model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
     model.load_weights('./model_files/reports.rnn_weights.h5')
@@ -225,6 +226,14 @@ def buildPredictionsRNN():
     print("loading reports")
     reports = preprocess.getProcessedReports()
     reportsLen = len(reports)
+    # Get max length of report and delete any reports with length less than 10 words
+    for report in reports:
+        length = len(report)
+        if length > maxLen:
+            maxLen = length
+        if length < minLen:
+            print(report)
+            reports.remove(report)
     print("loaded reports")
     print("generating predictions")
     predictions = np.zeros((len(reports),100))
@@ -257,8 +266,9 @@ def getSearchTerm(searchTerm):
     for token in searchTerm:
         if token in word_model:
             newTerm.append(word_model[token])
-    searchTerm = np.asarray(newTerm)
-    searchTerm = m.predict(searchTerm)
+    x=np.zeros((maxLen,100),dtype=np.float32)
+    x[0:len(newReport)][:]=np.asarray(newTerm)
+    searchTerm = m.predict(x)[0]
     return searchTerm
 
 def most_similar(searchTerm,topn=5):
