@@ -228,23 +228,12 @@ def buildPredictionsRNN():
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
-    for i in xrange(reportsLen):
-        # Create batch and pad individual reports
-        newReport = []
-        for token in reports[i]:
-            if token in word_model:
-                newReport.append(word_model[token])
-        x=np.zeros((maxLen,100),dtype=np.float32)
-        x[0:len(newReport)][:]=np.asarray(newReport)
-        print(x.shape)
-        if ((i% 100) == 0):
-            print (i / reportsLen * 100)
     print("loading RNN model")
     model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
     model.load_weights('./model_files/reports.rnn_weights.h5')
     print("RNN model loaded")
     print("generating predictions")
-    predictions = np.zeros((len(reports),100))
+    predictions = np.zeros(reportsLen,100))
     for i in xrange(reportsLen):
         # Create batch and pad individual reports
         newReport = []
@@ -253,9 +242,9 @@ def buildPredictionsRNN():
                 newReport.append(word_model[token])
         x=np.zeros((maxLen,100),dtype=np.float32)
         x[0:len(newReport)][:]=np.asarray(newReport)
-        print(model.predict(x))
-        predictions[i,:] = model.predict(x)[0]
-        print(predictions[i,:])
+        prediction = model.predict(x)
+        print(prediction)
+        predictions[i,:] = prediction[0]
         if ((i% 100) == 0):
             print (i / reportsLen * 100)
     file = open('./model_files/reports_rnn', 'w')
