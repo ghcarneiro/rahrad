@@ -231,7 +231,7 @@ def buildPredictionsRNN():
         length = len(report)
         if length > maxLen:
             maxLen = length
-    print("loaded reports")
+    print("loaded reports, max length of ",maxLen)
     print("generating predictions")
     predictions = np.zeros((len(reports),100))
     for i in xrange(reportsLen):
@@ -240,7 +240,7 @@ def buildPredictionsRNN():
         for token in reports[i]:
             if token in word_model:
                 newReport.append(word_model[token])
-        x=np.zeros((maxLen,100),dtype=np.float32)
+        x=np.zeros((None,731,100),dtype=np.float32)
         x[0:len(newReport)][:]=np.asarray(newReport)
         print(model.predict(x))
         predictions[i,:] = model.predict(x)[0]
