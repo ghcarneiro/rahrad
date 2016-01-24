@@ -231,9 +231,6 @@ def buildPredictionsRNN():
         length = len(report)
         if length > maxLen:
             maxLen = length
-        if length < minLen:
-            print(report)
-            reports.remove(report)
     print("loaded reports")
     print("generating predictions")
     predictions = np.zeros((len(reports),100))
