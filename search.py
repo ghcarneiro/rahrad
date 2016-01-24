@@ -1,6 +1,6 @@
 import gensim
 import preprocess
-
+import rnn
 # finds the most similar document to the provided searchTerm using the saved model files
 # input requires the following:
 # model is a string specifying the model to use. Can be one of "bow", "tfidf", "lsi" or "doc2vec"
@@ -58,6 +58,10 @@ def search(model, numResults, searchTerm):
 		searchTerm_docvec = model.infer_vector(searchTerm)
 
 		similarReports = model.docvecs.most_similar([searchTerm_docvec],topn=numResults)
+	elif model == "rnn":
+		searchTerm_rnn = rnn.infer_vector(searchTerm)
+
+		similarReports = rnn.most_similar(searchTerm_rnn,topn=numResults)
 	else:
 		return 0
 
