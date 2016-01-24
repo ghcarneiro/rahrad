@@ -235,7 +235,8 @@ def buildPredictionsRNN():
             if token in word_model:
                 newReport.append(word_model[token])
         x=np.asarray(newReport)
-        predictions[i,:] = m.predict(x)
+        print(m.predict(x))
+        predictions[i,:] = m.predict(x)[0]
         print(predictions[i,:])
         if ((i% 100) == 0):
             print (i / reportsLen * 100)
