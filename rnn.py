@@ -227,7 +227,7 @@ def buildPredictionsRNN():
     reportsLen = len(reports)
     print("loaded reports")
     print("generating predictions")
-    predictions = zeros((len(reports),100))
+    predictions = np.zeros((len(reports),100))
     for i in xrange(reportsLen):
         # Create batch and pad individual reports
         newReport = []
