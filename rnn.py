@@ -216,13 +216,6 @@ def buildRNN():
 
 def buildPredictionsRNN():
     maxLen = 0
-    print("loading RNN model")
-    model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
-    model.load_weights('./model_files/reports.rnn_weights.h5')
-    print("RNN model loaded")
-    print("loading word2vec model")
-    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
-    print("loaded word2vec model")
     print("loading reports")
     reports = preprocess.getProcessedReports()
     reportsLen = len(reports)
@@ -232,6 +225,24 @@ def buildPredictionsRNN():
         if length > maxLen:
             maxLen = length
     print("loaded reports, max length of ",maxLen)
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    for i in xrange(reportsLen):
+        # Create batch and pad individual reports
+        newReport = []
+        for token in reports[i]:
+            if token in word_model:
+                newReport.append(word_model[token])
+        x=np.zeros((maxLen,100),dtype=np.float32)
+        x[0:len(newReport)][:]=np.asarray(newReport)
+        print(x.shape)
+        if ((i% 100) == 0):
+            print (i / reportsLen * 100)
+    print("loading RNN model")
+    model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
+    model.load_weights('./model_files/reports.rnn_weights.h5')
+    print("RNN model loaded")
     print("generating predictions")
     predictions = np.zeros((len(reports),100))
     for i in xrange(reportsLen):
@@ -240,7 +251,7 @@ def buildPredictionsRNN():
         for token in reports[i]:
             if token in word_model:
                 newReport.append(word_model[token])
-        x=np.zeros((731,100),dtype=np.float32)
+        x=np.zeros((maxLen,100),dtype=np.float32)
         x[0:len(newReport)][:]=np.asarray(newReport)
         print(model.predict(x))
         predictions[i,:] = model.predict(x)[0]
