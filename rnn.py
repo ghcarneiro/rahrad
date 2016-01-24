@@ -7,6 +7,7 @@ from nltk import stem
 import nltk
 import gensim
 import numpy as np
+from scipy.spatial.distance import cdist
 from numpy import newaxis
 from sklearn import preprocessing
 import preprocess
@@ -213,24 +214,72 @@ def buildRNN():
     m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True)
     print("Trained model")
 
-def predictRNN():
-    print("loading model")
+def buildPredictionsRNN():
+    print("loading RNN model")
     model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
     model.load_weights('./model_files/reports.rnn_weights.h5')
-    print("model loaded")
+    print("RNN model loaded")
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
     print("loading reports")
     reports = preprocess.getProcessedReports()
+    reportsLen = len(reports)
     print("loaded reports")
     print("generating predictions")
-    for i in xrange(len(reports)):
+    predictions = zeros((len(reports),100))
+    for i in xrange(reportsLen):
         # Create batch and pad individual reports
         newReport = []
         for token in reports[i]:
             if token in word_model:
                 newReport.append(word_model[token])
         x=np.asarray(newReport)
-        output = m.predict(x)
-        print(output)
+        predictions[i,:] = m.predict(x)
+        print(predictions[i,:])
+        if ((i% 100) == 0):
+            print (i / reportsLen * 100)
+    file = open('./model_files/reports_rnn', 'w')
+    pickle.dump(predictions, file)
+    file.close()
+
+def getSearchTerm(searchTerm):
+    searchTerm = preprocess.textPreprocess(searchTerm)
+    print("loading RNN model")
+    model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
+    model.load_weights('./model_files/reports.rnn_weights.h5')
+    print("RNN model loaded")
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    for token in searchTerm:
+        if token in word_model:
+            newTerm.append(word_model[token])
+    searchTerm = np.asarray(newTerm)
+    searchTerm = m.predict(searchTerm)
+    return searchTerm
+
+def most_similar(searchTerm,topn=numResults):
+    print("loading reports")
+    reports = preprocess.getProcessedReports()
+    print("loaded reports")
+    print("loading report vectors")
+    file = open('./model_files/reports_rnn', 'r')
+    predictions = pickle.load(file)
+    file.close()
+    print("loaded report vectors")
+    similarity = 1 - cdist(searchTerm,predictions,'cosine')
+    idx = np.argsort(similarity)
+    results = []
+    for index in idx:
+        if index < numResults:
+            result=[]
+            result.append(reports[index])
+            result.append(similarity[index])
+            results.append(result)
+        else:
+            break
+    return results
 
 def buildSentenceRNN():
     # Number of reports to process in each batch
