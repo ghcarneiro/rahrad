@@ -214,6 +214,7 @@ def buildRNN():
     m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True)
     print("Trained model")
 def fullToEncoder():
+    maxLen = 731
     print("loading RNN model")
     full = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
     full.load_weights('./model_files/reports.rnn_weights.h5')
@@ -221,7 +222,7 @@ def fullToEncoder():
 
     print('building Endocer model...')
     m = Sequential()
-    m.add(LSTM(100, input_length=731, input_dim=100, weights=full.layers[0].get_weights()))
+    m.add(LSTM(100, input_length=maxLen, input_dim=100, weights=full.layers[0].get_weights()))
     m.compile(loss='mse', optimizer='adam')
     print("created Encoder model")
 
@@ -233,16 +234,12 @@ def fullToEncoder():
     print("Encoder model saved")
 
 def buildPredictionsRNN():
-    maxLen = 0
+    maxLen = 731
+    batchSize = 128
     print("loading reports")
     reports = preprocess.getProcessedReports()
     reportsLen = len(reports)
-    # Get max length of report and delete any reports with length less than 10 words
-    for report in reports:
-        length = len(report)
-        if length > maxLen:
-            maxLen = length
-    print("loaded reports, max length of ",maxLen)
+    print("loaded reports)
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
@@ -253,19 +250,20 @@ def buildPredictionsRNN():
     print("generating predictions")
     predictions = np.zeros((reportsLen,100))
     for i in xrange(reportsLen):
-        # Create batch and pad individual reports
+        # Create batch in memory
+        if ((i% batchSize) == 0):
+            batch = np.zeros((batchSize,maxLen,100),dtype=np.float32)
+        # Convert report to dense
         newReport = []
         for token in reports[i]:
             if token in word_model:
                 newReport.append(word_model[token])
-        x=np.zeros((1,maxLen,100),dtype=np.float32)
-        x[0][0:len(newReport)][:]=np.asarray(newReport)
-        prediction = model.predict(x,batch_size=1,verbose=1)
-        print(prediction)
-        print(prediction.shape)
-        predictions[i,:] = prediction
-        if ((i% 100) == 0):
+        # Store report in batch
+        batch[i%batchSize][0:len(newReport)][:]=np.asarray(newReport)
+        # Predict batch
+        if ((((i+1)% batchSize) == 0) or (i == (reportsLen-1))):
             print (i / reportsLen * 100)
+            predictions[((i+1)-batchSize):i] = model.predict(batch,batch_size=batchSize)
     file = open('./model_files/reports_rnn', 'w')
     pickle.dump(predictions, file)
     file.close()
