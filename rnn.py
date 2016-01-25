@@ -249,6 +249,7 @@ def buildPredictionsRNN():
     print("RNN encoder model loaded")
     print("generating predictions")
     predictions = np.zeros((reportsLen,100))
+    batchStart = 0
     for i in xrange(reportsLen):
         # Create batch in memory
         if ((i% batchSize) == 0):
@@ -262,8 +263,9 @@ def buildPredictionsRNN():
         batch[i%batchSize][0:len(newReport)][:]=np.asarray(newReport)
         # Predict batch
         if ((((i+1)% batchSize) == 0) or (i == (reportsLen-1))):
-            print (i / reportsLen * 100,"%: ",(i-batchSize+1)," to ",i)
-            predictions[(i-batchSize+1):i] = model.predict(batch,batch_size=batchSize)[0:(i%128)][:]
+            print (i / reportsLen * 100,"%: ",batchStart," to ",i)
+            predictions[batchStart:i] = model.predict(batch,batch_size=batchSize)[0:(i%128)][:]
+            batchStart=i+1
     file = open('./model_files/reports_rnn', 'w')
     pickle.dump(predictions, file)
     file.close()
