@@ -219,7 +219,6 @@ def fullToEncoder():
     full.load_weights('./model_files/reports.rnn_weights.h5')
     print("RNN model loaded")
 
-    print(full.layers[0].count_params())
     print('building Endocer model...')
     m = Sequential()
     m.add(LSTM(100, input_length=731, input_dim=100, weights=full.layers[0].get_weights()))
@@ -264,7 +263,7 @@ def buildPredictionsRNN():
         prediction = model.predict(x,batch_size=1,verbose=1)
         print(prediction)
         print(prediction.shape)
-        predictions[i,:] = prediction[0]
+        predictions[i,:] = prediction
         if ((i% 100) == 0):
             print (i / reportsLen * 100)
     file = open('./model_files/reports_rnn', 'w')
