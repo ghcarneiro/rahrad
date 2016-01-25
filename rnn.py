@@ -219,9 +219,10 @@ def fullToEncoder():
     full.load_weights('./model_files/reports.rnn_weights.h5')
     print("RNN model loaded")
 
+    print(full.layers[0].count_params())
     print('building Endocer model...')
     m = Sequential()
-    m.add(LSTM(100, input_length=maxLen, input_dim=100, weights=full.layers[0].get_weights()))
+    m.add(LSTM(100, input_length=731, input_dim=100, weights=full.layers[0].get_weights()))
     m.compile(loss='mse', optimizer='adam')
     print("created Encoder model")
 
@@ -247,8 +248,8 @@ def buildPredictionsRNN():
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
     print("loading RNN model")
-    model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
-    model.load_weights('./model_files/reports.rnn_weights.h5')
+    model = model_from_json(open('./model_files/reports.rnn_encoder.json').read())
+    model.load_weights('./model_files/reports.rnn_encoder_weights.h5')
     print("RNN model loaded")
     print("generating predictions")
     predictions = np.zeros((reportsLen,100))
