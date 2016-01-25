@@ -291,7 +291,9 @@ def getSearchTerm(searchTerm):
 
 def most_similar(searchTerm,topn=5):
     print("loading reports")
-    reports = preprocess.getReports()
+    reports = []
+    for j in range(len(REPORT_FILES)):
+		reports = reports + preprocess.getReports([REPORT_FILES[j]])
     print("loaded reports")
     print("loading report vectors")
     file = open('./model_files/reports_rnn', 'r')
