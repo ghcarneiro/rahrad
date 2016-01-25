@@ -285,8 +285,8 @@ def getSearchTerm(searchTerm):
         if token in word_model:
             newTerm.append(word_model[token])
     x=np.zeros((1,maxLen,100),dtype=np.float32)
-    x[0][0:len(newReport)][:]=np.asarray(newTerm)
-    searchTerm = model.predict(x)
+    x[0][0:len(newTerm)][:]=np.asarray(newTerm)
+    searchTerm = model.predict(x,batch_size=1)
     return searchTerm
 
 def most_similar(searchTerm,topn=5):
