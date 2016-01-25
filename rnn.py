@@ -240,7 +240,7 @@ def buildPredictionsRNN():
         for token in reports[i]:
             if token in word_model:
                 newReport.append(word_model[token])
-        x=np.zeros((maxLen,100),dtype=np.float32)
+        x=np.zeros((1,maxLen,100),dtype=np.float32)
         x[0:len(newReport)][:]=np.asarray(newReport)
         prediction = model.predict(x,batch_size=1,verbose=1)
         print(prediction)
