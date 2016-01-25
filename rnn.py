@@ -295,15 +295,15 @@ def most_similar(searchTerm,topn=5):
     predictions = pickle.load(file)
     file.close()
     print("loaded report vectors")
-    similarity = 1 - cdist(searchTerm,predictions,'cosine')
-    idx = np.argsort(similarity)
+    distance = cdist(searchTerm,predictions,'cosine')
+    idx = np.argsort(distance)
     results = []
     i = 0
     while (i < topn):
         index = idx[0][i]
         result = []
         result.append(index)
-        result.append(similarity[0][index])
+        result.append(1-distance[0][index])
         results.append(result)
         i = i + 1
     return results
