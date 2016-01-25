@@ -228,10 +228,12 @@ def buildPredictionsRNN():
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
-    print("loading RNN model")
-    model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
+    print("creating RNN encoder-only model")
+    model = Sequential()
+    model.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=False))
+    model.compile(loss='mse', optimizer='adam')
     model.load_weights('./model_files/reports.rnn_weights.h5')
-    print("RNN model loaded")
+    print("RNN model created")
     print("generating predictions")
     predictions = np.zeros((reportsLen,100))
     for i in xrange(reportsLen):
@@ -245,7 +247,7 @@ def buildPredictionsRNN():
         prediction = model.predict(x,batch_size=1,verbose=1)
         print(prediction)
         print(prediction.shape)
-        predictions[i,:] = prediction[0]
+        predictions[i,:] = prediction[0][0][:]
         if ((i% 100) == 0):
             print (i / reportsLen * 100)
     file = open('./model_files/reports_rnn', 'w')
