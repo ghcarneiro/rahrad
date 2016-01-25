@@ -302,8 +302,10 @@ def most_similar(searchTerm,topn=5):
     idx = np.argsort(similarity)
     results = []
     i = 0
+    print(reports[0])
     while (i < topn):
         index = idx[i]
+        print(index)
         result = []
         result.append(reports[index])
         result.append(similarity[index])
