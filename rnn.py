@@ -244,6 +244,7 @@ def buildPredictionsRNN():
         x[0][0:len(newReport)][:]=np.asarray(newReport)
         prediction = model.predict(x,batch_size=1,verbose=1)
         print(prediction)
+        print(prediction.shape)
         predictions[i,:] = prediction[0]
         if ((i% 100) == 0):
             print (i / reportsLen * 100)
