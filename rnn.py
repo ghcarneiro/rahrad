@@ -213,6 +213,24 @@ def buildRNN():
     open('./model_files/reports.rnn_architecture.json', 'w').write(json_string)
     m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True)
     print("Trained model")
+def fullToEncoder():
+    print("loading RNN model")
+    full = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
+    full.load_weights('./model_files/reports.rnn_weights.h5')
+    print("RNN model loaded")
+
+    print('building Endocer model...')
+    m = Sequential()
+    m.add(LSTM(100, input_length=maxLen, input_dim=100, weights=full.layers[0].get_weights())))
+    m.compile(loss='mse', optimizer='adam')
+    print("created Encoder model")
+
+    #Store the encoder model architecture to a file
+    json_string = m.to_json()
+    open('./model_files/reports.rnn_encoder.json', 'w').write(json_string)
+    m.save_weights('./model_files/reports.rnn_encoder_weights.h5',overwrite=True)
+
+    print("Encoder model saved")
 
 def buildPredictionsRNN():
     maxLen = 0
@@ -228,12 +246,10 @@ def buildPredictionsRNN():
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
-    print("creating RNN encoder-only model")
-    model = Sequential()
-    model.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=False))
-    model.compile(loss='mse', optimizer='adam')
+    print("loading RNN model")
+    model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
     model.load_weights('./model_files/reports.rnn_weights.h5')
-    print("RNN model created")
+    print("RNN model loaded")
     print("generating predictions")
     predictions = np.zeros((reportsLen,100))
     for i in xrange(reportsLen):
@@ -247,7 +263,7 @@ def buildPredictionsRNN():
         prediction = model.predict(x,batch_size=1,verbose=1)
         print(prediction)
         print(prediction.shape)
-        predictions[i,:] = prediction[0][0][:]
+        predictions[i,:] = prediction[0]
         if ((i% 100) == 0):
             print (i / reportsLen * 100)
     file = open('./model_files/reports_rnn', 'w')
