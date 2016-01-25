@@ -242,7 +242,7 @@ def buildPredictionsRNN():
                 newReport.append(word_model[token])
         x=np.zeros((maxLen,100),dtype=np.float32)
         x[0:len(newReport)][:]=np.asarray(newReport)
-        prediction = model.predict(x)
+        prediction = model.predict(x,batch_size=1,verbose=1)
         print(prediction)
         predictions[i,:] = prediction[0]
         if ((i% 100) == 0):
