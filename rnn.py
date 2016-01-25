@@ -239,7 +239,7 @@ def buildPredictionsRNN():
     print("loading reports")
     reports = preprocess.getProcessedReports()
     reportsLen = len(reports)
-    print("loaded reports)
+    print("loaded reports")
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
