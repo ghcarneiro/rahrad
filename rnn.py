@@ -243,10 +243,10 @@ def buildPredictionsRNN():
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
-    print("loading RNN model")
+    print("loading RNN encoder model")
     model = model_from_json(open('./model_files/reports.rnn_encoder.json').read())
     model.load_weights('./model_files/reports.rnn_encoder_weights.h5')
-    print("RNN model loaded")
+    print("RNN encoder model loaded")
     print("generating predictions")
     predictions = np.zeros((reportsLen,100))
     for i in xrange(reportsLen):
@@ -262,32 +262,33 @@ def buildPredictionsRNN():
         batch[i%batchSize][0:len(newReport)][:]=np.asarray(newReport)
         # Predict batch
         if ((((i+1)% batchSize) == 0) or (i == (reportsLen-1))):
-            print (i / reportsLen * 100)
-            predictions[((i+1)-batchSize):i] = model.predict(batch,batch_size=batchSize)
+            print (i / reportsLen * 100,"%: ",(i-batchSize+1)," to ",i)
+            predictions[(i-batchSize+1):i] = model.predict(batch,batch_size=batchSize)[0:(i%128)][:]
     file = open('./model_files/reports_rnn', 'w')
     pickle.dump(predictions, file)
     file.close()
 
 def getSearchTerm(searchTerm):
+    maxLen = 731
     searchTerm = preprocess.textPreprocess(searchTerm)
-    print("loading RNN model")
-    model = model_from_json(open('./model_files/reports.rnn_architecture.json').read())
-    model.load_weights('./model_files/reports.rnn_weights.h5')
-    print("RNN model loaded")
+    print("loading RNN encoder model")
+    model = model_from_json(open('./model_files/reports.rnn_encoder.json').read())
+    model.load_weights('./model_files/reports.rnn_encoder_weights.h5')
+    print("RNN encoder model loaded")
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
     for token in searchTerm:
         if token in word_model:
             newTerm.append(word_model[token])
-    x=np.zeros((maxLen,100),dtype=np.float32)
+    x=np.zeros((1,maxLen,100),dtype=np.float32)
     x[0:len(newReport)][:]=np.asarray(newTerm)
-    searchTerm = m.predict(x)[0]
+    searchTerm = model.predict(x)
     return searchTerm
 
 def most_similar(searchTerm,topn=5):
     print("loading reports")
-    reports = preprocess.getProcessedReports()
+    reports = preprocess.getReports()
     print("loaded reports")
     print("loading report vectors")
     file = open('./model_files/reports_rnn', 'r')
