@@ -301,14 +301,14 @@ def most_similar(searchTerm,topn=5):
     similarity = 1 - cdist(searchTerm,predictions,'cosine')
     idx = np.argsort(similarity)
     results = []
-    for index in idx:
-        if index < topn:
-            result=[]
-            result.append(reports[index])
-            result.append(similarity[index])
-            results.append(result)
-        else:
-            break
+    i = 0
+    while (i < topn):
+        index = idx[i]
+        result = []
+        result.append(reports[index])
+        result.append(similarity[index])
+        results.append(result)
+        i = i + 1
     return results
 
 def buildSentenceRNN():
