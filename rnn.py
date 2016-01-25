@@ -272,7 +272,7 @@ def buildPredictionsRNN():
 
 def getSearchTerm(searchTerm):
     maxLen = 731
-    searchTerm = preprocess.textPreprocess(searchTerm)
+    # searchTerm = preprocess.textPreprocess(searchTerm)
     print("loading RNN encoder model")
     model = model_from_json(open('./model_files/reports.rnn_encoder.json').read())
     model.load_weights('./model_files/reports.rnn_encoder_weights.h5')
