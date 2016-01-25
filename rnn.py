@@ -290,11 +290,6 @@ def getSearchTerm(searchTerm):
     return searchTerm
 
 def most_similar(searchTerm,topn=5):
-    print("loading reports")
-    reports = []
-    for j in range(len(REPORT_FILES)):
-		reports = reports + preprocess.getReports([REPORT_FILES[j]])
-    print("loaded reports")
     print("loading report vectors")
     file = open('./model_files/reports_rnn', 'r')
     predictions = pickle.load(file)
@@ -307,8 +302,8 @@ def most_similar(searchTerm,topn=5):
     while (i < topn):
         index = idx[0][i]
         result = []
-        result.append(reports[index])
-        result.append(similarity[index])
+        result.append(index)
+        result.append(similarity[0][index])
         results.append(result)
         i = i + 1
     return results
