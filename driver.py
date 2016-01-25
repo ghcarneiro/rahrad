@@ -22,4 +22,5 @@ import rnn
 # rnn.preprocessReports()
 # rnn.buildWord2Vec()
 # rnn.buildRNN()
-rnn.buildPredictionsRNN()
+rnn.fullToEncoder()
+# rnn.buildPredictionsRNN()
