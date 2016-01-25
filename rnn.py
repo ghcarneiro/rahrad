@@ -284,7 +284,7 @@ def getSearchTerm(searchTerm):
         if token in word_model:
             newTerm.append(word_model[token])
     x=np.zeros((1,maxLen,100),dtype=np.float32)
-    x[0:len(newReport)][:]=np.asarray(newTerm)
+    x[0][0:len(newReport)][:]=np.asarray(newTerm)
     searchTerm = model.predict(x)
     return searchTerm
 
