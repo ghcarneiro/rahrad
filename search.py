@@ -59,7 +59,7 @@ def search(model, numResults, searchTerm):
 
 		similarReports = model.docvecs.most_similar([searchTerm_docvec],topn=numResults)
 	elif model == "rnn":
-		searchTerm_rnn = rnn.infer_vector(searchTerm)
+		searchTerm_rnn = rnn.getSearchTerm(searchTerm)
 
 		similarReports = rnn.most_similar(searchTerm_rnn,topn=numResults)
 	else:
