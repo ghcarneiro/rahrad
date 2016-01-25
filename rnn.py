@@ -221,7 +221,7 @@ def fullToEncoder():
 
     print('building Endocer model...')
     m = Sequential()
-    m.add(LSTM(100, input_length=maxLen, input_dim=100, weights=full.layers[0].get_weights())))
+    m.add(LSTM(100, input_length=maxLen, input_dim=100, weights=full.layers[0].get_weights()))
     m.compile(loss='mse', optimizer='adam')
     print("created Encoder model")
 
