@@ -280,6 +280,7 @@ def getSearchTerm(searchTerm):
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
+    newTerm=[]
     for token in searchTerm:
         if token in word_model:
             newTerm.append(word_model[token])
