@@ -56,11 +56,12 @@ def textPreprocess(text):
     text = []
 
     for sentence in sentences:
+        print(sentence)
         # Split on non alphanumeric and non hyphen characters and keep delimiter
-        sentences = re.split("([^\w\-]+)||\b", sentences)
+        sentence = re.split("([^\w\-]+)||\b", sentence)
         # Delete whitespace tokens
-        sentences = [word.replace(' ','') for word in sentences]
-        sentences = filter(None, sentences)
+        sentence = [word.replace(' ','') for word in sentence]
+        sentence = filter(None, sentence)
         #look up variable length sequences of words in medical dictionary, stem them if not present
         numTokens = 5 #phrases up to 5 words long
         while numTokens > 0:
