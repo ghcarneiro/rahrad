@@ -98,26 +98,52 @@ def textPreprocess(text):
 
     return(text)
 
-# fetches the raw reports, preprocesses them, then saves them as report files
+# fetches the raw reports, preprocesses them, then saves them to a single reports file
+# also fetches all the sentences from these reports and saves them to a single sentences file
 # input must be an array of fileNames to preprocess. By default, preprocesses all reports in directory.
 def preprocessReports(fileNames=REPORT_FILES):
+    allReports = []
+    allSentences = []
 	for j in range(len(fileNames)):
 
 		reports = preprocess.getReports([fileNames[j]])
-		#reports = getSentences([fileNames[j]])
 		print("loading finished")
-
 
 		for i in xrange(len(reports)):
 			print (i / len(reports) * 100)
 			reports[i] = textPreprocess(reports[i])
+            allSentences = allSentences + reports[i]
 		print("preprocessing finished")
 
-		file = open('./model_files/reports_list_' + DIAGNOSES[j], 'w')
-		pickle.dump(reports, file)
-		file.close()
+        allReports = allReports + reports
 
-		print("report saved")
+	file = open('./model_files/reports_full', 'w')
+	pickle.dump(allReports, file)
+	file.close()
+    print("reports saved")
+
+    file = open('./model_files/reports_sentences_full', 'w')
+	pickle.dump(allSentences, file)
+	file.close()
+	print("sentences saved")
+
+# retrieves all reports that have been preprocessed
+# output is an array containing the processed reports
+def getProcessedReports():
+	file = open('./model_files/reports_full', 'r')
+	reports = pickle.load(file)
+	file.close()
+
+	return reports
+
+# retrieves all sentences that have been preprocessed
+# output is an array containing the processed reports
+def getProcessedSentences():
+	file = open('./model_files/reports_sentences_full', 'r')
+	sentences = pickle.load(file)
+	file.close()
+
+	return sentences
 
 # Loads all reports and converts words to integer ids
 # Stores the new reports to reports_list_all_ints with first field containing word integer range
@@ -161,15 +187,10 @@ def buildWord2Vec():
 
 def buildWord2VecSentences():
     print("loading sentences")
-    reports = preprocess.getProcessedReports()
-    # Concatenate sentences to create sentences list
-    sentences = []
-    for report in reports:
-        sentences = sentences + report
+    sentences = preprocess.getProcessedSentences()
     print("loaded sentences")
     print("building word2vec model")
-    reports = preprocess.getProcessedReports()
-    model = gensim.models.Word2Vec(reports, min_count=3, workers=4)
+    model = gensim.models.Word2Vec(sentences, min_count=3, workers=4)
     model.init_sims(replace=True)
     model.save("./model_files/reports.word2vec_model")
     print("built word2vec")
@@ -330,17 +351,14 @@ def buildSentenceRNN():
     # Max number of words in sentence, detemined in the initial report processing
     maxLen = 0
     print("loading sentences")
-    reports = preprocess.getProcessedReports()
+    sentences = preprocess.getProcessedSentences()
     # Get max length of sentence and prepare sentences for use
-    sentences = []
     longestSentence = []
-    for report in reports:
-        for sentence in report:
-            length = len(sentence)
-            if length > maxLen:
-                maxLen = length
-                longestSentence = sentence
-            sentences.append(sentence)
+    for sentence in sentences:
+        length = len(sentence)
+        if length > maxLen:
+            maxLen = length
+            longestSentence = sentence
     numSentences = len(sentences)
     print("longest sentence length is ",maxLen," words, there are ",numSentences," sentences")
     print(longestSentence)
