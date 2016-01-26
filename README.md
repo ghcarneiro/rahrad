@@ -11,6 +11,8 @@ If you are running Linux you need to install the following packages:
   gfortran
   libfreetype6-dev
   libpng-dev
+  libyamal-dev
+  libhdf5-dev
 You may also want:
   liblapack-dev
   libblas-dev
@@ -24,8 +26,13 @@ The search engine requires the following python dependencies:
   nltk
   matplotlib
   sklearn
+The RNN code also requires:
+  pyyaml
+  h5py
+  keras
 All of these can be installed with:
   easy_install --upgrade packageName
+  pip install --upgrade packageName
 
 Once these are installed you need to download nltk's stopwords.
 Open python and run:
