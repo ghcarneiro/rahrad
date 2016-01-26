@@ -47,20 +47,21 @@ def textPreprocess(text):
         medical = pickle.load(file)
         file.close()
 
+    # Covert to lower case
+    text = text.lower()
+    # Split text into sentences
     sentence_token = nltk.data.load('tokenizers/punkt/english.pickle')
-    report = []
     sentences = sentence_token.tokenize(text.strip())
 
-    # for sentence in sentences:
-    sentences = sentences.lower() # convert to lower-case
-    # Split on non alphanumeric and non hyphen characters and keep delimiter
-    sentences = re.split("([^\w\-]+)||\b", sentences)
-    # Delete whitespace tokens
-    sentences = [word.replace(' ','') for word in sentences]
-    sentences = filter(None, sentences)
     text = []
-    #look up variable length sequences of words in medical dictionary, stem them if not present
+
     for sentence in sentences:
+        # Split on non alphanumeric and non hyphen characters and keep delimiter
+        sentences = re.split("([^\w\-]+)||\b", sentences)
+        # Delete whitespace tokens
+        sentences = [word.replace(' ','') for word in sentences]
+        sentences = filter(None, sentences)
+        #look up variable length sequences of words in medical dictionary, stem them if not present
         numTokens = 5 #phrases up to 5 words long
         while numTokens > 0:
         	processedText=[]
@@ -318,14 +319,17 @@ def buildSentenceRNN():
     reports = preprocess.getProcessedReports()
     # Get max length of sentence and prepare sentences for use
     sentences = []
+    longestSentence = []
     for report in reports:
         for sentence in report:
             length = len(sentence)
             if length > maxLen:
                 maxLen = length
+                longestSentence = sentence
             sentences.append(sentence)
     numSentences = len(sentences)
     print("longest sentence length is ",maxLen," words, there are ",numSentences," sentences")
+    print(longestSentence)
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
