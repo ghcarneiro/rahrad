@@ -159,6 +159,20 @@ def buildWord2Vec():
     model.save("./model_files/reports.word2vec_model")
     print("built word2vec")
 
+def buildWord2VecSentences():
+    print("loading sentences")
+    reports = preprocess.getProcessedReports()
+    # Concatenate sentences to create sentences list
+    sentences = []
+    for report in reports:
+        sentences = sentences + report
+    print("loaded sentences")
+    print("building word2vec model")
+    reports = preprocess.getProcessedReports()
+    model = gensim.models.Word2Vec(reports, min_count=3, workers=4)
+    model.init_sims(replace=True)
+    model.save("./model_files/reports.word2vec_model")
+    print("built word2vec")
 
 def buildRNN():
     # Number of reports to process in each batch
