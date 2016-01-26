@@ -56,7 +56,6 @@ def textPreprocess(text):
     text = []
 
     for sentence in sentences:
-        print(sentence)
         # Split on non alphanumeric and non hyphen characters and keep delimiter
         sentence = re.split("([^\w\-]+)||\b", sentence)
         # Delete whitespace tokens
