@@ -213,6 +213,7 @@ def buildRNN():
     open('./model_files/reports.rnn_architecture.json', 'w').write(json_string)
     m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True)
     print("Trained model")
+
 def fullToEncoder():
     maxLen = 731
     print("loading RNN model")
@@ -309,11 +310,11 @@ def most_similar(searchTerm,topn=5):
     return results
 
 def buildSentenceRNN():
-    # Number of reports to process in each batch
-    batchSize = 128
+    # Number of sentences to process in each batch
+    batchSize = 32
     # Max number of words in sentence, detemined in the initial report processing
     maxLen = 0
-    print("loading reports")
+    print("loading sentences")
     reports = preprocess.getProcessedReports()
     # Get max length of sentence and prepare sentences for use
     sentences = []
@@ -323,12 +324,12 @@ def buildSentenceRNN():
             if length > maxLen:
                 maxLen = length
             sentences.append(sentence)
-    sentenceLen = len(sentences)
-    print("longest report length is: ", maxLen)
+    numSentences = len(sentences)
+    print("longest sentence length is ",maxLen," words, there are ",numSentences," sentences")
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
-    print('building LSTM sentence model...')
+    print('building LSTM model...')
     m = Sequential()
     m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
     m.add(LSTM(100, return_sequences=True))
@@ -338,20 +339,20 @@ def buildSentenceRNN():
     for epoch in xrange(10):
         start=time.time()
         print("->epoch: ", epoch)
-        for i in xrange(len(sentences)):
+        for i in xrange(numSentences):
             # Create batch in memory
             if ((i% batchSize) == 0):
                 batch = np.zeros((batchSize,maxLen,100),dtype=np.float32)
             # Convert sentence to dense
             newSentence = []
-            for token in sentence[i]:
+            for token in sentences[i]:
                 if token in word_model:
                     newSentence.append(word_model[token])
-            # Store report in batch
-            batch[i%batchSize][0:len(newReport)][:]=np.asarray(newSentence)
+            # Store sentence in batch
+            batch[i%batchSize][0:len(newSentence)][:]=np.asarray(newSentence)
             # Train on batch
-            if ((((i+1)% batchSize) == 0) or (i == (sentenceLen-1))):
-                print ("epoch: ",epoch,", ",i / sentenceLen * 100)
+            if ((((i+1)% batchSize) == 0) or (i == (numSentences-1))):
+                print ("epoch: ",epoch,", ",i / numSentences * 100)
                 m.train_on_batch(batch,batch)
         end = time.time()
         print("epoch ",epoch," took ",end-start," seconds")
