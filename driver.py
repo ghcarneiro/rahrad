@@ -19,9 +19,12 @@ import rnn
 # generateReports.labelClassification()
 # generateReports.labelClassificationD2V()
 
-rnn.preprocessReports()
-rnn.buildWord2Vec()
+# preprocess.preprocessReports()
+# rnn.buildWord2Vec()
 # rnn.buildRNN()
 # rnn.fullToEncoder()
 # rnn.buildPredictionsRNN()
+
+# rnn.preprocessReports()
+rnn.buildWord2VecSentences()
 rnn.buildSentenceRNN()
