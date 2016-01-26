@@ -104,28 +104,25 @@ def textPreprocess(text):
 def preprocessReports(fileNames=REPORT_FILES):
     allReports = []
     allSentences = []
-	for j in range(len(fileNames)):
-
-		reports = preprocess.getReports([fileNames[j]])
-		print("loading finished")
-
-		for i in xrange(len(reports)):
-			print (i / len(reports) * 100)
-			reports[i] = textPreprocess(reports[i])
+    for j in range(len(fileNames)):
+    	reports = preprocess.getReports([fileNames[j]])
+    	print("loading finished")
+    	for i in xrange(len(reports)):
+            print (i / len(reports) * 100)
+            reports[i] = textPreprocess(reports[i])
             allSentences = allSentences + reports[i]
-		print("preprocessing finished")
-
+    	print("preprocessing finished")
         allReports = allReports + reports
 
-	file = open('./model_files/reports_full', 'w')
-	pickle.dump(allReports, file)
-	file.close()
+    file = open('./model_files/reports_full', 'w')
+    pickle.dump(allReports, file)
+    file.close()
     print("reports saved")
 
     file = open('./model_files/reports_sentences_full', 'w')
-	pickle.dump(allSentences, file)
-	file.close()
-	print("sentences saved")
+    pickle.dump(allSentences, file)
+    file.close()
+    print("sentences saved")
 
 # retrieves all reports that have been preprocessed
 # output is an array containing the processed reports
