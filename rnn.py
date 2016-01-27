@@ -350,15 +350,6 @@ def buildSentenceRNN():
     trimmed = 0
     print("loading sentences")
     sentences = getProcessedSentences()
-    # Get max length of sentence and prepare sentences for use
-    for sentence in sentences:
-        length = len(sentence)
-        if length > maxLen:
-            # Keep only the first maxLen tokens
-            sentence = sentence[:maxLen-1]
-            trimmed += 1
-    numSentences = len(sentences)
-    print(trimmed," sentences of length >",maxLen," words, there are ",numSentences," sentences")
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
@@ -381,6 +372,8 @@ def buildSentenceRNN():
             for token in sentences[i]:
                 if token in word_model:
                     newSentence.append(word_model[token])
+            # Trim sentences greater than maxLen
+            newSentence = newSentence[:maxLen-1]
             # Store sentence in batch
             batch[i%batchSize][0:len(newSentence)][:]=np.asarray(newSentence)
             # Train on batch
