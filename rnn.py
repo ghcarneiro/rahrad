@@ -344,7 +344,7 @@ def most_similar(searchTerm,topn=5):
 
 def buildSentenceRNN():
     # Number of sentences to process in each batch
-    batchSize = 32
+    batchSize = 128
     # Max number of words in sentence, detemined in the initial report processing
     maxLen = 50
     trimmed = 0
