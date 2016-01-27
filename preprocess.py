@@ -7,6 +7,7 @@ from nltk import stem
 import nltk
 import gensim
 import xml.etree.ElementTree as ET
+import os
 
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
@@ -21,7 +22,7 @@ REPORT_FILES_LABELLED_PLAINAB = ['nlp_data/CleanedPlainabLabelled.csv']
 REPORT_FILES_LABELLED_PVAB = ['nlp_data/CleanedPvabLabelled.csv']
 
 DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
-REPORT_DIRECTORY = 'report_files'
+REPORT_DIRECTORY = './report_files/'
 # global variables, loaded during first call to text preprocessing
 # set of stop words
 stop = set()
@@ -138,9 +139,8 @@ def getReports(fileNames=REPORT_FILES):
 # reports are in the from: "identifier", "type", "unprocessed report"
 def getFullReports(directoryName=REPORT_DIRECTORY):
 	reports = []
-	#TODO change this to open all files in the directory
-	for fileName in directoryName:
-		with open(fileName,'rb') as file:
+	for fileName in os.listdir(directoryName):
+        with open(directoryName+fileName) as f:
 			file.readline() # skip header line
 			reader = csv.reader(file)
 			for row in reader:

@@ -25,6 +25,6 @@ import rnn
 # rnn.fullToEncoder()
 # rnn.buildPredictionsRNN()
 
-rnn.preprocessReports()
+# rnn.preprocessReports()
 rnn.buildWord2VecSentences()
 rnn.buildSentenceRNN()
