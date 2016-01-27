@@ -350,6 +350,7 @@ def buildSentenceRNN():
     trimmed = 0
     print("loading sentences")
     sentences = getProcessedSentences()
+    numSentences = len(sentences)
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
