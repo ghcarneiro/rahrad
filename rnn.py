@@ -360,7 +360,7 @@ def buildSentenceRNN():
             sentence = newSentence
             trimmed += 1
     numSentences = len(sentences)
-    print(trimmed," sentences of length >100 words, there are ",numSentences," sentences")
+    print(trimmed," sentences of length >,"maxLen," words, there are ",numSentences," sentences")
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
