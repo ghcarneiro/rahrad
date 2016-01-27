@@ -346,7 +346,7 @@ def buildSentenceRNN():
     # Number of sentences to process in each batch
     batchSize = 32
     # Max number of words in sentence, detemined in the initial report processing
-    maxLen = 100
+    maxLen = 50
     trimmed = 0
     print("loading sentences")
     sentences = getProcessedSentences()
