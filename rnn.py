@@ -392,6 +392,52 @@ def buildSentenceRNN():
     m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
     print("Trained sentence model")
 
+def reportsToDense():
+    # Number of sentences to process in each batch
+    batchSize = 128
+    # Max number of words in sentence, detemined in the initial report processing
+    maxLen = 50
+    reportLen = 0
+    reports = getProcessedReports()
+    for report in reports:
+        length = len(report)
+        if length > reportLen:
+            reportLen = length
+    print("longest report has ",reportLen," sentences.")
+    print("loading RNN sentence model")
+    full = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
+    full.load_weights('./model_files/reports.rnn_sentence_weights.h5')
+    print("RNN sentence model loaded")
+
+    print('building Encoder model...')
+    m = Sequential()
+    m.add(LSTM(100, input_length=maxLen, input_dim=100, weights=full.layers[0].get_weights()))
+    m.compile(loss='mse', optimizer='adam')
+    print("created Encoder model")
+
+    denseReports=np.zeros((len(reports),reportLen,100))
+
+    for i in xrange(len(reports)):
+        newReport = []
+        for sentence in reports[i]:
+            newSentence = []
+            for token in sentence:
+                if token in word_model:
+                    newSentence.append(word_model[token])
+            # Trim sentences greater than maxLen
+            newSentence = newSentence[:maxLen-1]
+            # Store sentence in batch
+            if len(newSentence) > 0:
+                newReport.append(m.predict(newSentence))
+            else:
+                print("Empty sentence encountered")
+        denseReports[i][0:len(newReport)][:]=np.asarray(newReport)
+
+    file = open('./model_files/reports_dense', 'w')
+    pickle.dump(denseReports, file)
+    file.close()
+    print("dense reports saved")
+
 def buildReportRNN():
     # Number of reports to process in each batch
     batchSize = 128
