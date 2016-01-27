@@ -184,7 +184,7 @@ def buildWord2Vec():
 
 def buildWord2VecSentences():
     print("loading sentences")
-    sentences = preprocess.getProcessedSentences()
+    sentences = getProcessedSentences()
     print("loaded sentences")
     print("building word2vec model")
     model = gensim.models.Word2Vec(sentences, min_count=3, workers=4)
