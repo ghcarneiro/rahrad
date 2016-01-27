@@ -351,7 +351,7 @@ def buildSentenceRNN():
     print("loading sentences")
     sentences = getProcessedSentences()
     # Get max length of sentence and prepare sentences for use
-        for sentence in sentences:
+    for sentence in sentences:
         length = len(sentence)
         if length > maxLen:
             newSentence = []
