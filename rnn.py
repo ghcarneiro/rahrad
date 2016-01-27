@@ -376,7 +376,10 @@ def buildSentenceRNN():
             # Trim sentences greater than maxLen
             newSentence = newSentence[:maxLen-1]
             # Store sentence in batch
-            batch[i%batchSize][0:len(newSentence)][:]=np.asarray(newSentence)
+            if len(newSentence) > 0:
+                batch[i%batchSize][0:len(newSentence)][:]=np.asarray(newSentence)
+            else:
+                print("Empty sentence encountered")
             # Train on batch
             if ((((i+1)% batchSize) == 0) or (i == (numSentences-1))):
                 print ("epoch: ",epoch,", ",i / numSentences * 100)
