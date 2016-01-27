@@ -351,18 +351,16 @@ def buildSentenceRNN():
     print("loading sentences")
     sentences = getProcessedSentences()
     # Get max length of sentence and prepare sentences for use
-    longestSentence = []
-    for sentence in sentences:
+        for sentence in sentences:
         length = len(sentence)
         if length > maxLen:
             newSentence = []
             for i in xrange(maxLen):
                 newSentence.append(sentence[i])
             sentence = newSentence
-            timmed += 1
+            trimmed += 1
     numSentences = len(sentences)
     print(trimmed," sentences of length >100 words, there are ",numSentences," sentences")
-    print(longestSentence)
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
