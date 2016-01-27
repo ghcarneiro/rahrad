@@ -347,6 +347,8 @@ def buildSentenceRNN():
     batchSize = 32
     # Max number of words in sentence, detemined in the initial report processing
     maxLen = 0
+    secondLen = 0
+    thirdLen = 0
     print("loading sentences")
     sentences = getProcessedSentences()
     # Get max length of sentence and prepare sentences for use
@@ -354,10 +356,12 @@ def buildSentenceRNN():
     for sentence in sentences:
         length = len(sentence)
         if length > maxLen:
+            thirdLen = secondLen
+            secondLen = maxLen
             maxLen = length
             longestSentence = sentence
     numSentences = len(sentences)
-    print("longest sentence length is ",maxLen," words, there are ",numSentences," sentences")
+    print("longest sentence length is ",maxLen, secondLen, thirdLen," words, there are ",numSentences," sentences")
     print(longestSentence)
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
