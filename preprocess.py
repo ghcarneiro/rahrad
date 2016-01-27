@@ -140,7 +140,7 @@ def getReports(fileNames=REPORT_FILES):
 def getFullReports(directoryName=REPORT_DIRECTORY):
 	reports = []
 	for fileName in os.listdir(directoryName):
-        with open(directoryName+fileName) as f:
+		with open(directoryName+fileName) as f:
 			file.readline() # skip header line
 			reader = csv.reader(file)
 			for row in reader:
