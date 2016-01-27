@@ -348,7 +348,7 @@ def buildSentenceRNN():
     # Max number of words in sentence, detemined in the initial report processing
     maxLen = 0
     print("loading sentences")
-    sentences = preprocess.getProcessedSentences()
+    sentences = getProcessedSentences()
     # Get max length of sentence and prepare sentences for use
     longestSentence = []
     for sentence in sentences:
