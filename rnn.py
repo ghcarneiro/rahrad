@@ -354,10 +354,8 @@ def buildSentenceRNN():
     for sentence in sentences:
         length = len(sentence)
         if length > maxLen:
-            newSentence = []
-            for i in xrange(maxLen):
-                newSentence.append(sentence[i])
-            sentence = newSentence
+            # Keep only the first maxLen tokens
+            sentence = sentence[:maxLen-1]
             trimmed += 1
     numSentences = len(sentences)
     print(trimmed," sentences of length >",maxLen," words, there are ",numSentences," sentences")
