@@ -773,109 +773,6 @@ def labelClassificationD2V():
 		plt.show()
 	writeFile.close()
 
-def runReportSimilarity():
-	""" Assumes reports have FINDINGS: or REPORT: """
-	if (len(sys.argv) < 2):
-		print("ERROR: Please specify an input file")
-		sys.exit()
-	fileName = str(sys.argv[1])
-	fileText = [row.rstrip('\n') for row in open(fileName)]
-	wordsToFind = ["FINDINGS:","REPORT:"]
-	
-	report1 = fileText[0]
-	report2 = fileText[1]
-
-	startLoc1 = -1
-	#startLoc2 = -1
-	for word in wordsToFind:
-		if startLoc1 == -1 and report1.find(word) != -1:
-			startLoc1 = report1.find(word)+len(word)	
-		#if startLoc2 == -1 and report2.find(word) != -1:
-		#	startLoc2 = report2.find(word)+len(word)
-
-	report1 = report1[startLoc1:]	
-	#report2 = report2[startLoc2:]
-	sentences1 = report1.split('.')
-	sent1 = sentences1[:]
-	sentences2 = report2.split('.')
-	sent2 = sentences2[:]
-
-	report1 = textPreprocess(report1)
-	report1 = getDerivations(report1)
-	report2 = textPreprocess(report2)
-	report2 = getDerivations(report2)
-	for i in range(len(sentences1)):
-		sentences1[i] = textPreprocess(sentences1[i])
-		sentences1[i] = getDerivations(sentences1[i])
-	for i in range(len(sentences2)):
-		sentences2[i] = textPreprocess(sentences2[i])
-		sentences2[i] = getDerivations(sentences2[i])
-
-	corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
-	tfidf_model = gensim.models.TfidfModel.load('./model_files/reports.tfidf_model')
-	lsi_model = gensim.models.LsiModel.load('./model_files/reports.lsi_model')
-	
-	dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
-	vec_lsi1 = lsi_model[tfidf_model[dictionary.doc2bow(report1)]]
-	vec_lsi2 = lsi_model[tfidf_model[dictionary.doc2bow(report2)]]
-	sen1Corp = [dictionary.doc2bow(sent) for sent in sentences1]
-	sen2Corp = [dictionary.doc2bow(sent) for sent in sentences2]
-	vec_lsis1 = lsi_model[tfidf_model[sen1Corp]]
-	vec_lsis2 = lsi_model[tfidf_model[sen2Corp]]
-	sCom = []
-	ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=corpus.num_terms)
-	for  i in vec_lsis2:
-		sCom.append(ind[i])	
-		
-	# (1,2,3,...,n) for permutations of which sentence gets which sentence
-	perms = []
-	for i in range(len(sentences2)):
-		if i < len(sentences1):
-			perms.append(i)
-		else:
-			perms.append(-1)
-
-	bestPerm = []
-	bestPermResult = []
-	bestResult = -1
-	# iterate through all permutations and evaluate whether its a good fit
-	for i in itertools.permutations(perms):
-		nextResult = 0
-		indice = 0
-		permResult = [x for x in range(len(perms))]
-		for j in i:
-			if j != -1:
-				nextResult += sCom[indice][j]		
-				permResult[indice] = sCom[indice][j]	
-			else:
-				permResult[indice] = -1
-			indice += 1
-		if bestResult == -1 or bestResult < nextResult:
-			bestPerm = i	
-			bestResult = nextResult
-			bestPermResult = permResult
-	#print bestPerm	
-	orderOfSent2 = []
-	j=0
-	for i in bestPerm:
-		if i != -1:
-			orderOfSent2.append([sent2[j],sent1[i],bestPermResult[j]])
-			print sent2[j]+"\t"+sent1[i]+"\t"+str(bestPermResult[j])
-		else:
-			orderOfSent2.append([sent2[j],"",-1])
-			print sent2[j]+"\t"+""+"\t"+str(-1)
-		j+=1
-
-	#print orderOfSent2	
-	# evalutate which sentences are above the threshold, hence which sentences are right
-	# which are wrong...
-	index = gensim.similarities.MatrixSimilarity([vec_lsi1],num_features=corpus.num_terms)
-	#print index
-	sims = index[vec_lsi2]	
-	sims = sorted(enumerate(sims),key=lambda item: -item[1])
-	#print sims
-	
-
 	
 
 # implements search engine and outputs as according to requirements for front-end integration
@@ -922,5 +819,5 @@ if __name__ == '__main__':
 	# precisionRecall("pr_tests.csv")
 	# labelClassification()
 	# labelClassificationD2V()
-	runReportSimilarity()
-	#runSearchEngine()
+	#runReportSimilarity()
+	runSearchEngine()

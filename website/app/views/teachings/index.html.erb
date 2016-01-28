@@ -36,20 +36,20 @@
 				<% for i in @result %>	
 				<div class="corrections-box">
 					<div class="original-text"> 
-						<% if i[2].to_f > 0.9 %>
-							<span class="glyphicon glyphicon-ok" style="color:blue"></span>
-						<% else %>
+						<% if i[0] == "n" %>
+							<span class="glyphicon glyphicon-ok" style="color:green"></span>
+						<% elsif i[0] == "c" %>
 							<span class="glyphicon glyphicon-remove" style="color:red"></span>
+						<% elsif i[0] == "m" %>
+							<span class="glyphicon glyphicon-question-sign" style="color:blue"></span>
+							
 						<% end %>
 	
-						<%= i[0] %> 
+						<%= i[1] %> 
 					</div>
-						<% if i[2].to_f > 0.9 %>
-							<%# <button class="show-hide-button">Show</button> %>	
-							<div class="correction2-text">Correction:<br><%= i[1] %></div>
-						<% else %>
+						<% if i[0] == "c" %>
 							<br>
-							<div class="correction-text">Correction:<br><%= i[1] %></div>
+							<div class="correction-text">Correction:<br><%= i[2] %></div>
 						<% end %>
 					<br>
 				</div>
