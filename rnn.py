@@ -344,7 +344,63 @@ def most_similar(searchTerm,topn=5):
         i = i + 1
     return results
 
+# Build an RNN on sentences using a fixed maximum sentence length and batches
 def buildSentenceRNN():
+    # Number of sentences to process in each batch
+    batchSize = 128
+    # Max number of words in sentence, detemined in the initial report processing
+    maxLen = 50
+    trimmed = 0
+    print("loading sentences")
+    sentences = getProcessedSentences()
+    numSentences = len(sentences)
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print('building LSTM model...')
+    m = Sequential()
+    m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
+    m.add(LSTM(100, return_sequences=True))
+    m.compile(loss='mse', optimizer='adam')
+    temp = np.zeros((maxLen,100),dtype=np.float32)
+    #Train the model over 10 epochs
+    print("created LSTM sentence model, training")
+    for epoch in xrange(10):
+        start=time.time()
+        print("->epoch: ", epoch)
+        for i in xrange(numSentences):
+            # Create batch in memory
+            if ((i% batchSize) == 0):
+                batch = np.zeros((batchSize,maxLen-1,100),dtype=np.float32)
+                expected = np.zeros((batchSize,maxLen-1,100),dtype=np.float32)
+            # Convert sentence to dense
+            newSentence = []
+            for token in sentences[i]:
+                if token in word_model:
+                    newSentence.append(word_model[token])
+            # Trim sentences greater than maxLen
+            newSentence = newSentence[:maxLen-1]
+            # Store sentence in batch
+            if len(newSentence) > 0:
+                temp = np.asarray(newSentence)
+                batch[i%batchSize][0:len(newSentence)][:]=temp[0:maxLen-1][:]
+                expected[i%batchSize][0:len(newSentence)][:]=temp[1:maxLen][:]
+            else:
+                print("Empty sentence encountered")
+            # Train on batch
+            if ((((i+1)% batchSize) == 0) or (i == (numSentences-1))):
+                print ("epoch: ",epoch,", ",i / numSentences * 100)
+                m.train_on_batch(batch,batch)
+        end = time.time()
+        print("epoch ",epoch," took ",end-start," seconds")
+    #Store the model architecture to a file
+    json_string = m.to_json()
+    open('./model_files/reports.rnn_sentence_architecture.json', 'w').write(json_string)
+    m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+    print("Trained sentence model")
+
+# Build a RNN on sentences using a fixed window size and no batches
+def buildSentenceRNNWindowed():
     # Max number of words in training set, detemined in the initial report processing
     timeWindow = 10
     timeSteps = timeWindow + 1
