@@ -1,7 +1,6 @@
 from __future__ import division
 import math
 import csv
-# import random
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import neighbors, svm
@@ -13,7 +12,6 @@ import datetime
 import os
 import search
 import preprocess
-import search
 
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
@@ -34,7 +32,7 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 # input is a string of a filename containing a list of searchTerms to use in the testing
 # saves output to files in the directory "./precision_recall/"
 def precisionRecall(testFile):
-	models = ["bow","tfidf","lsi","lda","doc2vec"]
+	models = ["bow","tfidf","lsi","lda","doc2vec","rnn"]
 	# Create the output directory
 	directory = "precision_recall/" + datetime.datetime.now().strftime('%m_%d_%H_%M') +"/"
 	if not os.path.exists(directory):
@@ -49,7 +47,7 @@ def precisionRecall(testFile):
 	thres = [0.01,0.02,0.03,0.04,0.05,0.1,0.2,0.3,0.4,0.5,0.8]
 
 	numReports = [preprocess.getNumReports(REPORT_FILES[:1]), preprocess.getNumReports(REPORT_FILES[:2]), preprocess.getNumReports(REPORT_FILES[:3]),preprocess.getNumReports()]
-
+	numResults = preprocess.getNumReports()
 	for searchTerm in tests:
 		print(searchTerm)
 		plt.figure(searchTerm[0])
@@ -63,14 +61,14 @@ def precisionRecall(testFile):
 				writer.writerow([model])
 				precision = []
 				recall = []
+
+				allReports = search.search(model,numResults,searchTerm[0])
 				for i in range(len(thres)):
 					truePositive = 0
 					retrieved = 0 # retreieved = truePositive + falsePositive
 					relevant = 0 # relevant = truePositive + falseNegative
 
-					numResults = preprocess.getNumReports()
-					similarReports = search.search(model,numResults,searchTerm[0])
-					similarReports = [report for report in similarReports if report[1] > thres[i]]
+					similarReports = [report for report in allReports if report[1] > thres[i]]
 
 					for reportIdx in similarReports:
 						if reportIdx[0] < numReports[0]: # prediction: brains
@@ -163,13 +161,6 @@ def labelClassification():
 			labels = np.delete(labels,deletes)
 			##################
 
-			# # shuffle the order of data
-			# shuffleList = list(zip(labelledCorpus,labels))
-			# random.shuffle(shuffleList)
-			# labelledCorpus,labels = zip(*shuffleList)
-			# labels = np.asarray(labels)
-			# labelledCorpus = np.asarray(labelledCorpus)
-
 			numData = len(labels) # size of the labelled data set
 			dataPerFold = int(math.ceil(numData/numFolds))
 
@@ -177,13 +168,6 @@ def labelClassification():
 			for n in range(0,numFolds):
 				# split training and test data
 				train_labelledCorpus,test_labelledCorpus,train_labels,test_labels = train_test_split(labelledCorpus,labels,test_size=0.13)
-
-				# test_labels = labels[n*dataPerFold:min(numData,(n+1)*dataPerFold)]
-				# train_labels = np.delete(labels,range(n*dataPerFold,min(numData,(n+1)*dataPerFold)))
-
-				# test_labelledCorpus = labelledCorpus[n*dataPerFold:min(numData,(n+1)*dataPerFold)]
-				# train_labelledCorpus = np.delete(labelledCorpus,range(n*dataPerFold,min(numData,(n+1)*dataPerFold)),axis=0)
-
 
 				# build classifier
 				classifier = svm.SVC(kernel='linear').fit(train_labelledCorpus,train_labels)
