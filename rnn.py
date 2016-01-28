@@ -17,6 +17,8 @@ from keras.models import Sequential, model_from_json
 from keras.preprocessing.sequence import pad_sequences
 from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.embeddings import Embedding
+import theano
+import math
 import time
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
@@ -343,10 +345,9 @@ def most_similar(searchTerm,topn=5):
     return results
 
 def buildSentenceRNN():
-    # Number of sentences to process in each batch
-    batchSize = 128
-    # Max number of words in sentence, detemined in the initial report processing
-    maxLen = 50
+    # Max number of words in training set, detemined in the initial report processing
+    timeWindow = 10
+    timeSteps = timeWindow + 1
     trimmed = 0
     print("loading sentences")
     sentences = getProcessedSentences()
@@ -355,41 +356,56 @@ def buildSentenceRNN():
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
     print('building LSTM model...')
-    m = Sequential()
-    m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
-    m.add(LSTM(100, return_sequences=True))
-    m.compile(loss='mse', optimizer='adam')
+    model = Sequential()
+    model.add(LSTM(100, input_length=timeSteps, input_dim=100, return_sequences=True))
+    model.add(LSTM(100, return_sequences=True))
+    model.compile(loss='mse', optimizer='adam')
+    get_activations = theano.function([model.layers[0].input], model.layers[0].get_output(train=False), allow_input_downcast=True)
     #Train the model over 10 epochs
     print("created LSTM sentence model, training")
     for epoch in xrange(10):
         start=time.time()
         print("->epoch: ", epoch)
         for i in xrange(numSentences):
-            # Create batch in memory
-            if ((i% batchSize) == 0):
-                batch = np.zeros((batchSize,maxLen,100),dtype=np.float32)
             # Convert sentence to dense
             newSentence = []
             for token in sentences[i]:
                 if token in word_model:
                     newSentence.append(word_model[token])
-            # Trim sentences greater than maxLen
-            newSentence = newSentence[:maxLen-1]
-            # Store sentence in batch
-            if len(newSentence) > 0:
-                batch[i%batchSize][0:len(newSentence)][:]=np.asarray(newSentence)
-            else:
-                print("Empty sentence encountered")
-            # Train on batch
-            if ((((i+1)% batchSize) == 0) or (i == (numSentences-1))):
+            # Only process sentences with more than one work/token
+            if len(newSentence) > 1:
+                # Input is sentence, padded with zero vectors to fill last word window
+                # Shape (numWords (rounded up to nearest time window) + 1, 100)
+                x = np.zeros((math.ceil(len(newSentence)/timeWindow)*timeWindow+1,100),dtype=np.float32)
+                x[0:len(newSentence)][:] = np.asarray(newSentence)
+                x_in = np.zeros((1,timeSteps,100),dtype=np.float32)
+                x_out = np.zeros((1,timeSteps,100),dtype=np.float32)
+                # Previous hidden state at start of each sentence set to zeros
+                hidden = np.zeros((100),dtype=np.float32)
+                depth = 0
+                # Process sentence in blocks specified by time window
+                # End of sentence and is not used as input
+                while depth < (len(newSentence)-1):
+                    # First part of input for each window is previous hidden state
+                    x_in[0][0][:]=hidden
+                    # Remainder of input is the next words in the sentence
+                    x_in[0][1:timeSteps][:]=x[depth:(depth+timeWindow)][:]
+                    # Expected output is next token in input
+                    x_out[0][:][:] = x[depth:(depth+timeWindow+1)][:]
+                    # Train on batch size 1,
+                    model.train_on_batch(x_in,x_out)
+                    # Get the hidden state after the last word
+                    hidden = get_activations(x_in)[0][timeWindow][:]
+                    # Update depth in sentence
+                    depth += timeWindow
+            if (i%100 == 0):
                 print ("epoch: ",epoch,", ",i / numSentences * 100)
-                m.train_on_batch(batch,batch)
         end = time.time()
         print("epoch ",epoch," took ",end-start," seconds")
     #Store the model architecture to a file
-    json_string = m.to_json()
+    json_string = model.to_json()
     open('./model_files/reports.rnn_sentence_architecture.json', 'w').write(json_string)
-    m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+    model.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
     print("Trained sentence model")
 
 def reportsToDense():
