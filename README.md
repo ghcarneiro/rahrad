@@ -15,7 +15,7 @@ If you are running Linux you need to install the following packages:
   libhdf5-dev
 You may also want:
   liblapack-dev
-  libblas-dev
+  libopenblas-dev
 
 The search engine requires the following python dependencies:
   numpy
@@ -29,10 +29,13 @@ The search engine requires the following python dependencies:
 The RNN code also requires:
   pyyaml
   h5py
-  keras
+  keras (configured with theano backend)
+  theano
 All of these can be installed with:
-  easy_install --upgrade packageName
   pip install --upgrade packageName
+
+For setup of theano it is recommended that you make use of a gpu, for setup of Theano on ubuntu see:
+  http://deeplearning.net/software/theano/install_ubuntu.html#install-ubuntu
 
 Once these are installed you need to download nltk's stopwords.
 Open python and run:
