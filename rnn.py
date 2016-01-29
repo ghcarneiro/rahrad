@@ -359,7 +359,7 @@ def buildSentenceRNN():
     print("loaded word2vec model")
     print('building LSTM model...')
     m = Sequential()
-    m.add(LSTM(100, input_length=maxLen, input_dim=100, return_sequences=True))
+    m.add(LSTM(100, input_length=maxLen-1, input_dim=100, return_sequences=True))
     m.add(LSTM(100, return_sequences=True))
     m.compile(loss='mse', optimizer='adam')
     temp = np.zeros((maxLen,100),dtype=np.float32)
@@ -383,10 +383,8 @@ def buildSentenceRNN():
             # Store sentence in batch
             if len(newSentence) > 0:
                 temp = np.asarray(newSentence)
-                batch[i%batchSize][0:len(newSentence)][:]=temp[0:maxLen-1][:]
-                expected[i%batchSize][0:len(newSentence)][:]=temp[1:maxLen][:]
-            else:
-                print("Empty sentence encountered")
+                batch[i%batchSize][0:len(newSentence)-1][:]=temp[0:len(newSentence)-1][:]
+                expected[i%batchSize][0:len(newSentence)-1][:]=temp[1:len(newSentence)][:]
             # Train on batch
             if ((((i+1)% batchSize) == 0) or (i == (numSentences-1))):
                 print ("epoch: ",epoch,", ",i / numSentences * 100)
@@ -477,15 +475,10 @@ def reportsToDense():
             reportLen = length
     print("longest report has ",reportLen," sentences.")
     print("loading RNN sentence model")
-    full = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
-    full.load_weights('./model_files/reports.rnn_sentence_weights.h5')
+    model = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
+    model.load_weights('./model_files/reports.rnn_sentence_weights.h5')
+    get_hidden = theano.function([model.layers[0].input], model.layers[0].get_output(train=False), allow_input_downcast=True)
     print("RNN sentence model loaded")
-
-    print('building Encoder model...')
-    m = Sequential()
-    m.add(LSTM(100, input_length=maxLen, input_dim=100, weights=full.layers[0].get_weights()))
-    m.compile(loss='mse', optimizer='adam')
-    print("created Encoder model")
 
     denseReports=np.zeros((len(reports),reportLen,100))
 
@@ -498,11 +491,11 @@ def reportsToDense():
                     newSentence.append(word_model[token])
             # Trim sentences greater than maxLen
             newSentence = newSentence[:maxLen-1]
-            # Store sentence in batch
+            # Get the hidden state after inputting the sentence
             if len(newSentence) > 0:
-                newReport.append(m.predict(newSentence))
-            else:
-                print("Empty sentence encountered")
+                temp = np.asarray([newSentence])[:][0:len(newSentence)-1][:]
+                # should be -2?
+                newReport.append(get_hidden(temp)[0][len(newSentence)-1][:])
         denseReports[i][0:len(newReport)][:]=np.asarray(newReport)
 
     file = open('./model_files/reports_dense', 'w')
