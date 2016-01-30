@@ -306,44 +306,6 @@ def buildPredictionsRNN():
     pickle.dump(predictions, file)
     file.close()
 
-def getSearchTerm(searchTerm):
-    maxLen = 731
-    # searchTerm = preprocess.textPreprocess(searchTerm)
-    print("loading RNN encoder model")
-    model = model_from_json(open('./model_files/reports.rnn_encoder.json').read())
-    model.load_weights('./model_files/reports.rnn_encoder_weights.h5')
-    print("RNN encoder model loaded")
-    print("loading word2vec model")
-    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
-    print("loaded word2vec model")
-    newTerm=[]
-    for token in searchTerm:
-        if token in word_model:
-            newTerm.append(word_model[token])
-    x=np.zeros((1,maxLen,100),dtype=np.float32)
-    x[0][0:len(newTerm)][:]=np.asarray(newTerm)
-    searchTerm = model.predict(x,batch_size=1)
-    return searchTerm
-
-def most_similar(searchTerm,topn=5):
-    print("loading report vectors")
-    file = open('./model_files/reports_rnn', 'r')
-    predictions = pickle.load(file)
-    file.close()
-    print("loaded report vectors")
-    distance = cdist(searchTerm,predictions,'cosine')
-    idx = np.argsort(distance)
-    results = []
-    i = 0
-    while (i < topn):
-        index = idx[0][i]
-        result = []
-        result.append(index)
-        result.append(1-distance[0][index])
-        results.append(result)
-        i = i + 1
-    return results
-
 # Build an RNN on sentences using a fixed maximum sentence length and batches
 def buildSentenceRNN():
     # Number of sentences to process in each batch
@@ -462,9 +424,130 @@ def buildSentenceRNNWindowed():
     model.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
     print("Trained sentence model")
 
-def reportsToDense():
+def sentenceToEncoder():
+    maxLen = 50
+    print("loading RNN sentence model")
+    full = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
+    full.load_weights('./model_files/reports.rnn_sentence_weights.h5')
+    print("RNN sentence model loaded")
+
+    print('building sentence Endocer model...')
+    m = Sequential()
+    m.add(LSTM(100, input_length=maxLen-1, input_dim=100, weights=full.layers[0].get_weights()))
+    m.compile(loss='mse', optimizer='adam')
+    print("created sentence Encoder model")
+
+    #Store the encoder model architecture to a file
+    json_string = m.to_json()
+    open('./model_files/reports.rnn_sentence_encoder.json', 'w').write(json_string)
+    m.save_weights('./model_files/reports.rnn_sentence_encoder_weights.h5',overwrite=True)
+
+    print("Encoder sentence model saved")
+
+# Generate the dense representations of each sentence and store them to a file
+def sentencesToDense():
     # Number of sentences to process in each batch
     batchSize = 128
+    # Max number of words in sentence, detemined in the initial report processing
+    maxLen = 50
+    trimmed = 0
+    print("loading sentences")
+    sentences = getProcessedSentences()
+    numSentences = len(sentences)
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print("loading RNN sentence encoder")
+    model = model_from_json(open('./model_files/reports.rnn_sentence_encoder.json').read())
+    model.load_weights('./model_files/reports.rnn_sentence_encoder_weights.h5')
+    print("loaded RNN sentence model encoder")
+    predictions = np.zeros((numSentences,100))
+    batchStart = 0
+    for i in xrange(numSentences):
+        # Create batch in memory
+        if ((i% batchSize) == 0):
+            batch = np.zeros((batchSize,maxLen-1,100),dtype=np.float32)
+        # Convert sentence to dense
+        newSentence = []
+        for token in sentences[i]:
+            if token in word_model:
+                newSentence.append(word_model[token])
+        # Trim sentences greater than maxLen
+        newSentence = newSentence[:maxLen-1]
+        # Store sentence in batch
+        if len(newSentence) > 0:
+            temp = np.asarray(newSentence)
+            batch[i%batchSize][0:len(newSentence)-1][:]=temp[0:len(newSentence)-1][:]
+        # Train on batch
+        if ((((i+1)% batchSize) == 0) or (i == (numSentences-1))):
+            predictions[batchStart:i] = model.predict(batch,batch_size=batchSize)[0:(i%128)][:]
+            batchStart=i+1
+            print (i / numSentences * 100)
+    file = open('./model_files/reports_rnn_sentences', 'w')
+    pickle.dump(predictions, file)
+    file.close()
+
+# Converts the search term to a sentence vector
+def getSearchTerm(searchTerm):
+    maxLen = 50
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print("loading RNN sentence encoder")
+    model = model_from_json(open('./model_files/reports.rnn_sentence_encoder.json').read())
+    model.load_weights('./model_files/reports.rnn_sentence_encoder_weights.h5')
+    print("loaded RNN sentence model encoder")
+    newTerm=[]
+    for token in searchTerm:
+        if token in word_model:
+            newTerm.append(word_model[token])
+    x=np.zeros((1,maxLen-1,100),dtype=np.float32)
+    # Use the whole term as the end of sentence token is unlikely to be included
+    x[0][0:len(newTerm)][:]=np.asarray(newTerm)
+    searchTerm = model.predict(x,batch_size=1)
+    return searchTerm
+
+# Returns the most similar sentences to the given search term
+def most_similar(searchTerm,topn=5):
+    print("loading sentence vectors")
+    file = open('./model_files/reports_rnn_sentences', 'r')
+    predictions = pickle.load(file)
+    file.close()
+    print("loaded sentence vectors")
+    distance = cdist(searchTerm,predictions,'cosine')
+    idx = np.argsort(distance)
+    results = []
+    i = 0
+    while (i < topn):
+        index = idx[0][i]
+        result = []
+        result.append(index)
+        result.append(1-distance[0][index])
+        results.append(result)
+        i = i + 1
+    return results
+
+# Searches for and returns the 5 most similar sentences to the search term
+# Search term is a string
+def searchRNN():
+    sentences = getProcessedSentences()
+
+    searchTerm = sentences[2000]
+
+    print(searchTerm)
+    searchTerm_rnn = getSearchTerm(searchTerm)
+    print(searchTerm_rnn)
+    similarSentences = most_similar(searchTerm_rnn,topn=5)
+
+    if (similarSentences == []):
+    	print ("ERROR: Invalid search term")
+
+    for sentenceIdx in similarSentences:
+    	print("----------")
+    	print("Sentence #: " + str(sentenceIdx[0]) + " Similarity: " + str(sentenceIdx[1]) )
+    	print(sentences[sentenceIdx[0]])
+
+def reportsToDense():
     # Max number of words in sentence, detemined in the initial report processing
     maxLen = 50
     reportLen = 0
@@ -475,9 +558,8 @@ def reportsToDense():
             reportLen = length
     print("longest report has ",reportLen," sentences.")
     print("loading RNN sentence model")
-    model = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
-    model.load_weights('./model_files/reports.rnn_sentence_weights.h5')
-    get_hidden = theano.function([model.layers[0].input], model.layers[0].get_output(train=False), allow_input_downcast=True)
+    model = model_from_json(open('./model_files/reports.rnn_sentence_encoder.json').read())
+    model.load_weights('./model_files/reports.rnn_sentence_encoder_weights.h5')
     print("RNN sentence model loaded")
 
     denseReports=np.zeros((len(reports),reportLen,100))
@@ -494,8 +576,9 @@ def reportsToDense():
             # Get the hidden state after inputting the sentence
             if len(newSentence) > 0:
                 temp = np.asarray([newSentence])[:][0:len(newSentence)-1][:]
-                # should be -2?
-                newReport.append(get_hidden(temp)[0][len(newSentence)-1][:])
+                print(model.predict(temp,batch_size=1))
+                time.sleep(30)
+                newReport.append(model.predict(temp,batch_size=1))
         denseReports[i][0:len(newReport)][:]=np.asarray(newReport)
 
     file = open('./model_files/reports_dense', 'w')
