@@ -65,38 +65,38 @@ def textPreprocess(text):
         sentence = filter(None, sentence)
         #look up variable length sequences of words in medical dictionary, stem them if not present
         numTokens = 5 #phrases up to 5 words long
-        while numTokens > 0:
-        	processedText=[]
-        	start=0
-        	#Check each phrase of n tokens while there are sufficient tokens after
-        	while start < (len(sentence) - numTokens):
-        		phrase=sentence[start]
-        		nextToken=1
-        		while nextToken < numTokens:
-        			#add the next tokens to the current one
-        			phrase = phrase+" "+sentence[start+nextToken]
-        			nextToken += 1
-        		if phrase in medical:
-        			#convert tokens to one token from specialist
-        			processedText.append(medical[phrase])
-        			# skip the next tokens
-        			start += (numTokens)
-        		elif numTokens == 1:
-        			#individual tokens, stem them if not in specialist and keep
-        			processedText.append(stem.snowball.EnglishStemmer().stem(phrase))
-        			start += 1
-        		else:
-        			#token not part of phrase, keep
-        			processedText.append(sentence[start])
-        			start += 1
-        	#Keep remaining tokens without enough tokens after them
-        	while start < len(sentence):
-        		processedText.append(sentence[start])
-        		start += 1
-        	sentence = processedText
-        	numTokens -= 1
+        while (numTokens > 0):
+            processedText=[]
+            start=0
+            #Check each phrase of n tokens while there are sufficient tokens after
+            while (start <= (len(sentence) - numTokens)):
+                phrase=sentence[start]
+                nextToken=1
+                while nextToken < numTokens:
+                    #add the next tokens to the current one
+                    phrase = phrase+" "+sentence[start+nextToken]
+                    nextToken += 1
+                if phrase in medical:
+                    #convert tokens to one token from specialist
+                    processedText.append(medical[phrase])
+                    # skip the next tokens
+                    start += (numTokens)
+                elif numTokens == 1:
+                    #individual tokens, stem them if not in specialist and keep
+                    processedText.append(stem.snowball.EnglishStemmer().stem(phrase))
+                    start += 1
+                else:
+                    #token not part of phrase, keep
+                    processedText.append(sentence[start])
+                    start += 1
+            #Keep remaining tokens without enough tokens after them
+            while (start < len(sentence)):
+                processedText.append(sentence[start])
+                start += 1
+            sentence = processedText
+            numTokens -= 1
         text.append(sentence)
-    text.append("end_rep")
+    text.append(["end_rep"])
 
     return(text)
 
@@ -193,6 +193,25 @@ def buildWord2VecSentences():
     model.init_sims(replace=True)
     model.save("./model_files/reports.word2vec_model")
     print("built word2vec")
+
+# function to test the functionality of Word2Vec
+def testWord2VecModel():
+    print("loading word2vec model")
+    model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print(model)
+    # model = gensim.models.Word2Vec.load("zzmodel")
+    print("----------------------------------similarity test")
+    print(model.similarity("head","brain"))
+    print("----------------------------------raw numpy vector of word")
+    print(model["age"])
+    print("----------------------------------remove outlier")
+    print(model.doesnt_match("hours four age".split()))
+    print("----------------------------------similar words")
+    print(model.most_similar("hemorrhage"))
+
+    print("script finished")
+
 
 def buildRNN():
     # Number of reports to process in each batch
@@ -514,7 +533,7 @@ def most_similar(searchTerm,topn=5):
     predictions = pickle.load(file)
     file.close()
     print("loaded sentence vectors")
-    distance = cdist(searchTerm,predictions,'cosine')
+    distance = 1-cdist(searchTerm,predictions,'cosine')
     idx = np.argsort(distance)
     results = []
     i = 0
@@ -529,18 +548,21 @@ def most_similar(searchTerm,topn=5):
 
 # Searches for and returns the 5 most similar sentences to the search term
 # Search term is a string
-def searchRNN():
-    sentences = getProcessedSentences()
-
-    searchTerm = sentences[2000]
-
+def searchRNN(searchTerm):
+    searchTerm = textPreprocess(searchTerm)[0]
+    print("Searching for: ")
     print(searchTerm)
+
     searchTerm_rnn = getSearchTerm(searchTerm)
     print(searchTerm_rnn)
     similarSentences = most_similar(searchTerm_rnn,topn=5)
 
     if (similarSentences == []):
     	print ("ERROR: Invalid search term")
+
+    print("loading sentences")
+    sentences = getProcessedSentences()
+    print("loaded sentences")
 
     for sentenceIdx in similarSentences:
     	print("----------")
