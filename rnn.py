@@ -7,16 +7,12 @@ from nltk import stem
 import nltk
 import gensim
 import numpy as np
+# import klepto
 from scipy.spatial.distance import cdist
-# from numpy import newaxis
-# from sklearn import preprocessing
 import preprocess
 import keras
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential, model_from_json
-# from keras.preprocessing.sequence import pad_sequences
-# from keras.layers.core import Dense, Dropout, Activation
-# from keras.layers.embeddings import Embedding
 import theano
 import math
 import time
@@ -194,7 +190,8 @@ def testWord2VecModel():
     print("script finished")
 
 # Build an RNN on sentences using a fixed maximum sentence length and batches
-def buildSentenceRNN():
+# Trains over 10 epochs
+def buildSentenceRNN(epochs=10):
     print("loading sentences")
     sentences = getProcessedSentences()
     numSentences = len(sentences)
@@ -203,7 +200,7 @@ def buildSentenceRNN():
     print("loaded word2vec model")
     print('building LSTM model...')
     m = Sequential()
-    m.add(LSTM(SENTENCE_HIDDEN, input_length=S-1, input_dim=100, return_sequences=True))
+    m.add(LSTM(SENTENCE_HIDDEN, input_length=SENTENCE_LEN-1, input_dim=100, return_sequences=True))
     m.add(LSTM(100, return_sequences=True))
     m.compile(loss='mse', optimizer='adam')
     #Store the model architecture to a file
@@ -212,7 +209,7 @@ def buildSentenceRNN():
     temp = np.zeros((SENTENCE_LEN,100),dtype=np.float32)
     #Train the model over 10 epochs
     print("created LSTM sentence model, training")
-    for epoch in xrange(10):
+    for epoch in xrange(epochs):
         start=time.time()
         print("->epoch: ", epoch)
         for i in xrange(numSentences):
@@ -237,7 +234,59 @@ def buildSentenceRNN():
             # Train on batch
             if ((((i+1)% BATCH_SIZE) == 0) or (i == (numSentences-1))):
                 print ("epoch: ",epoch,", ",i / numSentences * 100)
-                m.train_on_batch(batch,batch)
+                m.train_on_batch(batch,expected)
+                if ((i+1)%(BATCH_SIZE*100)==0):
+                    print("updating weights file")
+                    m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+        end = time.time()
+        print("epoch ",epoch," took ",end-start," seconds")
+        print("updating weights file")
+        m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+    print("Trained sentence model")
+
+# Trains the RNN on sentences using a fixed maximum sentence length and batches
+# Input is the number of additional epochs to train for
+# This is used to train the RNN on additional epochs and may not be needed
+def trainSentenceRNN(epochs=5):
+    print("loading sentences")
+    sentences = getProcessedSentences()
+    numSentences = len(sentences)
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print("loading partial RNN sentence model")
+    m = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
+    m.load_weights('./model_files/reports.rnn_sentence_weights.h5')
+    print("partial RNN sentence model loaded")
+    temp = np.zeros((SENTENCE_LEN,100),dtype=np.float32)
+    #Train the model over 10 epochs
+    print("created LSTM sentence model, training")
+    for epoch in xrange(epochs):
+        start=time.time()
+        print("->epoch: ", epoch)
+        for i in xrange(numSentences):
+            # Create batch in memory
+            if ((i% BATCH_SIZE) == 0):
+                batch = np.zeros((BATCH_SIZE,SENTENCE_LEN-1,100),dtype=np.float32)
+                expected = np.zeros((BATCH_SIZE,SENTENCE_LEN-1,100),dtype=np.float32)
+            # Convert sentence to dense
+            newSentence = []
+            for token in sentences[i]:
+                if token in word_model:
+                    newSentence.append(word_model[token])
+            # Trim sentences greater than maximum sentence length
+            newSentence = newSentence[:SENTENCE_LEN-1]
+            # Store sentence in batch
+            if len(newSentence) > 0:
+                temp = np.asarray(newSentence)
+                # Last word of sentence is not used as input
+                batch[i%BATCH_SIZE][0:len(newSentence)-1][:]=temp[0:len(newSentence)-1][:]
+                # First word of sentence is not used as expected output (right shifted input)
+                expected[i%BATCH_SIZE][0:len(newSentence)-1][:]=temp[1:len(newSentence)][:]
+            # Train on batch
+            if ((((i+1)% BATCH_SIZE) == 0) or (i == (numSentences-1))):
+                print ("epoch: ",epoch,", ",i / numSentences * 100)
+                m.train_on_batch(batch,expected)
                 if ((i+1)%(BATCH_SIZE*100)==0):
                     print("updating weights file")
                     m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
@@ -395,9 +444,18 @@ def sentencesToDense():
         # Print processing percentage
         if ((i%1000)==0):
             print (i / numSentences * 100)
+    print("saving dense sentence representations")
     file = open('./model_files/reports_rnn_sentences', 'w')
-    pickle.dump(predictions, file)
+    np.save(file,predictions)
     file.close()
+
+# Loads the dense sentence vectors from a file
+# Returns an matrix of sentence vectors
+def loadDenseSentences():
+    file = open('./model_files/reports_rnn_sentences', 'r')
+    sentences = np.load(file)
+    file.close()
+    return sentences
 
 # Converts the search term to a sentence vector
 def getSearchTerm(searchTerm):
@@ -421,9 +479,7 @@ def getSearchTerm(searchTerm):
 # Search term is a sentence vector
 def most_similar(searchTerm,topn=5):
     print("loading sentence vectors")
-    file = open('./model_files/reports_rnn_sentences', 'r')
-    predictions = pickle.load(file)
-    file.close()
+    predictions = loadDenseSentences()
     print("loaded sentence vectors")
     distance = cdist(searchTerm,predictions,'cosine')
     idx = np.argsort(distance)
@@ -442,9 +498,7 @@ def most_similar(searchTerm,topn=5):
 # Search term is a sentence vector
 def least_similar(searchTerm,topn=5):
     print("loading sentence vectors")
-    file = open('./model_files/reports_rnn_sentences', 'r')
-    predictions = pickle.load(file)
-    file.close()
+    predictions = loadDenseSentences()
     print("loaded sentence vectors")
     similarity = 1-cdist(searchTerm,predictions,'cosine')
     idx = np.argsort(similarity)
@@ -463,9 +517,7 @@ def least_similar(searchTerm,topn=5):
 # Search term is a sentence vector and a similarity upperbound
 def similar(searchTerm,upperbound=0.99,topn=5):
     print("loading sentence vectors")
-    file = open('./model_files/reports_rnn_sentences', 'r')
-    predictions = pickle.load(file)
-    file.close()
+    predictions = loadDenseSentences()
     print("loaded sentence vectors")
     distance = cdist(searchTerm,predictions,'cosine')
     idx = np.argsort(distance)
@@ -614,26 +666,20 @@ def reportsToDense():
         denseReports.append(denseReport)
         if ((i%100)==0):
             print (i / numReports * 100)
-    file = open('./model_files/reports_dense', 'w')
+    file = open('./model_files/reports_rnn_dense', 'w')
     pickle.dump(denseReports, file)
     file.close()
     print("dense reports saved")
 
-def buildReportRNN():
-    print("loading word2vec model")
-    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
-    print("loaded word2vec model")
-    print("loading RNN sentence encoder model")
-    model = model_from_json(open('./model_files/reports.rnn_sentence_encoder.json').read())
-    model.load_weights('./model_files/reports.rnn_sentence_encoder_weights.h5')
-    print("RNN sentence encoder model loaded")
+# Build an RNN on reports using a fixed maximum report length and batches
+# Trains over 10 epochs by default
+def buildReportRNN(epochs=10):
     print("loading reports")
-    file = open('./model_files/reports_dense', 'r')
     denseReports = getDenseReports()
     print("loaded reports")
-    # Delete any reports with only 1 sentence
+    # Delete any reports with less than 2 sentences
     for report in reports:
-        if len(report) == 1:
+        if len(report) < 2:
             reports.remove(report)
     print('building LSTM model...')
     m = Sequential()
@@ -642,10 +688,10 @@ def buildReportRNN():
     m.compile(loss='mse', optimizer='adam')
     #Store the model architecture to a file
     json_string = m.to_json()
-    open('./model_files/reports.rnn_architecture.json', 'w').write(json_string)
+    open('./model_files/reports.rnn_reports_architecture.json', 'w').write(json_string)
     #Train the model over 10 epochs
     print("created LSTM model, training")
-    for epoch in xrange(10):
+    for epoch in xrange(epochs):
         start=time.time()
         print("->epoch: ", epoch)
         for i in xrange(numReports):
@@ -653,22 +699,119 @@ def buildReportRNN():
             if ((i% BATCH_SIZE) == 0):
                 batch = np.zeros((BATCH_SIZE,REPORT_LEN-1,SENTENCE_HIDDEN),dtype=np.float32)
                 expected = np.zeros((BATCH_SIZE,REPORT_LEN-1,SENTENCE_HIDDEN),dtype=np.float32)
-            if len(reports[i]) > 1:
-                # Trim reports greater than maximum report length
-                newReport = reports[i][:REPORT_LEN-1]
-                temp = np.asarray(newReport)
-                # Last word of sentence is not used as input
-                batch[i%BATCH_SIZE][0:len(newReport)-1][:]=temp[0:len(newReport)-1][:]
-                # First word of sentence is not used as expected output (right shifted input)
-                expected[i%BATCH_SIZE][0:len(newReport)-1][:]=temp[1:len(newReport)][:]
+            # Trim reports greater than maximum report length, discard first sentences
+            if len(reports[i]) > REPORT_LEN:
+                newReport = reports[i][(len(reports[i])-REPORT_LEN):]
+            else:
+                newReport = reports[i]
+            temp = np.asarray(newReport)
+            # Last sentence of report is not used as input
+            batch[i%BATCH_SIZE][0:len(newReport)-1][:]=temp[0:len(newReport)-1][:]
+            # Last sentence of report is not used as expected output (right shifted input)
+            expected[i%BATCH_SIZE][0:len(newReport)-1][:]=temp[1:len(newReport)][:]
             # Train on batch
             if ((((i+1)% BATCH_SIZE) == 0) or (i == (numReports-1))):
                 print ("epoch: ",epoch,", ",i / numReports * 100)
                 m.train_on_batch(batch,expected)
                 if ((i+1)%(BATCH_SIZE*100)==0):
                     print("updating weights file")
-                    m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True)
+                    m.save_weights('./model_files/reports.rnn_reports_weights.h5',overwrite=True)
         end = time.time()
         print("epoch ",epoch," took ",end-start," seconds")
-        m.save_weights('./model_files/reports.rnn_weights.h5',overwrite=True)
+        m.save_weights('./model_files/reports.rnn_reports_weights.h5',overwrite=True)
     print("Trained model")
+
+
+# Converts the reports model to a reports encoder only model
+# Required to be able to generate report vectors
+def reportToEncoder():
+    print("loading RNN report model")
+    full = model_from_json(open('./model_files/reports.rnn_reports_architecture.json').read())
+    full.load_weights('./model_files/reports.rnn_reports_weights.h5')
+    print("RNN report model loaded")
+
+    print('building report Encoder model...')
+    m = Sequential()
+    m.add(LSTM(REPORT_HIDDEN, input_length=REPORT_LEN-1, input_dim=SENTENCE_HIDDEN, weights=full.layers[0].get_weights()))
+    m.compile(loss='mse', optimizer='adam')
+    print("created report Encoder model")
+
+    #Store the encoder model architecture to a file
+    json_string = m.to_json()
+    open('./model_files/reports.rnn_report_encoder.json', 'w').write(json_string)
+    m.save_weights('./model_files/reports.rnn_report_encoder_weights.h5',overwrite=True)
+
+    print("report encoder model saved")
+
+# Generate the dense vector representations of each report and store them to a file
+# Required to be able to find similar reports
+def reports2vecs():
+    print("loading reports")
+    denseReports = getDenseReports()
+    numReports=len(denseReports)
+    print("loaded reports")
+    print("loading RNN report encoder")
+    model = model_from_json(open('./model_files/reports.rnn_report_encoder.json').read())
+    model.load_weights('./model_files/reports.rnn_report_encoder_weights.h5')
+    print("loaded RNN report model encoder")
+    predictions = np.zeros((numReports,REPORT_HIDDEN))
+    for i in xrange(numReports):
+        # Trim reports greater than maximum report length, discard first sentences
+        if len(reports[i]) > REPORT_LEN:
+            newReport = reports[i][(len(reports[i])-REPORT_LEN):]
+        else:
+            newReport = reports[i]
+        # Store the report vector
+        if len(newReport) > 0:
+            # Convert the report to an array, note that the length is variable (unlike training)
+            x=np.asarray([newReport])
+            predictions[i] = model.predict(x,batch_size=1)
+        # Print processing percentage
+        if ((i%1000)==0):
+            print (i / numSentences * 100)
+    print("saving dense report vector representations")
+    file = open('./model_files/reports_rnn_vecs', 'w')
+    np.save(file,predictions)
+    file.close()
+
+# Loads the dense report vectors from a file
+# Returns an matrix of report vectors
+def loadReportVecs():
+    file = open('./model_files/reports_rnn_vecs', 'r')
+    reports = np.load(file)
+    file.close()
+    return reports
+
+# Converts the search term to a report vector
+# Search term is a string
+def getReportSearchTerm(searchTerm):
+    print("converting report to sentence vector")
+    searchTerm = textPreprocess(searchTerm)[0]
+    searchTerm = getSearchTerm(searchTerm)
+    print("converted report to sentence vector")
+    print("loading RNN report encoder")
+    model = model_from_json(open('./model_files/reports.rnn_report_encoder.json').read())
+    model.load_weights('./model_files/reports.rnn_report_encoder_weights.h5')
+    print("loaded RNN report encoder")
+    x=np.asarray([searchTerm])
+    searchTerm = model.predict(x,batch_size=1)
+    return searchTerm
+
+# Returns the most similar reports to the given search term
+# Search term is a report vector
+def most_similar_reports(searchTerm,topn=5):
+    print("loading report vectors")
+    predictions = loadReportVecs()
+    print("loaded report vectors")
+    distance = cdist(searchTerm,predictions,'cosine')
+    idx = np.argsort(distance)
+    results = []
+    i = 0
+    while (i < topn):
+        index = idx[0][i]
+        result = []
+        result.append(index)
+        result.append(1-distance[0][index])
+        results.append(result)
+        i = i + 1
+    return results
