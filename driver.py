@@ -24,8 +24,12 @@ searchTerm = "haemorrhage"
 # rnn.buildWord2VecSentences()
 # rnn.testWord2VecModel()
 # rnn.buildSentenceRNN()
-# rnn.sentenceToEncoder()
-# rnn.sentencesToDense()
-# rnn.searchRNN(searchTerm)
-# rnn.nextWords("VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS")
-rnn.compareSentences("There is a intracranial haemorrhage.","There is a haemorrhage in the cranium.")
+rnn.sentenceToEncoder()
+
+rnn.sentencesToDense()
+rnn.searchRNN(searchTerm)
+rnn.nextWords("VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS")
+rnn.compareSentences("There is a intracranial haemorrhage","There is a haemorrhage in the cranium")
+
+# rnn.reportsToDense()
+# rnn.buildReportRNN()
