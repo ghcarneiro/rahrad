@@ -191,7 +191,11 @@ def testWord2VecModel():
 
 # Build an RNN on sentences using a fixed maximum sentence length and batches
 # Trains over 10 epochs
+<<<<<<< HEAD
 def buildSentenceRNN(epochs=10):
+=======
+def buildSentenceRNN():
+>>>>>>> 8c020612f5690ac36e27714045018b8486268eaf
     print("loading sentences")
     sentences = getProcessedSentences()
     numSentences = len(sentences)
@@ -287,6 +291,57 @@ def trainSentenceRNN(epochs=5):
             if ((((i+1)% BATCH_SIZE) == 0) or (i == (numSentences-1))):
                 print ("epoch: ",epoch,", ",i / numSentences * 100)
                 m.train_on_batch(batch,expected)
+                if ((i+1)%(BATCH_SIZE*100)==0):
+                    print("updating weights file")
+                    m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+        end = time.time()
+        print("epoch ",epoch," took ",end-start," seconds")
+        print("updating weights file")
+        m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+    print("Trained sentence model")
+
+# Trains the RNN on sentences using a fixed maximum sentence length and batches
+# Input is the number of additional epochs to train for
+def trainSentenceRNN(epochs=5):
+    print("loading sentences")
+    sentences = getProcessedSentences()
+    numSentences = len(sentences)
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print("loading partial RNN sentence model")
+    m = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
+    m.load_weights('./model_files/reports.rnn_sentence_weights.h5')
+    print("partial RNN sentence model loaded")
+    temp = np.zeros((SENTENCE_LEN,100),dtype=np.float32)
+    #Train the model over 10 epochs
+    print("created LSTM sentence model, training")
+    for epoch in xrange(epochs):
+        start=time.time()
+        print("->epoch: ", epoch)
+        for i in xrange(numSentences):
+            # Create batch in memory
+            if ((i% BATCH_SIZE) == 0):
+                batch = np.zeros((BATCH_SIZE,SENTENCE_LEN-1,100),dtype=np.float32)
+                expected = np.zeros((BATCH_SIZE,SENTENCE_LEN-1,100),dtype=np.float32)
+            # Convert sentence to dense
+            newSentence = []
+            for token in sentences[i]:
+                if token in word_model:
+                    newSentence.append(word_model[token])
+            # Trim sentences greater than maximum sentence length
+            newSentence = newSentence[:SENTENCE_LEN-1]
+            # Store sentence in batch
+            if len(newSentence) > 0:
+                temp = np.asarray(newSentence)
+                # Last word of sentence is not used as input
+                batch[i%BATCH_SIZE][0:len(newSentence)-1][:]=temp[0:len(newSentence)-1][:]
+                # First word of sentence is not used as expected output (right shifted input)
+                expected[i%BATCH_SIZE][0:len(newSentence)-1][:]=temp[1:len(newSentence)][:]
+            # Train on batch
+            if ((((i+1)% BATCH_SIZE) == 0) or (i == (numSentences-1))):
+                print ("epoch: ",epoch,", ",i / numSentences * 100)
+                m.train_on_batch(batch,batch)
                 if ((i+1)%(BATCH_SIZE*100)==0):
                     print("updating weights file")
                     m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
