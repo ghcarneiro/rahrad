@@ -191,11 +191,7 @@ def testWord2VecModel():
 
 # Build an RNN on sentences using a fixed maximum sentence length and batches
 # Trains over 10 epochs
-<<<<<<< HEAD
 def buildSentenceRNN(epochs=10):
-=======
-def buildSentenceRNN():
->>>>>>> 8c020612f5690ac36e27714045018b8486268eaf
     print("loading sentences")
     sentences = getProcessedSentences()
     numSentences = len(sentences)
