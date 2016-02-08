@@ -38,7 +38,7 @@ SENTENCE_LEN = 50
 # Number of report hidden units / report vector size
 REPORT_HIDDEN = 500
 # Max number of sentences in report
-REPORT_LEN = 40
+REPORT_LEN = 50
 # Number of sentences to process in each batch
 BATCH_SIZE = 128
 # specialist dictionary, loaded during first call to text preprocessing
@@ -149,13 +149,6 @@ def getProcessedSentences():
 	file.close()
 
 	return sentences
-
-# retrieves all reports in their dense vector format
-# output is a list containing the reports a lists of dense sentence vectors
-def getDenseReports():
-    file = open('./model_files/reports_dense', 'r')
-    denseReports = pickle.load(file)
-    file.close()
 
 # Builds a word2vec model on the processed sentences extracted from reports
 # This function is required to create the dense word embeddings
@@ -669,22 +662,10 @@ def searchRNN(searchTerm):
 # Converts the preprocessed reports to sets of sentence vectors
 # Saves the new reports to a file
 def reportsToDense():
-    maxLen = 0
-    secondMax=0
-    thirdMax=0
     print("loading reports")
     reports = getProcessedReports()
     numReports=len(reports)
     print("reports loaded")
-    for report in reports:
-        length = len(report)
-        if length > reportLen:
-            maxLen = length
-            secondMax=maxLen
-            thirdMax=secondMax
-    print("longest report length is: ", maxLen)
-    print("second longest report length is: ", secondMax)
-    print("third longest report length is: ", thirdMax)
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
@@ -693,7 +674,7 @@ def reportsToDense():
     model.load_weights('./model_files/reports.rnn_sentence_encoder_weights.h5')
     print("RNN sentence encoder model loaded")
 
-    endToken = np.ones((1,SENTENCE_HIDDEN),dtype=np.float32)
+    endToken = np.ones((SENTENCE_HIDDEN),dtype=np.float32)
 
     denseReports=[]
     print("Converting reports")
@@ -712,7 +693,7 @@ def reportsToDense():
             if len(newSentence) > 0:
                 # Convert the sentence to an array, note that the length is variable (unlike training)
                 x=np.asarray([newSentence])
-                denseReport.append(model.predict(x,batch_size=1))
+                denseReport.append(model.predict(x,batch_size=1)[0][:])
         denseReport.append(endToken)
         denseReports.append(denseReport)
         if ((i%100)==0):
@@ -722,16 +703,25 @@ def reportsToDense():
     file.close()
     print("dense reports saved")
 
+# retrieves all reports in their dense vector format
+# output is a list containing the reports a lists of dense sentence vectors
+def getDenseReports():
+    file = open('./model_files/reports_rnn_dense', 'r')
+    denseReports = pickle.load(file)
+    file.close()
+    return denseReports
+
 # Build an RNN on reports using a fixed maximum report length and batches
 # Trains over 10 epochs by default
 def buildReportRNN(epochs=10):
     print("loading reports")
-    denseReports = getDenseReports()
+    reports = getDenseReports()
     print("loaded reports")
     # Delete any reports with less than 2 sentences
     for report in reports:
         if len(report) < 2:
             reports.remove(report)
+    numReports = len(reports)
     print('building LSTM model...')
     m = Sequential()
     m.add(LSTM(REPORT_HIDDEN, input_length=REPORT_LEN-1, input_dim=SENTENCE_HIDDEN, return_sequences=True))

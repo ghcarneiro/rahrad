@@ -35,5 +35,7 @@ import rnn
 # rnn.nextWords("left sided embolus")
 
 
-# rnn.reportsToDense()
-# rnn.buildReportRNN()
+rnn.reportsToDense()
+rnn.buildReportRNN()
+rnn.reportToEncoder()
+rnn.reports2vecs()
