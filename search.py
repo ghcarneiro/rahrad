@@ -9,6 +9,7 @@ import rnn
 # output is an array containing the index of the similar documents and their similarity value
 def search(model, numResults, searchTerm):
 	dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
+	origSearchTerm = searchTerm
 	searchTerm = preprocess.textPreprocess(searchTerm)
 	# searchTerm = preprocess.getDerivations(searchTerm)
 	if (searchTerm == []):
@@ -59,7 +60,7 @@ def search(model, numResults, searchTerm):
 
 		similarReports = model.docvecs.most_similar([searchTerm_docvec],topn=numResults)
 	elif model == "rnn":
-		searchTerm_rnn = rnn.getReportSearchTerm(searchTerm)
+		searchTerm_rnn = rnn.getReportSearchTerm(origSearchTerm)
 
 		similarReports = rnn.most_similar_reports(searchTerm_rnn,topn=numResults)
 	else:

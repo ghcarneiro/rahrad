@@ -788,8 +788,8 @@ def reportToEncoder():
 # Required to be able to find similar reports
 def reports2vecs():
     print("loading reports")
-    denseReports = getDenseReports()
-    numReports=len(denseReports)
+    reports = getDenseReports()
+    numReports=len(reports)
     print("loaded reports")
     print("loading RNN report encoder")
     model = model_from_json(open('./model_files/reports.rnn_report_encoder.json').read())
@@ -808,8 +808,8 @@ def reports2vecs():
             x=np.asarray([newReport])
             predictions[i] = model.predict(x,batch_size=1)
         # Print processing percentage
-        if ((i%1000)==0):
-            print (i / numSentences * 100)
+        if ((i%100)==0):
+            print (i / numReports * 100)
     print("saving dense report vector representations")
     file = open('./model_files/reports_rnn_vecs', 'w')
     np.save(file,predictions)
@@ -845,6 +845,9 @@ def most_similar_reports(searchTerm,topn=5):
     predictions = loadReportVecs()
     print("loaded report vectors")
     distance = cdist(searchTerm,predictions,'cosine')
+    # Convert the distance to cosine similarity
+    # normalise to range [0,1]
+    similarity = (1-distance[0][:])*.5 + .5
     idx = np.argsort(distance)
     results = []
     i = 0
@@ -852,7 +855,7 @@ def most_similar_reports(searchTerm,topn=5):
         index = idx[0][i]
         result = []
         result.append(index)
-        result.append(1-distance[0][index])
+        result.append(similarity[index])
         results.append(result)
         i = i + 1
     return results
