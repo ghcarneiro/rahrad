@@ -13,6 +13,7 @@ import preprocess
 import keras
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential, model_from_json
+from sklearn import cross_validation
 import theano
 import math
 import time
@@ -32,7 +33,7 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
 # Global variables for use in RNNs
 # Number of sentence hidden units / sentence vector size
-SENTENCE_HIDDEN = 300
+SENTENCE_HIDDEN = 100
 # Max number of words in sentence
 SENTENCE_LEN = 50
 # Number of report hidden units / report vector size
@@ -150,6 +151,17 @@ def getProcessedSentences():
 
 	return sentences
 
+# Writes the training status to a file
+# Input is number of epochs, epoch completed, epoch time and last training error rate
+def writeStatus(epochs,currentEpoch,epochTime,errorRate):
+    if currentEpoch == 0:
+        file = open('./model_files/rnn_status.txt', 'w')
+    else:
+        file = open('./model_files/rnn_status.txt', 'a')
+    file.write("Completed epoch ",currentEpoch,"/",epochs)
+    file.write("->Error rate of:",errorRate)
+    file.write("->Epoch training time of:",epochTime)
+    file.close()
 # Builds a word2vec model on the processed sentences extracted from reports
 # This function is required to create the dense word embeddings
 def buildWord2VecSentences():
@@ -289,10 +301,9 @@ def trainSentenceRNN(epochs=5):
         m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
     print("Trained sentence model")
 
-
 # Build a RNN on sentences using a fixed window size and no batches
 # Due to the updating of weights in keras this function is unusable due to computation time required
-def buildSentenceRNNWindowed():
+def buildSentenceRNNWindowed(epochs=10):
     # Max number of words in training set, detemined in the initial report processing
     timeWindow = 10
     timeSteps = timeWindow + 1
@@ -300,24 +311,33 @@ def buildSentenceRNNWindowed():
     print("loading sentences")
     sentences = getProcessedSentences()
     numSentences = len(sentences)
+    print("loaded sentences")
+    print("splitting data")
+    # Shuffle and split the data set - only use 5% in each epoch
+    epoch_split = cross_validation.ShuffleSplit(numSentences, n_iter=epochs,test_size=.95)
+    training_size = 0.05 * numSentences
+    print("split data")
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
     print('building LSTM model...')
     model = Sequential()
-    model.add(LSTM(100, input_length=timeSteps, input_dim=100, return_sequences=True))
+    model.add(LSTM(SENTENCE_HIDDEN, input_length=timeSteps, input_dim=100, return_sequences=True))
     model.add(LSTM(100, return_sequences=True))
     model.compile(loss='mse', optimizer='adam')
+    #Store the model architecture to a file
+    json_string = model.to_json()
+    open('./model_files/reports.rnn_sentence_architecture.json', 'w').write(json_string)
     get_activations = theano.function([model.layers[0].input], model.layers[0].get_output(train=False), allow_input_downcast=True)
     #Train the model over 10 epochs
-    print("created LSTM sentence model, training")
-    for epoch in xrange(10):
+    print("built LSTM sentence model, training")
+    for epoch,[training_set,test_set] in enumerate(epoch_split):
         start=time.time()
-        print("->epoch: ", epoch)
-        for i in xrange(numSentences):
+        print("Starting epoch: ", epoch," of ",epochs)
+        for progress,index in enumerate(training_set):
             # Convert sentence to dense
             newSentence = []
-            for token in sentences[i]:
+            for token in sentences[index]:
                 if token in word_model:
                     newSentence.append(word_model[token])
             # Only process sentences with more than one work/token
@@ -341,19 +361,19 @@ def buildSentenceRNNWindowed():
                     # Expected output is next token in input
                     x_out[0][:][:] = x[depth:(depth+timeWindow+1)][:]
                     # Train on batch size 1,
-                    model.train_on_batch(x_in,x_out)
+                    history = model.train_on_batch(x_in,x_out)
                     # Get the hidden state after the last word
                     hidden = get_activations(x_in)[0][timeWindow][:]
                     # Update depth in sentence
                     depth += timeWindow
-            if (i%100 == 0):
-                print ("epoch: ",epoch,", ",i / numSentences * 100)
+            if (progress%100 == 0):
+                print("epoch ",epoch,"/",epochs,": ",progress / training_size * 100,"%")
+                print("->Training error rate is: ",history[0])
         end = time.time()
-        print("epoch ",epoch," took ",end-start," seconds")
-    #Store the model architecture to a file
-    json_string = model.to_json()
-    open('./model_files/reports.rnn_sentence_architecture.json', 'w').write(json_string)
-    model.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+        print("Epoch ",epoch," took ",end-start," seconds")
+        model.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
+        writeStatus(epochs,epoch,end-start,history[0])
+        print("Updated weights and status files")
     print("Trained sentence model")
 
 # Predicts the next words after the given input phrase
@@ -393,7 +413,7 @@ def sentenceToEncoder():
     full.load_weights('./model_files/reports.rnn_sentence_weights.h5')
     print("RNN sentence model loaded")
 
-    print('building sentence Endocer model...')
+    print('building sentence Encoder model...')
     m = Sequential()
     m.add(LSTM(SENTENCE_HIDDEN, input_length=SENTENCE_LEN-1, input_dim=100, weights=full.layers[0].get_weights()))
     m.compile(loss='mse', optimizer='adam')
