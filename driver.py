@@ -24,14 +24,20 @@ import rnn
 # rnn.buildWord2VecSentences()
 # rnn.testWord2VecModel()
 
-rnn.buildSentenceRNN()
+# rnn.buildSentenceRNN()
+# rnn.buildSentenceRNN(epochs=1,continueTraining=True)
 # rnn.sentenceToEncoder()
-
-# rnn.buildSentenceRNNWindowed(epochs=9,continueTraining=True)
-
 # rnn.sentencesToDense()
+
 # rnn.searchRNN(searchTerm)
+
+# rnn.compareSentences("There is a intracranial haemorrhage.","There is a haemorrhage in the cranium.")
+# rnn.compareSentences("There is a intracranial haemorrhage","There is a haemorrhage in the cranium")
+# rnn.compareSentences("There is no intracranial haemorrhage.","There is a haemorrhage in the cranium.")
+# rnn.compareSentences("There is no intracranial haemorrhage","There is a haemorrhage in the cranium")
 # rnn.compareSentences("There is a intracranial haemorrhage.","The study is within normal limits.")
+# rnn.compareSentences("There is a intracranial haemorrhage","The study is within normal limits")
+
 # rnn.nextWords("VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE AND IT IS")
 # rnn.nextWords("VENTRICULAR CALIBRE IS WITHIN NORMAL LIMITS FOR AGE")
 # rnn.nextWords("NO INTRACEREBRAL HAEMATOMA OR")
