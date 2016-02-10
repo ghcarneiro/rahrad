@@ -174,7 +174,7 @@ def writeStatusEpoch(epochs,currentEpoch,epochTime):
 # Input is current epoch, bucket size and bucket training error rate
 def writeStatusBucket(currentEpoch,bucketSize,errorRate):
     file = open('./model_files/rnn_status.txt', 'a')
-    file.write("\t"+"Epoch "+str(currentEpoch)+" bucket "+str(bucketSize)+": "+str(errorRate)+"\n")
+    file.write("\t"+"Epoch "+str(currentEpoch)+" bucket <"+str(bucketSize)+": "+str(errorRate)+"\n")
     file.close()
 
 # Writes the training status to a file
@@ -253,13 +253,14 @@ def buildSentenceRNN(epochs=10,continueTraining=False,bucketSize=10):
     print("loading word2vec model")
     word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
     print("loaded word2vec model")
-    print('building LSTM model...')
     # Continue training the existing model if requested
     if continueTraining:
+        print('loading LSTM model...')
         m = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
         m.load_weights('./model_files/reports.rnn_sentence_weights.h5')
     # Otherwise create model before training it
     else:
+        print('building LSTM model...')
         m = Sequential()
         m.add(LSTM(SENTENCE_HIDDEN, input_dim=100, return_sequences=True))
         m.add(LSTM(100, return_sequences=True))
@@ -304,22 +305,22 @@ def buildSentenceRNN(epochs=10,continueTraining=False,bucketSize=10):
                     if ((i+1) % (BATCH_SIZE*10)==0):
                         print("epoch: ",epoch,", bucket: ",currentSize,", ",i / numSentences * 100)
                         print("-> error of ",error[0])
-                # Train on data that does not fit in batch
+                # Train on remaining data that does not fit in batch
                 elif (i == (numSentences-1)):
-                    batch = batch[0:i%BATCH_SIZE][:][:]
-                    expected = expected[0:i%BATCH_SIZE][:][:]
+                    batch = batch[0:(i+1)%BATCH_SIZE][:][:]
+                    expected = expected[0:(i+1)%BATCH_SIZE][:][:]
                     error = m.train_on_batch(batch,expected)
                     bucketError += error[0]
                     print("epoch: ",epoch,", bucket: ",currentSize,", ",i / numSentences * 100)
                     print("-> error of ",error[0])
             bucketError = bucketError/bucketBatches
             print("Epoch ",epoch," with bucket size ",currentSize," had an average error of ",bucketError)
-            writeStatusBucket(epoch,currentSize,bucketError)
+            writeStatusBucket(epoch+1,currentSize,bucketError)
         end = time.time()
         print("epoch ",epoch," took ",end-start," seconds")
         print("updating weights file")
         m.save_weights('./model_files/reports.rnn_sentence_weights.h5',overwrite=True)
-        writeStatusEpoch(epochs,epoch,end-start)
+        writeStatusEpoch(epochs,epoch+1,end-start)
     print("Trained sentence model")
 
 # Build a RNN on sentences using a fixed window size and no batches
@@ -715,10 +716,11 @@ def getBucketedReports(bucketSize=10):
     while maxLen > 0:
         buckets.append([])
         maxLen -= bucketSize
-    # Place the sentences into their buckets
+    # Place the reports into their buckets, only use reports with at least one sentence
     for report in reports:
-        index = int(len(report)/bucketSize)
-        buckets[index].append(report)
+        if len(report) > 1:
+            index = int(len(report)/bucketSize)
+            buckets[index].append(report)
     # Remove empty buckets
     buckets = filter(None, buckets)
     return buckets
@@ -727,10 +729,10 @@ def getBucketedReports(bucketSize=10):
 # By default train a new model of 10 epochs with bucket increments of 10
 # Input is number of training epochs, whether to continue training an existing model and the size of bucket increments
 def buildReportRNN(epochs=10,continueTraining=False,bucketSize=10):
-    print("loading and bucketing sentences")
+    print("loading and bucketing reports")
     buckets = getBucketedReports(bucketSize)
-    print("sentences loaded and bucketed")
-    print('building LSTM model...')
+    print("reports loaded and bucketed")
+    print('building LSTM reports model...')
     # Continue training the existing model if requested
     if continueTraining:
         m = model_from_json(open('./model_files/reports.rnn_reports_architecture.json').read())
@@ -762,13 +764,12 @@ def buildReportRNN(epochs=10,continueTraining=False,bucketSize=10):
                 if ((i% BATCH_SIZE) == 0):
                     batch = np.zeros((BATCH_SIZE,currentSize-1,100),dtype=np.float32)
                     expected = np.zeros((BATCH_SIZE,currentSize-1,100),dtype=np.float32)
-                # Store sentence in batch
-                if len(report) > 1:
-                    temp = np.asarray(report)
-                    # Last word of sentence is not used as input
-                    batch[i%BATCH_SIZE][0:len(report)-1][:]=temp[0:len(report)-1][:]
-                    # First word of sentence is not used as expected output (right shifted input)
-                    expected[i%BATCH_SIZE][0:len(report)-1][:]=temp[1:len(report)][:]
+                # Store report in batch
+                temp = np.asarray(report)
+                # Last sentence of report is not used as input
+                batch[i%BATCH_SIZE][0:len(report)-1][:]=temp[0:len(report)-1][:]
+                # First sentence of report is not used as expected output (right shifted input)
+                expected[i%BATCH_SIZE][0:len(report)-1][:]=temp[1:len(report)][:]
                 # Train on batch
                 if (((i+1)% BATCH_SIZE) == 0):
                     error = m.train_on_batch(batch,expected)
@@ -778,20 +779,20 @@ def buildReportRNN(epochs=10,continueTraining=False,bucketSize=10):
                         print("-> error of ",error[0])
                 # Train on data that does not fit in batch
                 elif (i == (numReports-1)):
-                    batch = batch[0:i%BATCH_SIZE][:][:]
-                    expected = expected[0:i%BATCH_SIZE][:][:]
+                    batch = batch[0:(i+1)%BATCH_SIZE][:][:]
+                    expected = expected[0:(i+1)%BATCH_SIZE][:][:]
                     error = m.train_on_batch(batch,expected)
                     bucketError += error[0]
                     print("epoch: ",epoch,", bucket: ",currentSize,", ",i / numSentences * 100)
                     print("-> error of ",error[0])
             bucketError = bucketError/bucketBatches
             print("Epoch ",epoch," with bucket size ",currentSize," had an average error of ",bucketError)
-            writeStatusBucket(epoch,currentSize,bucketError)
+            writeStatusBucket(epoch+1,currentSize,bucketError)
         end = time.time()
         print("epoch ",epoch," took ",end-start," seconds")
         print("updating weights file")
         m.save_weights('./model_files/reports.rnn_reports_weights.h5',overwrite=True)
-        writeStatusEpoch(epochs,epoch,end-start)
+        writeStatusEpoch(epochs,epoch+1,end-start)
     print("Trained reports model")
 
 # Converts the reports model to a reports encoder only model
@@ -804,7 +805,7 @@ def reportToEncoder():
 
     print('building report Encoder model...')
     m = Sequential()
-    m.add(LSTM(REPORT_HIDDEN, input_length=REPORT_LEN-1, input_dim=SENTENCE_HIDDEN, weights=full.layers[0].get_weights()))
+    m.add(LSTM(REPORT_HIDDEN, input_dim=SENTENCE_HIDDEN, weights=full.layers[0].get_weights()))
     m.compile(loss='mse', optimizer='adam')
     print("created report Encoder model")
 
