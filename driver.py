@@ -24,10 +24,10 @@ import rnn
 # rnn.buildWord2VecSentences()
 # rnn.testWord2VecModel()
 
-# rnn.buildSentenceRNN()
+rnn.buildSentenceRNN()
 # rnn.sentenceToEncoder()
 
-rnn.buildSentenceRNNWindowed()
+# rnn.buildSentenceRNNWindowed(epochs=9,continueTraining=True)
 
 # rnn.sentencesToDense()
 # rnn.searchRNN(searchTerm)
