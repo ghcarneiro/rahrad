@@ -34,13 +34,9 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
 # Global variables for use in RNNs
 # Number of sentence hidden units / sentence vector size
-SENTENCE_HIDDEN = 100
-# Max number of words in sentence
-SENTENCE_LEN = 50
+SENTENCE_HIDDEN = 300
 # Number of report hidden units / report vector size
 REPORT_HIDDEN = 500
-# Max number of sentences in report
-REPORT_LEN = 50
 # Number of sentences to process in each batch
 BATCH_SIZE = 128
 # specialist dictionary, loaded during first call to text preprocessing
@@ -762,8 +758,8 @@ def buildReportRNN(epochs=10,continueTraining=False,bucketSize=10):
             for i,report in enumerate(bucket):
                 # Create batch in memory
                 if ((i% BATCH_SIZE) == 0):
-                    batch = np.zeros((BATCH_SIZE,currentSize-1,100),dtype=np.float32)
-                    expected = np.zeros((BATCH_SIZE,currentSize-1,100),dtype=np.float32)
+                    batch = np.zeros((BATCH_SIZE,currentSize-1,SENTENCE_HIDDEN),dtype=np.float32)
+                    expected = np.zeros((BATCH_SIZE,currentSize-1,SENTENCE_HIDDEN),dtype=np.float32)
                 # Store report in batch
                 temp = np.asarray(report)
                 # Last sentence of report is not used as input
@@ -783,7 +779,7 @@ def buildReportRNN(epochs=10,continueTraining=False,bucketSize=10):
                     expected = expected[0:(i+1)%BATCH_SIZE][:][:]
                     error = m.train_on_batch(batch,expected)
                     bucketError += error[0]
-                    print("epoch: ",epoch,", bucket: ",currentSize,", ",i / numSentences * 100)
+                    print("epoch: ",epoch,", bucket: ",currentSize,", ",i / numReports * 100)
                     print("-> error of ",error[0])
             bucketError = bucketError/bucketBatches
             print("Epoch ",epoch," with bucket size ",currentSize," had an average error of ",bucketError)
@@ -829,16 +825,9 @@ def reports2vecs():
     print("loaded RNN report model encoder")
     predictions = np.zeros((numReports,REPORT_HIDDEN))
     for i in xrange(numReports):
-        # Trim reports greater than maximum report length, discard first sentences
-        if len(reports[i]) > REPORT_LEN:
-            newReport = reports[i][(len(reports[i])-REPORT_LEN):]
-        else:
-            newReport = reports[i]
-        # Store the report vector
-        if len(newReport) > 0:
-            # Convert the report to an array, note that the length is variable (unlike training)
-            x=np.asarray([newReport])
-            predictions[i] = model.predict(x,batch_size=1)
+        # Convert the report to an array, note that the length is variable (unlike training)
+        x=np.asarray([reports[i]])
+        predictions[i] = model.predict(x,batch_size=1)
         # Print processing percentage
         if ((i%100)==0):
             print (i / numReports * 100)
