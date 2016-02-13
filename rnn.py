@@ -150,26 +150,38 @@ def getProcessedSentences():
 
 # Initialised the epoch training file with the number of epochs
 # Input is number of epochs, epoch completed, epoch completion time
-def writeStatusHeader(epochs,continueTraining):
+def writeStatusHeader(epochs,continueTraining,mode="sentence"):
     if continueTraining:
-        file = open('./model_files/rnn_status.txt', 'a')
+        if mode is "sentence":
+            file = open('./model_files/rnn_sentence_status.txt', 'a')
+        else:
+            file = open('./model_files/rnn_report_status.txt', 'a')
     else:
-        file = open('./model_files/rnn_status.txt', 'w')
+        if mode is "sentence":
+            file = open('./model_files/rnn_sentence_status.txt', 'w')
+        else:
+            file = open('./model_files/rnn_report_status.txt', 'w')
     file.write("Running training on "+str(epochs)+" epochs"+"\n")
     file.close()
 
 # Writes the epoch training status to a file
 # Input is number of epochs, epoch completed, epoch completion time
-def writeStatusEpoch(epochs,currentEpoch,epochTime):
-    file = open('./model_files/rnn_status.txt', 'a')
+def writeStatusEpoch(epochs,currentEpoch,epochTime,mode="sentence"):
+    if mode is "sentence":
+        file = open('./model_files/rnn_sentence_status.txt', 'a')
+    else:
+        file = open('./model_files/rnn_report_status.txt', 'a')
     file.write("\t"+"Epoch training time of:"+str(epochTime)+"\n")
     file.write("Completed epoch "+str(currentEpoch)+"/"+str(epochs)+"\n")
     file.close()
 
 # Writes the bucket training status to a file
 # Input is current epoch, bucket size and bucket training error rate
-def writeStatusBucket(currentEpoch,bucketSize,errorRate):
-    file = open('./model_files/rnn_status.txt', 'a')
+def writeStatusBucket(currentEpoch,bucketSize,errorRate,mode="sentence"):
+    if mode is "sentence":
+        file = open('./model_files/rnn_sentence_status.txt', 'a')
+    else:
+        file = open('./model_files/rnn_report_status.txt', 'a')
     file.write("\t"+"Epoch "+str(currentEpoch)+" bucket <"+str(bucketSize)+": "+str(errorRate)+"\n")
     file.close()
 
@@ -745,7 +757,7 @@ def buildReportRNN(epochs=10,continueTraining=False,bucketSize=10):
     #Train the model over 10 epochs
     print("created LSTM reports model")
     print("training...")
-    writeStatusHeader(epochs,continueTraining)
+    writeStatusHeader(epochs,continueTraining,mode="report")
     for epoch in xrange(epochs):
         start=time.time()
         print("Starting Epoch ", epoch," of ",epochs)
@@ -783,12 +795,12 @@ def buildReportRNN(epochs=10,continueTraining=False,bucketSize=10):
                     print("-> error of ",error[0])
             bucketError = bucketError/bucketBatches
             print("Epoch ",epoch," with bucket size ",currentSize," had an average error of ",bucketError)
-            writeStatusBucket(epoch+1,currentSize,bucketError)
+            writeStatusBucket(epoch+1,currentSize,bucketError,mode="report")
         end = time.time()
         print("epoch ",epoch," took ",end-start," seconds")
         print("updating weights file")
         m.save_weights('./model_files/reports.rnn_reports_weights.h5',overwrite=True)
-        writeStatusEpoch(epochs,epoch+1,end-start)
+        writeStatusEpoch(epochs,epoch+1,end-start,mode="report")
     print("Trained reports model")
 
 # Converts the reports model to a reports encoder only model

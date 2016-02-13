@@ -222,7 +222,8 @@ def preprocessReports(fileNames=REPORT_FILES):
 
 
 		for i in xrange(len(reports)):
-			print (i / len(reports) * 100)
+			if (i%100==0):
+				print (i / len(reports) * 100)
 			reports[i] = textPreprocess(reports[i])
 		print("preprocessing finished")
 
