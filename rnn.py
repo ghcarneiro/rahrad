@@ -36,7 +36,7 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 # Number of sentence hidden units / sentence vector size
 SENTENCE_HIDDEN = 300
 # Number of report hidden units / report vector size
-REPORT_HIDDEN = 500
+REPORT_HIDDEN = 1000
 # Number of sentences to process in each batch
 BATCH_SIZE = 128
 # specialist dictionary, loaded during first call to text preprocessing
