@@ -114,9 +114,10 @@ def preprocessReports(fileNames=REPORT_FILES):
     	reports = preprocess.getReports([fileNames[j]])
     	print("loading finished")
     	for i in xrange(len(reports)):
-            print (i / len(reports) * 100)
             reports[i] = textPreprocess(reports[i])
             allSentences = allSentences + reports[i]
+            if (i%100==0):
+                print (i / len(reports) * 100)
     	print("preprocessing finished")
         allReports = allReports + reports
 
