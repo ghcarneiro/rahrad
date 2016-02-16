@@ -377,13 +377,14 @@ def labelClassificationRNN():
 			labels = np.delete(labels,deletes)
 			##################
 
-			numData = len(labels) # size of the labelled data set
-			dataPerFold = int(math.ceil(numData/numFolds))
-
 			for n in range(0,numFolds):
 				# split training and test data
-				train_labelledCorpus,test_labelledCorpus,train_labels,test_labels = train_test_split(labelledCorpus,labels,test_size=0.13)
-				max_test = math.ceil(0.1)
+				train_labelledCorpus,test_labelledCorpus,train_labels,test_labels = train_test_split(labelledCorpus,labels,test_size=0.15)
+				# Split of the last 20% of training set for cross validation
+				cv_labelledCorpus = train_labelledCorpus[0.8*len(train_labelledCorpus):]
+				train_labelledCorpus = train_labelledCorpus[:0.8*len(train_labelledCorpus)]
+				cv_labels = train_labels[0.8*len(train_labels):]
+				train_labels = train_labels[:0.8*len(train_labels)]
 				# build classifier
 				classifier = svm.SVC(kernel='linear').fit(train_labelledCorpus,train_labels)
 

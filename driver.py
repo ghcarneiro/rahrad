@@ -18,7 +18,7 @@ import rnn
 # searchTerm = "GREY/WHITE MATTER DIFFERENTIATION"
 # search.searchEngineTest("rnn",searchTerm)
 # generateReports.precisionRecall("pr_tests.csv")
-generateReports.labelClassification()
+# generateReports.labelClassification()
 # generateReports.labelClassificationD2V()
 
 # rnn.preprocessReports()
@@ -48,8 +48,8 @@ generateReports.labelClassification()
 
 
 # rnn.reportsToDense()
-# rnn.buildReportRNN(epochs=30)
-# rnn.buildReportRNN(epochs=50,continueTraining=True)
+# rnn.buildReportRNN(epochs=180)
+# rnn.buildReportRNN(epochs=20,continueTraining=True)
 # rnn.reportToEncoder()
 # rnn.reports2vecs()
 
