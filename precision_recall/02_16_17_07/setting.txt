@@ -1,0 +1,4 @@
+RNN
+100 hidden unit word2vec model
+500 hidden unit sentence rnn model
+1000 hidden unit report rnn model

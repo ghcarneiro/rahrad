@@ -10,6 +10,7 @@ import gensim
 import time
 import datetime
 import os
+import pickle
 import search
 import preprocess
 import rnn
@@ -330,7 +331,21 @@ def labelClassificationD2V():
 
 # tests the model at classifying reports as either positive or negative based on diagnosis
 # Uses D2V model
-def labelClassificationRNN():
+def labelClassificationRNN(learn=True):
+	if learn:
+		c_vals = [[0.001,0.001,0.001,0.001]]
+		c_vals = [[0.005,0.005,0.005,0.005]]
+		c_vals.append([0.01,0.01,0.01,0.01])
+		c_vals.append([0.05,0.05,0.05,0.05])
+		c_vals.append([0.1,0.1,0.1,0.1])
+		c_vals.append([0.5,0.5,0.5,0.5])
+		c_vals.append([1,1,1,1])
+		optimal_c = [[0,0,0,0]]
+	else:
+		file = open('./model_files/svm_c_values.pkl', 'r')
+		c_vals = pickle.load(file)
+		optimal_c = c_vals
+		file.close()
 	reports = preprocess.getReports()
 	reportVectors = rnn.loadReportVecs()
 
@@ -346,14 +361,6 @@ def labelClassificationRNN():
 			writer.writerow("")
 			writer.writerow("")
 			writer.writerow([DIAGNOSES[j]])
-
-			# initialise figure and plot
-			name = DIAGNOSES[j] + " ROC"
-			plt.figure(name)
-			plt.xlabel("False Positive")
-			plt.ylabel("True Positive")
-			plt.title(DIAGNOSES[j] + " ROC")
-
 			# fetch corpus and labels
 			labelledReports = []
 			labelledCorpus = list()
@@ -365,69 +372,91 @@ def labelClassificationRNN():
 			labels = np.asarray(preprocess.getData([REPORT_FILES_LABELLED[j]]))[:,2]
 			corpusList = [list(x) for x in labelledCorpus]
 			############### THIS CODE BLOCK REMOVES THE NUMBER OF NEGATIVE LABELS TO EQUALISE THE DISTRIBUTION OF CLASS LABELS. TO BE REMOVED IN FUTURE.
-			count = 0
-			deletes = []
-			for x in range(len(labels)):
-				if (labels[x] == "negative"):
-					count = count + 1
-					deletes.append(x)
-				if (count == (len(labels)-(list(labels).count("positive"))*2)):
-					break
-			labelledCorpus = np.delete(labelledCorpus,deletes,axis=0)
-			labels = np.delete(labels,deletes)
+			# count = 0
+			# deletes = []
+			# for x in range(len(labels)):
+			# 	if (labels[x] == "negative"):
+			# 		count = count + 1
+			# 		deletes.append(x)
+			# 	if (count == (len(labels)-(list(labels).count("positive"))*2)):
+			# 		break
+			# labelledCorpus = np.delete(labelledCorpus,deletes,axis=0)
+			# labels = np.delete(labels,deletes)
 			##################
+			best_area_cv = -1
+			for c_value in c_vals:
+				for n in range(numFolds):
+					# split training and test data
+					train_labelledCorpus,test_labelledCorpus,train_labels,test_labels = train_test_split(labelledCorpus,labels,test_size=0.15)
+					# Split of the last 20% of training set for cross validation
+					cv_labelledCorpus = train_labelledCorpus[int(0.8*len(train_labelledCorpus)):]
+					train_labelledCorpus = train_labelledCorpus[:int(0.8*len(train_labelledCorpus))]
+					cv_labels = train_labels[int(0.8*len(train_labels)):]
+					train_labels = train_labels[:int(0.8*len(train_labels))]
+					# build classifier
+					classifier = svm.SVC(C=c_value[j],kernel='linear').fit(train_labelledCorpus,train_labels)
+					# compute output label and corresponding score
+					output_test = classifier.predict(test_labelledCorpus)
+					output_cv = classifier.predict(cv_labelledCorpus)
+					output_train = classifier.predict(train_labelledCorpus)
+					output_scores_test = classifier.decision_function(test_labelledCorpus)
+					output_scores_train = classifier.decision_function(train_labelledCorpus)
+					output_scores_cv = classifier.decision_function(cv_labelledCorpus)
 
-			for n in range(0,numFolds):
-				# split training and test data
-				train_labelledCorpus,test_labelledCorpus,train_labels,test_labels = train_test_split(labelledCorpus,labels,test_size=0.15)
-				# Split of the last 20% of training set for cross validation
-				cv_labelledCorpus = train_labelledCorpus[0.8*len(train_labelledCorpus):]
-				train_labelledCorpus = train_labelledCorpus[:0.8*len(train_labelledCorpus)]
-				cv_labels = train_labels[0.8*len(train_labels):]
-				train_labels = train_labels[:0.8*len(train_labels)]
-				# build classifier
-				classifier = svm.SVC(kernel='linear').fit(train_labelledCorpus,train_labels)
+					if n ==0:
+						all_test_labels = tuple(test_labels)
+						all_output_scores_test = tuple(output_scores_test)
+						all_cv_labels = tuple(cv_labels)
+						all_output_scores_cv = tuple(output_scores_cv)
+						all_train_labels = tuple(train_labels)
+						all_output_scores_train = tuple(output_scores_train)
+					else:
+						all_test_labels = all_test_labels + tuple(test_labels)
+						all_output_scores_test = all_output_scores_test + tuple(output_scores_test)
+						all_cv_labels = all_cv_labels + tuple(cv_labels)
+						all_output_scores_cv = all_output_scores_cv + tuple(output_scores_cv)
+						all_train_labels = all_train_labels + tuple(train_labels)
+						all_output_scores_train = all_output_scores_train+ tuple(output_scores_train)
+					# save result for fold to file
+					for r in range(len(test_labels)):
+						reportIdx = corpusList.index(list(test_labelledCorpus[r]))
+						writer.writerow("With c value: "+str(c_value[j]))
+						writer.writerow([output_scores_test[r],output_test[r],test_labels[r]])
+						writer.writerow([labelledReports[reportIdx]])
+				# generate the roc curve
+				fp_test,tp_test,_ = roc_curve(all_test_labels,all_output_scores_test,pos_label="positive")
+				fp_cv,tp_cv,_ = roc_curve(all_cv_labels,all_output_scores_cv,pos_label="positive")
+				fp_train,tp_train,_ = roc_curve(all_train_labels,all_output_scores_train,pos_label="positive")
 
-				# compute output label and corresponding score
-				output_test = classifier.predict(test_labelledCorpus)
-				output_train = classifier.predict(train_labelledCorpus)
-				output_scores_test = classifier.decision_function(test_labelledCorpus)
-				output_scores_train = classifier.decision_function(train_labelledCorpus)
-
-				# sort scores and labels in order
-				sortList = list(zip(output_scores_test,output_test,test_labels,test_labelledCorpus))
-				sortList.sort()
-				output_scores_test,output_test,test_labels,test_labelledCorpus = zip(*sortList)
-
-				# generate the roc curve for this fold
-				# fp_test,tp_test,_ = roc_curve(test_labels,output_scores_test,pos_label="positive")
-				# fp_train,tp_train,_ = roc_curve(train_labels,output_scores_train,pos_label="positive")
-				if n ==0:
-					all_test_labels = test_labels
-					all_output_scores_test = output_scores_test
-					all_train_labels = tuple(train_labels)
-					all_output_scores_train = tuple(output_scores_train)
-				else:
-					all_test_labels = all_test_labels + test_labels
-					all_output_scores_test = all_output_scores_test + output_scores_test
-					all_train_labels = all_train_labels + tuple(train_labels)
-					all_output_scores_train = all_output_scores_train+ tuple(output_scores_train)
-				# save result for fold to file
-				for r in range(len(test_labels)):
-					reportIdx = corpusList.index(list(test_labelledCorpus[r]))
-					writer.writerow("")
-					writer.writerow([output_scores_test[r],output_test[r],test_labels[r]])
-					writer.writerow([labelledReports[reportIdx]])
-			# generate the roc curve
-			fp_test,tp_test,_ = roc_curve(all_test_labels,all_output_scores_test,pos_label="positive")
-			fp_train,tp_train,_ = roc_curve(all_train_labels,all_output_scores_train,pos_label="positive")
-
-			# Calculate the area under the curves
-			area_test = auc(fp_test, tp_test)
-			area_train = auc(fp_train, tp_train)
-			# Plot the average ROC curves
-			plt.plot(fp_test,tp_test,'b',label='test(area = %0.2f)' % area_test)
-			plt.plot(fp_train,tp_train,'r',label='train(area = %0.2f)' % area_train)
+				# Calculate the area under the curves
+				area_test = auc(fp_test, tp_test)
+				area_cv = auc(fp_cv, tp_cv)
+				area_train = auc(fp_train, tp_train)
+				# Store c value,tps, fps and aucs if cv auc is new best
+				if area_cv > best_area_cv:
+					optimal_c[0][j] = c_value[j]
+					best_fp_test=fp_test
+					best_tp_test=tp_test
+					best_fp_cv=fp_cv
+					best_tp_cv=tp_cv
+					best_fp_train=fp_train
+					best_tp_train=tp_train
+					best_area_test=area_test
+					best_area_cv=area_cv
+					best_area_train=area_train
+			# initialise and plot the average ROC curves for optimal c value
+			name = DIAGNOSES[j] + " ROC"
+			plt.figure(name)
+			plt.xlabel("False Positive")
+			plt.ylabel("True Positive")
+			plt.title(DIAGNOSES[j] + " ROC: c value of "+str(optimal_c[0][j]))
+			plt.plot(best_fp_test,best_tp_test,'b',label='test(area = %0.2f)' % best_area_test)
+			plt.plot(best_fp_cv,best_tp_cv,'g',label='cv(area = %0.2f)' % best_area_cv)
+			plt.plot(best_fp_train,best_tp_train,'r',label='train(area = %0.2f)' % best_area_train)
 			plt.legend(loc='lower right')
 			plt.savefig(directory+name)
 	writeFile.close()
+	if learn:
+		file = open('./model_files/svm_c_values.pkl', 'w')
+		pickle.dump(optimal_c,file)
+		file.close()
