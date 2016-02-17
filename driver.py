@@ -54,3 +54,4 @@ import rnn
 # rnn.reports2vecs()
 
 # generateReports.labelClassificationRNN()
+generateReports.labelClassificationRNN(learn=False)
