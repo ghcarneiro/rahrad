@@ -614,6 +614,51 @@ def compareSentences(sentence1,sentence2):
     print("Similarity is: ",similarity)
     return similarity
 
+# Returns the cosine distance between the two given sentences
+# Inputs are strings
+def compareReportSentences(report1,report2):
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print("loading RNN sentence encoder")
+    model = model_from_json(open('./model_files/reports.rnn_sentence_encoder.json').read())
+    model.load_weights('./model_files/reports.rnn_sentence_encoder_weights.h5')
+    print("loaded RNN sentence model encoder")
+    report1=textPreprocess(report1)
+    report2=textPreprocess(report2)
+    # Convert report one to dense sentences
+    tempReport=[]
+    for i,sentence in enumerate(report1):
+        newSentence=[]
+        for token in sentence:
+            if token in word_model:
+                newSentence.append(word_model[token])
+        # Store the sentence vector
+        if len(newSentence) > 0:
+            # Convert the sentence to an array, note that the length is variable (unlike training)
+            x=np.asarray([newSentence])
+            tempReport.append(model.predict(x,batch_size=1)[0][:])
+        else:
+            tempReport.append(np.zeros(SENTENCE_HIDDEN))
+    report1=np.asarray(tempReport)
+    # Convert report two to dense sentences
+    tempReport=[]
+    for j,sentence in enumerate(report2):
+        newSentence=[]
+        for token in sentence:
+            if token in word_model:
+                newSentence.append(word_model[token])
+        # Store the sentence vector
+        if len(newSentence) > 0:
+            # Convert the sentence to an array, note that the length is variable (unlike training)
+            x=np.asarray([newSentence])
+            tempReport.append(model.predict(x,batch_size=1)[0][:])
+        else:
+            tempReport.append(np.zeros(SENTENCE_HIDDEN))
+    report2=np.asarray(tempReport)
+    similarity = 1- cdist(report1,report2,'cosine')
+    return similarity
+
 # Searches for and returns the 20 most similar and least similar sentences to the search term
 # Search term is a string
 def searchRNN(searchTerm):

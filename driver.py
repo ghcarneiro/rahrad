@@ -54,4 +54,13 @@ import rnn
 # rnn.reports2vecs()
 
 # generateReports.labelClassificationRNN()
-generateReports.labelClassificationRNN(learn=False)
+# generateReports.labelClassificationRNN(learn=False)
+
+print("loading reports")
+reports = preprocess.getReports()
+print("loaded reports")
+print("report 1:")
+print(reports[300])
+print("report 2:")
+print(reports[3000])
+print(rnn.compareReportSentences(reports[300],reports[3000]))
