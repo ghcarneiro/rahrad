@@ -22,7 +22,7 @@ import rnn
 # generateReports.labelClassificationD2V()
 
 # rnn.preprocessReports()
-rnn.buildWord2VecSentences()
+# rnn.buildWord2VecSentences()
 # rnn.testWord2VecModel()
 
 # rnn.buildSentenceRNN(epochs=15)
