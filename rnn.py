@@ -5,9 +5,9 @@ import csv
 import re
 from nltk import stem
 import nltk
+from kitchen.text.converters import to_unicode
 import gensim
 import numpy as np
-# import klepto
 from scipy.spatial.distance import cdist
 import preprocess
 import keras
@@ -23,6 +23,8 @@ REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
 REPORT_FILES_CTPA = ['nlp_data/CleanedCTPAFull.csv']
 REPORT_FILES_PLAINAB = ['nlp_data/CleanedPlainabFull.csv']
 REPORT_FILES_PVAB = ['nlp_data/CleanedPvabFull.csv']
+
+REPORT_FILES_DIRECTORY_FULL = 'report_archive/'
 
 REPORT_FILES_LABELLED = ['nlp_data/CleanedBrainsLabelled.csv','nlp_data/CleanedCTPALabelled.csv','nlp_data/CleanedPlainabLabelled.csv','nlp_data/CleanedPvabLabelled.csv']
 REPORT_FILES_LABELLED_BRAINS = ['nlp_data/CleanedBrainsLabelled.csv']
@@ -53,6 +55,8 @@ def textPreprocess(text):
         medical = pickle.load(file)
         file.close()
 
+    # Force all the text to be of the same type, deals with accented letters
+    text = to_unicode(text)
     # Covert to lower case
     text = text.lower()
     # Split text into sentences
@@ -111,7 +115,7 @@ def preprocessReports(fileNames=REPORT_FILES):
     allReports = []
     allSentences = []
     for j in range(len(fileNames)):
-    	reports = preprocess.getReports([fileNames[j]])
+        reports = preprocess.getReports([fileNames[j]])
     	print("loading finished")
     	for i in xrange(len(reports)):
             reports[i] = textPreprocess(reports[i])
@@ -128,6 +132,38 @@ def preprocessReports(fileNames=REPORT_FILES):
 
     file = open('./model_files/reports_sentences_full', 'w')
     pickle.dump(allSentences, file)
+    file.close()
+    print("sentences saved")
+
+# fetches the raw reports, preprocesses them, then saves them to a single reports file
+# also fetches all the sentences from these reports and saves them to a single sentences file
+# input must be an the directory containing all the report fileNames
+# This function is used to train the rnn on the full data set of ~1.1m reports
+def preprocessFullReports(directoryName=REPORT_FILES_DIRECTORY_FULL):
+    print("loading reports")
+    allReports = []
+    allSentences = []
+    reports = preprocess.getFullReports(directoryName)
+    print("loaded ",len(reports)," reports")
+    for i in xrange(len(reports)):
+        reports[i] = textPreprocess(reports[i])
+        if (i%1000==0):
+            print (i / len(reports) * 100)
+    print("preprocessing of reports finished")
+    # Pickle protocol 2 is used to reduce size of processed report files
+    file = open('./model_files/reports_full', 'w')
+    pickle.dump(reports, file, 2)
+    file.close()
+    print("reports saved")
+    print("preprocessing sentences")
+    for i,report in enumerate(reports):
+        for sentence in report:
+            allSentences.append(sentence)
+        if (i%1000==0):
+            print (i / len(reports) * 100)
+    print("preprocessing of sentences finished")
+    file = open('./model_files/reports_sentences_full', 'w')
+    pickle.dump(allSentences, file, 2)
     file.close()
     print("sentences saved")
 
@@ -202,7 +238,7 @@ def writeEpochStatus(epochs,currentEpoch,epochTime):
 def buildWord2VecSentences():
     print("loading sentences")
     sentences = getProcessedSentences()
-    print("loaded sentences")
+    print("loaded",len(sentences),"sentences")
     print("building word2vec model")
     model = gensim.models.Word2Vec(sentences, min_count=3, workers=4)
     model.init_sims(replace=True)

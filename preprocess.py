@@ -136,20 +136,15 @@ def getReports(fileNames=REPORT_FILES):
 # retrieves a string pointing to the folder containing all reports
 # input must be an STRING of directoryName, fetches all reports in directory.
 # output is an array containing the report identier, type and content
-# reports are in the from: "identifier", "type", "unprocessed report"
+# reports are in the from: "identifier", "number", "type", "unprocessed report"
 def getFullReports(directoryName=REPORT_DIRECTORY):
 	reports = []
 	for fileName in os.listdir(directoryName):
-		with open(directoryName+fileName) as f:
+		with open(directoryName+fileName) as file:
 			file.readline() # skip header line
 			reader = csv.reader(file)
 			for row in reader:
-				report = []
-				report.append(row[0])
-				report.append(row[1])
-				report.append(row[2])
-				reports.append(report)
-
+				reports.append(row[3])
 	return reports
 
 # retrieves a list of all sentences in its raw unprocessed state
