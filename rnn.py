@@ -633,6 +633,7 @@ def compareReportSentences(report1,report2):
         for token in sentence:
             if token in word_model:
                 newSentence.append(word_model[token])
+        newSentence = newSentence[:len(newSentence)-1]
         # Store the sentence vector
         if len(newSentence) > 0:
             # Convert the sentence to an array, note that the length is variable (unlike training)
@@ -648,6 +649,7 @@ def compareReportSentences(report1,report2):
         for token in sentence:
             if token in word_model:
                 newSentence.append(word_model[token])
+        newSentence = newSentence[:len(newSentence)-1]
         # Store the sentence vector
         if len(newSentence) > 0:
             # Convert the sentence to an array, note that the length is variable (unlike training)
@@ -743,7 +745,8 @@ def reportsToDense():
         if ((i%100)==0):
             print (i / numReports * 100)
     file = open('./model_files/reports_rnn_dense', 'w')
-    pickle.dump(denseReports, file)
+    # Uses protocol 2 with pickle to reduce file size by ~70%
+    pickle.dump(denseReports, file, 2)
     file.close()
     print("dense reports saved")
 
