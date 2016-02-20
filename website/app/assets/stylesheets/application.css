@@ -98,6 +98,18 @@ form#change {
   border-radius:4px;
 
 }
+.correct-categories {
+	display: flex;
+	font-size:2em;
+}
+strong {
+	border-radius: 2px;
+	font-weight: 400;
+	padding: 0 0.3em;
+	margin-right:0.1em;
+	background-color: #a2a2a2;
+	color: #fff;
+}
 #search-box-button {
 	float:left;
 	background-color: #99CCFF;
