@@ -1,7 +1,9 @@
 import search_engine
+import rnn
 import time
 import random
 import gensim
+import numpy as np
 import itertools
 import sys
 def runReportSimilarity2(fileName,threshold=0.9):
@@ -20,43 +22,45 @@ def runReportSimilarity2(fileName,threshold=0.9):
                 #if startLoc2 == -1 and report2.find(word) != -1:
                 #       startLoc2 = report2.find(word)+len(word)
 
-        report1 = report1[startLoc1:]
-        #report2 = report2[startLoc2:]
-        sentences1 = report1.split('.')
-        sent1 = sentences1[:]
-        sentences2 = report2.split('.')
-        sent2 = sentences2[:]
-                
-        report1 = search_engine.textPreprocess(report1)
-        report1 = search_engine.getDerivations(report1)
-        report2 = search_engine.textPreprocess(report2)
-        report2 = search_engine.getDerivations(report2)
-        for i in range(len(sentences1)):
-                sentences1[i] = search_engine.textPreprocess(sentences1[i])
-                sentences1[i] = search_engine.getDerivations(sentences1[i])
-        for i in range(len(sentences2)):
-                sentences2[i] = search_engine.textPreprocess(sentences2[i])
-                sentences2[i] = search_engine.getDerivations(sentences2[i])
-
-        #corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
-        tfidf_model = gensim.models.TfidfModel.load('./model_files/reports.tfidf_model')
-        lsi_model = gensim.models.LsiModel.load('./model_files/reports.lsi_model')
-
-        dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
-        vec_lsi1 = lsi_model[tfidf_model[dictionary.doc2bow(report1)]]
-        vec_lsi2 = lsi_model[tfidf_model[dictionary.doc2bow(report2)]]
-        sen1Corp = [dictionary.doc2bow(sent) for sent in sentences1]
-        sen2Corp = [dictionary.doc2bow(sent) for sent in sentences2]
-        vec_lsis1 = lsi_model[tfidf_model[sen1Corp]]
-        vec_lsis2 = lsi_model[tfidf_model[sen2Corp]]
+	
         sCom = []
+		
+	report1 = report1[startLoc1:]
+	#report2 = report2[startLoc2:]
+	sentences1 = report1.split('.')
+	sent1 = sentences1[:]
+	sentences2 = report2.split('.')
+	sent2 = sentences2[:]
+		
+	report1 = search_engine.textPreprocess(report1)
+	report1 = search_engine.getDerivations(report1)
+	report2 = search_engine.textPreprocess(report2)
+	report2 = search_engine.getDerivations(report2)
+	for i in range(len(sentences1)):
+		sentences1[i] = search_engine.textPreprocess(sentences1[i])
+		sentences1[i] = search_engine.getDerivations(sentences1[i])
+	for i in range(len(sentences2)):
+		sentences2[i] = search_engine.textPreprocess(sentences2[i])
+		sentences2[i] = search_engine.getDerivations(sentences2[i])
+
+	#corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
+	tfidf_model = gensim.models.TfidfModel.load('./model_files/reports.tfidf_model')
+	lsi_model = gensim.models.LsiModel.load('./model_files/reports.lsi_model')
+
+	dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
+	vec_lsi1 = lsi_model[tfidf_model[dictionary.doc2bow(report1)]]
+	vec_lsi2 = lsi_model[tfidf_model[dictionary.doc2bow(report2)]]
+	sen1Corp = [dictionary.doc2bow(sent) for sent in sentences1]
+	sen2Corp = [dictionary.doc2bow(sent) for sent in sentences2]
+	vec_lsis1 = lsi_model[tfidf_model[sen1Corp]]
+	vec_lsis2 = lsi_model[tfidf_model[sen2Corp]]
 
 	# print corpus.num_terms
-        # ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=corpus.num_terms)
-        ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=10)
+	# ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=corpus.num_terms)
+	ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=10)
 	# similarity table
-        for  i in vec_lsis2:
-                sCom.append(ind[i])
+	for  i in vec_lsis2:
+		sCom.append(ind[i])
 	missing = [0 for s in vec_lsis1]
 	# obtain correct sentence
 	i = 0
@@ -118,7 +122,7 @@ def runReportSimilarity2(fileName,threshold=0.9):
 
 	return output
 
-def runReportSimilarity(fileName,threshold=0.9):
+def runReportSimilarity(fileName,threshold=0.9,reportType="lsi"):
         """ Assumes reports have FINDINGS: or REPORT: """
         fileText = [row.rstrip('\n') for row in open(fileName)]
                 
@@ -134,61 +138,76 @@ def runReportSimilarity(fileName,threshold=0.9):
                 #if startLoc2 == -1 and report2.find(word) != -1:
                 #       startLoc2 = report2.find(word)+len(word)
 
-        report1 = report1[startLoc1:]
-        #report2 = report2[startLoc2:]
-        sentences1 = report1.split('.')
-        sent1 = sentences1[:]
-        sentences2 = report2.split('.')
-        sent2 = sentences2[:]
-                
-        report1 = search_engine.textPreprocess(report1)
-        report1 = search_engine.getDerivations(report1)
-        report2 = search_engine.textPreprocess(report2)
-        report2 = search_engine.getDerivations(report2)
-        for i in range(len(sentences1)):
-                sentences1[i] = search_engine.textPreprocess(sentences1[i])
-                sentences1[i] = search_engine.getDerivations(sentences1[i])
-        for i in range(len(sentences2)):
-                sentences2[i] = search_engine.textPreprocess(sentences2[i])
-                sentences2[i] = search_engine.getDerivations(sentences2[i])
-
-        #corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
-        tfidf_model = gensim.models.TfidfModel.load('./model_files/reports.tfidf_model')
-        lsi_model = gensim.models.LsiModel.load('./model_files/reports.lsi_model')
-
-        dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
-        vec_lsi1 = lsi_model[tfidf_model[dictionary.doc2bow(report1)]]
-        vec_lsi2 = lsi_model[tfidf_model[dictionary.doc2bow(report2)]]
-        sen1Corp = [dictionary.doc2bow(sent) for sent in sentences1]
-        sen2Corp = [dictionary.doc2bow(sent) for sent in sentences2]
-        vec_lsis1 = lsi_model[tfidf_model[sen1Corp]]
-        vec_lsis2 = lsi_model[tfidf_model[sen2Corp]]
         sCom = []
+	report1 = report1[startLoc1:]
+	sentences1 = rnn.splitIntoSentences(report1)
+	sentences2 = rnn.splitIntoSentences(report2)
 
-	# print corpus.num_terms
-        # ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=corpus.num_terms)
-        ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=10)
-	# similarity table
-        for  i in vec_lsis2:
-                sCom.append(ind[i])
-	missing = [0 for s in vec_lsis1]
+	#sentences1 = rnn.textPreprocess(report1)
+	#sentences2 = rnn.textPreprocess(report2)
+
+	#sentences1 = report1.split('.')
+	#sentences2 = report2.split('.')
+	sent1 = sentences1[:]
+	sent2 = sentences2[:]
+
+	if reportType == "lsi":
+		#report2 = report2[startLoc2:]
+			
+		report1 = search_engine.textPreprocess(report1)
+		report1 = search_engine.getDerivations(report1)
+		report2 = search_engine.textPreprocess(report2)
+		report2 = search_engine.getDerivations(report2)
+		for i in range(len(sentences1)):
+			sentences1[i] = search_engine.textPreprocess(sentences1[i])
+			sentences1[i] = search_engine.getDerivations(sentences1[i])
+		for i in range(len(sentences2)):
+			sentences2[i] = search_engine.textPreprocess(sentences2[i])
+			sentences2[i] = search_engine.getDerivations(sentences2[i])
+
+		#corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
+		tfidf_model = gensim.models.TfidfModel.load('./model_files/reports.tfidf_model')
+		lsi_model = gensim.models.LsiModel.load('./model_files/reports.lsi_model')
+
+		dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
+		vec_lsi1 = lsi_model[tfidf_model[dictionary.doc2bow(report1)]]
+		vec_lsi2 = lsi_model[tfidf_model[dictionary.doc2bow(report2)]]
+		sen1Corp = [dictionary.doc2bow(sent) for sent in sentences1]
+		sen2Corp = [dictionary.doc2bow(sent) for sent in sentences2]
+		vec_lsis1 = lsi_model[tfidf_model[sen1Corp]]
+		vec_lsis2 = lsi_model[tfidf_model[sen2Corp]]
+
+		# print corpus.num_terms
+		# ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=corpus.num_terms)
+		ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=10)
+		# similarity table
+		for  i in vec_lsis2:
+			sCom.append(ind[i])
+	elif reportType == "rnn":
+		sCom = rnn.compareReportSentences(report1,report2)
+		sCom2 = []
+		for i in range(len(sCom[0])):
+			row = []
+			for j in range(len(sCom)):
+				row.append(sCom[j][i])
+			sCom2.append(row)
+				
+		sCom = sCom2
+
+	missing = [0 for s in sent1]
 	# obtain correct sentence
 	i = 0
 
 	output = {'missing': 0, 'corrections': 0, 'extras': 0, 'correct': 0}
 	for col in sCom:
+	#for col in range(len(sCom[0]))
+	#for col in sent2: 
 		aboveTopThreshold = False 
-		#aboveMedThreshold = False
 		j = 0
-		correction = ""
 		bestSim = 0
 		for sim in col:
 			if sim > threshold: 
 				aboveTopThreshold = True 
-			#elif sim > 0.5:
-			else:
-				correction = sent1[j]
-			#	aboveMedThreshold = True
 			if sim > bestSim:
 				bestSim = sim
 			if missing[j] < sim:
@@ -196,24 +215,21 @@ def runReportSimilarity(fileName,threshold=0.9):
 				
 			j+=1
 		if aboveTopThreshold: 
-			#s = str(bestSim)
+			#maybe add percentage for debugging
+			#sent2[i] = " ".join([k for k in sent2[i]])
 			s="n\t"+sent2[i]+"\t"	
 			output['correct'] += 1
 			print s
-		#elif aboveMedThreshold:
 		else:
-			#s = str(bestSim)
-			s ="c\t"+sent2[i]+"\t"+correction
-			output['corrections'] += 1
+			#sent2[i] = " ".join([k for k in sent2[i]])
+			s ="e\t"+sent2[i]+"\t"
+			output['extras'] += 1
 			print s
-		#else:
-		#	s = str(bestSim)+"e\t"+sent2[i]+"\t"
-		#	output['extras'] += 1
-		#	print s
 		i+=1
 	i=0
 	for k in missing:
 		if k <= threshold:
+			#sent1[i] = " ".join([k for k in sent1[i]])
 			#s = str(k)
 			s = "m\t"+sent1[i]+"\t"
 			output['missing'] += 1
@@ -365,6 +381,7 @@ def reportsMissingPercentage(fileName,fileName2):
 				f.write(finalCopy)
 
 			# record expected against received in file
+			#output = runReportSimilarity('testingData',threshold,"rnn")		
 			output = runReportSimilarity('testingData',threshold)		
 			percentageWrong = 0
 			percentageFoundWrong = 0
@@ -374,7 +391,7 @@ def reportsMissingPercentage(fileName,fileName2):
 				percentageMissing = numberMissing / senLen
 				percentageFoundMissing = output['missing'] / senLen
 				percentageWrong = numberIncorrect / senLen
-				percentageFoundWrong = output['corrections'] / senLen
+				percentageFoundWrong = output['extras'] / senLen
 			percentageMissing *= 100
 			percentageFoundMissing *= 100
 			percentageWrong *= 100
@@ -397,12 +414,25 @@ def reportsMissingPercentage(fileName,fileName2):
 	print "Total time", time.clock()-startTime
 
 if __name__ == '__main__':
+	# ./similarity input.txt threshold
+	# or default threshold
 	if (len(sys.argv) < 2):
                 print("ERROR: Please specify an input file")
                 sys.exit()
-        fileName = str(sys.argv[1])
 
+	fileName = str(sys.argv[1])
+	if (len(sys.argv) == 4):
+		threshold = float(sys.argv[2])/100
+		modelType = sys.argv[3]
+		runReportSimilarity(fileName,threshold,modelType)
+		#runReportSimilarity(fileName,threshold)
+	elif len(sys.argv) == 3:
+		threshold = float(sys.argv[2])/100
+		runReportSimilarity(fileName,threshold)
+		
+	else:
+		runReportSimilarity(fileName)
+        
 	
-       # runReportSimilarity(fileName)
-	fileName2 = str(sys.argv[2])
-	reportsMissingPercentage(fileName,fileName2)
+	#fileName2 = str(sys.argv[2])
+	#reportsMissingPercentage(fileName,fileName2)

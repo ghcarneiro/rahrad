@@ -33,12 +33,13 @@
 				</div>
 				<hr>
 				<br>
+				<% if false %>
 				<% for i in @result %>	
 				<div class="corrections-box">
 					<div class="original-text"> 
 						<% if i[0] == "n" %>
 							<span class="glyphicon glyphicon-ok" style="color:green"></span>
-						<% elsif i[0] == "c" %>
+						<% elsif i[0] == "e" %>
 							<span class="glyphicon glyphicon-remove" style="color:red"></span>
 						<% elsif i[0] == "m" %>
 							<span class="glyphicon glyphicon-question-sign" style="color:blue"></span>
@@ -55,15 +56,65 @@
 				</div>
 				<hr>
 				<% end %>
+				<% end %>
+				<div class="correct-categories">
+				<strong style="background-color:green"> <%= @result[:n].length %> </strong>
+				Correct
+				<br>
+				</div>
 
-				
+				<% for i in @result[:n] %>	
+				<div class="corrections-box">
+					<div class="original-text"> 
+							<span class="glyphicon glyphicon-ok" style="color:green"></span>
+						<%= i %> 
+					</div>
+					<br>
+				</div>
+				<hr>
+				<% end %>	
 
+				<div class="correct-categories">
+				<strong style="background-color:red"> <%= @result[:e].length %> </strong>
+				Incorrect
+				<br>
+				</div>
+
+				<% for i in @result[:e] %>	
+				<div class="corrections-box">
+					<div class="original-text"> 
+							<span class="glyphicon glyphicon-remove" style="color:red"></span>
+						<%= i %> 
+					</div>
+					<br>
+				</div>
+				<hr>
+				<% end %>				
+				<div class="correct-categories">
+				<strong style="background-color:blue"> <%= @result[:m].length %> </strong>
+				Missed
+				<br>
+				</div>
+
+				<% for i in @result[:m] %>	
+				<div class="corrections-box">
+					<div class="original-text"> 
+							<span class="glyphicon glyphicon-question-sign" style="color:blue"></span>
+						<%= i %> 
+					</div>
+					<br>
+				</div>
+				<hr>
+				<% end %>	
 			<% else %>
 
 			<form  class="form-group form-group-lg" action="/teachings" role="search">	
 				<%= label_tag :q,"Write a report:",:id => "teaching-label" %>
 				<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus></textarea>
 				<input id="search-box-button" type="submit" class="btn btn-default btn-lg" value="Submit" />
+				<input type="range" id="thresholdBar" min="0" max="100" step="1" value="90" onChange="showValue(this.value);"  />
+				<input placeholder="90" type="text" name="t" id="resultOfBar" readonly />
+				<input type="checkbox" name="modelType" id="rnn" value="rnn" > Change to RNN <br>
 			</form>
 
 			<% end %>
@@ -118,7 +169,10 @@
         // image enable the dicomImage element and activate a few tools
         loadAndViewImage(url);
     }
-
+    function showValue(num) {
+        var result = document.getElementById('resultOfBar');
+	result.value = num;
+    }
     $(document).ready(function() {
         var element = $('#dicomImage').get(0);
         cornerstone.enable(element);
@@ -132,6 +186,11 @@
 			buttonToggle.innerHTML = "Hide";
 		}else{
 			buttonToggle.innerHTML = "Show";
+		}
+	});
+	var slider = new Slider("#threshold",{
+		formatter: function(value) {
+			return 'Current value'+value;
 		}
 	});
     });
