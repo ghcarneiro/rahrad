@@ -14,25 +14,27 @@ class TeachingsController < ApplicationController
 			# 1) search query
 			# Get search query, stores the search query in the file
 			@query = params[:q]
+			threshold = params[:t].to_f
+			modelType = params[:modelType]
+			puts "model Type"
+			puts modelType
 			out_file.puts(@query)
 
 			# done close the file
 			out_file.close
-
-			resultTemp = %x(python similarity.py fileName)
+			
+			resultTemp = %x(python similarity.py fileName #{threshold} #{modelType})
 			
 			# we should process resultCSV so that it can be displayed correctly
 			resultTemp = resultTemp.split("\n")
-			@result = []	
+			@result = {
+				n: Array.new,
+				e: Array.new,
+				m: Array.new
+			}	
 			resultTemp.each do |i|
 				temp = i.split("\t")
-				if temp[0] == "n"	
-					@result.push(["n",temp[1]])
-				elsif temp[0] == "c"
-					@result.push(["c",temp[1],temp[2]])
-				elsif temp[0] == "m"
-					@result.push(["m",temp[1]])
-				end
+				@result[temp[0].to_sym].push(temp[1])
 			end	
 			# Then we deleted the fileName file, because the search_engine program finished using it
 			#File.delete(fileName)
