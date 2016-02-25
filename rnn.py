@@ -36,7 +36,7 @@ DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
 # Global variables for use in RNNs
 # Number of sentence hidden units / sentence vector size
-SENTENCE_HIDDEN = 300
+SENTENCE_HIDDEN = 1000
 # Number of report hidden units / report vector size
 REPORT_HIDDEN = 1000
 # Number of sentences to process in each batch

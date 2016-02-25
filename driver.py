@@ -21,16 +21,26 @@ import rnn
 # generateReports.labelClassification()
 # generateReports.labelClassificationD2V()
 
+# # Train the RNN sentence model using the small dataset
 # rnn.preprocessReports()
+# rnn.buildWord2VecSentences()
+# rnn.buildSentenceRNN(epochs=10)
+# rnn.sentenceToEncoder()
+
+# # Train the RNN sentence model using the full dataset
 # rnn.preprocessFullReports()
 # rnn.buildWord2VecSentences()
+# rnn.buildSentenceRNN(epochs=10)
+# rnn.sentenceToEncoder()
+
+# # Test the word2vec model that is used in the RNN sentence model
 # rnn.testWord2VecModel()
 
-rnn.buildSentenceRNN(epochs=1)
-# rnn.buildSentenceRNN(epochs=20,continueTraining=True)
-# rnn.sentenceToEncoder()
-# rnn.sentencesToDense()
+# # Train the sentence RNN model for additional epochs
+# rnn.buildSentenceRNN(epochs=6,continueTraining=True)
 
+# # Use the RNN model to search for sentences
+# rnn.sentencesToDense()
 # rnn.searchRNN("haemorrhage")
 # rnn.searchRNN("no haemorrhage")
 # rnn.searchRNN("left sided embolus")
@@ -47,16 +57,19 @@ rnn.buildSentenceRNN(epochs=1)
 # rnn.nextWords("NO INTRACEREBRAL HAEMATOMA OR")
 # rnn.nextWords("left sided embolus")
 
-
+# # Build the RNN Report model using the RNN sentence model
 # rnn.reportsToDense()
-# rnn.buildReportRNN(epochs=180)
-# rnn.buildReportRNN(epochs=20,continueTraining=True)
+# rnn.buildReportRNN(epochs=20)
 # rnn.reportToEncoder()
 # rnn.reports2vecs()
+
+# # Train the RNN report model for additional epochs
+# rnn.buildReportRNN(epochs=20,continueTraining=True)
 
 # generateReports.labelClassificationRNN()
 # generateReports.labelClassificationRNN(learn=False)
 
+# # Test the RNN model report comparison tool
 # print("loading reports")
 # reports = preprocess.getReports()
 # print("loaded reports")
