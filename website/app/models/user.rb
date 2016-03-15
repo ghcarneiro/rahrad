@@ -9,5 +9,4 @@ class User < ActiveRecord::Base
 
   # When the user object is destroyed, all its saved_searches will be destroy too
   has_many :saved_searches, dependent: :destroy
-  
 end

@@ -1,0 +1,231 @@
+<% content_for :for_head do %>
+	<title>Performance Data</title>
+	<!-- JQuery library must be loaded before Highcharts code for it to work-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="/index_files/customEvents.js"></script>
+	<script>
+$(function () {
+
+    var chart;
+    var categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    var name = 'Body systems';
+    var data = [{
+	y: 0.9,
+	drilldown: {
+	    categories: ['Gastrointestinal', 'Hepatopancreatobiliary', 'Renal and urinary tract', 'Male reproductive system', 'Splenunculi/Haematological/Bone Marrow', 'Retroperitoneum'],
+	    series: [{
+		name: 'Incorrect diagnoses',
+		data: [
+		    ['Gastrointestinal', 0.44],
+		    ['Hepatopancreatobiliary', 0.22],
+		    ['Renal and urinary tract', 0.34],
+		    ['Male reproductive system', 0.1],
+		    ['Splenunculi/Haematological/Bone Marrow', 0.9],
+		    ['Retroperitoneum', 0.8]
+		],
+                pointPlacement: 'on',
+	        type: 'area',
+	        color: '#FF0000'
+	}, {
+	    categories: ['Gastrointestinal', 'Hepatopancreatobiliary', 'Renal and urinary tract', 'Male reproductive system', 'Splenunculi/Haematological/Bone Marrow', 'Retroperitoneum'],
+	    series: [{
+		name: 'Incorrect diagnoses',
+		data: [
+		    ['Gastrointestinal', 0.34],
+		    ['Hepatopancreatobiliary', 0.12],
+		    ['Renal and urinary tract', 0.24],
+		    ['Male reproductive system', 0.1],
+		    ['Splenunculi/Haematological/Bone Marrow', 0.8],
+		    ['Retroperitoneum', 0.8]
+		],
+                pointPlacement: 'on',
+	        type: 'area',
+	        color: '#FFFF00'
+	}, {
+	    categories: ['Gastrointestinal', 'Hepatopancreatobiliary', 'Renal and urinary tract', 'Male reproductive system', 'Splenunculi/Haematological/Bone Marrow', 'Retroperitoneum'],
+	    series: [{
+		name: 'Incorrect diagnoses',
+		data: [
+		    ['Gastrointestinal', 0.24],
+		    ['Hepatopancreatobiliary', 0.12],
+		    ['Renal and urinary tract', 0.14],
+		    ['Male reproductive system', 0],
+		    ['Splenunculi/Haematological/Bone Marrow', 0.5],
+		    ['Retroperitoneum', 0.3]
+		],
+                pointPlacement: 'on',
+	        type: 'area',
+	        color: '#00FF00'
+	    }]
+	}
+    }];
+
+    function setChart(name, categories, data, color, type) {
+	var len = chart.series.length;
+	chart.xAxis[0].setCategories(categories);
+	for(var i=0;i<len;i++){
+	    console.log(chart.series.length);
+	    chart.series[0].remove();
+	}
+	if(data.series) {
+	    for(var i=0;i<len;i++) {
+		chart.addSeries({
+		    name: data.series[i].name,
+		    data: data.series[i].data,
+		    type: data.series[i].type,
+		    color: data.series[i].color || 'white'
+	        });
+	    }
+	} else {
+	        chart.addSeries({
+		    name: name,
+		    data: data,
+		    type: type,
+		    color: color || 'white'
+		});
+	}
+    }
+
+    chart = new Highcharts.Chart({ // Must replace the default first line of JSFiddle code with this to work
+
+        chart: {
+            polar: true,
+            type: 'line',
+	    renderTo: 'datachart' // Must also add this along with the first line change for the highcharts to work
+        },
+
+        title: {
+            text: 'Body systems Syllabus',
+            x: -80
+        },
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            categories: categories
+        },
+
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+	    labels: {
+		enabled: false
+	    },
+            min: 0,
+	    max: 1
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+        },
+
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 70,
+            layout: 'vertical'
+        },
+
+	plotOptions: {
+	    series: {
+		fillOpacity: 1,
+		marker: {
+		    enabled: false, <!-- Hides the dot markers at the tip of each polygon -->
+		    states: {
+			hover: {
+			    enabled: false <!-- Hides the dot markers on mouseover -->
+			}
+		    }
+		},
+		point: {
+		    events: {
+			click: function () {
+			    var drilldown = this.drilldown;
+			    if (drilldown) {
+				setChart(null, drilldown.categories, drilldown, drilldown.color, drilldown.type);
+			    } else {
+				setChart(name, categories, data, drilldown.color, drilldown.type);
+			    }
+			}
+		    }
+		}
+	    }
+	},
+
+        series: [{
+	    <!-- useHTML: true, // Can use this to add hyperlinks to the names of the series-->
+            name: 'Incorrect diagnoses',
+            data: [{
+		name: 'Abdominal',
+		y: 1,
+		drilldown: 'abdominal'
+	    }, {
+		name: 'Cardiothoracic',
+		y: 0.3,
+		drilldown: 'cardiothoracic'
+	    }, {
+		name: 'Extracranial Head and Neck',
+		y: 0.9,
+		drilldown: 'ent'
+	    }, {
+		name: 'Neuroradiology',
+		y: 0.8,
+		drilldown: 'neuroradiology'
+	    }, {
+		name: 'Musculoskeletal',
+		y: 0.8,
+		drilldown: 'musculoskeletal'
+	    }, {
+		name: 'Paediatric',
+		y: 0.8,
+		drilldown: 'paediatric'
+	    }, {
+		name: 'Breast',
+		y: 0.8,
+		drilldown: 'breast'
+	    }, {
+		name: 'Obstetrics and Gynaecology',
+		y: 0.8,
+		drilldown: 'obsgynae'
+	    }, {
+		name: 'Vascular and Interventional Radiology',
+		y: 0.8,
+		drilldown: 'vascular'
+	    }],
+            pointPlacement: 'on',
+	    type: 'area',
+	    color: '#FF0000'
+        }, {
+            name: 'Incomplete',
+            data: [0.7, 0.3, 0.3, 0.1, 0.4, 0.85, 0.6, 0.2, 0],
+            pointPlacement: 'on',
+	    type: 'area', <!-- Adds shading to the polygon -->
+	    color: '#FFFF00'
+        }, {
+            name: 'Correct reports',
+            data: [0.6, 0.2, 0.3, 0, 0.3, 0.7, 0.5, 0.1, 0],
+            pointPlacement: 'on',
+	    type: 'area', <!-- Adds shading to the polygon -->
+	    color: '#00FF00'
+        }],
+
+
+
+    });
+});
+</script>
+
+	<!-- <script src="/index_files/chart.js"></script> -->
+
+<% end %>
+
+
+<!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
+</div> -->
+<div id="datachart" style="width: 800px; height: 500px; margin: 0 auto"></div>
+
+
+
