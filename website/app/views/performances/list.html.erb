@@ -1,5 +1,5 @@
 <% content_for :for_head do %>
-	<title>Performance Data</title>	
+	<title>Performance Data</title>
 <style>
 
 #mainpage {
@@ -13,11 +13,13 @@
 	align: center;
 }
 </style>
-<% end %>
 
-<!-- JQuery library must be loaded before Highcharts code for it to work-->
+	<!-- <script src="/index_files/chart.js"></script> -->
+
+<% end %>
+	<!-- JQuery library must be loaded before Highcharts code for it to work-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="/index_files/customEvents.js"></script>
+	<script src="/index_files/customEvents.js"></script>
 
 <!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
 </div> -->
@@ -25,18 +27,18 @@
 <tr>
 <td>
 <p></p>
-<div id="chartoptions" style="align: center; width: 100%; margin: 0 auto">
+<div class = style="align: center; width: 100%; margin: 0 auto">
 <%= render "nav" %>
 </div>
 <p></p>
-<%= render "radar" %>
-<!-- <div id="datacharts" style="width: 600px; height: 400px"></div> -->
+<%= render "list" %>
 </td>
 <td>
 <p></p>
 <button class="btn btn-primary btn-sm">Top missed diagnoses</button> <button class="btn btn-default btn-sm">Report history</button> <button class="btn btn-default btn-sm">Progress</button> 
 <div id="reportdata" style="width: 600px; height: 500px; margin: 0 auto">
 <%= render "missedDx" %>
+
 </div>
 </td>
 </tr>

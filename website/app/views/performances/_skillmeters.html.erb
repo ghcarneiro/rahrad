@@ -1,0 +1,200 @@
+	<script>
+$(function () {
+
+    var chart = new Highcharts.Chart({ // Must replace the default first line of JSFiddle code with this to work
+
+        chart: {
+            type: 'bar',
+	    renderTo: 'datachart' // Must also add this along with the first line change for the highcharts to work
+        },
+
+        title: {
+            text: 'Body systems Syllabus',
+            align: 'center'
+        },
+
+	legend: {
+		align: 'center',
+		verticalAlign: 'top',
+		width: 450,
+		x: 25,
+		y: 30
+	},
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            type: 'category',
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+
+        yAxis: {
+            lineWidth: 0,
+	    labels: {
+		enabled: true
+	    },
+            min: 0,
+	    max: 1
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+        },
+
+	plotOptions: {
+	    series: {
+		stacking: 'normal',
+		fillOpacity: 1,
+
+	    }
+	},
+
+        series: [{
+	    <!-- useHTML: true, // Can use this to add hyperlinks to the names of the series-->
+            name: 'Reports completed',
+            data: [{
+		name: 'Abdominal',
+		y: 0.1,
+		drilldown: 'abdominal',
+		topDx: ['Oesophageal carcinoma', 'Leukaemia', 'Acute tubular necrosis']
+	    }, {
+		name: 'Cardiothoracic',
+		y: 0.2,
+		drilldown: 'cardiothoracic'
+	    }, {
+		name: 'Extracranial Head and Neck',
+		y: 0.1,
+		drilldown: 'ent'
+	    }, {
+		name: 'Neuroradiology',
+		y: 0.2,
+		drilldown: 'neuroradiology'
+	    }, {
+		name: 'Musculoskeletal',
+		y: 0.2,
+		drilldown: 'musculoskeletal'
+	    }, {
+		name: 'Paediatric',
+		y: 0.1,
+		drilldown: 'paediatric'
+	    }, {
+		name: 'Breast',
+		y: 0.4,
+		drilldown: 'breast'
+	    }, {
+		name: 'Obstetrics and Gynaecology',
+		y: 0.1,
+		drilldown: 'obsgynae'
+	    }, {
+		name: 'Vascular and Interventional Radiology',
+		y: 0,
+		drilldown: 'vascular'
+	    }],
+	    color: '#FF0000'
+        }, {
+            name: 'Correct diagnosis',
+            data: [0.1, 0.2, 0.2, 0.1, 0.4, 0.1, 0, 0.2, 0],
+	    color: '#FFFF00'
+        }, {
+            name: 'Good reports',
+            data: [0.6, 0.3, 0.34, 0, 0.1, 0.3, 0.2, 0.5, 0.3],
+	    color: '#00FF00'
+        }],
+
+	drilldown: {
+	    allowPointDrilldown: false,
+	    series: [{
+		id: 'abdominal',
+		data: [{
+			name: 'Gastrointestinal',
+			y: 0.9,
+			drilldown: 'git'
+		    },
+		    ['Hepatopancreatobiliary', 0.22],
+		    ['Renal and urinary tract', 0.34],
+		    ['Male reproductive system', 0.1],
+		    ['Splenunculi/Haematological/Bone Marrow', 0.9],
+		    ['Retroperitoneum', 0.8]
+		],
+                pointPlacement: 'on',
+	        type: 'area',
+	        color: '#FF0000'
+	    }, {
+		id: 'cardiothoracic',
+		data: [
+		    ['Air space', 0.24],
+		    ['Airways', 0.12],
+		    ['Interstitial', 0.14],
+		    ['Mediastinum', 0],
+		    ['Carcinoma and nodules', 0.5],
+		    ['Pleura', 0.3],
+		    ['Hyperinflation and cysts', 0.9],
+		    ['Heart and pericardium', 0.6],
+		    ['Vessels', 0.4],
+		    ['Chest Wall', 0.3],
+		    ['Trauma and ICU', 0.6]
+		],
+                pointPlacement: 'on',
+	        type: 'area',
+	        color: '#00FF00'
+	    }, {
+		id: 'git',
+		data: [{
+		        name: 'Oesophagus',
+		        y: 0.24,
+			drilldown: 'oesophagus'
+		    },
+		    ['Stomach', 0.12],
+		    ['Small Bowel', 0.14],
+		    ['Large Bowel', 0],
+		    ['Peritoneum/Mesentery/Abdominal Wall', 0.5]
+		],
+                pointPlacement: 'on',
+	        type: 'area',
+	        color: '#00FF00'
+	    }, {
+		id: 'oesophagus',
+		data: [
+		    ['Carcinoma', 0.24],
+		    ['Trauma (tear and rupture)', 0.12],
+		    ['Reflux oesophagitis and hiatus hernia', 0.14],
+		    ['Pharyngeal pouch', 0],
+		    ['Oesophageal web', 0.5],
+		    ['Oesophageal varices', 0.5],
+		    ['Cricopharyngeal spasm', 0.5],
+		    ['Motility disorders', 0.5],
+		    ['Achalasia', 0.5],
+		    ['Other oesophagitis', 0.5],
+		    ['Diverticula', 0.5],
+		    ['Schatzki ring', 0.5]
+		],
+                pointPlacement: 'on',
+	        type: 'area',
+	        color: '#00FF00'
+	    }]
+	}
+
+    <!-- Change diagnoses when clicked-->
+    }, function(chart) {
+	$(".highcharts-xaxis-labels text").click(function() {
+	        var diagnoses = ['1. Oesophageal carcinoma', '2. Benign Prostatic Hyperplasia', '3. Inflammatory Bowel Disease', '4. Acute pancreatitis', '5. Acute Tubular Necrosis'];
+	        var dxText = document.getElementsByClassName("dx");
+	        var percentages = ['32% correct', '40% correct', '43% correct', '67% correct', '68% correct'];
+	        var percentText = document.getElementsByClassName("percent");
+	        var i;
+	        console.log(diagnoses);
+	        for (i=0;i<dxText.length;i++) {
+	    	    dxText[i].innerHTML = diagnoses[i];
+	    	    percentText[i].innerHTML = percentages[i];
+	        }
+	});
+    });
+});
+
+</script>
+
+<div id="datachart" style="width: 550px; height: 500px; margin: 0 auto"></div>
