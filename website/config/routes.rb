@@ -39,6 +39,8 @@ Rails.application.routes.draw do
       get 'report'
       get 'radar'
       get 'skillmeters'
+      get 'list'
+      get 'concept'
     end
   end
 
