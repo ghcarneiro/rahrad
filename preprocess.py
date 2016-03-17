@@ -161,6 +161,7 @@ def getSentences(fileNames=REPORT_FILES):
 				# To be able to get meaningful sentences
 				# Filter all reports without "REPORT:" or "FINDINGS:" out.
 				# Crop the sentence to only contain everything after the above strings.
+				position = -1
 				findReport = row[1].find("REPORT:")
 				if findReport != -1:
 					position = findReport
