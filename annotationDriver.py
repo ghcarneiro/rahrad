@@ -1,4 +1,7 @@
 import preprocess, sys, csv, signal
+import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.ensemble import RandomForestClassifier
 
 # Stop the process being killed accidentally so results aren't lost.
 def signal_handler(signal, frame):
@@ -113,6 +116,7 @@ def getTags(prompt, index, possibleAnswers, row):
 
     return userExits
 
+######################################################################
 ############# DO NOT UNCOMMENT - WILL OVERWRITE ALL CURRENT DATA #####
 # types = ["Brains", "CTPA", "Plainab", "Pvab"]
 # for type in types:
@@ -122,5 +126,53 @@ def getTags(prompt, index, possibleAnswers, row):
 #     writeToCSV(sentenceFile, generateSentences(dataFile))
 ######################################################################
 
-writeToCSV(sentenceFile, labelSentences(readFromCSV(sentenceFile), tag))
 
+#################
+### Labelling ###
+#################
+
+# writeToCSV(sentenceFile, labelSentences(readFromCSV(sentenceFile), tag))
+
+
+########################
+### Trial prediction ###
+########################
+
+# Read in sentences from file
+sentences = readFromCSV(sentenceFile)
+
+# Extract just the sen
+taggedSentences = [x[0] for x in sentences if x[1] != ""]
+labels = [np.float32(x[1] == "p") for x in sentences if x[1] != ""]
+
+# Use count vectorizer to get numerical representation of sentences (Just for test)
+vectorizer = CountVectorizer(min_df=1)
+train = vectorizer.fit_transform(taggedSentences).toarray()
+
+# Create and fit RandomForest classifier with annotations
+forest = RandomForestClassifier()
+forest.fit(train, labels)
+
+# Run test to see if prediction works on seen data (should be 1)
+print "[ "+ str(labels[0]) + " ] -> " + sentences[0][0]
+test = vectorizer.transform([sentences[0][0]]).toarray()
+print forest.predict(test)
+print ""
+
+# Run test to see if prediction works on seen data (should be 1)
+print "[ "+ str(labels[15]) + " ] -> " + sentences[15][0]
+test = vectorizer.transform([sentences[15][0]]).toarray()
+print forest.predict(test)
+print ""
+
+# Run test on unseen data
+print "[ ? ] -> " + sentences[56][0]
+test = vectorizer.transform([sentences[56][0]]).toarray()
+print forest.predict(test)
+print ""
+
+# Run test on unseen data
+print "[ ? ] -> " + sentences[66][0]
+test = vectorizer.transform([sentences[66][0]]).toarray()
+print forest.predict(test)
+print ""
