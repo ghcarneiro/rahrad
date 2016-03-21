@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/table_save_search' => "table#save_search"
   
   get 'graph/index'
-  get 'performances/index'
+  get '/performances' => "performances#index"
   
   get 'saved_search/index'
   get '/saved_search_destroy_reoccurence' => "saved_search#destroy_reoccurence"

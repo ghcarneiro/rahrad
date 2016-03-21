@@ -15,9 +15,17 @@
 </style>
 <% end %>
 
+<%= content_tag :div, class: "data_class", data: {key_dx: @key_dxarray_data_total} do %>
+<% end %>
+
 <!-- JQuery library must be loaded before Highcharts code for it to work-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="/index_files/customEvents.js"></script>
+
+<script>
+//data_array = $('.data_class').data('key_dx');
+//console.log(data-key-dx);
+</script>
 
 <!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
 </div> -->
@@ -29,7 +37,15 @@
 <%= render "nav" %>
 </div>
 <p></p>
-<%= render "radar" %>
+<div id="controllers">
+    <label><input name='chart-type' id='line' type='radio' value='line' /> Line chart</label>
+    <label><input name='chart-type' id='bar2d' type='radio' value='bar2d' /> Bar chart</label>
+    <label><input name='chart-type' checked id='column2d' type='radio' value='column2d' /> Column chart</label>
+</div>
+
+<%= high_chart("chart-container", @h) %>
+<div id="chart-container"></div>
+
 <!-- <div id="datacharts" style="width: 600px; height: 400px"></div> -->
 </td>
 <td>

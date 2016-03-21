@@ -11,7 +11,84 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028033057) do
+ActiveRecord::Schema.define(version: 20160321132434) do
+
+  create_table "dx_level1s", force: :cascade do |t|
+    t.string   "name"
+    t.float    "all_total"
+    t.float    "all_good"
+    t.float    "all_excellent"
+    t.integer  "all_number"
+    t.float    "key_total"
+    t.float    "key_good"
+    t.float    "key_excellent"
+    t.integer  "key_number"
+    t.float    "cat1_total"
+    t.float    "cat1_good"
+    t.float    "cat1_excellent"
+    t.integer  "cat1_number"
+    t.float    "cat2_total"
+    t.float    "cat2_good"
+    t.float    "cat2_excellent"
+    t.integer  "cat2_number"
+    t.float    "cat3_total"
+    t.float    "cat3_good"
+    t.float    "cat3_excellent"
+    t.integer  "cat3_number"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "dx_level2s", force: :cascade do |t|
+    t.string   "name"
+    t.string   "dx_level1_id"
+    t.float    "all_total"
+    t.float    "all_good"
+    t.float    "all_excellent"
+    t.integer  "all_number"
+    t.float    "key_total"
+    t.float    "key_good"
+    t.float    "key_excellent"
+    t.integer  "key_number"
+    t.float    "cat1_total"
+    t.float    "cat1_good"
+    t.float    "cat1_excellent"
+    t.integer  "cat1_number"
+    t.float    "cat2_total"
+    t.float    "cat2_good"
+    t.float    "cat2_excellent"
+    t.integer  "cat2_number"
+    t.float    "cat3_total"
+    t.float    "cat3_good"
+    t.float    "cat3_excellent"
+    t.integer  "cat3_number"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "end_dxes", force: :cascade do |t|
+    t.string   "name"
+    t.string   "dx_level1_id"
+    t.string   "category"
+    t.float    "total"
+    t.float    "good"
+    t.float    "excellent"
+    t.integer  "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "learner_models", force: :cascade do |t|
+    t.float "abdominal"
+    t.float "cardiothoracic"
+    t.float "ent"
+    t.float "neuroradiology"
+    t.float "musculoskeletal"
+    t.float "paediatric"
+    t.float "breast"
+    t.float "obsgynae"
+    t.float "vascular"
+  end
 
   create_table "reoccurences", force: :cascade do |t|
     t.string   "query"

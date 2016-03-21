@@ -14,9 +14,12 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require_tree .
-//= require highcharts
+//= require highcharts/highcharts
 //= require highcharts/highcharts-more
 //= require highcharts/modules/exporting
-//= require highcharts/modules/drilldown
+//= require fusioncharts/fusioncharts
+//= require fusioncharts/fusioncharts.charts
+//= require fusioncharts/themes/fusioncharts.theme.fint
+//= require fusioncharts/fusioncharts.powercharts
 //= require turbolinks
 
