@@ -53,7 +53,7 @@ def generateSentences(dataFile):
 
     for sentence in sentences:
         tmp = SentenceRecord(sentence)
-        tmp.processedSentence = preprocess.textPreprocess(sentence)
+        tmp.processedSentence = " ".join(preprocess.textPreprocess(sentence))
         sentenceTags.append(tmp)
 
     return sentenceTags
@@ -64,7 +64,7 @@ def generateSentencesFromRaw():
         # types = ["Brains", "CTPA", "Plainab", "Pvab"]
         types = ["CTPA"]
         for type in types:
-            dataFile = "./nlp_data/Cleaned" + type + "Full.csv"
+            dataFile = "../nlp_data/Cleaned" + type + "Full.csv"
             pickleFile = './sentence_label_data/sentences_' + type + '_pickle.pk'
 
             writePickle(pickleFile, generateSentences(dataFile))
