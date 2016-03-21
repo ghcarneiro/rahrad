@@ -1,13 +1,10 @@
 import sys, signal
-
-from sklearn.decomposition import TruncatedSVD
-from sklearn.feature_extraction.text import CountVectorizer
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
 
 from dataUtils import *
 from featureExtraction import *
 
-import numpy as np
-from sklearn.ensemble import RandomForestClassifier
 
 # Stop the process being killed accidentally so results aren't lost.
 def signal_handler(signal, frame):
@@ -24,13 +21,13 @@ if len(sys.argv) != 3:
 type = sys.argv[1]
 tag = sys.argv[2]
 
-dataFile = "./nlp_data/Cleaned" + type + "Full.csv"
 sentenceFile = './sentence_label_data/sentences_' + type + '.csv'
 pickleFile = './sentence_label_data/sentences_' + type + '_pickle.pk'
-corpusFile = './sentence_label_data/corpus_' + type + '.mm'
 
+# Flag to select converting from old csv format
 convCSV = False
 
+# Control loop for labelling sentences, returns the data list with tags changed
 def labelSentences(sentenceTags, tag):
     userExits = False
 
@@ -39,9 +36,10 @@ def labelSentences(sentenceTags, tag):
 
     for sentence in sentenceTags:
         # If this pair has not been labelled.
-        print abs(sentence.diagProbs[0] - sentence.diagProbs[1])
         if tag == "diagnostic":
             if sentence.diagTag is "":
+                ## REMOVE THIS LATER
+                print abs(sentence.diagProbs[0] - sentence.diagProbs[1])
                 userExits, ans = getTags(
                     "Is this sentence DIAGNOSTIC, (p)ositive / (n)egative / (u)nsure?",
                     ["p", "n", "u"],
@@ -49,9 +47,14 @@ def labelSentences(sentenceTags, tag):
                 print ""
 
                 sentence.diagTag = ans
+                if sentence.diagProbs == []:
+                    print "Rerun program to learn from the recent tags"
+                    userExits = True
 
         elif tag == "sentiment":
             if sentence.diagTag is not "" and sentence.sentTag is "":
+                # Remove this later
+                print abs(sentence.sentProbs[0] - sentence.sentProbs[1])
                 userExits, ans = getTags(
                     "Is the diagnostic OUTCOME (p)ositive / (n)egative / (u)nsure?",
                     ["p", "n", "u"],
@@ -59,6 +62,10 @@ def labelSentences(sentenceTags, tag):
                 print ""
 
                 sentence.sentTag = ans
+                if sentence.sentProbs == []:
+                    print "Rerun program to learn from the recent tags"
+                    userExits = True
+
         else:
             print "Tag not recognised: " + tag
             sys.exit(1)
@@ -73,6 +80,8 @@ def labelSentences(sentenceTags, tag):
 
     return sentenceTags
 
+# Controls tagging of single sentence
+# Returns whether the user wants to exit and the tag chosen
 def getTags(prompt, possibleAnswers, row):
     userExits = False
 
@@ -111,55 +120,96 @@ def compareDiagProb(item1, item2):
     else:
         return 1
 
+def compareSentProb(item1, item2):
+    diff1 = 1 if item1.sentProbs == [] else abs(item1.sentProbs[0] - item1.sentProbs[1])
+    diff2 = 1 if item2.sentProbs == [] else abs(item2.sentProbs[0] - item2.sentProbs[1])
+
+    if diff1 == diff2 :
+        return 0
+    elif diff1 < diff2:
+        return -1
+    else:
+        return 1
+
+# Generates the list of SentenceRecords from original data.
+# WILL DESTROY EXISTING TAGS
+if type == "generate" and tag == "raw":
+    generateSentencesFromRaw()
+    exit(0)
+
+########################
+### Data Retrieval   ###
+########################
+
+data = []
+
+# Allows conversion from old format, ensures is in object format
+if convCSV:
+    data = convCSV2Obj(sentenceFile)
+else:
+   data = readPickle(pickleFile)
+
+########################
+### Classification   ###
+########################
+
+taggedSentences = []
+labels = []
+
+# Extract just the sentences that are tagged and were not unsure and preprocess them
+print "Extracting tagged sentences for classification"
+
+if tag == "diagnostic":
+    taggedSentences = [x.processedSentence for x in data if x.diagTag != "" and x.diagTag != "u"]
+    labels = [np.float32(x.diagTag == "p") for x in data if x.diagTag != "" and x.diagTag != "u"]
+elif tag == "sentiment":
+    taggedSentences = [x.processedSentence for x in data if x.sentTag != "" and x.sentTag != "u"]
+    labels = [np.float32(x.sentTag == "p") for x in data if x.sentTag != "" and x.sentTag != "u"]
+else:
+    raise ValueError("Unknown tag: " + tag)
+
+if len(taggedSentences) != 0:
+    print "Building feature extraction model"
+    model = skModel(taggedSentences)
+
+    print "Building classifier"
+    # Create and fit RandomForest classifier with annotations
+    forest = RandomForestClassifier()
+    forest.fit(model.corpus, labels)
+
+    # Take smaller working set, not need to classify everything
+    workingList = [x for x in data if x not in taggedSentences]
+    if len(workingList) > 100:
+        workingList = workingList[0:99]
+
+
+    print "Calculating classifications"
+    if tag == "diagnostic":
+        for row in workingList:
+            row.diagProbs = forest.predict_proba(model.getFeatures(row.processedSentence))[0]
+    elif tag == "sentiment":
+        for row in workingList:
+            row.sentProbs = forest.predict_proba(model.getFeatures(row.processedSentence))[0]
+
+    print "Sorting data"
+    if tag == "diagnostic":
+        data.sort(cmp=compareDiagProb)
+    elif tag == "sentiment":
+        data.sort(cmp=compareSentProb)
+else:
+    print "Classification skipped, there are no tagged sentences"
+
 #################
 ### Labelling ###
 #################
 
-if type == "generate" and tag == "raw":
-    generateSentencesFromRaw()
-    exit(0)
-else:
-    data = []
+data = labelSentences(data, tag)
 
-    # Allows conversion from old format, ensures is in object format
-    if convCSV:
-        data = convCSV2Obj(sentenceFile)
-    else:
-       data = readPickle(pickleFile)
-
-    data = labelSentences(data, tag)
-
-########################
-### Trial prediction ###
-########################
-
-# Extract just the sentences that are tagged and preprocess them
-print "Extracting tagged sentences for classification"
-taggedSentences = [x.processedSentence for x in data if x.diagTag != ""]
-labels = [np.float32(x.diagTag == "p") for x in data if x.diagTag != ""]
-
-print "Building feature extraction model"
-model = skModel(taggedSentences, labels)
-
-print "Building classifier"
-# Create and fit RandomForest classifier with annotations
-forest = RandomForestClassifier()
-forest.fit(model.corpus, model.labels)
-
-# Take smaller working set, not need to classify everything
-workingList = [x for x in data if x not in taggedSentences]
-if len(workingList) > 100:
-    workingList = workingList[0:99]
-
-print "Calculating classifications"
-for row in workingList:
-    row.diagProbs = forest.predict_proba(model.getFeatures(row.processedSentence))[0]
-
-print "Sorting data"
-data.sort(cmp=compareDiagProb)
 
 print "Saving data"
 writePickle(pickleFile, data)
+writeToCSV(sentenceFile, data)
 
 ## TODO
 # Think of better solution to medical dictionary filepath
+# Include the sentiment portion in active learning

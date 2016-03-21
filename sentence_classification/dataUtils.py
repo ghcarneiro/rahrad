@@ -31,7 +31,8 @@ def writeToCSV(sentenceFile, sentenceTags):
 
         # Write header 'sentence, labels'
         writer.writerow(["sentence"] + ["diagnostic label"] + ["sentiment label"])
-        writer.writerows(sentenceTags)
+        for row in sentenceTags:
+            writer.writerow([row.sentence] + [row.diagTag] + [row.sentTag])
 
 # Read in all sentences defined in the given file
 def readFromCSV(sentenceFile):

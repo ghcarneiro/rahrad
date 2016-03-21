@@ -36,15 +36,10 @@ class GensimModel(object):
 
 
 class skModel(object):
-    def __init__(self, processedSentences, labels):
-        if len(processedSentences) != len(labels):
-            raise ValueError("Dimension of sentences and labels do not match")
-
-        self.labels = labels
-
+    def __init__(self, processedSentences):
         self.vectorizer = CountVectorizer()
         self.corpus = self.vectorizer.fit_transform(processedSentences).toarray()
-        self.svd = TruncatedSVD(n_components=79, random_state=42)
+        self.svd = TruncatedSVD(n_components=len(processedSentences), random_state=42)
         self.corpus = self.svd.fit_transform(self.corpus)
 
     def getFeatures(self, sentence):
