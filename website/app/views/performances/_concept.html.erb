@@ -1,70 +1,76 @@
-<table class="table" style="width: 550px; text-align: left">
+<script>
+$(document).ready(function(){
+    $(".glyphicon").click(function(){
+	if ($(this).hasClass('glyphicon-menu-right')) {
+       	 	$(this).removeClass('glyphicon-menu-right');
+       		$(this).addClass('glyphicon-menu-down');
+    	}
+	else {
+       	 	$(this).removeClass('glyphicon-menu-down');
+       		$(this).addClass('glyphicon-menu-right');
+	}
+
+	if ($(this).prev().hasClass('view-reports')) {
+        	$(this).eq(2).slideToggle();
+	}
+	else {
+        	$(this).next().slideToggle();
+	}
+    }); 
+
+    $(".endDx").hover(
+	function(){
+	$(this).next().stop().css({"display":"block"});
+	},
+	function () {
+	$(this).next().stop().css({"display":"none"});
+	});
+
+});
+
+</script>
+
+<!-- Don't use < % = at the start of each.do or you get the entire array!!! -->
+
+<table class="table" style="width: 550px; text-align: left; position: relative">
+<% dxlevel1s.each do |d| %>
 <tr>
 <td>
-<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Abdominal <span class="glyphicon glyphicon-menu-down"></span> 
-<table style="margin-left: 50px">
+<% if d.key_good > 70 %>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" />
+<% elsif d.key_good > 40 %>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+<% else %>
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" />
+<% end %> 
+<%= d.name %> <span class="glyphicon glyphicon-menu-right"></span> 
+<table style="margin-left: 50px;display:none" class="dxlevel2">
 <tr>
 <td>
-<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Gastrointestinal <span class="glyphicon glyphicon-menu-down"></span>
-	<table style="margin-left: 50px">
-	<tr>
-	<td>
-	<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Oesophagus <span class="glyphicon glyphicon-menu-right"></span> <br /> 
-	<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Stomach <span class="glyphicon glyphicon-menu-right"></span> <br />
-	<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Small bowel <span class="glyphicon glyphicon-menu-right"></span> <br />
-	<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Large bowel <span class="glyphicon glyphicon-menu-right"></span> <br />
-	<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Peritoneum/mesentery/abdominal wall <span class="glyphicon glyphicon-menu-right"></span> <br />
-	</td>
-	</tr>
-	</table>
-<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Hepatopancreatobiliary <span class="glyphicon glyphicon-menu-right"></span> <br />
-<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Renal and urinary tract <span class="glyphicon glyphicon-menu-right"></span> <br />
-<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Male reproductive system <span class="glyphicon glyphicon-menu-right"></span> <br />
-<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Splenunculi/Haematological/Bone Marrow <span class="glyphicon glyphicon-menu-right"></span> <br />
-<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Retroperitoneum <span class="glyphicon glyphicon-menu-right"></span> <br />
+<% d.end_dxes.each do |e| %>
+<% if e.good > 70 %>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" />
+<% elsif e.good > 40 %>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+<% else %>
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" />
+<% end %>
+<span class="endDx"> <%= e.name %> </span>
+<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+<div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+<div class="progress-bar" style="width: <%= (e.good) %>%">
+</div>
+</div>
+<span style="font-size: 10px; position: relative; left: 10px; top: -10px"><%= e.name %>: <%= e.good %>% correct</span>
+</div>
+<br/>
+<% end %>
+
+
 </td>
 </tr>
 </table>
 </td>
 </tr>
-<tr>
-<td>
-<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Obstetrics and Gynaecology <span class="glyphicon glyphicon-menu-right"></span> 
-</td>
-</tr>
-<tr>
-<td>
-<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Extracranial Head and Neck <span class="glyphicon glyphicon-menu-right"></span> 
-</td>
-</tr>
-<tr>
-<td>
-<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Cardiothoracic <span class="glyphicon glyphicon-menu-right"></span> 
-</td>
-</tr>
-<tr>
-<td>
-<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />  Paediatric <span class="glyphicon glyphicon-menu-right"></span> 
-</td>
-</tr>
-<tr>
-<td>
-<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />  Vascular and Interventional Radiology <span class="glyphicon glyphicon-menu-right"></span> 
-</td>
-</tr>
-<tr>
-<td>
-<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" /> Breast <span class="glyphicon glyphicon-menu-right"></span> 
-</td>
-</tr>
-<tr>
-<td>
-<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" /> Musculoskeletal <span class="glyphicon glyphicon-menu-right"></span> 
-</td>
-</tr>
-<tr>
-<td>
-<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Neuroradiology <span class="glyphicon glyphicon-menu-right"></span> 
-</td>
-</tr>
+<% end %>
 </table>

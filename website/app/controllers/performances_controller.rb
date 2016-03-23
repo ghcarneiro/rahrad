@@ -100,6 +100,9 @@ end
 =end
 
 	end
-
+def concept
+	    @dxlevel1s = DxLevel1.all
+	    @enddxes = EndDx.all
+end
 
 end

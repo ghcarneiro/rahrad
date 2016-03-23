@@ -16,8 +16,8 @@
 <% end %>
 
 <!-- JQuery library must be loaded before Highcharts code for it to work-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="/index_files/customEvents.js"></script>
+
 
 <!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
 </div> -->
@@ -29,7 +29,7 @@
 <%= render "nav" %>
 </div>
 <p></p>
-<%= render "concept" %>
+<%= render :partial => 'concept', :locals => { :dxlevel1s => @dxlevel1s, :enddxes => @enddxes } %>
 <!-- <div id="datacharts" style="width: 600px; height: 400px"></div> -->
 </td>
 <td>

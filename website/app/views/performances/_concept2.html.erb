@@ -1,0 +1,111 @@
+<script>
+$(document).ready(function(){
+    $(".glyphicon").click(function(){
+	if ($(this).hasClass('glyphicon-menu-right')) {
+       	 	$(this).removeClass('glyphicon-menu-right');
+       		$(this).addClass('glyphicon-menu-down');
+    	}
+	else {
+       	 	$(this).removeClass('glyphicon-menu-down');
+       		$(this).addClass('glyphicon-menu-right');
+	}
+
+	if ($(this).prev().hasClass('view-reports')) {
+        	$(this).eq(2).slideToggle();
+	}
+	else {
+        	$(this).next().slideToggle();
+	}
+    }); 
+
+    });
+
+</script>
+<table class="table" style="width: 550px; text-align: left">
+<tr>
+<td>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Abdominal <span class="glyphicon glyphicon-menu-right"></span> 
+<table style="margin-left: 50px;display:none" class="dxlevel2">
+<tr>
+<td>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Free Gas </span><br/>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Bowel Obstruction </span><br />
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Volvulus </span><br />
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Trauma to Abdominal Organs </span><br />
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> AAA and Rupture </span></span> <br />
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Mesenteric/Other Organ Ischaemia </span><br />
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Testicular Torsion </span><br />
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Abdominal Sepsis </span></span> <br />
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Hydronephrosis/Pyonephrosis </span><br />
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Acute Abdomen </span><br />
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Cardiothoracic <span class="glyphicon glyphicon-menu-right"></span> 
+<table style="margin-left: 50px;display:none" class="dxlevel2">
+<tr>
+<td>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Pneumothorax </span><br/>
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" /> <span class="endDx"> Pulmonary Embolus </span><br />
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Pulmonary Oedema </span><br />
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Aortic/Vascular Trauma </span><br />
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Aortic Dissection </span></span> <br />
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Cardiac Tamponade </span><br />
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" /> <span class="endDx"> Typical/Atypical Infections </span><br />
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Flail Chest </span></span> <br />
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Extracranial Head and Neck <span class="glyphicon glyphicon-menu-right"></span> 
+<table style="margin-left: 50px;display:none" class="dxlevel2">
+<tr>
+<td>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Foreign Bodies </span><br/>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Retropharyngeal Abscesses </span><br />
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> <span class="endDx"> Tonsillar Abscess </span><br />
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> <span class="endDx"> Ruptured Oesophagus </span><br />
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" /> Obstetrics and Gynaecology <span class="glyphicon glyphicon-menu-right"></span> 
+</td>
+</tr>
+
+<tr>
+<td>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />  Paediatric <span class="glyphicon glyphicon-menu-right"></span> 
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />  Vascular and Interventional Radiology <span class="glyphicon glyphicon-menu-right"></span> 
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" /> Breast <span class="glyphicon glyphicon-menu-right"></span> 
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" /> Musculoskeletal <span class="glyphicon glyphicon-menu-right"></span> 
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" /> Neuroradiology <span class="glyphicon glyphicon-menu-right"></span> 
+</td>
+</tr>
+</table>
