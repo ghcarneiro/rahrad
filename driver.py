@@ -4,13 +4,13 @@ import modelGeneration
 import search
 import generateReports
 import rnn
-# preprocess.buildMedDict()
-# preprocess.preprocessReports()
-# modelGeneration.buildDictionary()
-# modelGeneration.buildModels()
-# modelGeneration.buildWord2VecModel()
-# modelGeneration.buildDoc2VecModel()
-# modelGeneration.testClassification()
+#preprocess.buildMedDict()
+#preprocess.preprocessReports()
+#modelGeneration.buildDictionary()
+#modelGeneration.buildModels()
+#modelGeneration.buildWord2VecModel()
+#modelGeneration.buildDoc2VecModel()
+#modelGeneration.testClassification()
 # searchTerm = "haemorrhage"
 # searchTerm = "no haemorrhage"
 # searchTerm = "left sided embolus"
@@ -22,10 +22,10 @@ import rnn
 # generateReports.labelClassificationD2V()
 
 # # Train the RNN sentence model using the small dataset
-# rnn.preprocessReports()
-# rnn.buildWord2VecSentences()
-# rnn.buildSentenceRNN(epochs=10)
-# rnn.sentenceToEncoder()
+#rnn.preprocessReports()
+#rnn.buildWord2VecSentences()
+rnn.buildSentenceRNN(epochs=10)
+rnn.sentenceToEncoder()
 
 # # Train the RNN sentence model using the full dataset
 # rnn.preprocessFullReports()
