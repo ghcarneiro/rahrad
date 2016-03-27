@@ -38,6 +38,7 @@ def labelSentences(sentenceTags, tag):
         # If this pair has not been labelled.
         if tag == "diagnostic":
             if sentence.diagTag is "":
+                print model.getFeatures(sentence.processedSentence)
                 ## REMOVE THIS LATER
                 print abs(sentence.diagProbs[0] - sentence.diagProbs[1])
                 userExits, ans = getTags(
@@ -174,13 +175,13 @@ if len(taggedSentences) != 0:
 
     print "Building classifier"
     # Create and fit RandomForest classifier with annotations
-    forest = RandomForestClassifier()
+    forest = RandomForestClassifier(n_estimators=500, min_samples_leaf=3)
     forest.fit(model.corpus, labels)
 
     # Take smaller working set, not need to classify everything
     workingList = [x for x in data if x not in taggedSentences]
-    if len(workingList) > 100:
-        workingList = workingList[0:99]
+    if len(workingList) > 300:
+        workingList = workingList[0:299]
 
 
     print "Calculating classifications"
@@ -203,7 +204,13 @@ else:
 ### Labelling ###
 #################
 
-data = labelSentences(data, tag)
+procSent = [x.processedSentence for x in data]
+setProcSent = set(procSent)
+
+print len(procSent)
+print len(setProcSent)
+
+# data = labelSentences(data, tag)
 
 
 print "Saving data"

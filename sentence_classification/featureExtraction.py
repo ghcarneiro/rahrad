@@ -39,7 +39,7 @@ class skModel(object):
     def __init__(self, processedSentences):
         self.vectorizer = CountVectorizer()
         self.corpus = self.vectorizer.fit_transform(processedSentences).toarray()
-        self.svd = TruncatedSVD(n_components=len(processedSentences), random_state=42)
+        self.svd = TruncatedSVD(n_components=10, random_state=42)
         self.corpus = self.svd.fit_transform(self.corpus)
 
     def getFeatures(self, sentence):

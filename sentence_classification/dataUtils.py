@@ -1,9 +1,20 @@
 import csv
 import pickle
 import sys
+
+from nltk.corpus import stopwords
+
 sys.path.append("..") # Adds higher directory to python modules path.
 
 import preprocess
+
+#load set of stop words
+stop = set(stopwords.words("english"))
+
+#load dictionary of specialist lexicon
+file = open('../dictionary_files/medical.pkl', 'r')
+medical = pickle.load(file)
+file.close()
 
 
 class SentenceRecord(object):
@@ -14,7 +25,6 @@ class SentenceRecord(object):
         self.sentProbs = []
         self.diagTag = ""
         self.sentTag = ""
-
 
 def readPickle(filename):
     with open(filename, "rb") as fin:
@@ -50,14 +60,25 @@ def readFromCSV(sentenceFile):
 # Generate the unlabelled sentence data from the given datafile
 def generateSentences(dataFile):
     sentenceTags = []
-    sentences = preprocess.getSentences([dataFile])
+    sentences = preprocess.getAllSentences([dataFile])
 
     for sentence in sentences:
         tmp = SentenceRecord(sentence)
-        tmp.processedSentence = " ".join(preprocess.textPreprocess(sentence))
+        tmp.processedSentence = " ".join(preprocess.textPreprocess(sentence, stop=stop, medical=medical))
         sentenceTags.append(tmp)
 
     return sentenceTags
+
+def removeDuplicates(data):
+    added = set()
+    res = []
+
+    for row in data:
+        if row.proccessedSentence not in added:
+            res.append(row)
+            added.add(row.proccessedSentence)
+
+    return res
 
 def generateSentencesFromRaw():
     confirm = raw_input("Are you sure you want to regenerate? (yes/no) ")
@@ -78,7 +99,7 @@ def convCSV2Obj(sentenceFile):
 
     for sentenceRow in sentences:
         tmp = SentenceRecord(sentenceRow[0])
-        tmp.processedSentence = preprocess.textPreprocess(sentenceRow[0])
+        tmp.processedSentence = preprocess.textPreprocess(sentenceRow[0], stop=stop, medical=medical)
         tmp.diagTag = sentenceRow[1]
         tmp.sentTag = sentenceRow[2]
         objs.append(tmp)
