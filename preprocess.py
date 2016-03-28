@@ -31,21 +31,31 @@ stop = set()
 # specialist dictionary
 medical = dict()
 
-# load set of stop words
-negations = set(('no', 'nor', 'against', 'don', 'not'))
-stop = set(stopwords.words("english")) - negations
-# load dictionary of specialist lexicon
-
-file = open('./dictionary_files/medical.pkl', 'r')
-medical = pickle.load(file)
-file.close()
-
+dir = os.path.dirname(__file__)
 
 # runs the preprocessing procedure to the supplied text
 # input is string of text to be processed
 # output is the same string processed
 # set minimal to true for minimal text preprocessing
-def textPreprocess(text, minimal=False, stop=stop, medical=medical):
+def textPreprocess(text, minimal=False, removeNegationsFromSentences=False):
+
+	# Load stop words on first run
+	global stop
+	if not stop:
+		if removeNegationsFromSentences:
+			negations = set()
+		else:
+			negations = set(('no', 'nor','against','don', 'not'))
+		stop = set(stopwords.words("english")) - negations
+
+	# Load dictionary of specialist lexicon if this is the first run
+	global medical
+	if not medical:
+		medicalFilePath = os.path.join(dir, "dictionary_files/medical.pkl")
+		file = open(medicalFilePath, 'r')
+		medical = pickle.load(file)
+		file.close()
+
 	if not minimal:
 		text = re.sub("[^a-zA-Z\-]", " ", text)  # remove non-letters, except for hyphens
 		text = text.lower()  # convert to lower-case

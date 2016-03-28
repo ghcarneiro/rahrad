@@ -1,9 +1,10 @@
 import sys, signal
+from random import shuffle
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-
 from dataUtils import *
 from featureExtraction import *
+
 
 # Stop the process being killed accidentally so results aren't lost.
 def signal_handler(signal, frame):
@@ -11,71 +12,62 @@ def signal_handler(signal, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-usage = "USAGE: " + sys.argv[0] + " (Brains|CTPA|Plainab|Pvab) (diagnostic|sentiment)"
+usage = "USAGE: " + sys.argv[0] + " (diagnostic|sentiment)"
 
-if len(sys.argv) != 3:
+if len(sys.argv) != 2:
     print usage
     sys.exit(1)
 
-type = sys.argv[1]
-tag = sys.argv[2]
+tag = sys.argv[1]
 
-sentenceFile = './sentence_label_data/sentences_' + type + '.csv'
-pickleFile = './sentence_label_data/sentences_' + type + '_pickle.pk'
+dataFile = './sentence_label_data/sentences_ALL.csv'
+diffTolerance = 0.15
+
 
 # Control loop for labelling sentences, returns the data list with tags changed
 def labelSentences(sentenceTags, tag):
     userExits = False
+    diff = 0
 
     if not isinstance(sentenceTags[0], SentenceRecord):
         raise ValueError("Expected SentenceRecord")
 
     for sentence in sentenceTags:
-        # If this pair has not been labelled.
-        if tag == "diagnostic":
-            if sentence.diagTag == "":
-                print model.getFeatures([sentence.processedSentence])
-                ## REMOVE THIS LATER
-                print abs(sentence.diagProbs[0] - sentence.diagProbs[1])
-                userExits, ans = getTags(
-                    "Is this sentence DIAGNOSTIC, (p)ositive / (n)egative / (u)nsure?",
-                    ["p", "n", "u"],
-                    sentence)
-                print ""
+        if tag == "diagnostic" and sentence.diagTag == "" and len(sentence.diagProbs) != 0:
+            diff = abs(sentence.diagProbs[0] - sentence.diagProbs[1])
+            userExits, ans = getTags(
+                "Is this sentence DIAGNOSTIC, (p)ositive / (n)egative / (u)nsure?",
+                ["p", "n", "u"],
+                sentence)
+            print ""
 
-                sentence.diagTag = ans
-                if sentence.diagProbs == []:
-                    print "Rerun program to learn from the recent tags"
-                    userExits = True
+            sentence.diagTag = ans
 
-        elif tag == "sentiment":
-            if sentence.diagTag == "p" and sentence.sentTag == "":
-                # Remove this later
-                print abs(sentence.sentProbs[0] - sentence.sentProbs[1])
-                userExits, ans = getTags(
-                    "Is the diagnostic OUTCOME (p)ositive / (n)egative / (u)nsure?",
-                    ["p", "n", "u"],
-                    sentence)
-                print ""
+        elif tag == "sentiment" and sentence.diagTag == "p" and sentence.sentTag == "" and len(sentence.sentProbs) != 0:
+            diff = abs(sentence.sentProbs[0] - sentence.sentProbs[1])
+            userExits, ans = getTags(
+                "Is the diagnostic OUTCOME (p)ositive / (n)egative / (u)nsure?",
+                ["p", "n", "u"],
+                sentence)
+            print ""
 
-                sentence.sentTag = ans
-                if sentence.sentProbs == []:
-                    print "Rerun program to learn from the recent tags"
-                    userExits = True
+            sentence.sentTag = ans
 
-        else:
-            print "Tag not recognised: " + tag
-            sys.exit(1)
+        if diff > diffTolerance:
+            print "Uncertainty tolerance reached. Rerun to classify more."
+            userExits = True
 
         if userExits:
             break
 
-    if(userExits):
+    if (userExits):
         print "Exiting: Saving progress so far, come back and tag more later."
     else:
-        print "Finished tagging! If you were tagging diagnostic, change 'diagnostic' to 'sentiment' to tag the second feature."
+        print "Finished tagging! If you were tagging diagnostic, " \
+              "change 'diagnostic' to 'sentiment' to tag the second feature."
 
     return sentenceTags
+
 
 # Controls tagging of single sentence
 # Returns whether the user wants to exit and the tag chosen
@@ -95,7 +87,6 @@ def getTags(prompt, possibleAnswers, row):
             ans = ans.rstrip()
             if ans in possibleAnswers:
                 return userExits, ans
-                break
             else:
                 print "Invalid input. Valid answers: [" + ", ".join(possibleAnswers) + "]"
                 continue
@@ -106,31 +97,34 @@ def getTags(prompt, possibleAnswers, row):
 
     return userExits, ""
 
+
 def compareDiagProb(item1, item2):
     diff1 = 1 if item1.diagProbs == [] else abs(item1.diagProbs[0] - item1.diagProbs[1])
     diff2 = 1 if item2.diagProbs == [] else abs(item2.diagProbs[0] - item2.diagProbs[1])
 
-    if diff1 == diff2 :
+    if diff1 == diff2:
         return 0
     elif diff1 < diff2:
         return -1
     else:
         return 1
+
 
 def compareSentProb(item1, item2):
     diff1 = 1 if item1.sentProbs == [] else abs(item1.sentProbs[0] - item1.sentProbs[1])
     diff2 = 1 if item2.sentProbs == [] else abs(item2.sentProbs[0] - item2.sentProbs[1])
 
-    if diff1 == diff2 :
+    if diff1 == diff2:
         return 0
     elif diff1 < diff2:
         return -1
     else:
         return 1
 
+
 # Generates the list of SentenceRecords from original data.
 # WILL DESTROY EXISTING TAGS
-if type == "generate" and tag == "raw":
+if tag == "generate":
     generateSentencesFromRaw()
     exit(0)
 
@@ -139,8 +133,7 @@ if type == "generate" and tag == "raw":
 ########################
 
 print "Reading data file"
-# Allows conversion from old format, ensures is in object format
-data = readPickle(pickleFile)
+data = readFromCSV(dataFile)
 
 ########################
 ### Classification   ###
@@ -151,7 +144,6 @@ labels = []
 
 # Extract just the sentences that are tagged and were not unsure and preprocess them
 print "Extracting tagged sentences for classification"
-
 if tag == "diagnostic":
     taggedSentences = [x.processedSentence for x in data if x.diagTag != "" and x.diagTag != "u"]
     labels = [np.float32(x.diagTag == "p") for x in data if x.diagTag != "" and x.diagTag != "u"]
@@ -160,7 +152,6 @@ elif tag == "sentiment":
     labels = [np.float32(x.sentTag == "p") for x in data if x.sentTag != "" and x.sentTag != "u"]
 else:
     raise ValueError("Unknown tag: " + tag)
-
 
 if len(taggedSentences) != 0:
     print "Building feature extraction model"
@@ -176,7 +167,6 @@ if len(taggedSentences) != 0:
     workingList = [x for x in data if x not in taggedSentences]
     if len(workingList) > 300:
         workingList = workingList[0:299]
-
 
     print "Calculating classifications"
     if tag == "diagnostic":
@@ -201,8 +191,8 @@ else:
 data = labelSentences(data, tag)
 
 print "Saving data"
-writePickle(pickleFile, data)
-# writeToCSV(sentenceFile, data)
+shuffle(data)
+# writeToCSV(dataFile, data)
 
 ## TODO
 # Create abstract class for model
