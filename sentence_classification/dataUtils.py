@@ -1,5 +1,5 @@
 import csv
-import pickle
+import cPickle as pickle
 import sys
 
 from nltk.corpus import stopwords
@@ -74,24 +74,42 @@ def removeDuplicates(data):
     res = []
 
     for row in data:
-        if row.proccessedSentence not in added:
+        if row.processedSentence not in added:
             res.append(row)
-            added.add(row.proccessedSentence)
+            added.add(row.processedSentence)
 
     return res
 
 def generateSentencesFromRaw():
     confirm = raw_input("Are you sure you want to regenerate? (yes/no) ")
     if confirm == "yes":
-        # types = ["Brains", "CTPA", "Plainab", "Pvab"]
-        types = ["CTPA"]
+        types = ["Brains", "CTPA", "Plainab", "Pvab"]
         for type in types:
             dataFile = "../nlp_data/Cleaned" + type + "Full.csv"
             pickleFile = './sentence_label_data/sentences_' + type + '_pickle.pk'
 
-            writePickle(pickleFile, generateSentences(dataFile))
+            writePickle(pickleFile, removeDuplicates(generateSentences(dataFile)))
     else:
         print "Cancelled."
+
+# Sentences must first be generated
+def mapFromOld(oldData, newData):
+    dictionary = dict()
+    # Add all records into a dictionary
+    for row in newData:
+        dictionary[row.sentence] = row
+
+    # Go through sentences that were tagged and find their corresponding sentence
+    # Transfer tags to this entry
+    for row in oldData:
+        if row.sentence in dictionary:
+            print "found"
+            current = dictionary[row.sentence]  # Sentence in new data
+            current.diagTag = row.diagTag
+            current.sentTag = row.sentTag
+        else:
+            print "skipped"
+
 
 def convCSV2Obj(sentenceFile):
     sentences = readFromCSV(sentenceFile)

@@ -34,13 +34,20 @@ class GensimModel(object):
         sparseResult = self.lsi_model[bowSentence]
         return self.convSparse2Dense([sparseResult])[0]
 
-
 class skModel(object):
-    def __init__(self, processedSentences):
+    def __init__(self):
         self.vectorizer = CountVectorizer()
-        self.corpus = self.vectorizer.fit_transform(processedSentences).toarray()
         self.svd = TruncatedSVD(n_components=10, random_state=42)
-        self.corpus = self.svd.fit_transform(self.corpus)
 
-    def getFeatures(self, sentence):
-        return self.svd.transform(self.vectorizer.transform([sentence]).toarray())
+    # Input must be a list of strings
+    # Returns the strings transformed to final representation
+    def getFeatures(self, data):
+        return self.svd.transform(self.vectorizer.transform(data).toarray())
+
+    # Applies given data to fitting the model
+    # Must be a list of strings
+    def fit(self, trainingData):
+        # Applies given sentences to fitting the vectorizer
+        train = self.vectorizer.fit_transform(trainingData).toarray()
+        # Passes vectorized sentences to fit SVD
+        self.svd.fit(train)

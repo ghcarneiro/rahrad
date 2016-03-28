@@ -5,7 +5,6 @@ from sklearn.ensemble import RandomForestClassifier
 from dataUtils import *
 from featureExtraction import *
 
-
 # Stop the process being killed accidentally so results aren't lost.
 def signal_handler(signal, frame):
     print "To exit please press CTL+D so the results can be saved."
@@ -24,9 +23,6 @@ tag = sys.argv[2]
 sentenceFile = './sentence_label_data/sentences_' + type + '.csv'
 pickleFile = './sentence_label_data/sentences_' + type + '_pickle.pk'
 
-# Flag to select converting from old csv format
-convCSV = False
-
 # Control loop for labelling sentences, returns the data list with tags changed
 def labelSentences(sentenceTags, tag):
     userExits = False
@@ -37,8 +33,8 @@ def labelSentences(sentenceTags, tag):
     for sentence in sentenceTags:
         # If this pair has not been labelled.
         if tag == "diagnostic":
-            if sentence.diagTag is "":
-                print model.getFeatures(sentence.processedSentence)
+            if sentence.diagTag == "":
+                print model.getFeatures([sentence.processedSentence])
                 ## REMOVE THIS LATER
                 print abs(sentence.diagProbs[0] - sentence.diagProbs[1])
                 userExits, ans = getTags(
@@ -53,7 +49,7 @@ def labelSentences(sentenceTags, tag):
                     userExits = True
 
         elif tag == "sentiment":
-            if sentence.diagTag is not "" and sentence.sentTag is "":
+            if sentence.diagTag == "p" and sentence.sentTag == "":
                 # Remove this later
                 print abs(sentence.sentProbs[0] - sentence.sentProbs[1])
                 userExits, ans = getTags(
@@ -142,13 +138,9 @@ if type == "generate" and tag == "raw":
 ### Data Retrieval   ###
 ########################
 
-data = []
-
+print "Reading data file"
 # Allows conversion from old format, ensures is in object format
-if convCSV:
-    data = convCSV2Obj(sentenceFile)
-else:
-   data = readPickle(pickleFile)
+data = readPickle(pickleFile)
 
 ########################
 ### Classification   ###
@@ -169,14 +161,16 @@ elif tag == "sentiment":
 else:
     raise ValueError("Unknown tag: " + tag)
 
+
 if len(taggedSentences) != 0:
     print "Building feature extraction model"
-    model = skModel(taggedSentences)
+    model = skModel()
+    model.fit([x.processedSentence for x in data[0:500]])
 
     print "Building classifier"
     # Create and fit RandomForest classifier with annotations
     forest = RandomForestClassifier(n_estimators=500, min_samples_leaf=3)
-    forest.fit(model.corpus, labels)
+    forest.fit(model.getFeatures(taggedSentences), labels)
 
     # Take smaller working set, not need to classify everything
     workingList = [x for x in data if x not in taggedSentences]
@@ -187,10 +181,10 @@ if len(taggedSentences) != 0:
     print "Calculating classifications"
     if tag == "diagnostic":
         for row in workingList:
-            row.diagProbs = forest.predict_proba(model.getFeatures(row.processedSentence))[0]
+            row.diagProbs = forest.predict_proba(model.getFeatures([row.processedSentence]))[0]
     elif tag == "sentiment":
         for row in workingList:
-            row.sentProbs = forest.predict_proba(model.getFeatures(row.processedSentence))[0]
+            row.sentProbs = forest.predict_proba(model.getFeatures([row.processedSentence]))[0]
 
     print "Sorting data"
     if tag == "diagnostic":
@@ -204,19 +198,11 @@ else:
 ### Labelling ###
 #################
 
-procSent = [x.processedSentence for x in data]
-setProcSent = set(procSent)
-
-print len(procSent)
-print len(setProcSent)
-
-# data = labelSentences(data, tag)
-
+data = labelSentences(data, tag)
 
 print "Saving data"
 writePickle(pickleFile, data)
-writeToCSV(sentenceFile, data)
+# writeToCSV(sentenceFile, data)
 
 ## TODO
-# Think of better solution to medical dictionary filepath
-# Include the sentiment portion in active learning
+# Create abstract class for model
