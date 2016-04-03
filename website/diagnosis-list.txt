@@ -1,0 +1,4474 @@
+LEVEL 1: ABDOMINAL
+LEVEL 2: GASTROINTESTINAL
+LEVEL 3: OESOPHAGUS
+
+CATEGORY 1
+Carcinoma
+Trauma
+Reflux oesophagitis and hiatus hernia
+
+CATEGORY 2
+Pharyngeal pouch
+Oesophageal web
+Oesophageal varices
+Cricopharyngeal spasm
+Motility disorders
+Achalasia
+Other esophagitis (infective, corrosive, radiation and autoimmune)
+Diverticula
+Schatzki ring
+
+CATEGORY 3
+Leiomyoma
+Spontaneous intramural haemorrhage
+Scleroderma
+Duplication cyst
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: GASTROINTESTINAL
+LEVEL 3: STOMACH
+
+CATEGORY 1
+Carcinoma
+Peptic ulcer
+Lymphoma
+Gastritis, acute and chronic
+Hyperplastic and inflammatory polyps
+
+CATEGORY 2
+Acute gastric dilation
+GIST tumours
+Post surgical appearances and complications
+Gastric volvulus colon Organoaxial colon Mesenteroaxial
+Gastric outlet obstruction
+
+CATEGORY 3
+Gastric diverticulum
+Leiomyoma / leiomyosarcoma
+Menetrier's disease
+Corrosive injury
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: GASTROINTESTINAL
+LEVEL 3: SMALL BOWEL
+
+CATEGORY 1
+Crohn's disease
+Small bowel obstruction
+Ischaemia
+Intussusception
+Small bowel trauma
+Haemorrhage
+
+CATEGORY 2
+Coeliac disease
+Metastatic disease
+Lymphoma
+Primary small bowel tumour (adenocarcinoma and/or carcinoid)
+Post surgical appearances and complications
+Meckel's diverticulum
+Gallstone ileus
+Radiation enteritis
+Tuberculosis
+
+CATEGORY 3
+Small bowel infections/infestations
+Whipple's disease / Amyloid and mastocytosis
+Polyps & polyposis syndromes
+Eosinophilic gastroenteritis
+Yersinia
+GIST tumours
+Jejunal diverticulosis
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: GASTROINTESTINAL
+LEVEL 3: LARGE BOWEL
+
+CATEGORY 1
+Carcinoma
+Diverticular disease
+Appendicitis
+Inflammatory bowel disease
+Obstruction and pseudoobstruction
+Ischaemic colitis
+Volvulus
+Toxic megacolon
+Haemorrhage
+
+CATEGORY 2
+Polyps
+Angiodysplasia
+Infective Colitis
+Carcinoid tumour
+Perianal sepsis
+Pseudo-obstruction
+Post surgical appearances and complications
+Epiploic appendagitis
+Mesenteric panniculiti
+
+CATEGORY 3
+Radiation Colitis
+Metastases
+Lymphoma
+Pneumatosis intestinalis
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: GASTROINTESTINAL
+LEVEL 3: PERITONEUM/MESENTERY/ABDOMINAL WALL
+
+CATEGORY 1
+Ascites
+Hernias
+Peritonitis
+Metastases
+Pneumoperitoneum
+
+CATEGORY 2
+Rectus sheath haematoma
+Pseudomyxoma peritonei
+TB peritonitis
+
+CATEGORY 3
+Mesenteric cyst
+Desmoid tumour
+Mesothelioma, other tumours
+Sclerosing peritonitis
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: HEPATOPANCREATOBILIARY SYSTEM
+LEVEL 3: DIFFUSE LIVER DISEASE
+
+CATEGORY 1
+Fatty infiltration and fatty sparing
+Cirrhosis
+Portal hypertension
+
+CATEGORY 2
+Acute & chronic hepatitis
+Sclerosing cholangitis
+
+CATEGORY 3
+Primary biliary cirrhosis
+Wilson disease
+Haemochromatosis
+a1 anti-trypsin deficiency
+Glycogen storage disorder
+Post transplant appearances and complications
+Caroli's disease
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: HEPATOPANCREATOBILIARY SYSTEM
+LEVEL 3: FOCAL LIVER DISEASE
+
+CATEGORY 1
+Cyst
+Cavernous haemangioma
+Metastatic disease
+Hepatocellular carcinoma
+Focal nodular hyperplasia
+Hepatocellular adenoma
+
+CATEGORY 2
+Hydatid disease
+Cholangiocarcinoma
+Abscess
+
+CATEGORY 3
+Biliary hamartomas
+Biliary cystadenoma
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: HEPATOPANCREATOBILIARY SYSTEM
+LEVEL 3: TRAUMA/VASCULAR
+
+CATEGORY 1
+Trauma
+Portal vein thrombosis
+
+CATEGORY 2
+Budd-Chiari syndrome
+
+CATEGORY 3
+Liver infarction
+Peliosis hepatis
+Veno-occlusive disease
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: HEPATOPANCREATOBILIARY SYSTEM
+LEVEL 3: BILIARY
+
+CATEGORY 1
+Cholelithiasis
+Acute Cholecystitis
+Obstruction
+
+CATEGORY 2
+Adenomyosis
+Gallbladder polyps
+Gallbladder carcinoma
+Cholangiocarcinoma
+Cholangitis
+Chronic cholecystitis / Porcelain gallbladder
+
+CATEGORY 3
+Biliary infestation (including oriental cholangiohepatitis)
+Choledochal cyst
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: HEPATOPANCREATOBILIARY SYSTEM
+LEVEL 3: PANCREAS
+
+CATEGORY 1
+Acute pancreatitis
+Pancreatic carcinoma
+Trauma
+
+CATEGORY 2
+Chronic pancreatitis
+Pseudocyst
+Ampullary tumour
+Islet tumours
+Intraductal neoplasia
+Cystic pancreatic tumours
+
+CATEGORY 3
+Annular pancreas
+Ectopic pancreas
+Pancreas divisum
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: RENAL AND URINARY TRACT
+LEVEL 3: RENAL CONGENITAL/DEVELOPMENTAL
+
+CATEGORY 1
+Horseshoe / Pancake / duplex kidney
+Crossed fused ectopia
+Vesicoureteric reflux
+
+CATEGORY 2
+Medullary sponge kidney
+Adult polycystic kidney disease
+
+CATEGORY 3
+Calyceal diverticulum
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: RENAL AND URINARY TRACT
+LEVEL 3: RENAL NEOPLASIA
+
+CATEGORY 1
+Renal cell carcinoma
+Transitional cell carcinoma
+Angiomyolipoma
+
+CATEGORY 2
+Oncocytoma
+
+CATEGORY 3
+Multilocular cystic nephroma
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: RENAL AND URINARY TRACT
+LEVEL 3: RENAL INFLAMMATION/INFECTION
+
+CATEGORY 1
+Renal abscess / carbuncle
+Acute pyelonephritis
+
+CATEGORY 2
+Renal Tuberculosis
+
+CATEGORY 3
+Schistosomiasis
+Xanthogranulomatous pyleonephritis
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: RENAL AND URINARY TRACT
+LEVEL 3: RENAL VASCULAR CONDITIONS
+
+CATEGORY 1
+Renal infarction
+Renal artery stenosis
+Fibromuscular dysplasia
+Renal vein thrombosis
+Renal artery aneurysm
+
+CATEGORY 2
+Renal AV fistula
+
+CATEGORY 3
+Polyarteritis nodosa
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: RENAL AND URINARY TRACT
+LEVEL 3: MISCELLANEOUS RENAL CONDITIONS
+
+CATEGORY 1
+Renal obstruction
+Renal trauma
+Renal calculi
+Simple renal cysts
+Contrast media nephrotoxicity
+
+CATEGORY 2
+Acute tubular necrosis
+Papillary necrosis
+Analgesic nephropathy
+Renal atrophy
+Renal transplant complications
+Nephrocalcinosis
+Glomerulonephritis
+Acute and chronic renal failure
+
+CATEGORY 3
+Acute cortical necrosis
+Acquired cystic disease of the kidney
+Amyloidosis
+Diabetic nephropathy
+Sickle cell nephropathy
+Gouty nephropathy
+SLE
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: RENAL AND URINARY TRACT
+LEVEL 3: BLADDER, PROSTATE, URETERS AND URETHRA
+
+CATEGORY 1
+Cystitis (acute and chronic)
+Transitional cell carcinoma
+Trauma
+Urethral strictures
+Ureterocoele
+
+CATEGORY 2
+Neurogenic bladder
+Diverticula
+
+CATEGORY 3
+Other tumours
+Ureteropyelitis cystica
+Schistosomiasis
+Tuberculosis
+Malacoplakia
+Urachal remnants
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: RENAL AND URINARY TRACT
+LEVEL 3: ADRENALS
+
+CATEGORY 1
+Adrenal metastasis
+Adrenal adenoma
+Phaeochromocytoma
+Adrenal carcinoma
+
+CATEGORY 2
+Cushings syndrome
+Multiple endocrine neoplasia
+Paragangliomas
+Spontaneous adrenal haemorrhage
+
+CATEGORY 3
+Addison's disease and syndrome
+Adrenal hyperplasia
+Myelolipoma
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: MALE REPRODUCTIVE SYSTEM
+LEVEL 3: NONE
+
+CATEGORY 1
+Benign prostatic hyperplasia
+Prostatic carcinoma
+Epididymo-orchitis
+Testicular torsion
+Testicular tumours
+Urethral trauma
+
+CATEGORY 2
+Epididymal cysts
+Spermatocoele
+Varicocele
+Spermatic granuloma
+Testicular microlithiasis
+Testicular trauma
+
+CATEGORY 3
+Testicular cysts
+Prostatitis (acute and chronic)
+Other epididimal/paraepididymal abnormalities
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: SPLENUNCULI/HAEMATOLOGICAL/BONE MARROW
+LEVEL 3: NONE
+
+CATEGORY 1
+Lymphoma
+Trauma
+Spontaneous and delayed rupture
+Infarction
+Metastases
+Abscess
+
+CATEGORY 2
+Myeloma / plasmacytoma
+Myeloproliferative/myelodysplastic disorders
+Leukemia
+Haemoglobinopathies
+Splenic cyst
+Haemangioma
+Langerhans cell histiocytosis
+ITP
+DIC
+Splenic Infection
+Immunosuppression & Opportunistic infection
+
+CATEGORY 3
+Sickle cell anaemia
+Spherocytosis
+Thorotrast
+
+LEVEL 1: ABDOMINAL
+LEVEL 2: RETROPERITONEUM
+LEVEL 3: NONE
+
+CATEGORY 1
+Lymphoma
+Lymph node enlargement, metastases
+Sarcoma
+Aortic aneurysm
+
+CATEGORY 2
+Retroperitoneal fibrosis
+
+CATEGORY 3
+Inflammatory aortitis
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: AIR SPACE/GROUND-GLASS
+LEVEL 3: NONE
+
+CATEGORY 1
+Diffuse alveolar damage / ARDS
+Diffuse alveolar haemorrhage
+Aspiration pneumonia
+Atelectasis & patterns of collapse
+Adenocarcinoma in lepidic origin
+Pulmonary oedema (cardiogenic and other)
+Pneumonia & complications
+Mycobacterial infection
+AIDS & other immunocompromised host infection
+
+CATEGORY 2
+Eosinophilic lung disease
+Pulmonary alveolar proteinosis
+Toxic inhalation
+Pulmonary sequestration
+Cryptogenic organizing pneumonitis
+Acute hypersensitivity pneumonitis
+Adenocarcinoma in-situ/minimally invasive adenocarcinoma
+
+CATEGORY 3
+Alveolar microlithiasis
+Amyloidosis
+Lymphoma
+Hydatid disease
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: AIRWAYS
+LEVEL 3: NONE
+
+CATEGORY 1
+Bronchiectasis
+Cystic Fibrosis
+Chronic Obstructive Airways Disease
+Allergic bronchopulmonary aspergillosis
+
+CATEGORY 2
+Tracheal Stenosis
+Bronchiolar Disease
+Tracheobronchomalacia
+
+CATEGORY 3
+Tracheobronchomegaly
+Kartageners syndrome
+Tracheopathia osteoplastica
+Relapsing polychondritis
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: INTERSTITIAL
+LEVEL 3: NONE
+
+CATEGORY 1
+Sarcoidosis
+Asbestosis
+Lymphangitis carcinomatosa
+Pulmonary fibrosis
+Connective tissue disorders (lung manifestations)
+Smoking related ILD
+
+CATEGORY 2
+Diffuse interstitial pneumonias
+Langerhan's Cell Histiocytosis
+Hypersensitivity pneumonitis
+Drug reactions
+Pneumoconiosis, coal, silica
+Lymphangiomyomatosis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: MEDIASTINUM
+LEVEL 3: NONE
+
+CATEGORY 1
+Lymphoma
+Superior Vena Cava Obstruction
+Pneumomediastinum
+Diaphragmatic hernias
+Goitre
+Metastatic lymph node involvement
+Oesophageal cancer & other diseases
+
+CATEGORY 2
+Thymoma
+Ectopic parathyroid
+Ectopic thyroid
+Germ cell tumours
+Bronchogenic cyst
+Extramedullary haematopoiesis
+Nerve sheath tumours
+
+CATEGORY 3
+Sympathetic ganglion tumours
+Fibrosing mediastinitis
+Neurenteric cyst
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: CARCINOMA & NODULES
+LEVEL 3: NONE
+
+CATEGORY 1
+Bronchogenic carcinoma and staging
+Lung (tumour) Biopsy and complications
+Solitary pulmonary nodule
+Metastasis (lung)
+Radiation changes
+
+CATEGORY 2
+Wegener's Granulomatosis
+Pulmonary hamartoma
+Pulmonary carcinoid
+Rheumatoid nodule
+
+CATEGORY 3
+NONE
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: PLEURA
+LEVEL 3: NONE
+
+CATEGORY 1
+Pleural effusion
+Asbestos related pleural disease
+Malignant mesothelioma
+Pneumothorax
+Haemothorax
+Pleural metastasis
+Pleural thickening
+Empyema
+
+CATEGORY 2
+Actinomycosis
+
+CATEGORY 3
+Fibrous tumour of pleura
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: HYPERINFLATION & CYSTS
+LEVEL 3: NONE
+
+CATEGORY 1
+Emphysema
+
+CATEGORY 2
+Alpha 1 antitrypsin deficiency
+Lymphangioleiomyomatosis
+Langerhans cell histiocytosis
+Neurofibromatosis
+Tuberous sclerosis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: HEART & PERICARDIUM
+LEVEL 3: NONE
+
+CATEGORY 1
+Cardiac size & contour
+Pericardial effusion/haemopericardium/pneumopericardium
+Valvular heart disease
+Pericardial calcifications
+Valvular heart disease
+Left to right shunt (septal defects and patent ductus arteriosus)
+
+CATEGORY 2
+Cardiac mass
+Pacemaker & defibrillator placement and artificial valves
+Coronary artery atheromatous disease
+Cardiac aneurysm
+Cardiomyopathy
+
+CATEGORY 3
+Pericardial tumours
+Coronary AV fistula
+Right ventricular dysplasia
+Takotsubo cardiomyopathy
+Valsalva sinus aneurysm
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: VESSELS
+LEVEL 3: NONE
+
+CATEGORY 1
+PE & VTE
+Embolism (septic, air, fat & other)
+Aneurysm
+Dissection
+Cor pulmonale
+Atheromatous disease, including coronary arteries
+
+CATEGORY 2
+Pulmonary arterial hypertension
+AV malformation/angioma
+Congenital variants of arteries and veins in the chest
+Marfan's / Ehlers-Danlos
+Coarctation / pseudocoarctation
+Anomalous origin of coronary arteries
+Management of acute hemoptysis
+
+CATEGORY 3
+Marfan's / Ehlers-Danlos
+Scimitar syndrome
+Pulmonary varix
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: CHEST WALL
+LEVEL 3: NONE
+
+CATEGORY 1
+Pectus and Kyphoscoliosis
+Rib lesions
+Rib notching
+Rib expansion
+Multiple myeloma
+
+CATEGORY 2
+Haematopoietic disease (e.g. Sickle cell disease, Thalassaemia)
+
+CATEGORY 3
+Poland's Syndrome
+
+LEVEL 1: CARDIOTHORACIC
+LEVEL 2: TRAUMA & ICU
+LEVEL 3: NONE
+
+CATEGORY 1
+Diaphragmatic rupture
+Chest wall trauma
+Tracheobronchial rupture
+Rib/sternal/clavicular/thoracic spine fractures & complications
+Median sternotomy
+Endotracheal, intercostal tube, chest drainage tube and catheter assessment
+Thoracotomy and complications
+Pacemaker wire position
+Central line malpositioning
+Oesophageal rupture/Boerhaave's syndrome
+Inhaled and swallowed foreign bodies
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: NOSE AND SINUSES; FACIAL BONES
+LEVEL 3: CONGENITAL/DEVELOPMENTAL
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Frontoethmoidal / anterior skull base encephalocoele
+
+CATEGORY 3
+Choanal atresia
+Anterior neuropore abnormalities
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: NOSE AND SINUSES; FACIAL BONES
+LEVEL 3: TRAUMA/FRACTURES
+
+CATEGORY 1
+Isolated fracture of the zygoma and zygomatic arch
+Tripod fracture
+Isolated antral fractures
+Alveolar ridge fractures
+LeFort types I to III
+Bilateral mid-face fractures
+
+CATEGORY 2
+Nasal bone fractures
+Fractures of the nasal septum
+Fractures of the nasal spine
+Nasoorbitalethmoidal fractures
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: NOSE AND SINUSES; FACIAL BONES
+LEVEL 3: INFLAMMATORY/INFECTION
+
+CATEGORY 1
+Rhinosinusitis, acute
+Rhinosinusitis, chronic
+Planning CT for functional endoscopic sinus surgery
+
+CATEGORY 2
+Sinonasal polyposis
+Fungal sinusitis
+Mucocoele
+Wegener's granulomatosis
+
+CATEGORY 3
+Invasive fungal infection
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: NOSE AND SINUSES; FACIAL BONES
+LEVEL 3: BENIGN TUMOURS & TUMOUR-LIKE CONDITIONS
+
+CATEGORY 1
+Sinus osteoma
+Fibrous dysplasia
+
+CATEGORY 2
+Juvenile angiofibroma
+Inverting papilloma
+
+CATEGORY 3
+Mandibular and Maxillary Tori
+Ossifying Fibroma
+Stafne Cyst
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: NOSE AND SINUSES; FACIAL BONES
+LEVEL 3: MALIGNANT TUMOURS
+
+CATEGORY 1
+Metastases
+
+CATEGORY 2
+Adenocarcinoma
+Squamous cell carcinoma
+Lymphoma
+Chrondo-Sarcoma
+Osteo-Sarcoma
+Rhabdomyosarcoma
+
+CATEGORY 3
+Melanoma
+Esthesioneuroblastoma
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORBIT
+LEVEL 3: CONGENITAL/DEVELOPMENTAL
+
+CATEGORY 1
+Dermoid, epidermoid
+High myopia changes in globe
+
+CATEGORY 2
+Vascular malformation (Cavernous haemangioma)
+Neurofibromatosis type 1
+
+CATEGORY 3
+Coloboma
+Lymphangioma
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORBIT
+LEVEL 3: TRAUMA/FRACTURES
+
+CATEGORY 1
+Orbital rim fractures
+Blow-out fractures
+Blow-in fractures
+Orbital emphysema
+Foreign body
+
+CATEGORY 2
+Ruptured globe
+Dislocated lens
+Retinal detachment
+Phthisis bulbi
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORBIT
+LEVEL 3: INFLAMMATORY/INFECTION
+
+CATEGORY 1
+Idiopathic orbital inflammatory disease (pseudotumour)
+Subperiosteal abscess
+Orbital cellulitis
+
+CATEGORY 2
+Optic neuritis
+****Phthisis bulbi
+
+CATEGORY 3
+Dacroadenitis
+Sjogren Syndrome
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORBIT
+LEVEL 3: BENIGN TUMOURS & TUMOUR-LIKE CONDITIONS
+
+CATEGORY 1
+Capillary haemangioma
+Optic nerve sheath meningioma
+
+CATEGORY 2
+Benign mixed lacrimal tumour
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORBIT
+LEVEL 3: MALIGNANT TUMOURS
+
+CATEGORY 1
+Retinoblastoma
+Ocular melanoma
+Optic pathway glioma
+
+CATEGORY 2
+Lymphoma
+Rhabdomyosarcoma
+
+CATEGORY 3
+Lacrimal gland malignancies
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORBIT
+LEVEL 3: OTHER CONDITIONS
+
+CATEGORY 1
+Thyroid orbitopathy (Graves)
+
+CATEGORY 2
+Venous varix of orbit
+Carotid-cavernous fistula
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: TEMPORAL BONE/CEREBELLOPONTINE ANGLE/SKULL BASE
+LEVEL 3: EXTERNAL AUDITORY CANAL
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Atresia
+Exostoses
+
+CATEGORY 3
+Necrotising external otitis
+EAC cholesteatoma
+Keratosis obturans
+Squamous cell carcinoma
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: TEMPORAL BONE/CEREBELLOPONTINE ANGLE/SKULL BASE
+LEVEL 3: MIDDLE EAR, MASTOID
+
+CATEGORY 1
+Acute mastoiditis + abscess
+Aberrant internal carotid artery
+Cholesteatoma, acquired
+
+CATEGORY 2
+Dehiscent jugular bulb
+Cholesteatoma, congenital
+Chronic mastoiditis
+Glomus tympanicum paraganglioma
+
+CATEGORY 3
+Cholesterol granuloma
+Rhabdomyosarcoma
+Post-operative ear
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: TEMPORAL BONE/CEREBELLOPONTINE ANGLE/SKULL BASE
+LEVEL 3: INNER EAR; PETROUS APEX
+
+CATEGORY 1
+Apical petrositis
+
+CATEGORY 2
+Labyrinthitis ossificans
+Cochlear implants
+Otosclerosis
+Cholesterol granuloma petrous apex
+Large endolympatic sac (LEDS)
+Otosclerosis
+Petrous apex pseudolesion
+
+CATEGORY 3
+Congenital labyrinthine abnormalities
+Cochlear dysplasia
+Chondrosarcoma petrous apex
+Labyrinthitis ossificans
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: TEMPORAL BONE/CEREBELLOPONTINE ANGLE/SKULL BASE
+LEVEL 3: CEREBELLOPONTINE ANGLE AND INTERNAL AUDITORY CANAL
+
+CATEGORY 1
+Acoustic schwannoma
+Meningioma
+Viral labyrinthitis
+
+CATEGORY 2
+Epidermoid cyst
+Arachnoid cyst
+Neurofibromatosis 2
+
+CATEGORY 3
+Aneurysm
+Metastases
+Ramsay-Hunt syndrome
+Superficial siderosis
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: TEMPORAL BONE/CEREBELLOPONTINE ANGLE/SKULL BASE
+LEVEL 3: GENERAL TEMPORAL BONE LESIONS
+
+CATEGORY 1
+Temporal bone fractures
+CSF leak
+
+CATEGORY 2
+Fibrous dysplasia
+Paget's disease
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: TEMPORAL BONE/CEREBELLOPONTINE ANGLE/SKULL BASE
+LEVEL 3: SKULL BASE
+
+CATEGORY 1
+Glomus jugulare paraganglioma
+Dural sinus thrombosis
+
+CATEGORY 2
+Chordoma of clivus
+Skull base meningioma
+Metastasis
+
+CATEGORY 3
+Jugular foramen schwannoma
+Chondroid series tumour
+Post radiation treatment appearances and complications
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: LARYNX, HYPOPHARYNX, TRACHEA
+LEVEL 3: NONE
+
+CATEGORY 1
+SCC hypopharynx
+SCC larynx
+Epiglottitis
+Tracheal and Laryngeal infection/inflammation
+Inhaled foreign bodies
+
+CATEGORY 2
+Vocal cord paresis
+Laryngeal trauma
+
+CATEGORY 3
+Laryngocele
+Chondroid lesions
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORAL CAVITY, PHARYNGEAL MUCOSAL SPACE
+LEVEL 3: CONGENITAL
+
+CATEGORY 1
+Thornwaldt's cyst
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Lingual thyroid
+Dermoid of floor of mouth
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORAL CAVITY, PHARYNGEAL MUCOSAL SPACE
+LEVEL 3: INFLAMMATORY/INFECTIVE
+
+CATEGORY 1
+Tonsillar abscess
+Ludwig's angina
+
+CATEGORY 2
+Simple ranula
+Plunging ranula
+Sialocoele
+Retention cyst of pharynx
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORAL CAVITY, PHARYNGEAL MUCOSAL SPACE
+LEVEL 3: BENIGN TUMOURS
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Benign mixed tumour of submandibular gland
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORAL CAVITY, PHARYNGEAL MUCOSAL SPACE
+LEVEL 3: MALIGNANT TUMOURS
+
+CATEGORY 1
+SCC of oral cavity
+SCC of oropharynx / tonsil
+SCC of nasopharynx / NPC
+Lymphoma
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Adenoid cystic carcinoma, minor salivary glands
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: ORAL CAVITY, PHARYNGEAL MUCOSAL SPACE
+LEVEL 3: MISCELLANEOUS
+
+CATEGORY 1
+Zenker's diverticulum
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: SUBMANDIBULAR SPACE
+LEVEL 3: CONGENITAL/DEVELOPMENTAL
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Dermoid/Epidermoid cyst
+Lymphatic malformation
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: SUBMANDIBULAR SPACE
+LEVEL 3: INFECTION/INFLAMMATORY
+
+CATEGORY 1
+Obstruction / calculus
+Acute infection
+Chronic infection
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: SUBMANDIBULAR SPACE
+LEVEL 3: BENIGN TUMOURS
+
+CATEGORY 1
+Pleomorphic adenoma
+Reactive lymphadenopathy
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: SUBMANDIBULAR SPACE
+LEVEL 3: MALIGNANT TUMOURS
+
+CATEGORY 1
+Salivary gland origin
+Metastatic lymphadenopathy
+Lymphoma
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: PAROTID SPACE
+LEVEL 3: CONGENITAL/DEVELOPMENTAL
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+1st branchial cleft cyst, sinus or fistula
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: PAROTID SPACE
+LEVEL 3: INFECTION/INFLAMMATORY
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Acute parotitis
+Sjogren's syndrome
+Lymphoepithelial cysts of HIV
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: PAROTID SPACE
+LEVEL 3: BENIGN TUMOURS
+
+CATEGORY 1
+Benign mixed tumour (pleomorphic adenoma)
+
+CATEGORY 2
+Warthin's tumour
+
+CATEGORY 3
+Haemangioma (paediatric)
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: PAROTID SPACE
+LEVEL 3: MALIGNANT TUMOURS
+
+CATEGORY 1
+Mucoepidermoid carcinoma
+Lymphoma
+
+CATEGORY 2
+Intraparotid node metastases
+
+CATEGORY 3
+Adenoid cystic carcinoma
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: PAROTID SPACE
+LEVEL 3: MISCELLANEOUS
+
+CATEGORY 1
+Perineural spread via CN 5
+
+CATEGORY 2
+Benign masticator muscle hypertrophy
+
+CATEGORY 3
+Denervation atrophy of trigeminal nerve territories
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: CAROTID SPACE
+LEVEL 3: INFECTIVE/INFLAMMATORY
+
+CATEGORY 1
+Lymphadenopathy
+Node abscess
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Caseating necrosis due to granulomatosis infection
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: CAROTID SPACE
+LEVEL 3: VASCULAR LESIONS
+
+CATEGORY 1
+Internal jugular vein thrombosis
+Carotid arterial dissection
+Carotid artery pseudoaneurysm
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: CAROTID SPACE
+LEVEL 3: BENIGN TUMOURS
+
+CATEGORY 1
+Paraganglioma (e.g. carotid body tumour and glomus vagale)
+Reactive lymphadenopathy
+
+CATEGORY 2
+Nerve Sheath Tumours
+
+CATEGORY 3
+Castleman's disease
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: CAROTID SPACE
+LEVEL 3: MALIGNANT TUMOURS
+
+CATEGORY 1
+Metastatic lymphadenopathy
+Lymphoma
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: MASTICATOR SPACE
+LEVEL 3: INFECTIVE/INFLAMMATORY
+
+CATEGORY 1
+Masticator space abscess/cellulitis
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: MASTICATOR SPACE
+LEVEL 3: MALIGNANT TUMOURS
+
+CATEGORY 1
+Spread of SCC
+Perineural spread via trigeminal nerve
+Sarcoma
+Lymphoma
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: MASTICATOR SPACE
+LEVEL 3: MISCELLANEOUS
+
+
+CATEGORY 1
+Benign masseteric hypertrophy
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Schwannoma of trigeminal nerve
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: RETROPHARYNGEAL SPACE AND PREVERTEBRAL SPACES
+LEVEL 3: NORMAL VARIANTS AND PSEUDOLESIONS
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Retropharyngeal effusion
+
+CATEGORY 3
+Levator scapulae hypertrophy
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: RETROPHARYNGEAL SPACE AND PREVERTEBRAL SPACES
+LEVEL 3: INFECTIVE/INFLAMMATORY
+
+CATEGORY 1
+Suppurative adenopathy or RPS abscess
+Prevertebral space infection
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Longus colli tendonitis (calcific HADD)
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: RETROPHARYNGEAL SPACE AND PREVERTEBRAL SPACES
+LEVEL 3: MALIGNANT TUMOURS
+
+CATEGORY 1
+Nodal metastases in RPS
+
+CATEGORY 2
+Lymphoma in RPS nodes
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: RETROPHARYNGEAL SPACE AND PREVERTEBRAL SPACES
+LEVEL 3: DEGENERATIVE
+
+CATEGORY 1
+Osteophytes and calcification in the anterior longitudinal ligament
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: VISCERAL SPACE ORGANS
+LEVEL 3: THYROID
+
+CATEGORY 1
+Multinodular goitre
+Grave's Disease
+Thyroid adenoma
+Papillary carcinoma
+Assessment of solitary nodule (e.g. colloid nodule, follicular lesion)
+Sonographic Assessment of thyroid nodules
+
+CATEGORY 2
+Hashimoto's Thyroiditis
+
+CATEGORY 3
+Follicular carcinoma
+Anaplastic carcinoma
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: VISCERAL SPACE ORGANS
+LEVEL 3: PARATHYROIDS
+
+CATEGORY 1
+Imaging in hyperparathyroidism
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Developmental cysts- parathyroid or thymic origin
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: NECK - GENERAL
+LEVEL 3: CONGENITAL LESIONS
+
+CATEGORY 1
+2nd branchial cleft cyst
+Thyroglossal duct cyst
+
+CATEGORY 2
+Slow Flow Malformations: Venous, Lymphatic, Mixed Venous-Lymphatic
+High Flow Vascular malformations: AVM or AVF
+Infantile Hemangiomas (true neoplasms)
+
+CATEGORY 3
+Dermoid cyst
+Thyroglossal duct fistula
+1st, 3rd and 4th Branchial Anomalies
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: NECK - GENERAL
+LEVEL 3: LYMPH NODES OF THE NECK
+
+CATEGORY 1
+Knowledge of common patterns of lymph node and lymphatic spread
+Lymph node groups in the head and neck, their nomenclature and definition
+Metastases in neck nodes (especially SCC and papillary thyroid Ca)
+Lymphoma
+
+CATEGORY 2
+Reactive lymphadenopathy
+Suppurative lympadenitis
+
+CATEGORY 3
+Castleman's disease
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: MAXILLOFACIAL/DENTAL
+LEVEL 3: BASIC DENTAL DISEASE
+
+CATEGORY 1
+Caries
+Periodontal disease
+Periapical sepsis
+
+CATEGORY 2
+Impacted teeth
+Know common dental nomenclature for teeth
+
+CATEGORY 3
+In maxilla, associated with antral disease
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: MAXILLOFACIAL/DENTAL
+LEVEL 3: ODONTOGENIC LESIONS
+
+CATEGORY 1
+Periapical granuloma
+Periapical cyst
+Periapical abscess
+
+CATEGORY 2
+Dentigerous cyst
+
+CATEGORY 3
+Common / important odontogenic cysts and tumours
+Ameloblastoma
+Odontogenic Keratocyst (OKC)
+
+LEVEL 1: EXTRACRANIAL HEAD & NECK
+LEVEL 2: MAXILLOFACIAL/DENTAL
+LEVEL 3: TRAUMA
+
+CATEGORY 1
+Mandibular fractures (Body and angle, Symphyseal and parasymphyseal, Condylar, Ramus and coronoid process)
+
+CATEGORY 2
+TMJ dysfunction
+TMJ dislocation
+
+CATEGORY 3
+NONE
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: CONGENITAL MALFORMATIONS
+
+CATEGORY 1
+Chiari malformations 1 & 2
+Agenesis of corpus callosum
+
+CATEGORY 2
+Dandy Walker spectrum
+Holoprosencephaly
+Heterotopic grey matter
+Lissencephaly
+Schizencephaly
+Pachygyria-polymicrogyria
+
+CATEGORY 3
+Septo-optic dysplasia
+Hemimegalencephaly
+Microcephaly
+Chiari malformation 3
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: INFECTION
+
+CATEGORY 1
+Meningitis
+Cerebral abscess
+Empyema
+Herpes encephalitis
+HIV / AIDS and the CNS
+Ventriculitis
+
+CATEGORY 2
+Neurocysticercosis
+Tuberculosis
+Fungal infections
+
+CATEGORY 3
+Rickettsial infections
+Lyme disease
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: TUMOURS
+
+CATEGORY 1
+Intra-axial metastases
+Leptomeningeal metastases
+Meningioma
+Astrocytoma
+Glioblastoma multiforme
+Brainstem glioma
+Teratoma
+Primary CNS lymphoma
+
+CATEGORY 2
+Ependymoma
+Choroid plexus papilloma
+Choroid plexus carcinoma
+Medulloblastoma
+Haemangioblastoma
+Germinoma
+DNET
+Supratentorial PNET
+Pilocytic astrocytoma
+Oligodendroglioma
+Subependymal giant cell astrocytoma
+Pleomorphic xanthoastrocytoma
+Gliomatosis cerebri
+Atypical meningioma
+Leukemia
+
+CATEGORY 3
+Central neurocytoma
+Ganglioglioma
+Gliosarcoma
+Pineoblastoma
+Pineocytoma
+Subependymoma
+Astroblastoma
+Dysplastic cerebellar gangliocytoma
+Desmoplastic infantile ganglioglioma
+Atypical teratoid-rhabdoid tumour
+Angiocentric lymphoma
+Embryonal carcinoma
+Haemangiopericytoma
+Malignant meningioma
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: NON-NEOPLASTIC CYSTS
+
+CATEGORY 1
+Arachnoid cyst
+Colloid cyst
+
+CATEGORY 2
+Dermoid cyst
+Epidermoid cyst
+Pineal cyst
+Choroid plexus cyst
+Ependymal cyst
+Porencephalic cyst
+
+CATEGORY 3
+Neuroglial cyst
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: TRAUMA
+
+CATEGORY 1
+Extradural haematoma
+Subdural haematoma
+Traumatic subarachnoid haemorrhage
+Cerebral contusion
+Diffuse axonal injury
+Non-accidental injury
+Intracranial herniation syndromes
+
+CATEGORY 2
+Carotico-cavernous fistula
+Traumatic subdural CSF hygroma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: DEMYELINATION; DEMENTIAS
+
+CATEGORY 1
+Multiple sclerosis
+Tumefactive demyelination
+Multi-infarct dementia
+
+CATEGORY 2
+Alzheimer's disease
+Parkinson's disease
+ADEM
+
+CATEGORY 3
+Subacute sclerosing panencephalitis
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: VASCULAR LESIONS
+
+CATEGORY 1
+Thromboembolic infarction
+Carotid and vertebral dissection
+Subarachnoid haemorrhage, aneurysmal
+Subarachnoid haemorrhage, perimesencephalic (venous)
+Aneurysm
+Spontaneous intracerebral haemorrhage
+Hypotensive infarction
+Diffuse hypoxic injury
+Venous infarction
+Intracranial venous thrombosis
+
+CATEGORY 2
+Fibromuscular hyperplasia of the carotids
+Cavernous malformation
+Arteriovenous malformation
+Pseudoaneurysm
+Cerebral amyloid disease
+Vasculitis
+Cranial dural AV fistula
+Vascular loop compression (e.g. trigeminal neuralgia, hemifacial spasm)
+Developmental venous anomaly
+
+CATEGORY 3
+Superficial siderosis
+CADASIL
+Capillary telangiectasia
+
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: TOXIC, METABOLIC, OR DEGENERATIVE DISORDERS
+
+CATEGORY 1
+Acute hypertensive encephalopathy (PRES)
+Mesial temporal sclerosis
+
+CATEGORY 2
+Osmotic demyelination syndrome
+Status epilepticus
+Carbon monoxide poisoning
+Alcoholic encephalopathy
+Hepatic encephalopathy
+Effects of therapeutic radiation
+Effects of chemotherapeutic drugs
+
+CATEGORY 3
+Effects of drug abuse
+Fahr's disease
+Idiopathic (benign) intracranial hypertension
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: BRAIN AND INTRACRANIAL STRUCTURES
+LEVEL 3: MISCELLANEOUS
+
+CATEGORY 1
+Brain death
+Obstructive hydrocephalus (communicating and non-communicating)
+Aqueduct stenosis
+Complications of CSF shunts
+
+CATEGORY 2
+Normal pressure hydrocephalus
+Neurosarcoidosis
+Intracranial hypotension
+
+CATEGORY 3
+Hypertrophic pachymeningitis
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: PITUITARY AND PARASELLAR REGION
+LEVEL 3: NONE
+
+CATEGORY 1
+Pituitary microadenoma
+Pituitary macroadenoma
+Pituitary apoplexy
+Craniopharyngioma
+
+CATEGORY 2
+Pituitary stalk anomalies
+Rathke's cleft cyst
+Lymphocytic hypophysitis
+Empty sella
+
+CATEGORY 3
+Hamartoma of tuber cinereum
+Pituicytoma
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: SKULL
+LEVEL 3: NONE
+
+CATEGORY 1
+Skull fractures & complications
+Haemangioma
+Myeloma
+Metastases
+Fibrous dysplasia
+Paget's disease
+Frontal hyperostosis
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: SPINAL CORD AND RELATED STRUCTURES; PERIPHERAL NERVES
+LEVEL 3: NONE
+
+CATEGORY 1
+Ependymoma
+Astrocytoma
+Meningioma
+Epidural haemorrhage
+Epidural abscess
+Spinal / epidural metastases
+Intrathecal metastases
+Traumatic cord injury
+Spinal cord infarction
+Disc prolapse
+Neurofibroma
+Transverse myelitis
+Arachnoiditis
+Postoperative epidural fibrosis/scarring
+
+CATEGORY 2
+Syringomyelia
+Transverse myelitis
+Cord demyelination
+Arachnoid cyst
+Dorsal/ventral dural defect
+Spinal vascular malformations
+Spinal dural AV fistula
+Meningitis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: NEUROCUTANEOUS SYNDROMES
+LEVEL 3: NONE
+
+CATEGORY 1
+Neurofibromatosis 1
+Neurofibromatosis 2
+
+CATEGORY 2
+Von Hippel Lindau
+Tuberous Sclerosis
+
+CATEGORY 3
+Basal cell naevus syndrome
+Cowden syndrome
+
+LEVEL 1: NEURORADIOLOGY
+LEVEL 2: CRANIAL NERVE
+LEVEL 3: NONE
+
+CATEGORY 1
+Optic neuritis
+Schwannoma
+Vascular compression syndrome (trigeminal neuralgia)
+
+CATEGORY 2
+Vestibular neuritis
+Bell's palsy
+Perineural spread
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SHOULDER AND CLAVICLE
+LEVEL 3: NORMAL APPEARANCES
+
+CATEGORY 1
+PLAIN FILM FINDINGS
+
+CATEGORY 2
+Arthrography
+Ultrasound findings
+MR findings
+CT findings
+MR arthrography
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SHOULDER AND CLAVICLE
+LEVEL 3: IMPINGEMENT
+
+CATEGORY 1
+Plain film signs of subacromial impingement
+
+CATEGORY 2
+Ultrasound findings in subacromial impingement
+MRI signs of subacromial impingement
+
+CATEGORY 3
+Internal impingement syndrome
+Coracoid impingement syndrome
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SHOULDER AND CLAVICLE
+LEVEL 3: BONY TRAUMA
+
+CATEGORY 1
+Greater tuberosity fracture
+Humeral neck fracture
+Fracture of neck and body of scapula
+Acromial fracture
+Clavicular fractures & related complications
+Sternoclavicular joint dislocation and subluxation
+
+CATEGORY 2
+Coracoid process fracture
+Scapular spine fracture
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SHOULDER AND CLAVICLE
+LEVEL 3: JOINT TRAUMA
+
+CATEGORY 1
+Loss of alignment and congruity at the GHJ (dislocation and subluxation)
+Hill-Sachs defects
+Posterior glenoid rim fracture
+AC joint subluxation
+
+CATEGORY 2
+Glenoid hypoplasia
+Bony Bankart lesion
+Reverse Hill-Sachs defect
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SHOULDER AND CLAVICLE
+LEVEL 3: ARTHRITIS AND BURSITIS
+
+CATEGORY 1
+Osteoarthritis
+Rheumatoid arthritis
+Septic arthritis, bacterial
+Osteomyelitis
+
+CATEGORY 2
+Atypical infective arthritis
+Psoriatic arthritis
+Osteochondromatosis
+Calcium pyrophosphate arthropathy (CPPD)
+
+CATEGORY 3
+Other arthritides (Gout, amyloid)
+Other bursitis
+Sternoclavicular hyperostosis
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SHOULDER AND CLAVICLE
+LEVEL 3: GLENOHUMERAL CAPSULE & LIGAMENT INJURIES
+
+CATEGORY 1
+Bankart injuries
+
+CATEGORY 2
+Adhesive capsulitis
+SLAP injuries in general
+
+CATEGORY 3
+TUBS (Traumatic Unilateral with Bankart lesion)
+AMBRI (Atraumatic, Multidirectional, Bilateral, Rehabilitation, rarely needs an Inferior capsular shift)
+SLAP lesions types I to IV
+GLAD lesion
+HAGL lesion
+Inferior instability
+IGL lesion
+Microinstability (superior instability)
+Perthes and ALPSA lesions
+Labral cysts
+Rotator interval injuries and synovitis
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SHOULDER AND CLAVICLE
+LEVEL 3: TENDON INJURIES AND DEGENERATION
+
+CATEGORY 1
+Calcific tendinopathy (HADD)
+Rotator cuff tendinopathy / tears
+Long head of biceps tendinopathy/tears
+Subscapularis tear/avulsion
+Infraspinatus tear/avulsion
+
+CATEGORY 2
+Pectoralis major tears/avulsion
+Long head of biceps dislocation
+
+CATEGORY 3
+Long head of biceps instability
+Other tendon injuries or avulsions
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SHOULDER AND CLAVICLE
+LEVEL 3: MISCELLANEOUS DISORDERS
+
+CATEGORY 1
+AVN & bone infarcts
+
+CATEGORY 2
+Traumatic osteolysis of the outer clavicle
+Suprascapular nerve palsy
+Post-op changes & complications in humeral head prosthesis
+
+CATEGORY 3
+Osteochondral lesion OCD
+Acromial apophysitis
+Scapulothoracic bursitis
+Axillary nerve palsy
+Quadrilateral space syndrome
+Parsonage-Turner Syndrome
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ELBOW AND FOREARM
+LEVEL 3: BONY TRAUMA
+
+CATEGORY 1
+Epicondylar fracture of the humerus
+Lateral condylar fracture of the humerus
+Capitellar fracture 
+Radial head & neck fractures
+Ulnar fracture
+Supracondylar fractures & related complications
+Monteggia fracture-dislocation
+Galeazzi fracture-dislocation
+Nightstick fracture
+Greenstick fractures
+
+CATEGORY 2
+Coronoid fracture
+Olecranon fracture
+Coronoid process fracture
+Plastic bowing of the forearm bones
+
+CATEGORY 3
+Stress fracture of olecranon
+Essex-Lopesti fracture/subluxation
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ELBOW AND FOREARM
+LEVEL 3: JOINT INJURIES & OVERUSE SYNDROMES
+
+CATEGORY 1
+Supinator sign
+Fat pad displacement
+
+CATEGORY 2
+Loose bodies and os supratrochleare
+Synovial osteochondromatosis
+
+CATEGORY 3
+Radiocapitellar overload syndrome
+Capitellar OCD
+Valgus extension overload
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ELBOW AND FOREARM
+LEVEL 3: INFECTION & INFLAMMATION
+
+CATEGORY 1
+Osteoarthritis
+Rheumatoid arthritis
+Gout
+Septic arthritis
+Osteomyelitis
+Olecranon bursitis
+
+CATEGORY 2
+Psoriatic arthritis
+CPPD
+
+CATEGORY 3
+Bicipital radial bursitis
+Other arthritides (amyloid)
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ELBOW AND FOREARM
+LEVEL 3: TENDINOPATHY & TENDON INJURIES
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Posterior dislocation of elbow
+Collateral ligament injuries
+Lateral epicondylitis
+Medial epicondylitis
+Biceps tendinopathy and rupture
+Triceps tendinopathy and rupture
+
+CATEGORY 3
+Brachialis injuries
+Hyperextension injuries
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ELBOW AND FOREARM
+LEVEL 3: NEUROPATHIES & NERVE INJURIES
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Ulnar neuropathy
+Median neuropathy
+
+CATEGORY 3
+Radial (posterior interosseus) neuropathy
+Anconeus epitrochlearis
+Synovial fringe syndrome
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: HAND AND WRIST
+LEVEL 3: BONY TRAUMA
+
+CATEGORY 1
+Scaphoid fracture
+Triquetral fracture
+Scaphoid AVN
+Thumb fracture
+MCP joint (UCL and RCL)
+Fractures at base MC1
+Volar plate injuries
+MCP fracture/dislocations
+CMC joint injuries
+
+CATEGORY 2
+Phalangeal fractures
+Stress views for thumb MCPJ, & indications
+Lunatomalacia
+Nonunion & repair of scaphoid fractures
+Stress fracture
+Hook of hamate
+Pisiform
+Distal radial growth plate
+
+CATEGORY 3
+AVN/OCD of capitate
+Less common carpal fractures
+Anterior ridge of the trapezium
+Pisiform
+Capitate
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: HAND AND WRIST
+LEVEL 3: JOINT INJURIES, CARPAL INSTABILITY
+
+CATEGORY 1
+Scapholunate dissociation
+Pronator quadratus fat plane displacement
+Scaphoid fat pad displacement
+
+CATEGORY 2
+SLAC & SNAC wrist
+DISI & VISI
+Lunate & perilunate dislocations
+TFCC Injuries
+DRUJ instability
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: HAND AND WRIST
+LEVEL 3: ARTHRITIS & INFLAMMATION
+
+CATEGORY 1
+Osteoarthritis
+Rheumatoid arthritis
+Psoriatic arthritis
+CPPD
+Septic arthritis and osteomyelitis
+
+CATEGORY 2
+Soft tissue abscess
+Septic tenosynovitis
+Gout
+Haemochromatosis
+Reflex sympathetic dystrophy
+
+CATEGORY 3
+Ulnar impingement syndrome
+Hamato-lunate impingement
+Scleroderma
+SLE
+Acromegaly
+Other arthritides (e.g. amyloid)
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: HAND AND WRIST
+LEVEL 3: TENDONS
+
+CATEGORY 1
+Extensor tendinopathies (de Quervain's and ECU)
+Flexor tendinopathies
+
+CATEGORY 2
+FDP rupture- 3 types
+Bowstringing
+Extensor tendon injuries
+Extensor hood injuries
+
+CATEGORY 3
+Proximal and distal intersection syndrome
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: HAND AND WRIST
+LEVEL 3: MISCELLANEOUS
+
+CATEGORY 1
+Ganglia
+
+CATEGORY 2
+Carpal boss syndrome
+Carpal tunnel syndrome
+Guyon's canal syndrome
+
+CATEGORY 3
+Hypothenar hammer syndrome
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: PELVIS, HIP AND THIGH
+LEVEL 3: BONY TRAUMA
+
+CATEGORY 1
+Disruption of the pelvic ring
+Anterior and posterior column injury
+Pubic rami fractures
+Sacral stress fracture
+
+CATEGORY 2
+ASIS, PSIS avulsions
+Ischial tuberosity avulsion
+Lesser trochanter avulsion
+Tensor fascia lata avulsion
+Iliac crest avulsion
+
+CATEGORY 3
+Apophysitis
+Femoral shaft fracture
+Thigh splints
+Groin strain - osteitis pubis
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: PELVIS, HIP AND THIGH
+LEVEL 3: JOINT/ARTICULAR INJURIES
+
+CATEGORY 1
+Dislocations of the hip
+Loose hip fragment
+Acetabular fractures
+Subcapital fracture
+Stress/incomplete femoral neck fracture
+Intertrochanteric fractures including classification
+Complications of femoral neck fracture
+
+CATEGORY 2
+Transient osteoporosis
+Regional migratory osteoporosis
+Nontraumatic avascular necrosis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: PELVIS, HIP AND THIGH
+LEVEL 3: ARTHRITIS AND INFLAMMATION
+
+CATEGORY 1
+Osteoarthritis
+Rheumatoid arthritis
+Septic arthritis
+Sacroilitis
+
+CATEGORY 2
+Synovial chondromatosis
+Labral tears / cysts
+Transient osteoporosis
+Idiopathic chondrolysis
+AVN of the femoral head
+Snapping hip syndromes
+Iliopsoas bursitis, infection
+Other septic bursitis
+
+CATEGORY 3
+Ankylosing spondylitis
+Acromegaly
+DISH-related (diffuse idiopathic skeletal hyperostosis)
+Ankylosis, joint changes in paraplegia & quadriplegia
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: PELVIS, HIP AND THIGH
+LEVEL 3: NERVE & MUSCLE PATHOLOGY
+
+CATEGORY 1
+Adductor tear
+Quadriceps tear
+Hamstrings tear
+Gluteus tear
+Muscle wasting
+Myositis ossificans (Heterotopic ossification)
+Cellulitis
+
+CATEGORY 2
+Intramuscular and intermuscular hematoma
+Peripheral nerve sheath tumours
+Course & injuries to femoral nerve
+Necrotising fasciitis
+Intramuscular abscess
+Diabetic myonecrosis
+
+CATEGORY 3
+Polymyositis
+Dermatomyositis
+Obturator neuropathy
+Sciatic nerve entrapment
+Meralgia paraesthetica
+Pudendal nerve entrapment
+Groin hernias (sports hernia)
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: PELVIS, HIP AND THIGH
+LEVEL 3: POST-TREATMENT CHANGES
+
+CATEGORY 1
+Hip joint prosthesis & complications
+Radiation necrosis
+
+CATEGORY 2
+Arthrodesis of hip
+Pelvic fracture fixation
+
+CATEGORY 3
+Femoral rods, nails, plates & complications
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: KNEE AND LEG
+LEVEL 3: BONY TRAUMA
+
+CATEGORY 1
+Fracture healing
+Long bone fractures
+Growth plate fractures
+Patellar fractures
+Bone bruising (MR)
+Salter-Harris type I fractures
+Stress fractures of femur, patella, tibia and fibula
+Osteochrondritis dissecans
+
+CATEGORY 2
+Bone scan findings in fractures
+Fibular head fracture
+Stress fractures of the growth plates
+Evaluation of orthopaedic prostheses and fixation
+Spontaneous osteonecrosis of the knee (SONK)
+
+CATEGORY 3
+Plastic bowing of the fibula
+Transient osteoporosis of the knee
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: KNEE AND LEG
+LEVEL 3: KNEE INJURIES
+
+CATEGORY 1
+Common avulsion injuries (ACL, PCL, MCL, LCL)
+Tibial condyle fracture
+Femoral condyle fracture
+Patellar fracture
+Tibial plateau fracture
+Joint effusion
+Lipohaemarthrosis
+Chondrocalcinosis
+MCL soft tissue swelling
+Osteochondral loose bodies
+Knee dislocation
+Internal derangement
+Meniscal tears (all types)
+Ligament tears
+Posterolateral corner injury
+Patellar tendinopathy and rupture
+Patellar conditions
+
+CATEGORY 2
+Segond and reverse Segond fracture
+Medial retinacular avulsion from patella
+Apophysis of tibial tuberosity
+Quadriceps avulsion
+Patellar sleeve fractures
+Abnormal ossicles around the knee
+Discoid meniscus
+Meniscal cyst
+Post-operative meniscal change
+Popliteus tendon injury
+Iliotibial band tendinopathy and rupture
+Quadriceps tendinopathy and rupture
+Ganglia- periarticular, intraosseous and cruciate ligament
+
+CATEGORY 3
+Gerdy's tubercle avulsion
+Capsular avulsion
+Arcuate avulsion
+Biceps femoris avulsion
+Vertical patellar fractures
+Meniscal ossicle
+Parameniscal cyst
+Meniscocapsular separation
+Thickening of ligamentum mucosum
+Fong's syndrome
+Excessive lateral pressure syndrome (ELPS)
+Hoffa's disease
+Patellar position & tracking abnormalities
+Plica syndrome
+
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: KNEE AND LEG
+LEVEL 3: LEG TRAUMA
+
+CATEGORY 1
+Ruptured popliteal cyst
+Gastrocnemius tear
+Other muscle tears
+
+CATEGORY 2
+Fracture and dislocation of the proximal tibiofibular joint
+
+CATEGORY 3
+Proximal tibiofibular joint instability due to hypoplastic facets
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: KNEE AND LEG
+LEVEL 3: ARTHRITIS/SYNOVITIS/BURSITIS
+
+CATEGORY 1
+Osteoarthritis
+Rheumatoid arthritis
+Chondrocalcinosis, including CPPD
+Popliteal (Baker) cysts
+
+CATEGORY 2
+Pigmented villonodular synovitis
+Synovial osteochondromatosis
+Prepatellar bursitis
+Infrapatellar bursitis
+Pes anserine bursitis
+
+CATEGORY 3
+Lipoma arborescens, knee
+Reflex sympathetic dystrophy, knee
+Haemophillia
+Gout
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: KNEE AND LEG
+LEVEL 3: NEUROVASCULAR
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Proximal tibiofibular joint ganglion causing peroneal nerve entrapment
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ANKLE AND FOOT
+LEVEL 3: ANKLE INJURIES
+
+CATEGORY 1
+Dupuytrens fracture
+Maissoneuve fracture
+Posterior lip of distal tibia fracture
+Medial malleolus fracture
+Talar dome fracture
+Tibial plafond fracture
+Anterior process of calcaneum fracture
+Posterior process of talus fracture
+Lateral process of talus fracture
+Talar neck fracture
+Calcaneal fracture
+Subtalar dislocation
+LCL complex injury
+Deltoid ligament injury
+Distal tibiofibular syndesmosis injury
+
+CATEGORY 2
+Midfoot injuries
+Lisfranc fracture-dislocation
+Osteochondritis dissecans of the talar dome
+AVN of the talus
+Distal fibula stress fracture
+Distal tibia stress fracture
+Talar neck and lateral process stress fracture
+Distal tibial growth plate stress fracture
+Other ankle ligament injuries
+Anterior talofibular ligament (ATFL) injury
+
+CATEGORY 3
+Anterolateral ankle impingement
+Anteromedial ankle impingement
+Posterolateral Ankle arthrofibrosis
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ANKLE AND FOOT
+LEVEL 3: FOOT & ANKLE TENDON INJURIES & TENDINOPATHIES
+
+CATEGORY 1
+Achilles tendinosis & tear
+
+CATEGORY 2
+Haglund syndrome (retrocalcaneal bursitis)
+Tibialis posterior tendon injuries & tenosynovitis
+Plantar fasciitis
+Plantar fibromatosis
+Painful os tibiale externum
+FDL tendinopathy
+FHL tendinopathy
+Peroneal tendinopathy
+Tibialis anterior tendinopathy
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ANKLE AND FOOT
+LEVEL 3: FOOT INJURIES
+
+CATEGORY 1
+Base of fifth metatarsal fracture
+¡Fractures of tarsal bones
+Midtarsal fractures & dislocations
+Metatarsal fractures (acute & stress)
+Fractures & dislocations of toes
+
+CATEGORY 2
+Tarsal coalition
+Sinus tarsi syndrome
+Tarsal tunnel syndrome
+Other tarsal stress fractures
+2nd MT base stress fracture
+Special 5th MT fractures
+Spiral distal shaft
+Jones fracture
+Fracture of the tubercle
+Turf toe
+Plantar plate rupture
+Toe deformities
+Sesamoid stress fractures, sesamoiditis
+Hallux valgus and metatarsus primus varus
+Hallux rigidus
+Freiberg's infraction
+
+CATEGORY 3
+Mueller-Weiss syndrome (spontaneous atraumatic osteonecrosis of the tarsal navicular)
+Bunionette formation
+Painful os intermetatarseum
+Morton's neuroma
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: ANKLE AND FOOT
+LEVEL 3: ARTHROPATHY AND INFECTION
+
+CATEGORY 1
+Osteoarthritis
+Post-traumatic arthritis
+Rheumatoid arthritis
+Septic arthritis and osteomyelitis
+
+CATEGORY 2
+Midfoot ganglia
+Neuropathic (Charcot) foot
+Diabetic foot
+Reiter's syndrome
+Reflex sympathetic dystrophy
+
+CATEGORY 3
+Acromegaly
+Haemochromatosis
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: THE SPINE
+LEVEL 3: CONGENITAL AND DEVELOPMENTAL DISORDERS
+
+CATEGORY 1
+Chiari I malformation
+Neurofibromatosis Type 1
+Neurofibromatosis Type 2
+Idiopathic scoliosis
+Congenital scoliosis and kyphosis
+Schmorl node
+Scheuermann Disease
+Tethered cord
+Diastematomyelia
+
+CATEGORY 2
+Failure of vertebral formation
+Partial vertebral duplication
+Vertebral segmentation failure
+Klippel-Feil spectrum
+Congenital spinal stenosis
+Neuromuscular scoliosis
+Idiopathic kyphosis
+Connective tissue disorders
+Achondroplasia
+Posterior element incomplete fusion
+Sacrococcygeal teratoma
+
+CATEGORY 3
+Meningocoeles
+Dural dysplasia
+Mucopolysaccharidoses
+Sickle cell disease
+Osteopetrosis
+Ochronosis
+Caudal Regression Syndrome
+Neurenteric cyst
+Osteogenesis imperfecta
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: THE SPINE
+LEVEL 3: SPINAL INFECTIONS AND INFLAMMATORY DISORDERS
+
+CATEGORY 1
+Discitis (pyogenic, TB)
+Epidural abscess
+Subdural abscess
+Paraspinal abscess
+Osteomyelitis
+
+CATEGORY 2
+Granulomatous osteomyelitis
+HIV
+Spinal meningitis
+Septic facet joint arthritis
+Pseudoinflammatory: pseudoarthrosis of ankylosing spondylitis
+
+CATEGORY 3
+Echinococcus
+Schistosomiasis
+Cysticercosis
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: THE SPINE
+LEVEL 3: SPINE POST-PROCEDURAL IMAGING
+
+CATEGORY 1
+Recurrent vertebral disc herniation
+Post-operative infection
+Peridural fibrosis
+Hardware failure
+
+CATEGORY 2
+Pseudomeningocoele
+Bone graft complications
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: THE SPINE
+LEVEL 3: CERVICAL SPINE
+
+CATEGORY 1
+Acute trauma
+Prevertebral soft tissue swelling
+Wedge compression fracture
+Clay shoveler's fracture
+Flexion teardrop fracture
+Unilateral or bilateral facet dislocation/fracture dislocation
+Acute disc protrusion
+Fracture of the posterior arch of the atlas
+Extension sprain injuries
+Extension teardrop fracture
+Hangman's fractures
+Odontoid process fracture
+Jefferson fracture
+
+CATEGORY 2
+Rotary atlantoaxial subluxation
+Radicular symptoms following cervical spine injury
+Neurocentral joint degeneration
+Rheumatoid arthritis, esp. atlantoaxial subluxation
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: THE SPINE
+LEVEL 3: THORACIC SPINE
+
+CATEGORY 1
+Acute trauma
+Wedge compression fractures
+Age of fractures
+Burst fractures
+Fractures and dislocations
+
+CATEGORY 2
+Thoracic disc protrusion
+Other injuries
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: THE SPINE
+LEVEL 3: LUMBAR SPINE
+
+CATEGORY 1
+Coned lumbosacral junction
+30-degree angled sacroiliac joints
+Acute trauma
+Wedge compression
+Burst fracture
+Transverse process
+Chance injuries
+Injury to ring apophysis
+Vertebral osteonecrosis
+Bone stress and stress fractures of the pars
+Sacroiliitis
+Discitis & vertebral osteomyelitis
+
+CATEGORY 2
+Stress fractures of the spinous process
+Interspinous bursopathy
+Limbus vertebra
+Schmorl's nodes
+Scheuermann's disease
+Lumbosacral pseudarthrosis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: THE SPINE
+LEVEL 3: DEGENERATIVE SPINAL CONDITIONS & ARTHRITIDES
+
+CATEGORY 1
+Disc bulge
+Disc annular tear
+Disc herniation, cervical
+Foraminal disc extrusion
+Degenerative endplate changes
+Spondylolisthesis
+Instability
+Spondylosis
+Acquired spinal stenosis
+DISH
+Facet arthropathy
+Rheumatoid arthritis
+Epidural lipomatosis
+
+CATEGORY 2
+OPLL
+Degenerative scoliosis
+Facet joint synovial cyst
+Ankylosing spondylitis
+GIT-related spondylitides
+Septic arthritis sacroiliac joint
+
+CATEGORY 3
+Neurogenic (Charcot) arthropathy
+Septic arthritis facet joint
+Ossification of ligamentum flavum
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: BONE DYSPLASIAS
+LEVEL 3: NONE
+
+CATEGORY 1
+Multiple Hereditary Osteochondromas (diaphyseal aclasis)
+Neurofibromatosis
+
+CATEGORY 2
+Ollier disease
+Maffucci syndrome
+Achondroplasia
+Osteogenesis imperfecta
+Meleorrhostosis
+Osteopoikilosis
+Trevors disease
+
+CATEGORY 3
+Mucopolysaccharidoses
+Spondyloepiphyseal dysplasias
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: BONE MARROW & METABOLIC DISEASES
+LEVEL 3: NONE
+
+CATEGORY 1
+Osteoporosis
+Osteomalacia
+Renal osteodystrophy
+Patchy red marrow
+Leukemia
+Radiation changes
+
+CATEGORY 2
+Hemochromatosis
+Hemosiderosis
+Myelofibrosis
+Extramedullary hemopoiesis
+Hyperparathyroidism
+Immune suppression states
+Treatment-related benign reactive changes
+Thalassaemia
+Sickle cell anaemia
+
+CATEGORY 3
+Osteopenia / osteoporosis related to primary bone tumour
+Gaucher's Disease
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: PERIPHERAL NERVE CONDITIONS
+LEVEL 3: NONE
+
+CATEGORY 1
+Muscle denervation
+Thoracic Outlet Syndrome
+Median nerve entrapment
+
+CATEGORY 2
+Brachial plexus trauma
+Brachial plexus traumatic neuroma
+Radiation plexopathy of the brachial plexus
+Superior sulcus syndrome
+Other entrapment neuropathies
+Supracapsular nerve pathology
+Posterior interosseus nerve pathology
+Radial nerve pathology
+Ulnar nerve pathology
+Femoral nerve pathology
+Posterior tibial nerve pathology
+Common peroneal nerve pathology
+
+CATEGORY 3
+Idiopathic brachial plexus neuritis
+Hypertrophic neuropathy
+Peripheral neurolymphomatosis
+Leprosy
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: BONE TUMOURS
+LEVEL 3: SECONDARY MALIGNANCY
+
+CATEGORY 1
+Metastases, lytic
+Metastases, blastic
+Multiple myeloma
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: BONE TUMOURS
+LEVEL 3: PRIMARY OSTEOBLASTIC
+
+CATEGORY 1
+Osteoma
+Osteoid osteoma
+Osteosarcoma
+
+CATEGORY 2
+Osteoblastoma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: BONE TUMOURS
+LEVEL 3: PRIMARY CARTILAGINOUS
+
+CATEGORY 1
+Enchondroma
+Osteochondroma
+Chondroblastoma
+Chondrosarcoma
+
+CATEGORY 2
+Chondromyxoid fibroma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: BONE TUMOURS
+LEVEL 3: PRIMARY FIBROUS
+
+CATEGORY 1
+Fibrous dysplasia
+Nonossifying fibroma
+Fibrous cortical defect
+Malignant fibrous histiocytoma
+
+CATEGORY 2
+Fibrosarcoma
+
+CATEGORY 3
+Fibroxanthoma
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: BONE TUMOURS
+LEVEL 3: MISCELLANEOUS
+
+CATEGORY 1
+Giant cell tumour
+Intraosseous haemangioma
+Aneurysmal bone cyst
+Multiple myeloma
+
+CATEGORY 2
+Ewing sarcoma
+Lymphoma
+Plasmacytoma
+Chordoma
+
+CATEGORY 3
+Adamantinoma
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: BONE TUMOURS
+LEVEL 3: TUMOUR-LIKE LESIONS
+
+CATEGORY 1
+Unicameral bone cyst
+Intraosseous lipoma
+Heterotopic ossification
+Paget disease
+
+CATEGORY 2
+Brown tumour
+Bone infarct
+
+CATEGORY 3
+Thoracic elastofibroma
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SOFT TISSUE TUMOURS
+LEVEL 3: SECONDARY MALIGNANCY
+
+CATEGORY 1
+Lymph node metastases
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Metastases, muscle
+Metastases, fat
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SOFT TISSUE TUMOURS
+LEVEL 3: PRIMARY FATTY
+
+CATEGORY 1
+Lipoma
+Liposarcoma
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SOFT TISSUE TUMOURS
+LEVEL 3: PRIMARY FIBROUS
+
+CATEGORY 1
+Fibromatosis / desmoid
+Malignant fibrous histiocytoma
+
+CATEGORY 2
+Fibrosarcoma, soft tissue
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SOFT TISSUE TUMOURS
+LEVEL 3: OTHER PRIMARY SOFT TISSUE TUMOURS
+
+CATEGORY 1
+Synovial sarcoma
+
+CATEGORY 2
+Soft tissue chondroma
+Soft tissue chondrosarcoma
+Leiomyosarcoma
+Rhabdomyosarcoma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SOFT TISSUE TUMOURS
+LEVEL 3: PERIPHERAL NERVE TUMOURS
+
+CATEGORY 1
+Benign peripheral nerve sheath tumour
+Neurofibroma, solitary
+
+CATEGORY 2
+Malignant peripheral nerve sheath tumour
+Neurofibroma, plexiform
+
+CATEGORY 3
+NONE
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SOFT TISSUE TUMOURS
+LEVEL 3: PRIMARY VASCULAR
+
+CATEGORY 1
+Capillary haemangioma
+Lymphangioma
+Capillary malformation (e.g. Sturge Weber syndrome)
+Venous malformation
+Arteriovenous malformation
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Angiosarcoma
+
+LEVEL 1: MUSCULOSKELETAL
+LEVEL 2: SOFT TISSUE TUMOURS
+LEVEL 3: MISCELLANEOUS TUMOURS AND TUMOUR-LIKE LESIONS
+
+CATEGORY 1
+Pigmented villonodular synovitis
+Synovial osteochondromatosis
+Myositis ossificans
+Tumoral calcinosis
+Soft tissue ganglion
+
+CATEGORY 2
+Giant cell tumour of the tendon sheath
+Aneurysm
+Venous varix
+Unrecognised muscle tear
+Apophyseal avulsions
+
+CATEGORY 3
+Elastofibroma of the chest
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: HEAD AND SPINE
+
+CATEGORY 1
+Aqueduct Stenosis
+Arachnoid cyst
+Callosal dysgenesis
+Chiari malformations
+Choanal atresia
+Hydrocephalus
+Infections- meningitis and encephalitis
+Intracranial haemorrhage
+Neonatal encephalopathy (Hypoxic Ischemic Injury)
+Neoplasms- supra and infratentorial tumours
+Abusive Head Trauma
+Periventricular Leukomalacia
+Trauma
+
+CATEGORY 2
+Common Orbital lesions
+Dandy Walker spectrum
+Encephalocoele
+Holoprosencephaly spectrum
+Neuronal migrational abnormalities
+Porencephaly
+TORCH Infections
+Vein of Galen Aneurysm
+
+CATEGORY 3
+Hydranencephaly
+Septo-optic dysplasia
+Hemimeganencephaly
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: NECK
+
+CATEGORY 1
+Branchial abnormalities
+Thyroglossal duct cyst
+Fibromatosis colli
+Lymphadenitis
+Haemangioma
+Neuroblastoma
+Rhabdomyosarcoma
+Prevertebral abscess
+Trauma
+
+CATEGORY 2
+Lingual thyroid/Thyroid agenesis
+Torticollis
+Vascular Malformations
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: CHEST
+
+CATEGORY 1
+Assessment of intravascular lines and ET tubes
+Chronic Lung Disease of Prematurity
+Diaphragmatic hernia
+Hyaline membrane disease
+Infections including bronchiolitis, pneumonia, abscesses and aspiration
+Meconium Aspiration
+Neonatal mediastinal masses (Normal thymus / masses benign and malignant)
+Neonatal pneumonia and aspiration
+Oesophageal atresia and tracheooesophageal fistula
+Patent Ductus Arteriosis
+Pulmonary Interstitial Emphysema
+Pneumothorax/Pneumomediastinum
+Transient tachypnoea of the newborn
+
+CATEGORY 2
+Aortic co-arctation
+Bronchial atresia
+Congenital lobar overinflation
+CPAM
+Pulmonary sequestration
+Dextrocardia and anomalies of situs
+Persistent Pulmonary Hypertension
+Tetralogy of Fallot
+Transposition of the great vessels
+Variants of aortic arch and major branch anomalies
+Vascular rings/slings
+
+CATEGORY 3
+Ebstein's anomaly
+Neonatal VSD /ASD / TAPVD
+Pericardial defects
+Pleuropericardial cyst
+Pulmonary Haemorrhage
+Pulmonary Hypoplasia/congenital venolobar syndrome
+Truncus Arteriosus
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: STOMACH & DUODENUM, SPLEEN
+
+CATEGORY 1
+Duodenal Atresia and Web
+Gastroesophageal reflux
+Malrotation with or without small bowel volvulus
+Pyloric Stenosis
+
+CATEGORY 2
+Duplication Cysts
+Gastroschisis
+Omphalocoele
+Trauma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: SMALL AND LARGE BOWEL
+
+CATEGORY 1
+Hirschsprung's disease
+Ileal Atresia & Stenosis
+Meconium Ileus
+Meconium peritonitis
+Meconium Plug Syndrome/small left colon
+Microcolon
+Necrotising Enterocolitis
+
+CATEGORY 2
+Anal atresia
+
+CATEGORY 3
+Colonic atresia
+Colonic duplication
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: PANCREAS & RETROPERITONEUM
+
+CATEGORY 1
+Adrenal haemorrhage
+Neuroblastoma
+
+CATEGORY 2
+Annular pancreas
+Pancreatitis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: HEPATOBILIARY
+
+CATEGORY 1
+Neonatal hepatitis / Biliary atresia
+Hepatoblastomas
+Haemangioma/haemangioendothelioma
+
+CATEGORY 2
+Choledochal cyst
+Liver tumours- non hepatoblastoma
+
+CATEGORY 3
+Bile plug syndrome
+Liver Transplantation
+Spontaneous bile duct perforation
+Vascular Malformations
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: KIDNEYS & URINARY TRACT
+
+CATEGORY 1
+Nephroblastomatosis
+Non-obstructive/non-refluxing (primary) megaureter
+Posterior urethral valves
+PUJ/ VUJ obstruction
+Pyelonephritis
+Urachal anomalies
+Ureterocoele
+Vesicoureteric Reflux
+Wilms Tumour
+
+CATEGORY 2
+Horseshoe ectopia
+Duplex kidneys
+Crossed fused ectopia
+Autosomal dominant and recessive polycystic kidney disease
+Mesoblastic Nephroma
+Multicystic dysplastic Kidney
+Nephrocalcinosis
+
+CATEGORY 3
+HUS
+Neurogenic bladder
+Renal vascular accident
+Sacrococcygeal teratoma
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: GENITAL SYSTEMS
+
+CATEGORY 1
+Hernias
+
+CATEGORY 2
+Abnormalities of uterine fusion/development and uterine obstruction
+Cryptorchidism
+Epididymitis
+Hydrocoele
+Testicular neoplasm
+Ovarian neoplasm
+Testicular trauma
+Torsion of the testicular appendix
+Testicular torsion
+Ovarian torsion
+Varicocoele
+
+CATEGORY 3
+Foreign bodies
+
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: NEONATES & FIRST 3 MONTHS
+LEVEL 3: VASCULAR
+
+CATEGORY 1
+Haemangiomas
+Lymphatic malformation
+Venous malformation
+
+CATEGORY 2
+AVM
+
+CATEGORY 3
+Other vascular tumours
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: HEAD, NECK AND SPINE: DEVELOPMENTAL
+
+CATEGORY 1
+Benign macrocrania of infancy
+Craniosynostosis
+Dermoid, epidermoid cyst
+
+CATEGORY 2
+Arachnoid cyst
+Branchial cleft cyst
+Colloid cyst
+Heterotopic grey matter
+Lissencephaly
+Schizencephaly
+Pachygyria - polymicrogyria
+
+CATEGORY 3
+Fibrous dysplasia
+Rathke's cleft cyst
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: HEAD, NECK AND SPINE: NEUROCUTANEOUS/PHAKOMATOSES
+
+CATEGORY 1
+Neurofibromatosis 1
+Neurofibromatosis 2
+
+CATEGORY 2
+Tuberous sclerosis
+Von Hippel Lindau
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: HEAD, NECK AND SPINE: NEOPLASTIC AND HAMARTOMATOUS
+
+CATEGORY 1
+Choroid plexus papilloma/carcinoma
+Craniopharyngioma
+Ependymoma
+Brain stem glioma
+Optic nerve glioma
+Medulloblastoma
+Pilocytic Astrocytoma
+Pineal tumours
+Pituitary tumours
+Retinoblastoma
+
+CATEGORY 2
+Haemangioblastoma
+Langerhans cell histiocytosis
+Oligodendroglioma
+Rhabdomyosarcoma
+
+CATEGORY 3
+Hamartoma of the tuber cinereum
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: HEAD, NECK AND SPINE: VASCULAR
+
+CATEGORY 1
+Vascular malformations
+Venous thrombosis
+
+CATEGORY 2
+Moya moya
+Sturge-Weber Syndrome
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: HEAD, NECK AND SPINE: INFECTIVE
+
+CATEGORY 1
+Meningitis / Cerebral abscess
+Retropharyngeal abscess
+Sinusitis, tonsillitis and enlarged adenoids
+
+CATEGORY 2
+ADEM
+Transverse myelitis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: HEAD, NECK AND SPINE: TRAUMA
+
+CATEGORY 1
+Intra cranial haemorrhage
+NAI- abusive head trauma
+Skull fractures and complications
+
+CATEGORY 2
+Shearing injuries
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: HEAD, NECK AND SPINE: MISCELLANEOUS
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Dysmyelination syndromes MELAS
+Leigh's disease
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: HEAD, NECK AND SPINE: SPINE
+
+CATEGORY 1
+Scheuermann's condition
+Scoliosis- idiopathic/ congenital
+Spinal dysraphism
+Spinal Cord Tumours
+Tethered cord
+
+CATEGORY 2
+Inflammatory Spinal diseases
+Sacrococcygeal Teratomas
+Spinal Bone Tumours
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: CHEST: DEVELOPMENTAL
+
+CATEGORY 1
+Bronchogenic cyst
+Dextrocardia/Situs inversus
+Diaphragmatic Hernia
+Laryngomalacia
+Tracheomalacia
+
+CATEGORY 2
+Agenesis/aplasia
+Kartagener and immotile cilia syndrome
+Neurogenic and oesophageal duplication cysts
+Swyer-James syndrome
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: CHEST: TRAUMATIC
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Pneumatocoele
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: CHEST: NEOPLASTIC AND HAMARTOMATOUS
+
+CATEGORY 1
+Mediastinal lymphoma
+
+CATEGORY 2
+Dermoids
+Mediastinal germ cell tumour
+Lymphangioma
+Thoracic neuroblastoma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: CHEST: INFECTIVE
+
+CATEGORY 1
+Bronchiolitis
+Croup
+Epiglottitis
+Non-resolving pneumonia
+Typical and atypical pneumonias
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: CHEST: MISCELLANEOUS
+
+CATEGORY 1
+Foreign body
+Asthma
+Cystic fibrosis
+
+CATEGORY 2
+Histiocytosis
+Tuberous sclerosis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: CHEST: VASCULAR
+
+CATEGORY 1
+Atrial septal defect
+Ventricular septal defect
+Patent ductus arteriosus 
+Left to right shunt
+Acute pulmonary oedema/fluid overload
+
+CATEGORY 2
+Partial anomalous pulmonary venous drainage
+Reduced pulmonary vasculature
+Tetralogy of Fallot
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: MUSCULOSKELETAL: DEVELOPMENTAL & NUTRITIONAL
+
+CATEGORY 1
+DDH
+Fibrous dysplasia
+Osgood-Schlatter's
+Perthes Disease
+Slipped capital femoral epiphysis
+Thalassemia
+VACTERL Deformity
+
+CATEGORY 2
+Osteochondroses
+Rickets
+Talipes Equinovarus
+Tarsal Coalition
+Vertebral Segmentation anomaly, including Klippel-Feil Syndrome
+Discoid meniscus
+
+CATEGORY 3
+Congenital Pseudarthrosis of the tibia
+Heavy metal Poisoning
+Scurvy
+Vertical talus
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: MUSCULOSKELETAL: INHERITED
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Achondroplasia
+Haemophilia
+Osteogenesis imperfecta
+
+CATEGORY 3
+Cleidocranial dysostosis
+MPS
+Osteopetrosis
+Osteopoikilosis
+Sickle cell disease
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: MUSCULOSKELETAL: TRAUMATIC
+
+CATEGORY 1
+Greenstick fracture
+Plastic bowing fracture
+Salter harris fracure
+Torus fracture
+Monteggia fracture-dislocation
+Epiphyseal/apophyseal avulsion
+Injury to the physis
+Non-Accidental injury
+Stress and toddler's fractures
+Bone Infarction/osteonecrosis
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: MUSCULOSKELETAL: INFECTIVE & INFLAMMATORY
+
+CATEGORY 1
+Brodies abscess
+Juvenile inflammatory arthritis
+Osteomyelitis/Discitis
+Septic Arthritis
+Transient Synovitis
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: MUSCULOSKELETAL: NEOPLASTIC, HAMARTOMATOUS AND RELATED CONDITIONS
+
+CATEGORY 1
+Aneurysmal Bone Cyst
+Ewing's Sarcoma
+Enchondroma
+Olliers
+Fibrous dysplasia
+Langerhans Cell Histiocytosis
+Osteosarcoma
+Osteochondroma
+Non-Ossifying Fibroma/ Fibrous cortical defect
+Osteoid Osteoma/ Osteoblastoma
+Unicameral Bone Cyst
+Vascular tumours
+
+CATEGORY 2
+Chondroblastoma
+Fibromatoses
+Metastases
+
+CATEGORY 3
+Adamantinoma
+Chondromyxoid fibroma
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: ABDOMEN & PELVIS: DEVELOPMENTAL
+
+CATEGORY 1
+Duplex kidney and complications
+Multicystic dysplastic kidney
+PUJ obstruction
+
+CATEGORY 2
+Biliary atresia
+Meckel's diverticulum
+
+CATEGORY 3
+Mesenteric cyst
+Urachal rest
+Choledochal cyst
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: ABDOMEN & PELVIS: TRAUMATIC
+
+CATEGORY 1
+Assessment of major blunt trauma and visceral perforation
+Testicular torsion
+Ovarian torsion
+
+CATEGORY 2
+Testicular trauma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: ABDOMEN & PELVIS: NEOPLASTIC AND HAMARTOMATOUS
+
+CATEGORY 1
+Liver Haemangioma
+Nephroblastomatosis
+Neuroblastoma and ganglioneuroma
+Ovarian teratoma
+Wilm's tumour
+
+CATEGORY 2
+Hepatoblastoma
+Fibrolamellar hepatoma
+Multilocular cystic nephroma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: ABDOMEN & PELVIS: INFECTIVE/INFLAMMATORY
+
+CATEGORY 1
+Appendicitis & mesenteric adenitis
+Pyelonephritis
+Renal abscess
+Inflammatory bowel disease
+Hydronephrosis
+Reflux nephropathy
+
+CATEGORY 2
+Epididymitis
+
+CATEGORY 3
+Cholecystitis and cholelithiasis
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: ABDOMEN & PELVIS: VASCULAR
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Henoch-Schonlein Purpura
+Kawasaki's disease
+
+CATEGORY 3
+Liver transplant
+Renal transplant
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: ABDOMEN & PELVIS: MISCELLANEOUS
+
+CATEGORY 1
+Intussusception
+Reflux oesophagitis and hiatus hernia
+
+CATEGORY 2
+Coeliac disease
+Hydrometrocolpos
+
+CATEGORY 3
+Ingested foreign bodies and bezoar
+Caroli disease
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: OTHER SYSTEMIC CONDITIONS: CHROMOSOMAL
+
+CATEGORY 1
+Down syndrome
+Turner syndrome
+
+CATEGORY 2
+Marfan syndrome
+
+CATEGORY 3
+Noonan syndrome
+
+LEVEL 1: PAEDIATRIC
+LEVEL 2: THE BABY, TODDLER, CHILD AND ADOLESCENT
+LEVEL 3: OTHER
+
+CATEGORY 1
+Leukaemia and lymphoma
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Mastocytosis
+
+LEVEL 1: BREAST
+LEVEL 2: MALIGNANT DISEASE
+LEVEL 3: NONE
+
+CATEGORY 1
+Invasive breast cancer
+Ductal
+Lobular
+Medullary
+Tubular
+Mucinous
+DCIS
+
+CATEGORY 2
+Inflammatory carcinoma
+Papillary carcinoma
+Intracystic carcinoma
+Atypical ductal hyperplasia
+Columnar cell change
+Phylloides tumour
+Investigation of axillary lymphadenopathy
+
+CATEGORY 3
+Sarcomas of the breast
+Metastatic disease to the breast
+Lymphoma of the breast
+Male breast cancer
+Paget's disease of the breast
+
+LEVEL 1: BREAST
+LEVEL 2: BENIGN DISEASE
+LEVEL 3: NONE
+
+CATEGORY 1
+Fibroadenoma
+Simple breast cysts
+Complex breast cysts
+Breast abscess
+Hamartoma and lipoma
+Benign breast calcifications
+Breast hematoma
+Fat necrosis
+Sclerosing adenosis and fibrocystic change
+Breast abscess and mastitis
+
+CATEGORY 2
+Post operative appearances
+Giant fibroadenoma
+LCIS
+Radial scar
+Ductal papilloma
+Usual ductal hyperplasia
+Lymphoedema of the breast
+Gynaecomastia
+Breast implants- Types & Complications
+
+CATEGORY 3
+Diabetic mastopathy
+Multiple papillomatosis
+Granulomatous mastitis
+Chronic breast abscess
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: OVARIAN LESIONS
+LEVEL 3: PHYSIOLOGICAL
+
+CATEGORY 1
+Physiological cysts & their complications
+Corpus Luteum of pregnancy
+Ruptured follicle midcycle
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: OVARIAN LESIONS
+LEVEL 3: DEVELOPMENTAL
+
+CATEGORY 1
+Premenopausal appearance
+Postmenopausal appearance
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Absent/streak ovaries
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: OVARIAN LESIONS
+LEVEL 3: IDIOPATHIC
+
+CATEGORY 1
+Endometriosis
+Polycystic ovary syndrome
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: OVARIAN LESIONS
+LEVEL 3: NEOPLASTIC
+
+CATEGORY 1
+Surface epithelial-stromal; Serous, mucinous & endometrioid
+Germ cell tumors
+
+CATEGORY 2
+Other surface epithelial-stromal tumors
+Secondary neoplasms
+Sex cord stromal tumors
+
+CATEGORY 3
+Struma Ovarii
+Ovarian carcinoid
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: OVARIAN LESIONS
+LEVEL 3: INFLAMMATORY/VASCULAR
+
+CATEGORY 1
+Tubo-ovarian abscess
+
+CATEGORY 2
+Ovarian torsion
+
+CATEGORY 3
+Ovarian vein thrombosis
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: OVARIAN LESIONS
+LEVEL 3: MISCELLANEOUS
+
+CATEGORY 1
+Ovarian torsion
+
+CATEGORY 2
+Ovarian Stimulation
+Ovarian Hyper stimulation syndrome
+Theca lutein cysts
+
+CATEGORY 3
+Luteomas of Pregnancy
+Meig's Syndrome
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ADNEXAL NON-OVARIAN LESIONS
+LEVEL 3: PHYSIOLOGICAL/DEVELOPMENTAL
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Broad ligament cysts
+Wolffian duct remnants
+Paraovarian & fimbrial
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ADNEXAL NON-OVARIAN LESIONS
+LEVEL 3: INFLAMMATORY
+
+CATEGORY 1
+PID & hydrosalpinx
+Tubovarian abscess
+
+CATEGORY 2
+Tubal occlusions
+
+CATEGORY 3
+Tuberculosis Salpingitis
+Salpingitis Isthmica Nodosa
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ADNEXAL NON-OVARIAN LESIONS
+LEVEL 3: NEOPLASTIC
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Carcinoma of the fallopian tube
+Tubal metastases
+Tubal leiomyoma
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ADNEXAL NON-OVARIAN LESIONS
+LEVEL 3: IDIOPATHIC
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Tubal Endometriosis
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ADNEXAL NON-OVARIAN LESIONS
+LEVEL 3: VASCULAR
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Adnexal varices
+
+CATEGORY 3
+NONE
+
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: NON-PREGNANT UTERUS AND CERVIX
+LEVEL 3: CONGENITAL/DEVELOPMENTAL ANOMALIES
+
+CATEGORY 1
+Mullerian Duct Uterine Anomalies
+Nabothian cysts
+
+CATEGORY 2
+Absent uterus
+
+CATEGORY 3
+Intersex states
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: NON-PREGNANT UTERUS AND CERVIX
+LEVEL 3: BENIGN TUMOURS
+
+CATEGORY 1
+Leiomyoma
+Adenomyosis
+Cervical polyp
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: NON-PREGNANT UTERUS AND CERVIX
+LEVEL 3: MALIGNANT NEOPLASMS/DYSPLASIA
+
+CATEGORY 1
+SCC of the cervix
+
+CATEGORY 2
+Leiomyosarcoma
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: NON-PREGNANT UTERUS AND CERVIX
+LEVEL 3: INFLAMMATORY/POST SURGICAL/IATROGENIC
+
+CATEGORY 1
+IUD placement and complications
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Asherman's syndrome
+Endometrial adhesions
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: NON-PREGNANT UTERUS AND CERVIX
+LEVEL 3: VASCULAR
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+Arteriovenous malformation
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ENDOMETRIAL LESIONS
+LEVEL 3: NEOPLASTIC/DYSPLASTIC
+
+CATEGORY 1
+Atypical endometrial hyperplasia and endometrial carcinoma
+Endometrial polyps
+
+CATEGORY 2
+Gestational Trophoblastic Disease
+
+CATEGORY 3
+Malignant mixed mullerian tumors
+Stromal tumors
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ENDOMETRIAL LESIONS
+LEVEL 3: INFECTIVE
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+ENDOMETRITIS
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ENDOMETRIAL LESIONS
+LEVEL 3: HYPERPLASTIC/PROLIFERATIVE
+
+CATEGORY 1
+Simple endometrial hyperplasia
+Endometrial polyps
+Endometrial cysts
+
+CATEGORY 2
+Adenomyosis
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: VAGINA & LABIA
+LEVEL 3: MALIGNANT NEOPLASMS/DYSPLASIA
+
+CATEGORY 1
+NONE
+
+CATEGORY 2
+SCC of vagina
+
+CATEGORY 3
+Adenocarcinoma
+Rhabdomyosarcoma (Pediatric)
+Paget's disease
+Vulval carcinoma
+Vaginal Leimyoma
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: VAGINA & LABIA
+LEVEL 3: INFECTIVE/INFLAMMATORY
+
+CATEGORY 1
+Bartholin's Cyst
+Vaginal Foreign Body
+
+CATEGORY 2
+Bartholonitis
+Vaginal Fistula
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: VAGINA & LABIA
+LEVEL 3: CONGENITAL/DEVELOPMENTAL ABNORMALITIES
+
+CATEGORY 1
+Mullerian Duct Fusion Anomalies (Hematometra/colpos)
+
+CATEGORY 2
+Gartner duct cysts
+
+CATEGORY 3
+Imperforate Hymen
+Labial adhesions
+Vaginal Atresia
+Ambiguous genitalia
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: FIRST TRIMESTER
+LEVEL 3: NONE
+
+CATEGORY 1
+Miscarriage
+Ectopic pregnancy
+stational trophoblastic disease
+Perisac haematoma
+Cystic Hygroma
+Cystic hygroma/hydrops
+2VC
+
+CATEGORY 2
+Cervical incompetence
+Chorio-amniotic separation
+BOO
+Limb defects
+Acrania anencephaly spectrum
+Gastroschisis
+Omphalocele
+
+CATEGORY 3
+Heterotopic pregnancy
+Abdominal Ectopic
+Ienencephaly
+Encephalocele
+Hydrocephalus
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: SECOND TRIMESTER
+LEVEL 3: SONOGRAPHIC MARKERS OF ANEUPLOIDY
+
+CATEGORY 1
+Nuchal thickening
+Echogenic gut
+Choroid Plexus cysts
+Echogenic intracardiac foci
+Single vessel cord
+Short humerus
+Short femur
+Absent nasal bone
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: SECOND TRIMESTER
+LEVEL 3: NEURAL AXIS
+
+CATEGORY 1
+Anencephaly
+Hydrocephalus
+Choroid plexus cyst
+Chiari II
+Spina Bifida
+
+CATEGORY 2
+ACC
+Holoprosencephaly spectrum
+
+CATEGORY 3
+Hydranencephaly
+Encepholocele
+Arachnoid Cysts
+Dandy Walker Spectrum
+Mega cisterna magna
+Vein of Galen
+Intracranial Tumours
+Sacral Agenesis
+SCT
+Cerebellar hypoplasia
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: SECOND TRIMESTER
+LEVEL 3: FACE AND NECK
+
+CATEGORY 1
+Absent nasal bone
+Cleft lip palate
+
+CATEGORY 2
+Cystic hygroma
+Micrognathia
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: SECOND TRIMESTER
+LEVEL 3: CHEST AND CARDIAC
+
+CATEGORY 1
+CDH
+CPAM
+
+CATEGORY 2
+Pleural Effusion
+Cardiac defects
+Pericardial Effusion
+
+CATEGORY 3
+CHAOS
+Teratoma
+Pentralogy of Cantrell
+Arrythmias
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: SECOND TRIMESTER
+LEVEL 3: ABDOMEN AND RENAL TRACT
+
+CATEGORY 1
+Omphalocoele
+Gastroschisis
+Renal Pelvis dilatation
+BOO, posterior urethral valves
+Renal agenesis
+MCDK
+
+CATEGORY 2
+Bowel atresias including duodenal atresia
+Abdominal cysts
+Ascites
+Abdominal calcifications
+Echogenic kidneys
+Horseshoe kidney
+Ectopic kidney
+
+CATEGORY 3
+Bladder extrophy
+Cloaca
+Adrenal masses
+Renal masses
+Hepatic masses
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: SECOND TRIMESTER
+LEVEL 3: MUSCULOSKELETAL
+
+CATEGORY 1
+Club foot
+
+CATEGORY 2
+Abnormalities of the hand/feet
+Polydactyly
+Radial ray
+
+CATEGORY 3
+Skeletal dysplasias
+Arthrogryposis
+Focal femoral deficiency
+Scoliosis, segmental spine anomalies
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: SECOND TRIMESTER
+LEVEL 3: OTHER
+CATEGORY 1
+Fetal hydrops
+
+CATEGORY 2
+Fetal infection
+
+CATEGORY 3
+Heterotaxy syndrome
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: THIRD TRIMESTER
+LEVEL 3: NONE
+
+CATEGORY 1
+IUGR
+Macrosomia
+Placental assessment
+Umbilical artery dopplers
+
+CATEGORY 2
+Fetal anaemia
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: PLACENTA MEMBRANES AND CORD ABNORMALITIES
+LEVEL 3: NONE
+
+CATEGORY 1
+Placenta praevia
+Placental haemorrhage & abruption
+Anomalies of placental form, thickness or cord insertion
+Placental insufficiency & IUGR
+Vasa praevia
+Retained products of conception
+SUA
+
+CATEGORY 2
+Placenta increta/percreta/acreta
+Doppler studies relating to IUGR and placental insufficiency
+Circumvallate Placenta
+Velamentous cord insertion
+Chrioamnion separation
+
+CATEGORY 3
+Chorioangioma
+Cord cysts
+Umbilical Vein Varix
+Amniotic band syndrome
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: LIQUOR ABNORMALITIES
+LEVEL 3: NONE
+
+CATEGORY 1
+Oligohydramnios
+Polyhydramnios
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: MULTIPLE PREGNANCIES
+LEVEL 3: NONE
+
+CATEGORY 1
+First trimester determination ofchorionicity and amnionicity
+Recognition of twin peak sign
+
+CATEGORY 2
+TTTS, staging
+Discordant twin growth
+
+CATEGORY 3
+TRAPS (twin reverse arterial perfusion)
+Conjoined twins
+Fetus-in-fetu
+Acardia
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: POST PARTUM COMPLICATIONS
+LEVEL 3: NONE
+
+CATEGORY 1
+Endometritis
+RPOC
+LSCS complications
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+Ovarian vein thrombosis
+
+LEVEL 1: OBSTETRIC & GYNAECOLOGICAL
+LEVEL 2: ANEUPLOIDY
+LEVEL 3: NONE
+
+CATEGORY 1
+Trisomy 21
+
+CATEGORY 2
+Trisomy 13
+Trisomy 18
+
+CATEGORY 3
+Turner's syndrome
+Triploidy
+
+LEVEL 1: VASCULAR
+LEVEL 2: GENERAL VASCULAR
+LEVEL 3: NONE
+
+CATEGORY 1
+Aneurysms
+Atherosclerosis
+Fibromuscular hyperplasia
+Arteriovenous malformation
+Embolism
+Patterns of vascular trauma/injury
+
+CATEGORY 2
+Fibromuscular hyperplasia
+
+CATEGORY 3
+Granulomatosis with polyangitis (Wegener's Granulomatosis)
+Takayasu's Arteritis
+Giant Cell Arteritis
+Vasculitis- other
+Polyarteritis Nodosa
+Hereditary Haemorrhagic Telangectasia
+
+LEVEL 1: VASCULAR
+LEVEL 2: PERIPHERAL VASCULAR
+LEVEL 3: NONE
+
+CATEGORY 1
+Vascular grafts and complications
+Deep venous thrombosis
+
+CATEGORY 2
+Iatrogenic femoral pseudoaneurysm and AV fistula
+
+CATEGORY 3
+Buerger disease (Thromboangitis obliterans)
+Raynaud phenomenon
+Popliteal artery entrapment syndrome
+Adventitial cystic disease of popliteal artery
+Klippel-Trenauny-Weber Syndrome
+May Turner syndrome
+
+LEVEL 1: VASCULAR
+LEVEL 2: CHEST AND NECK VASCULAR
+LEVEL 3: NONE
+
+CATEGORY 1
+Common congenital variants of thoracic aorta
+Spontaneous aortic dissection
+Traumatic aortic injuries
+Carotid artery stenosis
+Carotid artery dissection
+Pulmonary embolism
+
+CATEGORY 2
+Subclavian steal syndrome
+Superior vena cava syndrome
+Aortitis
+Haemoptysis
+Pulmonary AVM
+
+CATEGORY 3
+Thoracic outlet syndrome
+Paget-Schroetter (effort) syndrome
+
+LEVEL 1: VASCULAR
+LEVEL 2: CARDIAC
+LEVEL 3: NONE
+
+CATEGORY 1
+Coronary artery ischemic disease
+
+CATEGORY 2
+NONE
+
+CATEGORY 3
+NONE
+
+LEVEL 1: VASCULAR
+LEVEL 2: ABDOMINAL VASCULAR
+LEVEL 3: NONE
+
+CATEGORY 1
+Abdominal aortic aneurysm
+Mesenteric ischemia
+GI haemorhage
+Blunt abdominal and pelvic trauma
+Retroperitoneal and rectus sheath haematoma
+
+CATEGORY 2
+Splenic and other visceral artery aneuryms
+Aortic endoleak
+Vascular complications of pancreatitis
+Portal hypertension/varicies
+Renal artery stenosis
+
+CATEGORY 3
+Coeliac artery compression syndrome
+Budd Chiari syndrome
+Aortoenteric fistula
+Mesenteric vein thrombosis

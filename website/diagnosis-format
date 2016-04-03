@@ -1,0 +1,12 @@
+with open("radlex.owl","rb") as fin, open("imagingtermlist.txt", "wb") as fout:
+
+    found = 0
+    rad_rid = "ERROR"
+    pref_name = "ERROR"
+    syn_name = "ERROR"
+
+    for line in fin:
+        try:
+
+	except:
+		raise error

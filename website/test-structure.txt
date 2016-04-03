@@ -1,0 +1,229 @@
+Abdominal -> Gastrointestinal -> Oesophagus
+Abdominal -> Gastrointestinal -> Stomach
+Abdominal -> Gastrointestinal -> Small bowel
+Abdominal -> Gastrointestinal -> Large bowel
+Abdominal -> Gastrointestinal -> Peritoneum/mesentery/abdominal wall
+Abdominal -> Hepatopancreatobiliary system -> Diffuse liver disease
+Abdominal -> Hepatopancreatobiliary system -> Focal liver disease
+Abdominal -> Hepatopancreatobiliary system -> Trauma/vascular
+Abdominal -> Hepatopancreatobiliary system -> Biliary
+Abdominal -> Hepatopancreatobiliary system -> Pancreas
+Abdominal -> Renal and urinary tract -> Renal congenital/developmental
+Abdominal -> Renal and urinary tract -> Renal neoplasia
+Abdominal -> Renal and urinary tract -> Renal inflammation/infection
+Abdominal -> Renal and urinary tract -> Renal vascular conditions
+Abdominal -> Renal and urinary tract -> Miscellaneous renal conditions
+Abdominal -> Renal and urinary tract -> Bladder, prostate, ureters and urethra
+Abdominal -> Renal and urinary tract -> Adrenals
+Abdominal -> Male reproductive system
+Abdominal -> Splenunculi/haematological/bone marrow
+Cardiothoracic -> Retroperitoneum
+Cardiothoracic -> Air space/ground-glass
+Cardiothoracic -> Airways
+Cardiothoracic -> Interstitial
+Cardiothoracic -> Mediastinum
+Cardiothoracic -> Carcinoma & nodules
+Cardiothoracic -> Pleura
+Cardiothoracic -> Hyperinflation & cysts
+Cardiothoracic -> Heart & pericardium
+Cardiothoracic -> Vessels
+Cardiothoracic -> Chest wall
+Extracranial head & neck -> Trauma & icu
+Extracranial head & neck -> Nose and sinuses; facial bones -> Congenital/developmental
+Extracranial head & neck -> Nose and sinuses; facial bones -> Trauma/fractures
+Extracranial head & neck -> Nose and sinuses; facial bones -> Inflammatory/infection
+Extracranial head & neck -> Nose and sinuses; facial bones -> Benign tumours & tumour-like conditions
+Extracranial head & neck -> Nose and sinuses; facial bones -> Malignant tumours
+Extracranial head & neck -> Orbit -> Congenital/developmental
+Extracranial head & neck -> Orbit -> Trauma/fractures
+Extracranial head & neck -> Orbit -> Inflammatory/infection
+Extracranial head & neck -> Orbit -> Benign tumours & tumour-like conditions
+Extracranial head & neck -> Orbit -> Malignant tumours
+Extracranial head & neck -> Orbit -> Other conditions
+Extracranial head & neck -> Temporal bone/cerebellopontine angle/skull base -> External auditory canal
+Extracranial head & neck -> Temporal bone/cerebellopontine angle/skull base -> Middle ear, mastoid
+Extracranial head & neck -> Temporal bone/cerebellopontine angle/skull base -> Inner ear; petrous apex
+Extracranial head & neck -> Temporal bone/cerebellopontine angle/skull base -> Cerebellopontine angle and internal auditory canal
+Extracranial head & neck -> Temporal bone/cerebellopontine angle/skull base -> General temporal bone lesions
+Extracranial head & neck -> Temporal bone/cerebellopontine angle/skull base -> Skull base
+Extracranial head & neck -> Larynx, hypopharynx, trachea
+Extracranial head & neck -> Oral cavity, pharyngeal mucosal space -> Congenital
+Extracranial head & neck -> Oral cavity, pharyngeal mucosal space -> Inflammatory/infective
+Extracranial head & neck -> Oral cavity, pharyngeal mucosal space -> Benign tumours
+Extracranial head & neck -> Oral cavity, pharyngeal mucosal space -> Malignant tumours
+Extracranial head & neck -> Oral cavity, pharyngeal mucosal space -> Miscellaneous
+Extracranial head & neck -> Submandibular space -> Congenital/developmental
+Extracranial head & neck -> Submandibular space -> Infection/inflammatory
+Extracranial head & neck -> Submandibular space -> Benign tumours
+Extracranial head & neck -> Submandibular space -> Malignant tumours
+Extracranial head & neck -> Parotid space -> Congenital/developmental
+Extracranial head & neck -> Parotid space -> Infection/inflammatory
+Extracranial head & neck -> Parotid space -> Benign tumours
+Extracranial head & neck -> Parotid space -> Malignant tumours
+Extracranial head & neck -> Parotid space -> Miscellaneous
+Extracranial head & neck -> Carotid space -> Infective/inflammatory
+Extracranial head & neck -> Carotid space -> Vascular lesions
+Extracranial head & neck -> Carotid space -> Benign tumours
+Extracranial head & neck -> Carotid space -> Malignant tumours
+Extracranial head & neck -> Masticator space -> Infective/inflammatory
+Extracranial head & neck -> Masticator space -> Malignant tumours
+Extracranial head & neck -> Masticator space -> Miscellaneous
+Extracranial head & neck -> Retropharyngeal space and prevertebral spaces -> Normal variants and pseudolesions
+Extracranial head & neck -> Retropharyngeal space and prevertebral spaces -> Infective/inflammatory
+Extracranial head & neck -> Retropharyngeal space and prevertebral spaces -> Malignant tumours
+Extracranial head & neck -> Retropharyngeal space and prevertebral spaces -> Degenerative
+Extracranial head & neck -> Visceral space organs -> Thyroid
+Extracranial head & neck -> Visceral space organs -> Parathyroids
+Extracranial head & neck -> Neck - general -> Congenital lesions
+Extracranial head & neck -> Neck - general -> Lymph nodes of the neck
+Extracranial head & neck -> Maxillofacial/dental -> Basic dental disease
+Extracranial head & neck -> Maxillofacial/dental -> Odontogenic lesions
+Extracranial head & neck -> Maxillofacial/dental -> Trauma
+Neuroradiology -> Brain and intracranial structures -> Congenital malformations
+Neuroradiology -> Brain and intracranial structures -> Infection
+Neuroradiology -> Brain and intracranial structures -> Tumours
+Neuroradiology -> Brain and intracranial structures -> Non-neoplastic cysts
+Neuroradiology -> Brain and intracranial structures -> Trauma
+Neuroradiology -> Brain and intracranial structures -> Demyelination; dementias
+Neuroradiology -> Brain and intracranial structures -> Vascular lesions
+Neuroradiology -> Brain and intracranial structures -> Toxic, metabolic, or degenerative disorders
+Neuroradiology -> Brain and intracranial structures -> Miscellaneous
+Neuroradiology -> Pituitary and parasellar region
+Neuroradiology -> Skull
+Neuroradiology -> Spinal cord and related structures; peripheral nerves
+Neuroradiology -> Neurocutaneous syndromes
+Musculoskeletal -> Cranial nerve
+Musculoskeletal -> Shoulder and clavicle -> Normal appearances
+Musculoskeletal -> Shoulder and clavicle -> Impingement
+Musculoskeletal -> Shoulder and clavicle -> Bony trauma
+Musculoskeletal -> Shoulder and clavicle -> Joint trauma
+Musculoskeletal -> Shoulder and clavicle -> Arthritis and bursitis
+Musculoskeletal -> Shoulder and clavicle -> Glenohumeral capsule & ligament injuries
+Musculoskeletal -> Shoulder and clavicle -> Tendon injuries and degeneration
+Musculoskeletal -> Shoulder and clavicle -> Miscellaneous disorders
+Musculoskeletal -> Elbow and forearm -> Bony trauma
+Musculoskeletal -> Elbow and forearm -> Joint injuries & overuse syndromes
+Musculoskeletal -> Elbow and forearm -> Infection & inflammation
+Musculoskeletal -> Elbow and forearm -> Tendinopathy & tendon injuries
+Musculoskeletal -> Elbow and forearm -> Neuropathies & nerve injuries
+Musculoskeletal -> Hand and wrist -> Bony trauma
+Musculoskeletal -> Hand and wrist -> Joint injuries, carpal instability
+Musculoskeletal -> Hand and wrist -> Arthritis & inflammation
+Musculoskeletal -> Hand and wrist -> Tendons
+Musculoskeletal -> Hand and wrist -> Miscellaneous
+Musculoskeletal -> Pelvis, hip and thigh -> Bony trauma
+Musculoskeletal -> Pelvis, hip and thigh -> Joint/articular injuries
+Musculoskeletal -> Pelvis, hip and thigh -> Arthritis and inflammation
+Musculoskeletal -> Pelvis, hip and thigh -> Nerve & muscle pathology
+Musculoskeletal -> Pelvis, hip and thigh -> Post-treatment changes
+Musculoskeletal -> Knee and leg -> Bony trauma
+Musculoskeletal -> Knee and leg -> Knee injuries
+Musculoskeletal -> Knee and leg -> Leg trauma
+Musculoskeletal -> Knee and leg -> Arthritis/synovitis/bursitis
+Musculoskeletal -> Knee and leg -> Neurovascular
+Musculoskeletal -> Ankle and foot -> Ankle injuries
+Musculoskeletal -> Ankle and foot -> Foot & ankle tendon injuries & tendinopathies
+Musculoskeletal -> Ankle and foot -> Foot injuries
+Musculoskeletal -> Ankle and foot -> Arthropathy and infection
+Musculoskeletal -> The spine -> Congenital and developmental disorders
+Musculoskeletal -> The spine -> Spinal infections and inflammatory disorders
+Musculoskeletal -> The spine -> Spine post-procedural imaging
+Musculoskeletal -> The spine -> Cervical spine
+Musculoskeletal -> The spine -> Thoracic spine
+Musculoskeletal -> The spine -> Lumbar spine
+Musculoskeletal -> The spine -> Degenerative spinal conditions & arthritides
+Musculoskeletal -> Bone dysplasias
+Musculoskeletal -> Bone marrow & metabolic diseases
+Musculoskeletal -> Peripheral nerve conditions
+Musculoskeletal -> Bone tumours -> Secondary malignancy
+Musculoskeletal -> Bone tumours -> Primary osteoblastic
+Musculoskeletal -> Bone tumours -> Primary cartilaginous
+Musculoskeletal -> Bone tumours -> Primary fibrous
+Musculoskeletal -> Bone tumours -> Miscellaneous
+Musculoskeletal -> Bone tumours -> Tumour-like lesions
+Musculoskeletal -> Soft tissue tumours -> Secondary malignancy
+Musculoskeletal -> Soft tissue tumours -> Primary fatty
+Musculoskeletal -> Soft tissue tumours -> Primary fibrous
+Musculoskeletal -> Soft tissue tumours -> Other primary soft tissue tumours
+Musculoskeletal -> Soft tissue tumours -> Peripheral nerve tumours
+Musculoskeletal -> Soft tissue tumours -> Primary vascular
+Musculoskeletal -> Soft tissue tumours -> Miscellaneous tumours and tumour-like lesions
+Paediatric -> Neonates & first 3 months -> Head and spine
+Paediatric -> Neonates & first 3 months -> Neck
+Paediatric -> Neonates & first 3 months -> Chest
+Paediatric -> Neonates & first 3 months -> Stomach & duodenum, spleen
+Paediatric -> Neonates & first 3 months -> Small and large bowel
+Paediatric -> Neonates & first 3 months -> Pancreas & retroperitoneum
+Paediatric -> Neonates & first 3 months -> Hepatobiliary
+Paediatric -> Neonates & first 3 months -> Kidneys & urinary tract
+Paediatric -> Neonates & first 3 months -> Genital systems
+Paediatric -> Neonates & first 3 months -> Vascular
+Paediatric -> The baby, toddler, child and adolescent -> Head, neck and spine: developmental
+Paediatric -> The baby, toddler, child and adolescent -> Head, neck and spine: neurocutaneous/phakomatoses
+Paediatric -> The baby, toddler, child and adolescent -> Head, neck and spine: neoplastic and hamartomatous
+Paediatric -> The baby, toddler, child and adolescent -> Head, neck and spine: vascular
+Paediatric -> The baby, toddler, child and adolescent -> Head, neck and spine: infective
+Paediatric -> The baby, toddler, child and adolescent -> Head, neck and spine: trauma
+Paediatric -> The baby, toddler, child and adolescent -> Head, neck and spine: miscellaneous
+Paediatric -> The baby, toddler, child and adolescent -> Head, neck and spine: spine
+Paediatric -> The baby, toddler, child and adolescent -> Chest: developmental
+Paediatric -> The baby, toddler, child and adolescent -> Chest: traumatic
+Paediatric -> The baby, toddler, child and adolescent -> Chest: neoplastic and hamartomatous
+Paediatric -> The baby, toddler, child and adolescent -> Chest: infective
+Paediatric -> The baby, toddler, child and adolescent -> Chest: miscellaneous
+Paediatric -> The baby, toddler, child and adolescent -> Chest: vascular
+Paediatric -> The baby, toddler, child and adolescent -> Musculoskeletal: developmental & nutritional
+Paediatric -> The baby, toddler, child and adolescent -> Musculoskeletal: inherited
+Paediatric -> The baby, toddler, child and adolescent -> Musculoskeletal: traumatic
+Paediatric -> The baby, toddler, child and adolescent -> Musculoskeletal: infective & inflammatory
+Paediatric -> The baby, toddler, child and adolescent -> Musculoskeletal: neoplastic, hamartomatous and related conditions
+Paediatric -> The baby, toddler, child and adolescent -> Abdomen & pelvis: developmental
+Paediatric -> The baby, toddler, child and adolescent -> Abdomen & pelvis: traumatic
+Paediatric -> The baby, toddler, child and adolescent -> Abdomen & pelvis: neoplastic and hamartomatous
+Paediatric -> The baby, toddler, child and adolescent -> Abdomen & pelvis: infective/inflammatory
+Paediatric -> The baby, toddler, child and adolescent -> Abdomen & pelvis: vascular
+Paediatric -> The baby, toddler, child and adolescent -> Abdomen & pelvis: miscellaneous
+Paediatric -> The baby, toddler, child and adolescent -> Other systemic conditions: chromosomal
+Paediatric -> The baby, toddler, child and adolescent -> Other
+Breast -> Malignant disease
+Obstetric & gynaecological -> Benign disease
+Obstetric & gynaecological -> Ovarian lesions -> Physiological
+Obstetric & gynaecological -> Ovarian lesions -> Developmental
+Obstetric & gynaecological -> Ovarian lesions -> Idiopathic
+Obstetric & gynaecological -> Ovarian lesions -> Neoplastic
+Obstetric & gynaecological -> Ovarian lesions -> Inflammatory/vascular
+Obstetric & gynaecological -> Ovarian lesions -> Miscellaneous
+Obstetric & gynaecological -> Adnexal non-ovarian lesions -> Physiological/developmental
+Obstetric & gynaecological -> Adnexal non-ovarian lesions -> Inflammatory
+Obstetric & gynaecological -> Adnexal non-ovarian lesions -> Neoplastic
+Obstetric & gynaecological -> Adnexal non-ovarian lesions -> Idiopathic
+Obstetric & gynaecological -> Adnexal non-ovarian lesions -> Vascular
+Obstetric & gynaecological -> Non-pregnant uterus and cervix -> Congenital/developmental anomalies
+Obstetric & gynaecological -> Non-pregnant uterus and cervix -> Benign tumours
+Obstetric & gynaecological -> Non-pregnant uterus and cervix -> Malignant neoplasms/dysplasia
+Obstetric & gynaecological -> Non-pregnant uterus and cervix -> Inflammatory/post surgical/iatrogenic
+Obstetric & gynaecological -> Non-pregnant uterus and cervix -> Vascular
+Obstetric & gynaecological -> Endometrial lesions -> Neoplastic/dysplastic
+Obstetric & gynaecological -> Endometrial lesions -> Infective
+Obstetric & gynaecological -> Endometrial lesions -> Hyperplastic/proliferative
+Obstetric & gynaecological -> Vagina & labia -> Malignant neoplasms/dysplasia
+Obstetric & gynaecological -> Vagina & labia -> Infective/inflammatory
+Obstetric & gynaecological -> Vagina & labia -> Congenital/developmental abnormalities
+Obstetric & gynaecological -> First trimester
+Obstetric & gynaecological -> Second trimester -> Sonographic markers of aneuploidy
+Obstetric & gynaecological -> Second trimester -> Neural axis
+Obstetric & gynaecological -> Second trimester -> Face and neck
+Obstetric & gynaecological -> Second trimester -> Chest and cardiac
+Obstetric & gynaecological -> Second trimester -> Abdomen and renal tract
+Obstetric & gynaecological -> Second trimester -> Musculoskeletal
+Obstetric & gynaecological -> Second trimester -> Other
+Obstetric & gynaecological -> Third trimester
+Obstetric & gynaecological -> Placenta membranes and cord abnormalities
+Obstetric & gynaecological -> Liquor abnormalities
+Obstetric & gynaecological -> Multiple pregnancies
+Obstetric & gynaecological -> Post partum complications
+Vascular -> Aneuploidy
+Vascular -> General vascular
+Vascular -> Peripheral vascular
+Vascular -> Chest and neck vascular
+Vascular -> Cardiac
