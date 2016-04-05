@@ -11,69 +11,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321132434) do
+ActiveRecord::Schema.define(version: 20160403074410) do
 
   create_table "dx_level1s", force: :cascade do |t|
     t.string   "name"
-    t.float    "all_total"
-    t.float    "all_good"
-    t.float    "all_excellent"
-    t.integer  "all_number"
-    t.float    "key_total"
-    t.float    "key_good"
-    t.float    "key_excellent"
-    t.integer  "key_number"
-    t.float    "cat1_total"
-    t.float    "cat1_good"
-    t.float    "cat1_excellent"
-    t.integer  "cat1_number"
-    t.float    "cat2_total"
-    t.float    "cat2_good"
-    t.float    "cat2_excellent"
-    t.integer  "cat2_number"
-    t.float    "cat3_total"
-    t.float    "cat3_good"
-    t.float    "cat3_excellent"
-    t.integer  "cat3_number"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "dx_level2s", force: :cascade do |t|
     t.string   "name"
     t.string   "dx_level1_id"
-    t.float    "all_total"
-    t.float    "all_good"
-    t.float    "all_excellent"
-    t.integer  "all_number"
-    t.float    "key_total"
-    t.float    "key_good"
-    t.float    "key_excellent"
-    t.integer  "key_number"
-    t.float    "cat1_total"
-    t.float    "cat1_good"
-    t.float    "cat1_excellent"
-    t.integer  "cat1_number"
-    t.float    "cat2_total"
-    t.float    "cat2_good"
-    t.float    "cat2_excellent"
-    t.integer  "cat2_number"
-    t.float    "cat3_total"
-    t.float    "cat3_good"
-    t.float    "cat3_excellent"
-    t.integer  "cat3_number"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "dx_level3s", force: :cascade do |t|
+    t.string   "name"
+    t.string   "dx_level2_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "end_dxes", force: :cascade do |t|
     t.string   "name"
-    t.string   "dx_level1_id"
     t.string   "category"
-    t.float    "total"
-    t.float    "good"
-    t.float    "excellent"
-    t.integer  "number"
+    t.integer  "frequency"
+    t.integer  "dxable_id"
+    t.string   "dxable_type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "expert_reports", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "learner_dxes", force: :cascade do |t|
+      t.string "name" 
+      t.string "end_dx_id"
+      t.string "user_id"
+      t.boolean "review_list"
+      t.integer "cases_attempted"
+      t.integer "correct_dx"
+      t.integer "excellent_cases"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -108,12 +90,20 @@ ActiveRecord::Schema.define(version: 20160321132434) do
     t.integer  "user_id"
   end
 
+  create_table "student_reports", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "year_of_training"
     t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"

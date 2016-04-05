@@ -102,7 +102,13 @@ end
 	end
 def concept
 	    @dxlevel1s = DxLevel1.all
+            #@nodxlevel3s = DxLevel2.includes(:dx_level3s).where(:dx_level3s => {:dxable_id => nil})
+	    #@hasdxlevel3s = DxLevel2.includes(:dx_level3s).where("dx_level3s.dxable_id IS NOT NULL")
+	    @dxlevel2s = DxLevel2.all
 	    @enddxes = EndDx.all
+
 end
+
+
 
 end

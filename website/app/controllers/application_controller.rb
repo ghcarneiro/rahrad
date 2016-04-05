@@ -5,4 +5,13 @@ class ApplicationController < ActionController::Base
 
   # For devise, always make sure the user is logged in first
   before_action :authenticate_user!
+
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname, :lastname, :year_of_training, :email, :password, :password_confirmation, :id) }
+    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:firstname, :lastname, :year_of_training, :id) }
+  end
 end

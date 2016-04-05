@@ -1,0 +1,76 @@
+<script>
+$(document).ready(function(){
+    $(".glyphicon").click(function(){
+	if ($(this).hasClass('glyphicon-menu-right')) {
+       	 	$(this).removeClass('glyphicon-menu-right');
+       		$(this).addClass('glyphicon-menu-down');
+    	}
+	else {
+       	 	$(this).removeClass('glyphicon-menu-down');
+       		$(this).addClass('glyphicon-menu-right');
+	}
+
+	if ($(this).prev().hasClass('view-reports')) {
+        	$(this).eq(2).slideToggle();
+	}
+	else {
+        	$(this).next().slideToggle();
+	}
+    }); 
+
+    $(".endDx").hover(
+	function(){
+	$(this).next().stop().css({"display":"block"});
+	},
+	function () {
+	$(this).next().stop().css({"display":"none"});
+	});
+
+});
+
+</script>
+
+<!-- Don't use < % = at the start of each.do or you get the entire array!!! -->
+
+<table class="table" style="width: 550px; text-align: left; position: relative">
+<% dxlevel1s.each do |d| %>
+<tr>
+<td>
+<% if d.key_good > 70 %>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" />
+<% elsif d.key_good > 40 %>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+<% else %>
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" />
+<% end %> 
+<%= d.name %> <span class="glyphicon glyphicon-menu-right"></span> 
+<table style="margin-left: 50px;display:none" class="dxlevel2">
+<tr>
+<td>
+<% d.end_dxes.each do |e| %>
+<% if e.good > 70 %>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" />
+<% elsif e.good > 40 %>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+<% else %>
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" />
+<% end %>
+<span class="endDx"> <%= e.name %> </span>
+<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+<div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+<div class="progress-bar" style="width: <%= (e.good) %>%">
+</div>
+</div>
+<span style="font-size: 10px; position: relative; left: 10px; top: -10px"><%= e.name %>: <%= e.good %>% correct</span>
+</div>
+<br/>
+<% end %>
+
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<% end %>
+</table>

@@ -6,7 +6,15 @@
   <%= devise_error_messages! %>
 
   <div class="field" style="padding-top: 5px;">
-    <%= f.email_field :email, autofocus: true, :placeholder => 'Email address', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+    <%= f.text_field :firstname, autofocus: true, :placeholder => 'First name', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <div class="field" style="padding-top: 5px;">
+    <%= f.text_field :lastname, :placeholder => 'Last name', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <div class="field" style="padding-top: 5px;">
+    <%= f.email_field :email, :placeholder => 'Email address', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
   </div>
 
   <div class="field" style="padding-top: 5px">
@@ -15,6 +23,10 @@
 
   <div class="field" style="padding-top: 5px">
     <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+  </div>
+
+  <div class="field" style="padding-top: 5px;">
+   Year of training: <%= f.select :year_of_training, [['1','1'],['2','2'],['3','3'],['4','4'],['5','5']] %>
   </div>
 
   <div class="actions" style="padding-top: 10px">

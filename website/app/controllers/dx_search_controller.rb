@@ -1,0 +1,3 @@
+class DxSearchController < ApplicationController
+
+end

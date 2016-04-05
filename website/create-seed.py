@@ -23,7 +23,7 @@ with open("diagnosis-list.txt","rb") as fin, open("test-seed.txt", "wb") as fout
 			old_level1 = level1
 			string = (remove_newline[0].lower()).capitalize()
 			if (string != level1):
-				concat = "d1_" + str(level1_count) + " = " + "DxLevel1.create(name: '" + string + "')\n" 
+				concat = 'd1_' + str(level1_count) + ' = ' + 'DxLevel1.create(name: "' + string + '")\n' 
 				fout.write(concat)
 				level1_count = level1_count + 1
 				level2_count = 0
@@ -35,7 +35,7 @@ with open("diagnosis-list.txt","rb") as fin, open("test-seed.txt", "wb") as fout
 			old_level2 = level2
 			string = (remove_newline[0].lower()).capitalize()
 			if (string != level2):
-				concat = "	d1_" + str(level1_count -1) + "_d2_" + str(level2_count) + " = " + "DxLevel2.create(name: '" + string + "', dx_level1_id: d1_" + str(level1_count -1) + ".id)\n" 
+				concat = '	d1_' + str(level1_count -1) + '_d2_' + str(level2_count) + ' = ' + 'DxLevel2.create(name: "' + string + '", dx_level1_id: d1_' + str(level1_count -1) + '.id)\n' 
 				fout.write(concat)
 				level2_count = level2_count + 1
 				level3_count = 0
@@ -45,8 +45,8 @@ with open("diagnosis-list.txt","rb") as fin, open("test-seed.txt", "wb") as fout
 			level3_slice = string.partition("3: ")
 			remove_newline = level3_slice[2].partition('\r')
 			string = (remove_newline[0].lower()).capitalize()
-			if (string != level3) and (level3 != "None") and (string != "None"):
-				concat = "		d1_" + str(level1_count -1) + "_d2_" + str(level2_count - 1) + "_d3_" + str(level3_count) + " = " + "DxLevel3.create(name: '" + string + "', dx_level2_id: d1_" + str(level1_count -1) + "_d2_" + str(level2_count -1) + ".id)\n" 
+			if (string != level3) and (string != "None"):
+				concat = '		d1_' + str(level1_count -1) + '_d2_' + str(level2_count - 1) + '_d3_' + str(level3_count) + ' = ' + 'DxLevel3.create(name: "' + string + '", dx_level2_id: d1_' + str(level1_count -1) + '_d2_' + str(level2_count -1) + '.id)\n'
 				fout.write(concat)
 				level3_count = level3_count + 1
 			level3 = string
@@ -74,9 +74,9 @@ with open("diagnosis-list.txt","rb") as fin, open("test-seed.txt", "wb") as fout
 			if (line != "") and (line != "NONE"):
 				diagnosis = line.decode('utf-8', 'ignore').encode('utf-8') 
 				if (level3 == "None"):
-					string = "			EndDx.create(name: '" + diagnosis + "', category: '" + current_category + "', dx_level2_id: d1_" + str(level1_count -1) + "_d2_" + str(level2_count -1) + ".id, frequency: 0.1) \n"
+					string = '			EndDx.create(name: "' + diagnosis + '", category: "' + current_category + '", dxable_id: d1_' + str(level1_count -1) + '_d2_' + str(level2_count -1) + '.id, dxable_type: "DxLevel2", frequency: 0.1) \n'
 				else:
-					string = "			EndDx.create(name: '" + diagnosis + "', category: '" + current_category + "', dx_level3_id: d1_" + str(level1_count -1) + "_d2_" + str(level2_count -1) + "_d3_" + str(level3_count -1) + ".id, frequency: 0.1) \n"
+					string = '			EndDx.create(name: "' + diagnosis + '", category: "' + current_category + '", dxable_id: d1_' + str(level1_count -1) + '_d2_' + str(level2_count -1) + '_d3_' + str(level3_count -1) + '.id, dxable_type: "DxLevel3", frequency: 0.1) \n'
 				fout.write(string)
 
 		linecount = linecount + 1
