@@ -3,21 +3,66 @@
 	<title>Review list</title>
 <% end %>
 
-<%= link_to problems_path do %>
-<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
-<% end %>
+<%= render "nav" %>
+	<div style="padding-top: 30px">
+	<img src="/assets/reviewlist.jpg" style="width: 200px; height: 200px" />
+	<p style="font-size: 20px">
+	Add to review list
+	</p>
+	<p>
+	Search for a diagnosis from the RANZCR Radiodiagnosis Curriculum
+	</p>
+	<p>
+	<u>Switch to dropdown menu mode</u>
+	</p>
+	</div>
+	<div style="padding-top: 50px">
+	<p>
+	<% if @noparam == true %>
+	ERROR: Please enter a search term.
+	<% elsif @nofound == true %>
+	ERROR: No matching search terms found.
+		<% if @already_reviewed.present? %>
+			However, the following diagnoses are already in your review list: 
+			<% @already_reviewed.each do |a| %>
+			<%= a.name %> 
+			<% end %>
+		<% end %>
+	<% end %>
+	<% if @count == 1 %>
+	Diagnosis successfully added. <%= link_to "Click here", review_list_problems_path %> to view your review list or continue searching for diagnoses below.
+	<% elsif @count > 1 %>
+	Diagnoses successfully added. <%= link_to "Click here", review_list_problems_path %> to view your review list or continue searching for diagnoses below.
+	<% end %>
+	</p>
+	<%= form_tag(review_list_add_problems_path, :method => "get", id: "search-dx-form") do %>
+	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
+	<%= submit_tag "Search", class: "btn btn-primary"%>
+	<% end %>
+	</div>
 <p></p>
-<%= link_to "Add diagnoses to review list", review_list_problems_path, class: "btn btn-default btn-sm" %> 
-<p></p>
-<% if @string.present? %>
-<h2>Review list</h2>
-<% end %>
-<table class="table">
-<% @ldx.each do |l| %>
-<tr><td><%= l.name %></td><td>Remove from review list</td></tr>
-<% end %>
-<% if !@string.present? %>
-<tr><td>No diagnoses found.</td></tr>
-<% end %>
-</table>
 
+<%= form_tag("/problems/review_list_add", method: "get") do %>
+<table class="table">
+	<% if @searchdx.present? %>
+		<tr><td>Diagnoses</td></tr>
+		<% if @already_reviewed.present? %>
+		<tr><td>		
+			Matching diagnoses currently in your review list: 
+			<% @already_reviewed.each do |a| %>
+			<%= a.name %> 
+			<% end %>
+		</td></tr>		
+		<% end %>
+		<% @searchdx.each do |s| %>
+			<tr><td>
+			<%= label_tag(s.name, (s.end_dx.dxable.name + " -> " + s.name)) %>
+			<%= check_box_tag("id[]", s.id, false, :id => s.id) %>
+			</td></tr>
+		<% end %>
+	<% end %>
+	<% if @searchdx.present? %>
+		<tr><td><%= submit_tag("Add to review list") %></td></tr>
+	<% end %>
+</table>
+<% end %>

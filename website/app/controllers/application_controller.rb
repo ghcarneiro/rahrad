@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
   # For devise, always make sure the user is logged in first
   before_action :authenticate_user!
 
+	before_filter :set_current_user
+
+	def set_current_user
+  		LearnerDx.current_user = current_user
+	end
+
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   protected

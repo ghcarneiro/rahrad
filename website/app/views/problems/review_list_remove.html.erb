@@ -1,0 +1,29 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Review list</title>
+<% end %>
+
+<%= render "nav" %>
+<p></p>
+<h2>Review list</h2>
+<%= form_tag("/problems/review_list_remove", method: "get") do %>
+<table class="table">
+<% if @count == 1 %>
+<tr><td>Diagnosis successfully removed.</td></tr>
+<% elsif @count > 1 %>
+<tr><td>Diagnoses successfully removed.</td></tr>
+<% end %>
+	<% if @ldx.present? %>
+		<% @ldx.each do |l| %>
+			<tr><td>
+			<%= label_tag(l.name, (l.end_dx.dxable.name + " -> " + l.name)) %>
+			<%= check_box_tag("id[]", l.id, false, :id => l.id) %>
+			</td></tr>
+		<% end %>
+		<tr><td><%= submit_tag("Remove from review list") %></td></tr>
+	<% else %>
+		<tr><td><p>Your review list is empty.</p>  <p><%= link_to "Click here", review_list_add_problems_path %> to add some diagnoses to your review list.</p></td></tr>
+	<% end %>
+</table>
+<% end %>
+

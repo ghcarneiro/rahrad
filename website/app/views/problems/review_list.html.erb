@@ -3,44 +3,18 @@
 	<title>Review list</title>
 <% end %>
 
-<%= link_to problems_path do %>
-<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
-<% end %>
-	<div style="padding-top: 30px">
-	<img src="/assets/reviewlist.jpg" style="width: 200px; height: 200px" />
-	<p style="font-size: 20px">
-	Add to review list
-	</p>
-	<p>
-	Search for a diagnosis from the RANZCR Radiodiagnosis Curriculum
-	</p>
-	<p>
-	<u>Switch to dropdown menu mode</u>
-	</p>
-	</div>
-	<div style="padding-top: 50px">
-	<%= form_tag(review_list_problems_path, :method => "get", id: "search-dx-form") do %>
-	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
-	<%= submit_tag "Search", class: "btn btn-primary"%>
-	<% end %>
-	</div>
+
+<%= render "nav" %>
 <p></p>
-<%= form_tag("/problems/review_list_add", method: "get") do %>
-<table class="table">
-	<% if @endx.present? %>
-		<tr><td>Diagnoses</td></tr>
-		<% @endx.each do |e| %>
-			<tr><td>
-			<%= label_tag(e.name, (e.dxable.name + " -> " + e.name)) %>
-			<%= check_box_tag("end_dx[id][]", e.id, false, :id => e.id) %>
-			</td></tr>
-		<% end %>
-	<% end %>
-	<% if @endx.present? %>
-		<tr><td><%= submit_tag("Add to review list") %></td></tr>
-	<% end %>
-	<% if !@endx.present? %>
-		<tr><td>No diagnoses</td></tr>
-	<% end %>
-</table>
+<h2>Review list</h2>
+<% if @ldx.present? %>
 <% end %>
+<table class="table">
+<% @ldx.each do |l| %>
+<tr><td><%= l.name %></td><td>A</td></tr>
+<% end %>
+<% if !@ldx.present? %>
+<tr><td><p>Your review list is empty.</p><p> <%= link_to "Click here", review_list_add_problems_path %> to add some diagnoses to your review list.</p></td></tr>
+<% end %>
+</table>
+

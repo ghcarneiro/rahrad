@@ -50,6 +50,9 @@ Rails.application.routes.draw do
       get 'system_select'
       get 'review_list'
       get 'review_list_add'
+      get 'review_list_remove'
+      get 'review_list_r'
+      get 'review_list_a'
     end 
   end
 

@@ -1,0 +1,23 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Review list</title>
+<% end %>
+
+<%= link_to problems_path do %>
+<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
+<% end %>
+<p></p>
+<%= render "nav" %>
+<p style="padding-top: 100px">
+<% if @nodx == true %>
+No diagnoses were selected for removal.
+<% else %>
+Diagnoses successfully removed. 
+<% end %>
+</p>
+<% if @ldx.present? %>
+<p><%= link_to "Click here", review_list_problems_path %> to return to your review list or <%= link_to "remove more diagnoses from your review list", review_list_remove_problems_path %>.</p>
+<% else %>
+<p>Your review list is empty.</p><p> <%= link_to "Click here", review_list_add_problems_path %> to add some diagnoses to your review list.</p>
+<% end %>
+

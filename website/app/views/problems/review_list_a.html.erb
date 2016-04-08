@@ -1,0 +1,11 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Review list</title>
+<% end %>
+<%= render "nav" %>
+<p style="padding-top: 100px">
+Diagnoses successfully added. 
+</p>
+<p><%= link_to "Click here", review_list_problems_path %> to return to your review list or <%= link_to "add more diagnoses to your review list", review_list_add_problems_path %>.</p>
+
+
