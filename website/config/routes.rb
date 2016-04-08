@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       get 'user_select'
       get 'system_select'
       get 'review_list'
+      get 'review_list_add'
     end 
   end
 

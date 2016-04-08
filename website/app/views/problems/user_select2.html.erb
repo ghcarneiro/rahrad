@@ -1,0 +1,57 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Case selection</title>
+<% end %>
+
+<%= link_to problems_path do %>
+<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
+<% end %>
+	<div style="padding-top: 30px">
+	<img src="/assets/userselect.jpg" style="width: 200px; height: 200px" />
+	<p style="font-size: 20px">
+	User select
+	</p>
+	<p>
+	Search for a topic or diagnosis from the RANZCR Radiodiagnosis Curriculum
+	</p>
+	<p>
+	<u>Switch to dropdown menu mode</u>
+	</p>
+	</div>
+	<div style="padding-top: 50px">
+	<%= form_tag(user_select_problems_path, :method => "get", id: "search-dx-form") do %>
+	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
+	<%= submit_tag "Search", class: "btn btn-primary"%>
+	<% end %>
+	</div>
+<p></p>
+<table class="table" width="500">
+
+	<% if @dx1.present? %>
+		<% @dx1.each do |d1| %>
+		<tr><td><%= d1.name %></td></tr>
+		<% end %>
+	<% end %>
+	<% if @dx2.present? %>
+		<% @dx2.each do |d2| %>
+		<tr><td><%= d2.dx_level1.name %> -> <%= d2.name %></td></tr>
+		<% end %>
+	<% end %>
+	<% if @dx3.present? %>
+		<% @dx3.each do |d3| %>
+		<tr><td><%= d3.dx_level2.dx_level1.name %> -> <%= d3.dx_level2.name %> -> <%= d3.name %></td></tr>
+		<% end %>
+	<% end %>
+	<% if @endx.present? %>
+		<% @endx.each do |e| %>
+
+		<tr><td> <%= e.dxable.name %> -> <%= e.name %></td></tr>
+
+		<% end %>
+	<% end %>
+	<% if (!@dx1.present? and !@dx2.present? and !@dx3.present? and !@endx.present?) %>
+		<tr><td>No posts found</td></tr>
+	<% end %>
+</table>
+<p></p>
+</div>

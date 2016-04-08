@@ -1,0 +1,23 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Review list</title>
+<% end %>
+
+<%= link_to problems_path do %>
+<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
+<% end %>
+<p></p>
+<%= link_to "Add diagnoses to review list", review_list_problems_path, class: "btn btn-default btn-sm" %> 
+<p></p>
+<% if @string.present? %>
+<h2>Review list</h2>
+<% end %>
+<table class="table">
+<% @ldx.each do |l| %>
+<tr><td><%= l.name %></td><td>Remove from review list</td></tr>
+<% end %>
+<% if !@string.present? %>
+<tr><td>No diagnoses found.</td></tr>
+<% end %>
+</table>
+

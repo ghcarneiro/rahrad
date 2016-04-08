@@ -1,13 +1,46 @@
 <!-- Append content in the head tag -->
 <% content_for :for_head do %>
-	<title>Case selection</title>
+	<title>Review list</title>
 <% end %>
 
-<div style="max-width: 1400px; position: absolute; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
 <%= link_to problems_path do %>
 <span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
 <% end %>
-<div>
-Review list
-</div>
-</div>
+	<div style="padding-top: 30px">
+	<img src="/assets/reviewlist.jpg" style="width: 200px; height: 200px" />
+	<p style="font-size: 20px">
+	Add to review list
+	</p>
+	<p>
+	Search for a diagnosis from the RANZCR Radiodiagnosis Curriculum
+	</p>
+	<p>
+	<u>Switch to dropdown menu mode</u>
+	</p>
+	</div>
+	<div style="padding-top: 50px">
+	<%= form_tag(review_list_problems_path, :method => "get", id: "search-dx-form") do %>
+	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
+	<%= submit_tag "Search", class: "btn btn-primary"%>
+	<% end %>
+	</div>
+<p></p>
+<%= form_tag("/problems/review_list_add", method: "get") do %>
+<table class="table">
+	<% if @endx.present? %>
+		<tr><td>Diagnoses</td></tr>
+		<% @endx.each do |e| %>
+			<tr><td>
+			<%= label_tag(e.name, (e.dxable.name + " -> " + e.name)) %>
+			<%= check_box_tag("end_dx[id][]", e.id, false, :id => e.id) %>
+			</td></tr>
+		<% end %>
+	<% end %>
+	<% if @endx.present? %>
+		<tr><td><%= submit_tag("Add to review list") %></td></tr>
+	<% end %>
+	<% if !@endx.present? %>
+		<tr><td>No diagnoses</td></tr>
+	<% end %>
+</table>
+<% end %>

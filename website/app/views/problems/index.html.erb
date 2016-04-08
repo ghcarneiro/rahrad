@@ -37,8 +37,14 @@
 			<%= link_to review_list_problems_path do %>
 				<img src="/assets/reviewlist.jpg" style="width: 200px; height: 200px" />  
 			<% end %>
-			<p>Create review list<br/>
+			<p>
+			<% if @ldx.present? %>
+			Review list<br/>
+			<span style="font-size: 15px">Practise cases from your review list.</span>
+			<% else %>
+			Create review list<br/>
 			<span style="font-size: 15px">Add topics that you want to focus on to your review list.</span>
+			<% end %>
 			</p>
 		</td>
 	</tr>
