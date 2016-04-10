@@ -1,6 +1,5 @@
 import csv
 import sys
-from nltk.corpus import stopwords
 
 sys.path.append("..")  # Adds higher directory to python modules path.
 

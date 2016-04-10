@@ -21,7 +21,12 @@ if len(sys.argv) != 2:
 tag = sys.argv[1]
 
 dataFile = './sentence_label_data/sentences_ALL.csv'
-diffTolerance = 0.15
+
+
+if tag == "diagnostic":
+    diffTolerance = 0.15
+elif tag == "sentiment":
+    diffTolerance = 0.5
 
 
 # Control loop for labelling sentences, returns the data list with tags changed
@@ -85,11 +90,15 @@ def getTags(prompt, possibleAnswers, row):
         ans = sys.stdin.readline()
         if ans:
             ans = ans.rstrip()
-            if ans in possibleAnswers:
-                return userExits, ans
+            if ans == "quit":
+                userExits = True
+                break
             else:
-                print "Invalid input. Valid answers: [" + ", ".join(possibleAnswers) + "]"
-                continue
+                if ans in possibleAnswers:
+                    return userExits, ans
+                else:
+                    print "Invalid input. Valid answers: [" + ", ".join(possibleAnswers) + "]"
+                    continue
         # This block is entered if the user presses CTL+D
         else:
             userExits = True
@@ -154,6 +163,7 @@ else:
     raise ValueError("Unknown tag: " + tag)
 
 if len(taggedSentences) != 0:
+    print "Number of tagged sentences: " + str(len(taggedSentences))
     print "Building feature extraction model"
     model = skModel()
     model.fit([x.processedSentence for x in data[0:500]])
@@ -192,7 +202,8 @@ data = labelSentences(data, tag)
 
 print "Saving data"
 shuffle(data)
-# writeToCSV(dataFile, data)
+writeToCSV(dataFile, data)
 
 ## TODO
 # Create abstract class for model
+# Fix preprocesing to remove the LABEL: from sentences
