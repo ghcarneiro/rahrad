@@ -14,8 +14,7 @@ train = taggedSentences[:100]
 trainLabels = labels[:100]
 
 # Create transformation pipeline
-# testPipe = pipelines.get_count_lsi_randomforest()
-testPipe = pipelines.get_count_lsi_MLP()
+testPipe = pipelines.get_count_lsi_randomforest()
 # testPipe = pipelines.get_tfidf_lsi_randomforest()
 # testPipe = pipelines.get_count_lsi_SVM()
 testPipe.fit(train, trainLabels)
