@@ -1,61 +1,106 @@
+from sklearn.base import TransformerMixin
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.pipeline import Pipeline
+# from sklearn.neural_network import MLPClassifier
+from sknn.mlp import Classifier, Layer
+import numpy as np
+
+from sklearn import svm
 
 # Defines different combinations of feature extraction and classification in pipelines for easy use.
+
+##########################
+#### Model Parameters ####
+##########################
+
+countVectorizerParams = {}
+tfidfVectorizerParams = {}
+truncatedSVDParams = {"n_components": 10, "random_state": 42}
+randomForestParams = {'n_estimators': 500, 'min_samples_leaf': 3}
+SVCParams = {"probability": True}
+MLPParams = {}
+
 
 #######################
 #### Random Forest ####
 #######################
 
 # CountVectorizer -> RandomForest
-def get_count_randomForest():
-    vectorizer = CountVectorizer()
-    forest = RandomForestClassifier(n_estimators=500, min_samples_leaf=3)
-    pipeline = Pipeline([('count', vectorizer), ('forest', forest)])
-    return pipeline
-#
-# # TFIDFVectorizer -> RandomForest
-# def get_tfidf_randomForest():
-#
-# # CountVectorizer -> LSI -> RandomForest
-# def get_count_lsi_randomForest():
-#     vectorizer = CountVectorizer()
-#     svd = TruncatedSVD(n_components=10, random_state=42)
-#
-# # TFIDFVectorizer -> LSI -> RandomForest
-# def get_tfidf_lsi_randomForest():
-#
-#
-# #############
-# #### SVM ####
-# #############
-# # CountVectorizer -> SVM
-# def get_count_SVM():
-#
-# # TFIDFVectorizer -> SVM
-# def get_tfidf_SVM():
-#
-# # CountVectorizer -> LSI -> SVM
-# def get_count_lsi_SVM():
-#
-# # TFIDFVectorizer -> LSI -> SVM
-# def get_tfidf_lsi_SVM():
-#
-#
-# ##############################################
-# #### Multilayer Perceptron Neural Network ####
-# ##############################################
-#
-# # CountVectorizer -> Multilayer Perceptron Neural Network
-# def get_count_MLP():
-#
-# # TFIDFVectorizer -> Multilayer Perceptron Neural Network
-# def get_tfidf_MLP():
-#
-# # CountVectorizer -> LSI -> Multilayer Perceptron Neural Network
-# def get_count_lsi_MLP():
-#
-# # TFIDFVectorizer -> LSI -> Multilayer Perceptron Neural Network
-# def get_tfidf_lsi_MLP():
+def get_count_randomforest():
+    vectorizer = CountVectorizer(**countVectorizerParams)
+    classifier = RandomForestClassifier(**randomForestParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('classifier', classifier)])
+
+
+# TFIDFVectorizer -> RandomForest
+def get_tfidf_randomforest():
+    vectorizer = TfidfVectorizer(**tfidfVectorizerParams)
+    classifier = RandomForestClassifier(**randomForestParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('classifier', classifier)])
+
+
+# CountVectorizer -> LSI -> RandomForest
+def get_count_lsi_randomforest():
+    vectorizer = CountVectorizer(**countVectorizerParams)
+    svd = TruncatedSVD(**truncatedSVDParams)
+    classifier = RandomForestClassifier(**randomForestParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
+
+
+# TFIDFVectorizer -> LSI -> RandomForest
+def get_tfidf_lsi_randomforest():
+    vectorizer = TfidfVectorizer(**tfidfVectorizerParams)
+    svd = TruncatedSVD(**truncatedSVDParams)
+    classifier = RandomForestClassifier(**randomForestParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
+
+
+#############
+#### SVM ####
+#############
+
+# CountVectorizer -> SVM
+def get_count_SVM():
+    vectorizer = CountVectorizer(**countVectorizerParams)
+    classifier = svm.SVC(**SVCParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('classifier', classifier)])
+
+
+# TFIDFVectorizer -> SVM
+def get_tfidf_SVM():
+    vectorizer = TfidfVectorizer(**tfidfVectorizerParams)
+    classifier = svm.SVC(**SVCParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('classifier', classifier)])
+
+
+# CountVectorizer -> LSI -> SVM
+def get_count_lsi_SVM():
+    vectorizer = CountVectorizer(**countVectorizerParams)
+    svd = TruncatedSVD(**truncatedSVDParams)
+    classifier = svm.SVC(**SVCParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
+
+
+# TFIDFVectorizer -> LSI -> SVM
+def get_tfidf_lsi_SVM():
+    vectorizer = TfidfVectorizer(**tfidfVectorizerParams)
+    svd = TruncatedSVD(**truncatedSVDParams)
+    classifier = svm.SVC(**SVCParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
+
+
+def get_count_lsi():
+    vectorizer = CountVectorizer(**countVectorizerParams)
+    svd = TruncatedSVD(**truncatedSVDParams)
+
+    return Pipeline([('vectorizer', vectorizer), ('lsi', svd)])

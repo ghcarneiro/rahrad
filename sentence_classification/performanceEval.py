@@ -1,6 +1,7 @@
 import pipelines
 from dataUtils import readFromCSV
 import numpy as np
+from sknn.mlp import Classifier, Layer
 
 dataFile = './sentence_label_data/sentences_ALL.csv'
 
@@ -14,19 +15,19 @@ train = taggedSentences[:100]
 trainLabels = labels[:100]
 
 # Create transformation pipeline
-testPipe = pipelines.get_count_lsi_randomforest()
+# testPipe = pipelines.get_count_lsi_randomforest()
 # testPipe = pipelines.get_tfidf_lsi_randomforest()
-# testPipe = pipelines.get_count_lsi_SVM()
+testPipe = pipelines.get_count_lsi_SVM()
 testPipe.fit(train, trainLabels)
 
-# Extract test data from overall data
+# # Extract test data from overall data
 test = taggedSentences[101:]
 testLabels = labels[101:]
 
 correct = 0
 
 for i, sentence in enumerate(test):
-    # print testPipe.predict_proba([sentence])
+    # print classifier.predict_proba(testPipe.transform([sentence]))
     # print testLabels[i]
     # print ""
     if testPipe.predict([sentence])[0] == testLabels[i]:
