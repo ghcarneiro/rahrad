@@ -1,11 +1,8 @@
-from sklearn.base import TransformerMixin
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.pipeline import Pipeline
 # from sklearn.neural_network import MLPClassifier
-from sknn.mlp import Classifier, Layer
-import numpy as np
 
 from sklearn import svm
 
@@ -97,10 +94,3 @@ def get_tfidf_lsi_SVM():
     classifier = svm.SVC(**SVCParams)
 
     return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
-
-
-def get_count_lsi():
-    vectorizer = CountVectorizer(**countVectorizerParams)
-    svd = TruncatedSVD(**truncatedSVDParams)
-
-    return Pipeline([('vectorizer', vectorizer), ('lsi', svd)])

@@ -1,7 +1,6 @@
 import pipelines
 from dataUtils import readFromCSV
 import numpy as np
-from sknn.mlp import Classifier, Layer
 
 dataFile = './sentence_label_data/sentences_ALL.csv'
 
