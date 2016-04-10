@@ -8,7 +8,7 @@ import preprocess
 class SentenceRecord(object):
     def __init__(self, sentence):
         self.sentence = sentence
-        self.processedSentence = []
+        self.processedSentence = ""
         self.diagProbs = []
         self.sentProbs = []
         self.diagTag = ""
@@ -43,6 +43,23 @@ def readFromCSV(sentenceFile):
     # Return the read objects, but cut off the first row which was headers
     return data[1:]
 
+def readFromCSVCONVERT(sentenceFile):
+    data = []
+
+    with open(sentenceFile, 'rb') as fin:
+        reader = csv.reader(fin, delimiter=",")
+
+        for row in reader:
+            tmp = SentenceRecord(row[0])
+            tmp.processedSentence = " ".join(preprocess.textPreprocess(row[0], removeNegationsFromSentences=False))
+            tmp.diagTag = row[1]
+            tmp.sentTag = row[2]
+            data.append(tmp)
+
+    # Return the read objects, but cut off the first row which was headers
+    return data[1:]
+
+
 
 # Generate the unlabelled sentence data from the given datafile
 def generateSentences(dataFiles):
@@ -51,7 +68,7 @@ def generateSentences(dataFiles):
 
     for sentence in sentences:
         tmp = SentenceRecord(sentence)
-        tmp.processedSentence = " ".join(preprocess.textPreprocess(sentence, removeNegationsFromSentences=True))
+        tmp.processedSentence = " ".join(preprocess.textPreprocess(sentence, removeNegationsFromSentences=False))
         sentenceTags.append(tmp)
 
     return sentenceTags
