@@ -1,0 +1,10 @@
+1. Run python create-seed.py to generate the list of diagnoses to put into seeds.rb (Categories 1, 2 and 3)
+2. Run python create-seed-keydx.py to generate the list of key diagnoses to put into seeds.rb
+
+
+The base files with the diagnoses in them are
+keydiagnosis-list  for the key diagnoses
+diagnosis-list.txt for categories 1, 2 and 3
+
+Diagnoses can be edited as required as long as the formatting is kept and the seed code is generated again.
+

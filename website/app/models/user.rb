@@ -11,8 +11,10 @@ class User < ActiveRecord::Base
   has_many :saved_searches, dependent: :destroy
 
   has_many :learner_dxes, dependent: :destroy
+  has_one :learner_info
 
   after_create :create_learner_dx
+  after_create :create_learner_info
 
   private
 
@@ -23,4 +25,9 @@ class User < ActiveRecord::Base
       LearnerDx.create(:user_id => self.id, :end_dx_id => dx.id, :name => dx.name, :review_list => false, :cases_attempted => 10, :correct_dx => 8, :excellent_cases => 3)
     end
   end
+
+  def create_learner_info
+    LearnerInfo.create(:user_id => self.id)
+  end
+
 end

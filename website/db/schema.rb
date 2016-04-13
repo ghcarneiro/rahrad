@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160403074410) do
+ActiveRecord::Schema.define(version: 20160412225336) do
 
   create_table "dx_level1s", force: :cascade do |t|
     t.string   "name"
@@ -20,18 +20,20 @@ ActiveRecord::Schema.define(version: 20160403074410) do
   end
 
   create_table "dx_level2s", force: :cascade do |t|
+    t.string  "name"
+    t.integer "dx_level1_id"
+  end
+
+  add_index "dx_level2s", ["dx_level1_id"], name: "index_dx_level2s_on_dx_level1_id"
+
+  create_table "dx_level3s", force: :cascade do |t|
     t.string   "name"
-    t.string   "dx_level1_id"
+    t.integer  "dx_level2_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
-  create_table "dx_level3s", force: :cascade do |t|
-    t.string   "name"
-    t.string   "dx_level2_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
+  add_index "dx_level3s", ["dx_level2_id"], name: "index_dx_level3s_on_dx_level2_id"
 
   create_table "end_dxes", force: :cascade do |t|
     t.string   "name"
@@ -43,34 +45,45 @@ ActiveRecord::Schema.define(version: 20160403074410) do
     t.datetime "updated_at",  null: false
   end
 
+  add_index "end_dxes", ["dxable_type", "dxable_id"], name: "index_end_dxes_on_dxable_type_and_dxable_id"
+
   create_table "expert_reports", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "report_number"
+    t.string   "report_text"
+    t.integer  "end_dx_id"
+    t.integer  "times_attempted"
+    t.integer  "correct_diagnosis"
+    t.decimal  "difficulty"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
+
+  add_index "expert_reports", ["end_dx_id"], name: "index_expert_reports_on_end_dx_id"
 
   create_table "learner_dxes", force: :cascade do |t|
-      t.string "name" 
-      t.string "end_dx_id"
-      t.string "user_id"
-      t.boolean "review_list"
-      t.integer "cases_attempted"
-      t.integer "correct_dx"
-      t.integer "excellent_cases"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name"
+    t.integer  "end_dx_id"
+    t.integer  "user_id"
+    t.boolean  "review_list"
+    t.integer  "cases_attempted"
+    t.integer  "correct_dx"
+    t.integer  "excellent_cases"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  create_table "learner_models", force: :cascade do |t|
-    t.float "abdominal"
-    t.float "cardiothoracic"
-    t.float "ent"
-    t.float "neuroradiology"
-    t.float "musculoskeletal"
-    t.float "paediatric"
-    t.float "breast"
-    t.float "obsgynae"
-    t.float "vascular"
+  add_index "learner_dxes", ["end_dx_id"], name: "index_learner_dxes_on_end_dx_id"
+  add_index "learner_dxes", ["user_id"], name: "index_learner_dxes_on_user_id"
+
+  create_table "learner_infos", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "expert_report_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
+
+  add_index "learner_infos", ["expert_report_id"], name: "index_learner_infos_on_expert_report_id"
+  add_index "learner_infos", ["user_id"], name: "index_learner_infos_on_user_id"
 
   create_table "reoccurences", force: :cascade do |t|
     t.string   "query"
@@ -98,12 +111,12 @@ ActiveRecord::Schema.define(version: 20160403074410) do
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
     t.string   "firstname"
     t.string   "lastname"
     t.string   "year_of_training"
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"

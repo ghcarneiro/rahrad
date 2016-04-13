@@ -9,12 +9,18 @@
 <h2>Review list</h2>
 <% if @ldx.present? %>
 <% end %>
+<%= form_tag("/problems/review_select", method: "get") do %>
 <table class="table">
 <% @ldx.each do |l| %>
-<tr><td><%= l.name %></td><td>A</td></tr>
+<tr><td>
+<%= label_tag(l.name, (l.end_dx.dxable.name + " -> " + l.name)) %>
+<%= check_box_tag("id[]", l.id, false, :id => l.id) %>
+</td></tr>
 <% end %>
+<%= submit_tag("Find practice cases") %>
 <% if !@ldx.present? %>
 <tr><td><p>Your review list is empty.</p><p> <%= link_to "Click here", review_list_add_problems_path %> to add some diagnoses to your review list.</p></td></tr>
 <% end %>
 </table>
+<% end %>
 

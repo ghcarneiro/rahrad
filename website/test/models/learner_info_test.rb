@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class LearnerModelTest < ActiveSupport::TestCase
+class LearnerInfoTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

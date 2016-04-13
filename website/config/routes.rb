@@ -51,11 +51,15 @@ Rails.application.routes.draw do
       get 'review_list'
       get 'review_list_add'
       get 'review_list_remove'
-      get 'review_list_r'
-      get 'review_list_a'
+      get 'review_select'
     end 
   end
 
+  resources :teachings do
+    collection do
+      get 'indexcopy'
+    end 
+  end
   # Example resource route with options:
   #   resources :products do
   #     member do
