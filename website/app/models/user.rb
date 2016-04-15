@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
   has_many :saved_searches, dependent: :destroy
 
   has_many :learner_dxes, dependent: :destroy
-  has_one :learner_info
+  has_one :learner_info, dependent: :destroy
+  has_many :student_reports, dependent: :destroy
 
   after_create :create_learner_dx
   after_create :create_learner_info

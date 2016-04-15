@@ -50,7 +50,9 @@ ActiveRecord::Schema.define(version: 20160412225336) do
   create_table "expert_reports", force: :cascade do |t|
     t.string   "report_number"
     t.string   "report_text"
+    t.string   "report_image"
     t.integer  "end_dx_id"
+    t.integer  "learner_info_id"
     t.integer  "times_attempted"
     t.integer  "correct_diagnosis"
     t.decimal  "difficulty"
@@ -104,6 +106,13 @@ ActiveRecord::Schema.define(version: 20160412225336) do
   end
 
   create_table "student_reports", force: :cascade do |t|
+    t.string "report_text"
+    t.boolean "diagnosis_found"
+    t.integer "correct_sentences"
+    t.integer "missing_sentences"
+    t.integer  "expert_report_id"
+    t.integer  "learner_dx_id"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -5,9 +5,8 @@
 
 <%= render "nav" %>
 	<div style="padding-top: 30px">
-	<img src="/assets/reviewlist.jpg" style="width: 200px; height: 200px" />
 	<p style="font-size: 20px">
-	Add to review list
+	<span class="glyphicon glyphicon-plus" style="color:green"></span> Add to review list
 	</p>
 	<p>
 	Search for a diagnosis from the RANZCR Radiodiagnosis Curriculum
@@ -56,6 +55,15 @@
 		<% end %>
 		<% @searchdx.each do |s| %>
 			<tr><td>
+	<% if s.end_dx.category == "key" %>
+	<span class="key">Key diagnosis </span>
+	<% elsif s.end_dx.category == "1" %>
+	Category 1
+	<% elsif s.end_dx.category == "2" %>
+	Category 2
+	<% elsif s.end_dx.category == "3" %>
+	Category 3
+	<% end %>
 			<%= label_tag(s.name, (s.end_dx.dxable.name + " -> " + s.name)) %>
 			<%= check_box_tag("id[]", s.id, false, :id => s.id) %>
 			</td></tr>

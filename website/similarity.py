@@ -15,18 +15,18 @@ def runReportSimilarity2(fileName,threshold=0.9):
         report2 = fileText[1]
 
         startLoc1 = -1
-        #startLoc2 = -1
+        startLoc2 = -1
         for word in wordsToFind:
                 if startLoc1 == -1 and report1.find(word) != -1:
                         startLoc1 = report1.find(word)+len(word)
-                #if startLoc2 == -1 and report2.find(word) != -1:
-                #       startLoc2 = report2.find(word)+len(word)
+                if startLoc2 == -1 and report2.find(word) != -1:
+                       startLoc2 = report2.find(word)+len(word)
 
 	
         sCom = []
 		
 	report1 = report1[startLoc1:]
-	#report2 = report2[startLoc2:]
+	report2 = report2[startLoc2:]
 	sentences1 = report1.split('.')
 	sent1 = sentences1[:]
 	sentences2 = report2.split('.')
@@ -123,131 +123,131 @@ def runReportSimilarity2(fileName,threshold=0.9):
 	return output
 
 def runReportSimilarity(fileName,threshold=0.9,reportType="lsi"):
-        """ Assumes reports have FINDINGS: or REPORT: """
-        fileText = [row.rstrip('\n') for row in open(fileName)]
+    """ Assumes reports have FINDINGS: or REPORT: """
+    fileText = [row.rstrip('\n') for row in open(fileName)]
                 
-        wordsToFind = ["FINDINGS:","REPORT:"]
-        report1 = fileText[0]
-        report2 = fileText[1]
+    wordsToFind = ["FINDINGS:","REPORT:"]
+    report1 = fileText[0]
+    report2 = fileText[1]
 
-        startLoc1 = -1
-        #startLoc2 = -1
-        for word in wordsToFind:
-                if startLoc1 == -1 and report1.find(word) != -1:
-                        startLoc1 = report1.find(word)+len(word)
-                #if startLoc2 == -1 and report2.find(word) != -1:
-                #       startLoc2 = report2.find(word)+len(word)
+    startLoc1 = -1
+    startLoc2 = -1
+    for word in wordsToFind:
+        if startLoc1 == -1 and report1.find(word) != -1:
+            startLoc1 = report1.find(word)+len(word)
+        if startLoc2 == -1 and report2.find(word) != -1:
+            startLoc2 = report2.find(word)+len(word)
 
-        sCom = []
-	report1 = report1[startLoc1:]
-	sentences1 = rnn.splitIntoSentences(report1)
-	sentences2 = rnn.splitIntoSentences(report2)
+    sCom = []
+
+	#sentences1 = rnn.splitIntoSentences(report1)
+	#sentences2 = rnn.splitIntoSentences(report2)
 
 	#sentences1 = rnn.textPreprocess(report1)
 	#sentences2 = rnn.textPreprocess(report2)
 
-	#sentences1 = report1.split('.')
-	#sentences2 = report2.split('.')
-	sent1 = sentences1[:]
-	sent2 = sentences2[:]
+    report1 = report1[startLoc1:]
+    report2 = report2[startLoc2:]
+    sentences1 = report1.split('.')
+    sentences2 = report2.split('.')
+    sent1 = sentences1[:]
+    sent2 = sentences2[:]
 
-	if reportType == "lsi":
-		#report2 = report2[startLoc2:]
-			
-		report1 = search_engine.textPreprocess(report1)
-		report1 = search_engine.getDerivations(report1)
-		report2 = search_engine.textPreprocess(report2)
-		report2 = search_engine.getDerivations(report2)
-		for i in range(len(sentences1)):
-			sentences1[i] = search_engine.textPreprocess(sentences1[i])
-			sentences1[i] = search_engine.getDerivations(sentences1[i])
-		for i in range(len(sentences2)):
-			sentences2[i] = search_engine.textPreprocess(sentences2[i])
-			sentences2[i] = search_engine.getDerivations(sentences2[i])
+    if reportType == "lsi":
+        report1 = search_engine.textPreprocess(report1)
+        report1 = search_engine.getDerivations(report1)
+        report2 = search_engine.textPreprocess(report2)
+        report2 = search_engine.getDerivations(report2)
+        for i in range(len(sentences1)):
+            sentences1[i] = search_engine.textPreprocess(sentences1[i])
+            sentences1[i] = search_engine.getDerivations(sentences1[i])
+        for i in range(len(sentences2)):
+            sentences2[i] = search_engine.textPreprocess(sentences2[i])
+            sentences2[i] = search_engine.getDerivations(sentences2[i])
 
 		#corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
-		tfidf_model = gensim.models.TfidfModel.load('./model_files/reports.tfidf_model')
-		lsi_model = gensim.models.LsiModel.load('./model_files/reports.lsi_model')
+        tfidf_model = gensim.models.TfidfModel.load('./model_files/reports.tfidf_model')
+        lsi_model = gensim.models.LsiModel.load('./model_files/reports.lsi_model')
 
-		dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
-		vec_lsi1 = lsi_model[tfidf_model[dictionary.doc2bow(report1)]]
-		vec_lsi2 = lsi_model[tfidf_model[dictionary.doc2bow(report2)]]
-		sen1Corp = [dictionary.doc2bow(sent) for sent in sentences1]
-		sen2Corp = [dictionary.doc2bow(sent) for sent in sentences2]
-		vec_lsis1 = lsi_model[tfidf_model[sen1Corp]]
-		vec_lsis2 = lsi_model[tfidf_model[sen2Corp]]
+        dictionary = gensim.corpora.Dictionary.load('./model_files/reports.dict')
+        vec_lsi1 = lsi_model[tfidf_model[dictionary.doc2bow(report1)]]
+        vec_lsi2 = lsi_model[tfidf_model[dictionary.doc2bow(report2)]]
+        sen1Corp = [dictionary.doc2bow(sent) for sent in sentences1]
+        sen2Corp = [dictionary.doc2bow(sent) for sent in sentences2]
+        vec_lsis1 = lsi_model[tfidf_model[sen1Corp]]
+        vec_lsis2 = lsi_model[tfidf_model[sen2Corp]]
 
 		# print corpus.num_terms
 		# ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=corpus.num_terms)
-		ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=10)
+        ind = gensim.similarities.MatrixSimilarity(vec_lsis1,num_features=10)
 		# similarity table
-		for  i in vec_lsis2:
-			sCom.append(ind[i])
-	elif reportType == "rnn":
-		sCom = rnn.compareReportSentences(report1,report2)
-		sCom2 = []
-		for i in range(len(sCom[0])):
-			row = []
-			for j in range(len(sCom)):
-				row.append(sCom[j][i])
-			sCom2.append(row)
+        for  i in vec_lsis2:
+            sCom.append(ind[i])
+    elif reportType == "rnn":
+        sCom = rnn.compareReportSentences(report1,report2)
+        sCom2 = []
+        for i in range(len(sCom[0])):
+            row = []
+            for j in range(len(sCom)):
+                row.append(sCom[j][i])
+            sCom2.append(row)
 				
-		sCom = sCom2
+        sCom = sCom2
 
-	missing = [0 for s in sent1]
+    missing = [0 for s in sent1]
 	# obtain correct sentence
-	i = 0
+    i = 0
 
-	output = {'missing': 0, 'corrections': 0, 'extras': 0, 'correct': 0}
-	for col in sCom:
+    output = {'missing': 0, 'corrections': 0, 'extras': 0, 'correct': 0}
+    for col in sCom:
 	#for col in range(len(sCom[0]))
 	#for col in sent2: 
-		aboveTopThreshold = False 
-		j = 0
-		bestSim = 0
-		for sim in col:
-			if sim > threshold: 
-				aboveTopThreshold = True 
-			if sim > bestSim:
-				bestSim = sim
-			if missing[j] < sim:
-				missing[j] = sim
+        aboveTopThreshold = False 
+        j = 0
+        bestSim = 0
+        for sim in col:
+            if sim > threshold: 
+                aboveTopThreshold = True 
+            if sim > bestSim:
+                bestSim = sim
+            if missing[j] < sim:
+                missing[j] = sim
 				
-			j+=1
-		if aboveTopThreshold: 
+            j+=1
+        if aboveTopThreshold: 
 			#maybe add percentage for debugging
 			#sent2[i] = " ".join([k for k in sent2[i]])
-			s="n\t"+sent2[i]+"\t"	
-			output['correct'] += 1
-			print s
-		else:
+            s="n\t"+sent2[i]+"\t"	
+            output['correct'] += 1
+            print s
+        else:
 			#sent2[i] = " ".join([k for k in sent2[i]])
-			s ="e\t"+sent2[i]+"\t"
-			output['extras'] += 1
-			print s
-		i+=1
-	i=0
-	for k in missing:
-		if k <= threshold:
+            s ="e\t"+sent2[i]+"\t"
+            output['extras'] += 1
+            print s
+        i+=1
+    i=0
+    for k in missing:
+        if k <= threshold:
 			#sent1[i] = " ".join([k for k in sent1[i]])
 			#s = str(k)
-			s = "m\t"+sent1[i]+"\t"
-			output['missing'] += 1
-			print s
+            s = "m\t"+sent1[i]+"\t"
+            output['missing'] += 1
+            print s
 			
-		i+=1
+        i+=1
 			
-	return output
+    return output
 			
 
-	'''
+    '''
         # (1,2,3,...,n) for permutations of which sentence gets which sentence
         perms = []
         for i in range(len(sentences2)):
                 if i < len(sentences1):
-                        perms.append(i)
+                    perms.append(i)
                 else:
-                        perms.append(-1)
+                    perms.append(-1)
 
         bestPerm = []
         bestPermResult = []
@@ -258,7 +258,7 @@ def runReportSimilarity(fileName,threshold=0.9,reportType="lsi"):
                 indice = 0
                 permResult = [x for x in range(len(perms))]
                 for j in i:
-                        if j != -1:
+                    if j != -1:
                                 nextResult += sCom[indice][j]
                                 permResult[indice] = sCom[indice][j]
                         else:
@@ -421,17 +421,17 @@ if __name__ == '__main__':
                 sys.exit()
 
 	fileName = str(sys.argv[1])
-	if (len(sys.argv) == 4):
-		threshold = float(sys.argv[2])/100
-		modelType = sys.argv[3]
-		runReportSimilarity(fileName,threshold,modelType)
+	#if (len(sys.argv) == 4):
+	#	threshold = float(sys.argv[2])/100
+	#	modelType = sys.argv[3]
+	#	runReportSimilarity(fileName,threshold,modelType)
 		#runReportSimilarity(fileName,threshold)
-	elif len(sys.argv) == 3:
-		threshold = float(sys.argv[2])/100
-		runReportSimilarity(fileName,threshold)
+	#elif len(sys.argv) == 3:
+	#	threshold = float(sys.argv[2])/100
+	#	runReportSimilarity(fileName,threshold)
 		
-	else:
-		runReportSimilarity(fileName)
+	#else:
+	runReportSimilarity(fileName)
         
 	
 	#fileName2 = str(sys.argv[2])

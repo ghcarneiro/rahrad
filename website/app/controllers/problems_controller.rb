@@ -66,41 +66,69 @@ class ProblemsController < ApplicationController
 	def review_select
 		@nodx = true # If no diagnoses have been selected for removal, no additional text will be displayed
 		@learnerinfo = LearnerInfo.where(:user_id => current_user.id).first
+
+		# All the expert reports from each selected diagnosis are connected 
+		# to the user's learner info. A random report can then be selected out of all of these.
+		# This code runs when the trainee selects diagnoses to review from their review list
+		# It connects each report from each selected diagnosis to the trainee's learner info then chooses a random one to display
 		if params[:id]
-			@nodx = false
-			@string = LearnerDx.where(:id => params[:id])			
-			@string.each do |s|
-				@test = ExpertReport.where(:end_dx_id => s.end_dx_id).first
-				@learnerinfo.expert_report_id = @test.id
-				@learnerinfo.save
+			# Remove old current report
+			@currentreport = ExpertReport.where(:id => @learnerinfo.expert_report_id).first
+			if @currentreport.present?
+				@currentreport = "0"
 			end
-		end
+
+			@nodx = false
+			@string = LearnerDx.where(:id => params[:id])
+			@string.each do |n|
+				@select = ExpertReport.where(:end_dx_id => n.end_dx_id)
+				@select.each do |s|
+					s.learner_info_id = @learnerinfo.id
+					s.save
+				end
+			end
+			@ids = ExpertReport.where(:learner_info_id => @learnerinfo.id)
+			@currentreport = ExpertReport.find(@ids.sample)
+			@learnerinfo.expert_report_id = @currentreport.id
+			@learnerinfo.save
+
+			#@ids = ExpertReport.where(:end_dx_id => @string.end_dx_id).pluck(:id)
+			#@test = ExpertReport.find(@ids.sample)
+			#@learnerinfo.expert_report_id = @test.id
+			#@learnerinfo.save
 
 
-		@currentreport = ExpertReport.where(:id => @learnerinfo.expert_report_id).first
 		# create a file called fileName that will store information that will be used by the search engine
 		# the search engine program will reference the name 'fileName' statically (because I don't know how to pass parameter using %x)
 		# so you shouldn't change this name
-		if params[:q].present?
+		# This code runs when the trainee's report is submitted
+		elsif params[:q].present?
+			@currentreport = ExpertReport.where(:id => @learnerinfo.expert_report_id).first
 			@user_report = params[:q]
+			r = StudentReport.new
+			r.report_text = @user_report
+			r.diagnosis_found = true
+			r.expert_report_id = @currentreport.id
+			r.user_id = current_user.id
+			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).first
+			r.learner_dx_id = @learnerdx.id
+			r.save
+
+
 			fileName = "fileName"
 			out_file = File.new(fileName, "w")
 			# Get the original report, store in file
-			out_file.puts('"00R000062","2400      CT HEAD - PLAIN L3   CT HEAD CLINICAL DETAILS:  UNENHANCED AXIAL IMAGES FROM SKULL BASE TO VERTEX.  IMAGES PHOTOGRAPHED ON SOFT TISSUE AND BONE WINDOWS.  CLINICAL DETAILS:  MVA ROLL OVER.  AMNESIC TO EVENT.  GCS 15 AT SCENE - LOC IN TRANSIT.   NOW 13-15, INAPPROPRIATE.  LARGE RIGHT TEMPORAL HAEMTOMA. MALOCCLUSION OF JAW.  FINDINGS:  RIGHT SIDED SCALP HAEMATOMA.  NO EXTRA-AXIAL COLLECTION.  THE GREY WHITE MATTER DIFFERENTIATION IS NORMAL.  NO HAEMORRHAGE OR MASS LESION.  NO EVIDENCE OF ACUTE OR OLD INFARCTION.  THE DILATATION OF THE VENTRICLES, SULCI AND BASAL CISTERNS ARE NORMAL FOR THE PATIENT\'S AGE.  NO FRACTURE DEMONSTRATED. CONCLUSION:  RIGHT SIDED SCALP HAEMATOMA.  OTHERWISE NORMAL STUDY')
+			out_file.puts(@currentreport.report_text)
 
 			# 1) search query
 			# Get search query, stores the search query in the file
 			@query = params[:q]
-			threshold = params[:t].to_f
-			modelType = params[:modelType]
-			puts "model Type"
-			puts modelType
 			out_file.puts(@query)
 
 			# done close the file
 			out_file.close
 			
-			resultTemp = %x(python similarity.py fileName #{threshold} #{modelType})
+			resultTemp = %x(python simple-similarity.py fileName)
 			
 			# we should process resultCSV so that it can be displayed correctly
 			resultTemp = resultTemp.split("\n")
@@ -112,9 +140,20 @@ class ProblemsController < ApplicationController
 			resultTemp.each do |i|
 				temp = i.split("\t")
 				@result[temp[0].to_sym].push(temp[1])
+
+			@percentage = ((@result[:n].length).to_f/(@result[:m].length + @result[:n].length))*100
+
+			
 			end	
+
 			# Then we deleted the fileName file, because the search_engine program finished using it
 			#File.delete(fileName)
+		# Second report
+		else
+			@ids = ExpertReport.where(:learner_info_id => @learnerinfo.id)
+			@currentreport = ExpertReport.find(@ids.sample)
+			@learnerinfo.expert_report_id = @currentreport.id
+			@learnerinfo.save
 		end
 	end
 end

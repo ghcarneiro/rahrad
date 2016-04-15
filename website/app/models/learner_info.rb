@@ -1,4 +1,4 @@
 class LearnerInfo < ActiveRecord::Base
-  belongs_to :expert_report
+  has_and_belongs_to_many :expert_reports
   has_one :user
 end

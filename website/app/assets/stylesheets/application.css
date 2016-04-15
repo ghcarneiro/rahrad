@@ -65,6 +65,15 @@ form#change {
 	float:left;
 	margin-bottom:10px;
 }
+/**
+
+
+**/
+/* Key diagnoses */
+.key {
+  color: green;
+}
+
 .corrections-box {
   text-align:left;
   margin: 0 0 10px;
@@ -80,6 +89,9 @@ form#change {
   float:right;
   color:blue
   margin-bottom:0px;
+}
+.correction-stats {
+  text-align:left;
 }
 #search-box {
   padding:6px 12px 30px 12px;
@@ -100,7 +112,7 @@ form#change {
 }
 .correct-categories {
 	display: flex;
-	font-size:2em;
+	font-size:1.5em;
 }
 strong {
 	border-radius: 2px;

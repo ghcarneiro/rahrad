@@ -5,7 +5,7 @@
 
 <%= render "nav" %>
 <p></p>
-<h2>Review list</h2>
+<h2>Remove from review list</h2>
 <%= form_tag("/problems/review_list_remove", method: "get") do %>
 <table class="table">
 <% if @count == 1 %>
@@ -16,6 +16,15 @@
 	<% if @ldx.present? %>
 		<% @ldx.each do |l| %>
 			<tr><td>
+	<% if l.end_dx.category == "key" %>
+	<span class="key">Key diagnosis </span>
+	<% elsif l.end_dx.category == "1" %>
+	Category 1
+	<% elsif l.end_dx.category == "2" %>
+	Category 2
+	<% elsif l.end_dx.category == "3" %>
+	Category 3
+	<% end %>
 			<%= label_tag(l.name, (l.end_dx.dxable.name + " -> " + l.name)) %>
 			<%= check_box_tag("id[]", l.id, false, :id => l.id) %>
 			</td></tr>
