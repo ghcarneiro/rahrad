@@ -1,6 +1,7 @@
 from __future__ import division
 from __future__ import print_function
 import pickle
+import random
 import csv
 import re
 from nltk import stem
@@ -18,6 +19,8 @@ import theano
 import math
 import decimal
 import time
+#from . import backend as K
+
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
 REPORT_FILES_BRAINS = ['nlp_data/CleanedBrainsFull.csv']
 REPORT_FILES_CTPA = ['nlp_data/CleanedCTPAFull.csv']
@@ -34,8 +37,6 @@ REPORT_FILES_LABELLED_PVAB = ['nlp_data/CleanedPvabLabelled.csv']
 
 DIAGNOSES = ['Brains','CTPA','Plainab','Pvab']
 
-# Global variables for use in RNNs
-# Number of sentence hidden units / sentence vector size
 SENTENCE_HIDDEN = 1000
 # Number of report hidden units / report vector size
 REPORT_HIDDEN = 1000
@@ -114,9 +115,11 @@ def textPreprocess(text):
 def preprocessReports(fileNames=REPORT_FILES):
     allReports = []
     allSentences = []
+	
     for j in range(len(fileNames)):
         reports = preprocess.getReports([fileNames[j]])
     	print("loading finished")
+	prevSentSize = len(allSentences)
     	for i in xrange(len(reports)):
             reports[i] = textPreprocess(reports[i])
             allSentences = allSentences + reports[i]
@@ -135,6 +138,28 @@ def preprocessReports(fileNames=REPORT_FILES):
     file.close()
     print("sentences saved")
 
+# PREPROCESS RAW DOCUMENT WITH NO CSV FORMAT
+# Doesn't really care about reports 
+def preprocessSentences(fileNames=REPORT_FILES):
+    allSentences = []
+	
+    for j in range(len(fileNames)):
+        reports = preprocess.getData([fileNames[j]])
+    	print("loading finished")
+	prevSentSize = len(allSentences)
+    	for i in xrange(len(reports)):
+            reports[i] = textPreprocess(reports[i])
+            allSentences = allSentences + reports[i]
+            if (i%100==0):
+                print (i / len(reports) * 100)
+    	print("preprocessing finished")
+
+    file = open('./model_files/reports_sentences_full', 'w')
+    pickle.dump(allSentences, file)
+    file.close()
+    print("sentences saved")
+
+#TODO: MODIFY THIS FOR THE FULL DATASET FOR LABELLING
 # fetches the raw reports, preprocesses them, then saves them to a single reports file
 # also fetches all the sentences from these reports and saves them to a single sentences file
 # input must be an the directory containing all the report fileNames
@@ -184,6 +209,16 @@ def getProcessedSentences():
 	file.close()
 
 	return sentences
+
+# retrieves all sentences that have been preprocessed
+# output is a list containing the processed sentences
+def getProcessedLabels():
+	file = open('./model_files/reports_sentencelabels_full', 'r')
+	labels = pickle.load(file)
+	file.close()
+
+	return labels 
+
 
 # Initialised the epoch training file with the number of epochs
 # Input is number of epochs, epoch completed, epoch completion time
@@ -265,11 +300,15 @@ def testWord2VecModel():
 
     print("script finished")
 
+#making global variable for labelled buckets
+#global_label_buckets=[]
+
 # Loads the preprocessed sentences and buckets them into increments of the given size
 # Input is the size of the bucket increments
 # Returns the bucketed processed sentences
 def getBucketedSentences(bucketSize=10):
     sentences = getProcessedSentences()
+	#labels = getProcessedLabels()
     buckets=[]
     # Find the maximum sentence length
     maxLen = 0
@@ -279,14 +318,34 @@ def getBucketedSentences(bucketSize=10):
     # Create buckets of the specified size up to the maximum sentence length
     while maxLen > 0:
         buckets.append([])
+	#global_label_buckets.append([])
         maxLen -= bucketSize
     # Place the sentences into their buckets
     for sentence in sentences:
         index = int(len(sentence)/bucketSize)
         buckets[index].append(sentence)
+    # Place the labels into their buckets
+    #for label in labels:
+    #    index = int(len(label)/bucketSize)
+    #    global_label_buckets[index].append(label)
+    #global_label_bucket = filter(None, global_label_buckets)
+
     # Remove empty buckets
     buckets = filter(None, buckets)
     return buckets
+
+#Todo make it work with global_label_buckets
+#def mse-siamese(y_true, y_pred):
+    #a = y_pred[0::2]
+    #b = y_pred[1::2]
+    #if same label: 
+	#d = T.mean(T.square((a - b)), axis=-1)  # this is now a vector with distances for each pair of examples (a, b)
+    #else:
+	#d = T.mean(-T.square((a - b)), axis=-1)  # this is now a vector with distances for each pair of examples (a, b)
+    #margin = 0.1;
+    #y = T.mean(T.square(y_pred - y_true), axis=-1)
+
+    #return T.mean(y* d + (1 - y) * T.maximum(margin - d, 0))
 
 # Build an RNN on sentences using buckets in increments of the speficied size
 # By default train a new model of 10 epochs with bucket increments of 10
@@ -310,6 +369,8 @@ def buildSentenceRNN(epochs=10,continueTraining=False,bucketSize=10):
         m.add(LSTM(SENTENCE_HIDDEN, input_dim=100, return_sequences=True))
         m.add(LSTM(100, return_sequences=True))
         m.compile(loss='mse', optimizer='adam')
+        #m.compile(loss=mse-siamese, optimizer='adam')
+
         #Store the model architecture to a file
         json_string = m.to_json()
         open('./model_files/reports.rnn_sentence_architecture.json', 'w').write(json_string)
@@ -332,6 +393,7 @@ def buildSentenceRNN(epochs=10,continueTraining=False,bucketSize=10):
                     batch = np.zeros((BATCH_SIZE,currentSize-1,100),dtype=np.float32)
                     expected = np.zeros((BATCH_SIZE,currentSize-1,100),dtype=np.float32)
                 # Convert sentence to dense
+		# TODO: check that we're actually doing number tokens here???
                 newSentence = []
                 for token in sentence:
                     if token in word_model:
@@ -445,6 +507,16 @@ def buildSentenceRNNWindowed(epochs=10,continueTraining=False):
         print("Updated weights and status files")
     print("Trained sentence model")
 
+def sample(b, temperature=1.0):
+    # helper function to sample an index from a probability array
+    a = b.tolist()
+    a = np.log(a) / temperature
+    a = np.exp(a) / np.sum(np.exp(a))
+    a = np.argmax(np.random.multinomial(1, a, 1))
+    b[a] = 1.0
+    return b
+
+'''
 # Predicts the next words after the given input phrase
 # Input is a string and the number of words to predict (default is 5)
 # No return, however the word vectors and predictions are printed
@@ -459,6 +531,37 @@ def nextWords(phrase,numWords=5):
 
     phrase = textPreprocess(phrase)[0]
 
+    # add an unknown token
+    for diversity in [0.2, 0.5, 1.0, 1.2]:
+        newPhrase=[]
+        for token in phrase:
+            if token in word_model:
+                newPhrase.append(word_model[token])
+        while (numWords>0):
+            x=np.asarray([newPhrase])
+            #nextWord = model.predict(x,batch_size=1)
+    	    preds = model.predict(x,batch_size=1)
+    	    nextWord = sample(preds[0][len(newPhrase)-1], diversity)
+            newPhrase.append(nextWord)
+            numWords -= 1
+        print("words in vector format are:")
+        print(newPhrase)
+        print("sentence is:")
+        for word in newPhrase:
+    	#if word is the same as last word regenerate with topn=2
+    	#but need to do this part earlier`
+            print(word_model.most_similar(positive=[word],topn=1)[0][0])
+'''
+def nextWords(phrase,numWords=5,variability=5):
+    print("loading word2vec model")
+    word_model = gensim.models.Word2Vec.load("./model_files/reports.word2vec_model")
+    print("loaded word2vec model")
+    print("loading RNN sentence model")
+    model = model_from_json(open('./model_files/reports.rnn_sentence_architecture.json').read())
+    model.load_weights('./model_files/reports.rnn_sentence_weights.h5')
+    print("RNN sentence model loaded")
+
+    phrase = textPreprocess(phrase)[0]
     newPhrase=[]
     for token in phrase:
         if token in word_model:
@@ -466,13 +569,15 @@ def nextWords(phrase,numWords=5):
     while (numWords>0):
         x=np.asarray([newPhrase])
         nextWord = model.predict(x,batch_size=1)
-        newPhrase.append(nextWord[0][len(newPhrase)-1])
+	nextWord = word_model.most_similar(positive=[nextWord[0][len(newPhrase)-1]],topn=variability)[random.randint(0,variability-1)][0]
+	newPhrase.append(word_model[nextWord])
         numWords -= 1
-    print("words in vector format are:")
-    print(newPhrase)
+    #print("words in vector format are:")
+    #print(newPhrase)
     print("sentence is:")
     for word in newPhrase:
-        print(word_model.most_similar(positive=[word],topn=1)[0][0])
+        print(word_model.most_similar(positive=[word],topn=1)[0][0],end=" ")
+    print()
 
 # Converts the sentence predictor model to a sentence encoder only model
 # Required to be able to generate sentence vectors
