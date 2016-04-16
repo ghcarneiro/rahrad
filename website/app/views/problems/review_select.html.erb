@@ -49,7 +49,7 @@ $(document).ready(function(){
                 </div>
 			
                 <div class="col-md-6">
-
+			Gensim currently toggled OFF. | Toggle on
 			<% if params[:q].present? %>
 				<div class="corrections-box">
 				<%= label_tag nil,"Report feedback",:id => "corrections-label" %>
@@ -177,12 +177,28 @@ $(document).ready(function(){
           <table><tr>
 	<td>
 	<h4>Expert report</h4>
-	<% if @currentreport.present? %>
-	<%= @currentreport.report_text %>
+	<% if @expert_sentences.present? %>
+	<% @count = 0 %>
+	<% @expert_sentences.each do |i| %>
+		<% if @studentreport.missing_sentences.include?(@count.to_s) %>
+			<span style="color: red"><%= i %></span>
+		<% else %>
+			<%= i %>
+		<% end %>
+		<% @count = @count + 1 %>
+	<% end %>
 	<% end %>
 	</td><td><h4>Your report</h4>			
-	<% if @user_report.present? %>
-	<%= @user_report %>
+	<% if @student_sentences.present? %>
+	<% @count = 0 %>
+	<% @student_sentences.each do |i| %>
+		<% if @studentreport.correct_sentences.include?(@count.to_s) %>
+			<span style="color: green"><%= i %></span>
+		<% else %>
+			<%= i %>
+		<% end %>
+		<% @count = @count + 1 %>
+	<% end %>
 	<% end %>
 	</td></tr></table>
         </div>

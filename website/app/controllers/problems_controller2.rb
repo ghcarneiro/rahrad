@@ -98,7 +98,86 @@ class ProblemsController < ApplicationController
 			#@learnerinfo.expert_report_id = @test.id
 			#@learnerinfo.save
 
-		elsif params[:q].present? and @gensim == false
+
+		# create a file called fileName that will store information that will be used by the search engine
+		# the search engine program will reference the name 'fileName' statically (because I don't know how to pass parameter using %x)
+		# so you shouldn't change this name
+		# This code runs when the trainee's report is submitted
+		elsif params[:q].present? and @gensim = true
+			@currentreport = ExpertReport.where(:id => @learnerinfo.expert_report_id).first
+			@user_report = params[:q]
+
+			fileName = "fileName"
+			out_file = File.new(fileName, "w")
+			# Get the original report, store in file
+			out_file.puts(@currentreport.report_text)
+
+			# 1) search query
+			# Get search query, stores the search query in the file
+			@query = params[:q]
+			out_file.puts(@query)
+
+			# done close the file
+			out_file.close
+			
+			resultTemp = %x(python mock-similarity.py fileName)
+			
+			# we should process resultCSV so that it can be displayed correctly
+			resultTemp = resultTemp.split("\n")
+			@result = {
+				n: Array.new,
+				e: Array.new,
+				m: Array.new,
+				t: Array.new
+			}	
+
+			r = StudentReport.new
+			r.diagnosis_found = true
+			r.expert_report_id = @currentreport.id
+			r.user_id = current_user.id
+			r.report_sentences = Array.new
+			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).first
+			r.learner_dx_id = @learnerdx.id
+
+			@createnew = 0
+
+			resultTemp.each do |i|
+				if (i.include? "n	") or (i.include? "e	") or (i.include? "m	") or (i.include? "t	")
+					temp = i.split("\t")
+					@result[temp[0].to_sym].push(temp[1])
+					if temp[0].to_sym == :"n"
+						r.correct_sentences << temp[2]
+						r.report_sentences << temp[1]
+					elsif temp[0].to_sym == :"e"
+						r.report_sentences << temp[1]
+					elsif temp[0].to_sym == :"m"
+						r.missing_sentences << temp[2]
+						if @currentreport.report_sentences.nil?
+							@currentreport.report_sentences = Array.new
+							@currentreport.report_sentences << temp[1]
+							@createnew = 1
+						elsif @createnew = 1
+							@currentreport.report_sentences << temp[1]
+						end
+					elsif temp[0].to_sym == :"t"
+						if @currentreport.report_sentences.nil?
+							@currentreport.report_sentences << temp[1]
+							@createnew = 1
+						elsif @createnew = 1
+							@currentreport.report_sentences << temp[1]
+						end
+					end
+				end
+			end
+
+			# Save student report
+			r.save
+			@studentreport = r
+			@studenttext = r.report_sentences
+			@experttext = @currentreport.report_sentences
+			@percentage = ((@result[:n].length).to_f/(@result[:m].length + @result[:n].length))*100
+
+		elsif params[:q].present? and @gensim = false
 			@currentreport = ExpertReport.where(:id => @learnerinfo.expert_report_id).first
 			@user_report = params[:q]
 
@@ -127,13 +206,13 @@ class ProblemsController < ApplicationController
 			}	
 
 			r = StudentReport.new
-			r.report_text = @user_report
 			r.diagnosis_found = true
 			r.expert_report_id = @currentreport.id
 			r.user_id = current_user.id
 			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).first
 			r.learner_dx_id = @learnerdx.id
 
+			@createnew = 0
 
 			resultTemp.each do |i|
 				if (i.include? "n	") or (i.include? "e	") or (i.include? "m	") or (i.include? "t	")
@@ -141,8 +220,24 @@ class ProblemsController < ApplicationController
 					@result[temp[0].to_sym].push(temp[1])
 					if temp[0].to_sym == :"n"
 						r.correct_sentences << temp[2]
+						r.report_sentences << temp[1]
+					elsif temp[0].to_sym == :"e"
+						r.report_sentences << temp[1]
 					elsif temp[0].to_sym == :"m"
 						r.missing_sentences << temp[2]
+						if @currentreport.report_sentences.nil?
+							@currentreport.report_sentences << temp[1]
+							@createnew = 1
+						elsif @createnew = 1
+							@currentreport.report_sentences << temp[1]
+						end
+					elsif temp[0].to_sym == :"t"
+						if @currentreport.report_sentences.nil?
+							@currentreport.report_sentences << temp[1]
+							@createnew = 1
+						elsif @createnew = 1
+							@currentreport.report_sentences << temp[1]
+						end
 					end
 				end
 			end
@@ -150,10 +245,8 @@ class ProblemsController < ApplicationController
 			# Save student report
 			r.save
 			@studentreport = r
-
-			#Split text into sentences
-			@expert_sentences = @currentreport.report_text.split(".")
-			@student_sentences = r.report_text.split(".")
+			@studenttext = r.report_sentences
+			@experttext = @currentreport.report_sentences
 			@percentage = ((@result[:n].length).to_f/(@result[:m].length + @result[:n].length))*100
 	
 
