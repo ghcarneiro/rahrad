@@ -101,11 +101,26 @@ end
 
 	end
 def concept
+	    @array = Array.new
 	    @dxlevel1s = DxLevel1.all
+
+	    @dxlevel1s.each do |d1|
+		@enddx = EndDx.where(:l1_name => d1.name).first
+		@subdx = LearnerDx.where(:user_id => current_user.id).where(:end_dx_id => @enddx.id)
+	        @correct = 0
+	        @total = 0
+	        @score = 0
+		@subdx.each do |s|
+			@correct += s.correct_dx
+			@total += s.cases_attempted
+			if @total != 0
+				@score = @correct/@total
+			end
+		end
+		@array << @score
+	    end
             #@nodxlevel3s = DxLevel2.includes(:dx_level3s).where(:dx_level3s => {:dxable_id => nil})
 	    #@hasdxlevel3s = DxLevel2.includes(:dx_level3s).where("dx_level3s.dxable_id IS NOT NULL")
-	    @dxlevel2s = DxLevel2.all
-	    @enddxes = EndDx.all
 
 end
 

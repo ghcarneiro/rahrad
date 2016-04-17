@@ -5,7 +5,7 @@ import numpy as np
 import re
 from random import randint
 
-def runReportSimilarity(fileName,threshold=0.9):
+def runReportSimilarity(fileName,threshold=0.7):
     """ Assumes reports have FINDINGS: or REPORT: """
     fileText = [row.rstrip('\n') for row in open(fileName)]
                 
@@ -48,7 +48,7 @@ def runReportSimilarity(fileName,threshold=0.9):
             output['correct'] += 1
             correct_sent += 1
             print s
-        elif sentence != "":
+        elif (sentence.strip()) != "": # Checks that string is not empty
             s ="e\t"+sent2[i]+" "+str(k)+"\t"+str(i)
             output['extras'] += 1
             print s
@@ -68,7 +68,7 @@ def runReportSimilarity(fileName,threshold=0.9):
             s = "t\t"+sent1[i]+"\t"+str(i)
             match_sent += 1
             print s
-        else:
+        elif (sentence.strip()) != "": # Checks that string is not empty
             output['missing'] += 1
 	    s = "m\t"+sent1[i]+"\t"+str(i)
             print s		

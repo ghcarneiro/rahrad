@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412225336) do
+ActiveRecord::Schema.define(version: 20160417082949) do
 
   create_table "dx_level1s", force: :cascade do |t|
     t.string   "name"
@@ -37,6 +37,9 @@ ActiveRecord::Schema.define(version: 20160412225336) do
 
   create_table "end_dxes", force: :cascade do |t|
     t.string   "name"
+    t.string   "l1_name"
+    t.string   "l2_name"
+    t.string   "l3_name"
     t.string   "category"
     t.integer  "frequency"
     t.integer  "dxable_id"
@@ -87,6 +90,48 @@ ActiveRecord::Schema.define(version: 20160412225336) do
   add_index "learner_infos", ["expert_report_id"], name: "index_learner_infos_on_expert_report_id"
   add_index "learner_infos", ["user_id"], name: "index_learner_infos_on_user_id"
 
+  create_table "learner_level1s", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "dx_level1_id"
+    t.integer  "user_id"
+    t.integer  "cases_attempted"
+    t.integer  "correct_dx"
+    t.integer  "excellent_cases"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "learner_level1s", ["dx_level1_id"], name: "index_learner_level1s_on_dx_level1_id"
+  add_index "learner_level1s", ["user_id"], name: "index_learner_level1s_on_user_id"
+
+  create_table "learner_level2s", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "dx_level2_id"
+    t.integer  "user_id"
+    t.integer  "cases_attempted"
+    t.integer  "correct_dx"
+    t.integer  "excellent_cases"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "learner_level2s", ["dx_level2_id"], name: "index_learner_level2s_on_dx_level2_id"
+  add_index "learner_level2s", ["user_id"], name: "index_learner_level2s_on_user_id"
+
+  create_table "learner_level3s", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "dx_level3_id"
+    t.integer  "user_id"
+    t.integer  "cases_attempted"
+    t.integer  "correct_dx"
+    t.integer  "excellent_cases"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "learner_level3s", ["dx_level3_id"], name: "index_learner_level3s_on_dx_level3_id"
+  add_index "learner_level3s", ["user_id"], name: "index_learner_level3s_on_user_id"
+
   create_table "reoccurences", force: :cascade do |t|
     t.string   "query"
     t.integer  "interval"
@@ -106,15 +151,15 @@ ActiveRecord::Schema.define(version: 20160412225336) do
   end
 
   create_table "student_reports", force: :cascade do |t|
-    t.string "report_text"
-    t.boolean "diagnosis_found"
-    t.integer "correct_sentences"
-    t.integer "missing_sentences"
+    t.string   "report_text"
+    t.boolean  "diagnosis_found"
+    t.integer  "correct_sentences"
+    t.integer  "missing_sentences"
     t.integer  "expert_report_id"
     t.integer  "learner_dx_id"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "users", force: :cascade do |t|

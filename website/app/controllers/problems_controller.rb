@@ -25,9 +25,10 @@ class ProblemsController < ApplicationController
 			if params[:search] == ""
 				@noparam = true
 			else
-				@searchdx = LearnerDx.where(["name LIKE ?", "%#{params[:search]}%"]).where(:review_list => false).where(:user => current_user.id)
-				#@searchdx = LearnerDx.search(params[:search]).order("created_at DESC")
 				@already_reviewed = LearnerDx.where(["name LIKE ?", "%#{params[:search]}%"]).where(:review_list => true).where(:user => current_user.id)
+				@searchdx = EndDx.where(["name LIKE ?", "%#{params[:search]}%"])
+				#@searchdx = LearnerDx.search(params[:search]).order("created_at DESC")
+				
 			end
 			if !@searchdx.present?
 				@nofound = true
@@ -35,10 +36,21 @@ class ProblemsController < ApplicationController
 		end
 
 		if params[:id]
-			@string = LearnerDx.where(:id => params[:id], :user => current_user.id)
+			@string = EndDx.where(:id => params[:id])
 			@string.each do |s|
-				s.review_list = true
-				s.save
+				@ldx = LearnerDx.where(:end_dx_id => s.id).first
+				# If learner dx doesn't exist for this dx, create it
+				if @ldx.nil?
+					@ldx = LearnerDx.new
+					@ldx.name = s.name
+					@ldx.end_dx_id = s.id
+					@ldx.user_id = current_user.id
+					@ldx.cases_attempted = 0
+					@ldx.correct_dx = 0
+					@ldx.excellent_cases = 0
+				end
+				@ldx.review_list = true
+				@ldx.save
 				@count = @count + 1
 			end
 		end
@@ -74,7 +86,6 @@ class ProblemsController < ApplicationController
 		# It connects each report from each selected diagnosis to the trainee's learner info then chooses a random one to display
 		if params[:id]
 			# Remove old current report
-			@currentreport = ExpertReport.where(:id => @learnerinfo.expert_report_id).first
 			if @currentreport.present?
 				@currentreport = "0"
 			end
@@ -131,7 +142,7 @@ class ProblemsController < ApplicationController
 			r.diagnosis_found = true
 			r.expert_report_id = @currentreport.id
 			r.user_id = current_user.id
-			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).first
+			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
 			r.learner_dx_id = @learnerdx.id
 
 
@@ -147,14 +158,106 @@ class ProblemsController < ApplicationController
 				end
 			end
 
+			@percentage = ((@result[:n].length).to_f/(@result[:m].length + @result[:n].length))*100
+
 			# Save student report
 			r.save
 			@studentreport = r
 
+			# Check if Level 1, 2 and 3 exist for the diagnosis in the learner model - if not, create them
+			@enddx = EndDx.where(:id => @learnerdx.end_dx_id).first
+			if @enddx.category != "key"
+				@dxlevel3 = DxLevel3.where(:id => @enddx.dxable_id).first
+				if @dxlevel3.nil?
+					@dxlevel3 = "NOEXIST"
+					@dxlevel2 = DxLevel2.where(:id => @enddx.dxable_id).first
+				else
+				@dxlevel2 = DxLevel2.where(:id => @dxlevel3.dx_level2_id).first
+				end
+				@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
+			else			
+				@dxlevel1 = DxLevel1.where(:id => @enddx.dxable_id).first
+				@dxlevel2 = "NOEXIST"
+				@dxlevel3 = "NOEXIST"
+			end
+
+			@learner_l1 = LearnerLevel1.where(:dx_level1_id => @dxlevel1.id).first
+
+			if @dxlevel2 != "NOEXIST"
+				@learner_l2 = LearnerLevel2.where(:dx_level2_id => @dxlevel2.id).first
+				if (@learner_l2.nil?) and (@enddx.category != "key")
+					@learner_l2 = LearnerLevel2.new
+					@learner_l2.name = @dxlevel2.name
+					@learner_l2.dx_level2_id = @dxlevel2.id
+					@learner_l2.user_id = current_user.id
+					@learner_l2.cases_attempted = 0
+					@learner_l2.correct_dx = 0
+					@learner_l2.excellent_cases = 0
+				end
+			end
+
+			if @dxlevel3 != "NOEXIST"
+				@learner_l3 = LearnerLevel3.where(:dx_level3_id => @dxlevel3.id).first
+				if (@learner_l3.nil?) and (@enddx.category != "key")
+					@learner_l3 = LearnerLevel3.new
+					@learner_l3.name = @dxlevel3.name
+					@learner_l3.dx_level3_id = @dxlevel3.id
+					@learner_l3.user_id = current_user.id
+					@learner_l3.cases_attempted = 0
+					@learner_l3.correct_dx = 0
+					@learner_l3.excellent_cases = 0
+				end
+			end
+
+			# Increment learner model and expert report and save data
+			@currentreport.times_attempted += 1
+			@learnerdx.cases_attempted += 1
+			@learner_l1.cases_attempted += 1
+			if @learner_l2.present?
+				@learner_l2.cases_attempted += 1
+			end
+			if @learner_l3.present?
+				@learner_l3.cases_attempted += 1
+			end
+			if r.diagnosis_found == true
+				@currentreport.correct_diagnosis += 1
+				@learnerdx.correct_dx += 1
+				@learner_l1.correct_dx += 1
+				if @learner_l2.present?
+					@learner_l2.correct_dx += 1
+				end
+				if @learner_l3.present?
+					@learner_l3.correct_dx += 1
+				end
+				if @percentage > 70
+					@learnerdx.excellent_cases += 1
+					@learner_l1.excellent_cases += 1
+					if @learner_l2.present?
+						@learner_l2.excellent_cases += 1
+					end
+					if @learner_l3.present?
+						@learner_l3.excellent_cases += 1
+					end
+				end
+			end
+
+
+			@currentreport.difficulty = @currentreport.correct_diagnosis/@currentreport.times_attempted * 1.00 # Multiplication to convert to float
+			@currentreport.save
+			@learnerdx.save
+			@learner_l1.save
+			if @learner_l2.present?
+				@learner_l2.save
+			end
+			if @learner_l3.present?
+				@learner_l3.save
+			end
+			
+
 			#Split text into sentences
 			@expert_sentences = @currentreport.report_text.split(".")
 			@student_sentences = r.report_text.split(".")
-			@percentage = ((@result[:n].length).to_f/(@result[:m].length + @result[:n].length))*100
+			
 	
 
 			# Then we deleted the fileName file, because the search_engine program finished using it
@@ -165,6 +268,7 @@ class ProblemsController < ApplicationController
 			@currentreport = ExpertReport.find(@ids.sample)
 			@learnerinfo.expert_report_id = @currentreport.id
 			@learnerinfo.save
+			@showdx = EndDx.where(:id => @currentreport.end_dx_id)
 		end
 	end
 end

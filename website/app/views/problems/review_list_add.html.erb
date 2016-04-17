@@ -55,16 +55,16 @@
 		<% end %>
 		<% @searchdx.each do |s| %>
 			<tr><td>
-	<% if s.end_dx.category == "key" %>
+	<% if s.category == "key" %>
 	<span class="key">Key diagnosis </span>
-	<% elsif s.end_dx.category == "1" %>
+	<% elsif s.category == "1" %>
 	Category 1
-	<% elsif s.end_dx.category == "2" %>
+	<% elsif s.category == "2" %>
 	Category 2
-	<% elsif s.end_dx.category == "3" %>
+	<% elsif s.category == "3" %>
 	Category 3
 	<% end %>
-			<%= label_tag(s.name, (s.end_dx.dxable.name + " -> " + s.name)) %>
+			<%= label_tag(s.name, (s.dxable.name + " -> " + s.name)) %>
 			<%= check_box_tag("id[]", s.id, false, :id => s.id) %>
 			</td></tr>
 		<% end %>

@@ -17,15 +17,16 @@ class User < ActiveRecord::Base
   has_many :learner_level3s, dependent: :destroy
   has_many :learner_dxes, dependent: :destroy
 
+  after_create :create_learner_dx
   after_create :create_learner_info
-  after_create :create_learner_level1s
 
   private
 
-  def create_learner_level1s
-    @dxlist = DxLevel1.all
+  # Method for creating learner model when user is created
+  def create_learner_dx
+    @dxlist = EndDx.all
     @dxlist.each do |dx|
-      LearnerLevel1.create(:user_id => self.id, :dx_level1_id => dx.id, :name => dx.name, :cases_attempted => 0, :correct_dx => 0, :excellent_cases => 0)
+      LearnerDx.create(:user_id => self.id, :end_dx_id => dx.id, :name => dx.name, :review_list => false, :cases_attempted => 0, :correct_dx => 0, :excellent_cases => 0)
     end
   end
 

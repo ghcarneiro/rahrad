@@ -49,13 +49,13 @@
     <!-- Display buttons only if user is logged in  -->
     <% if user_signed_in? %>
       <!-- Repeating searches and saved searches page button -->
-      <%= link_to saved_search_index_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "Access repeating search settings and saved searches" do %>
+      <%= link_to concept_performances_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "View performance" do %>
         <i class="glyphicon glyphicon-list-alt", style="padding-top: 5px;"></i>
       <% end %>
 
       <!-- Search page button -->
-      <%= link_to search_index_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "Start a new search" do %>
-        <i class="glyphicon glyphicon-search", style="padding-top: 5px;"></i>
+      <%= link_to problems_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "Practice cases" do %>
+        <i class="glyphicon glyphicon-pencil", style="padding-top: 5px;"></i>
       <% end %>
 
     <% end %>

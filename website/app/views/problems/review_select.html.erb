@@ -45,7 +45,11 @@ $(document).ready(function(){
         <div class="row">
                 <div class="col-md-6">
                        <!-- <div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:relative"></div> --> 
+		<% if !@currentreport.report_image.nil? %>
 		<%= image_tag(@currentreport.report_image, position: "relative") %> 
+		<% else %>
+			IMAGE GOES HERE FOR REPORT <% @currentreport.report_number %> (<%= @showdx %>)
+		<% end %>
                 </div>
 			
                 <div class="col-md-6">
