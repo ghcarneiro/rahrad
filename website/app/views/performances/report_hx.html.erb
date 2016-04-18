@@ -1,0 +1,120 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>CRISTAL: Report History</title>
+	<link href="/index_files/cornerstone.min.css" rel="stylesheet">
+<% end %>
+
+<script>
+$(document).ready(function() {
+    $('#modal-window').modal('show');
+});
+</script>
+<%= render "nav" %>
+<p></p>
+<table class="table">
+<tr>
+<td>
+<b>Report no.</b>
+</td>
+<td>
+<b>Diagnosis</b>
+</td>
+<td>
+<b>Date written</b>
+</td>
+<td>
+<b>Diagnosis correct</b>
+</td>
+<td>
+<b>Report accuracy</b>
+</td>
+<td>
+<b>No. of missing sentences</b>
+</td>
+<td>
+<b>No. of correct sentences</b>
+</td>
+<td>
+<b>View report</b>
+</td>
+</tr>
+<% @studentreports.each do |r| %>
+<tr>
+<td>
+#<%= @length %>
+</td>
+<td>
+<%= r.learner_dx.name %> 
+<% if r.learner_dx.end_dx.category == "key" %>
+<span class="key">(Key condition)</span>
+<% else %>
+(Category <%= r.learner_dx.end_dx.category %>)
+<% end %>
+</td>
+<td>
+<%= r.created_at %>
+</td>
+<td>
+Yes
+</td>
+<td>
+<%= sprintf('%.2f', r.score) %>%
+</td>
+<td>
+<%= r.missing_sentences.length %>
+</td>
+<td>
+<%= r.correct_sentences.length %>	
+</td>
+<td>
+<%= link_to "Compare report with original", report_hx_performances_path(:id => r.id) %>
+<% @length -= 1 %>
+</td>
+</tr>
+<% end %>
+
+</table>
+
+<% if params[:id].present? %>
+  <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="thing">Report review</h4>
+        </div>
+        <div class="modal-body">
+          <table><tr>
+	<td>
+	<h4>Expert report</h4>
+	<% if @expert_sentences.present? %>
+	<% @count = 0 %>
+	<% @expert_sentences.each do |i| %>
+		<% if @currentreport.missing_sentences.include?(@count.to_s) %>
+			<span style="color: red"><%= i %></span>
+		<% else %>
+			<%= i %>
+		<% end %>
+		<% @count = @count + 1 %>
+	<% end %>
+	<% end %>
+	</td><td><h4>Your report</h4>			
+	<% if @student_sentences.present? %>
+	<% @count = 0 %>
+	<% @student_sentences.each do |i| %>
+		<% if @currentreport.correct_sentences.include?(@count.to_s) %>
+			<span style="color: green"><%= i %></span>
+		<% else %>
+			<%= i %>
+		<% end %>
+		<% @count = @count + 1 %>
+	<% end %>
+	<% end %>
+	</td></tr></table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

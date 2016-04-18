@@ -49,7 +49,7 @@
     <!-- Display buttons only if user is logged in  -->
     <% if user_signed_in? %>
       <!-- Repeating searches and saved searches page button -->
-      <%= link_to concept_performances_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "View performance" do %>
+      <%= link_to report_hx_performances_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "View performance" do %>
         <i class="glyphicon glyphicon-list-alt", style="padding-top: 5px;"></i>
       <% end %>
 

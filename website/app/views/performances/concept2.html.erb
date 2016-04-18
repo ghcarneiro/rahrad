@@ -32,6 +32,13 @@
 <%= render :partial => 'concept', :locals => { :dxlevel1s => @dxlevel1s, :enddxes => @enddxes } %>
 <!-- <div id="datacharts" style="width: 600px; height: 400px"></div> -->
 </td>
+<td>
+<p></p>
+<button class="btn btn-primary btn-sm">Top missed diagnoses</button> <button class="btn btn-default btn-sm">Report history</button> <button class="btn btn-default btn-sm">Progress</button> 
+<div id="reportdata" style="width: 600px; height: 500px; margin: 0 auto">
+<%= render "missedDx" %>
+</div>
+</td>
 </tr>
 </table>
 

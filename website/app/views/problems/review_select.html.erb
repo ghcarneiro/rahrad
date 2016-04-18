@@ -48,7 +48,13 @@ $(document).ready(function(){
 		<% if !@currentreport.report_image.nil? %>
 		<%= image_tag(@currentreport.report_image, position: "relative") %> 
 		<% else %>
-			IMAGE GOES HERE FOR REPORT <% @currentreport.report_number %> (<%= @showdx %>)
+		<table style="color: white; font-size: 2em; background-color: black; width: 500px; height: 500px">
+			<tr>
+			<td>
+			IMAGE GOES HERE FOR REPORT #<%= @currentreport.report_number %> <br /> (<%= @showdx.name %>)
+			</td>
+			</tr>
+		</table>
 		<% end %>
                 </div>
 			

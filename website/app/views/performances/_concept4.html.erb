@@ -1,0 +1,77 @@
+<!-- Don't use < % = at the start of each.do or you get the entire array!!! -->
+
+<table class="table" style="width: 550px; text-align: left; position: relative">
+<% d1_count = 0 %>
+<% dxlevel1s.each do |d1| %>
+<tr>
+<td>
+<% if (@array[d1_count] > 0.7) %>
+<img src="http://i.imgur.com/DGY5DB2.png" width="15px" height="15px" />
+<% elsif (@array[d1_count] > 0.4) %>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+<% else %>
+<img src="http://i.imgur.com/sYk8ovH.png" width="15px" height="15px" />
+<% end %>
+<%= d1.name %> <span class="glyphicon glyphicon-menu-right"></span> 
+<table style="margin-left: 50px;display:none" class="dxlevel2">
+<tr>
+<td>
+<% d1.dx_level2s.each do |d2| %>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+<%= d2.name %> <span class="glyphicon glyphicon-menu-right"></span> 
+<table style="margin-left: 50px;display:none" class="dxlevel2">
+<tr>
+<td>
+	<% d2.dx_level3s.each do |d3| %>
+	<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+	<%= d3.name %> <span class="glyphicon glyphicon-menu-right"></span> 
+	<table style="margin-left: 50px;display:none" class="dxlevel2">
+	<tr>
+	<td>
+	<% d3.end_dxes.each do |e| %>
+	<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+	<span class="endDx"><%= e.name %></span>
+
+	<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+	<div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+	<div class="progress-bar" style="width: 50px">
+	</div>
+	</div>
+	<span style="font-size: 10px; position: relative; left: 10px; top: -10px"><%= e.name %>: X% correct</span>
+	</div>
+	<br />
+	<% end %>
+	</td>
+	</tr>
+	</table>
+	<br />
+	<% end %>
+<% d2.end_dxes.each do |e| %>
+<img src="http://i.imgur.com/QQHjgiY.png" width="15px" height="15px" />
+<span class="endDx"><%= e.name %></span>
+<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+<div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+<div class="progress-bar" style="width: 50px">
+</div>
+</div>
+<span style="font-size: 10px; position: relative; left: 10px; top: -10px"><%= e.name %>: X% correct</span>
+</div>
+<br />
+<% end %>
+</td>
+</tr>
+</table>
+<br />
+<% end %>
+
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<% end %>
+</table>
+
+
+

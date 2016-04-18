@@ -41,6 +41,8 @@ Rails.application.routes.draw do
       get 'skillmeters'
       get 'list'
       get 'concept'
+      get 'missed_dx'
+      get 'report_hx'
     end
   end
 

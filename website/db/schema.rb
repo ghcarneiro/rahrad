@@ -153,8 +153,9 @@ ActiveRecord::Schema.define(version: 20160417082949) do
   create_table "student_reports", force: :cascade do |t|
     t.string   "report_text"
     t.boolean  "diagnosis_found"
-    t.integer  "correct_sentences"
-    t.integer  "missing_sentences"
+    t.text  "correct_sentences", array: true, default: []
+    t.text  "missing_sentences", array: true, default: []
+    t.float "score"
     t.integer  "expert_report_id"
     t.integer  "learner_dx_id"
     t.integer  "user_id"

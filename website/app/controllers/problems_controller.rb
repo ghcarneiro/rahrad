@@ -89,6 +89,12 @@ class ProblemsController < ApplicationController
 			if @currentreport.present?
 				@currentreport = "0"
 			end
+			# Remove old selected reports
+			@oldreports = ExpertReport.where(:learner_info_id => @learnerinfo.id)
+			@oldreports.each do |r|
+				r.learner_info_id = "-1"
+				r.save
+			end
 
 			@nodx = false
 			@string = LearnerDx.where(:id => params[:id])
@@ -99,6 +105,7 @@ class ProblemsController < ApplicationController
 					s.save
 				end
 			end
+
 			@ids = ExpertReport.where(:learner_info_id => @learnerinfo.id)
 			@currentreport = ExpertReport.find(@ids.sample)
 			@learnerinfo.expert_report_id = @currentreport.id
@@ -159,6 +166,7 @@ class ProblemsController < ApplicationController
 			end
 
 			@percentage = ((@result[:n].length).to_f/(@result[:m].length + @result[:n].length))*100
+			r.score = @percentage
 
 			# Save student report
 			r.save
@@ -268,7 +276,7 @@ class ProblemsController < ApplicationController
 			@currentreport = ExpertReport.find(@ids.sample)
 			@learnerinfo.expert_report_id = @currentreport.id
 			@learnerinfo.save
-			@showdx = EndDx.where(:id => @currentreport.end_dx_id)
-		end
+		end			
+		@showdx = EndDx.where(:id => @currentreport.end_dx_id).first
 	end
 end
