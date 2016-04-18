@@ -19,7 +19,6 @@ randomForestParams = {'n_estimators': 500, 'min_samples_leaf': 3}
 SVCParams = {"probability": True}
 MLPParams = {}
 
-
 #######################
 #### Random Forest ####
 #######################

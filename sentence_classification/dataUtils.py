@@ -43,6 +43,7 @@ def readFromCSV(sentenceFile):
     # Return the read objects, but cut off the first row which was headers
     return data[1:]
 
+# Converts CSV in the original 3 column format into current version
 def readFromCSVCONVERT(sentenceFile):
     data = []
 
