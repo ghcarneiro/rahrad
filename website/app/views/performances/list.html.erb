@@ -26,9 +26,166 @@
 
 <div class = style="align: center; width: 100%; margin: 0 auto">
 <%= render "nav" %>
-<%= render "list" %>
+
+<p>
+<% if @level == 2 %>
+<span style="align: left"><%= link_to "Back", list_performances_path %></span>
+</p>
+<p>
+You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlevel1.name %>
+<% end %>
+<p>
+
+<table class="table">
+    <tr>
+    <td style="width: 190px">
+        <b> 
+        <% if @level == 1 %>
+            Body systems
+        <% elsif @level == 2 %>
+            <%= @dxlevel1.name %>
+        <% end %></b>
+    </td>
+    <td style="width: 110px">
+        <b>Total reports</b>
+    </td>
+    <td style="width: 130px">
+        <b>Correct diagnoses</b>
+    </td>
+    <td style="width: 120px">
+        <b>Excellent reports</b>
+    </td>
+    </tr>
+    <!-- Default: Level 1 diagnoses -->
+    <% if @level == 1 %>
+    <% @learner_level1s.each do |l| %>
+    <tr>
+    <td>
+        <%= link_to l.name, list_performances_path(:l1 => l.id) %>
+    </td>
+    <td>
+        <%= l.cases_attempted %>
+    </td>
+    <td>
+        <% if l.cases_attempted != 0 %>
+        <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
+        <%= sprintf('%.2f', @correct) %>%
+        <% else %>
+            -
+        <% end %>
+    </td>
+    <td>
+        <% if l.excellent_cases != 0 %>
+        <% @excellent = (l.excellent_cases/l.cases_attempted.to_f)*100.00 %>
+        <%= sprintf('%.2f', @excellent) %>%
+        <% else %>
+            -
+        <% end %>
+    </td>
+    </tr>
+    <% end %>
+    <!-- Level 2 diagnoses -->
+    <% elsif @level == 2 %>
+    <% @dxlevel2s.each do |d| %>
+    <% l = LearnerLevel2.where(:dx_level2_id => d.id).first %>
+    <tr>
+    <td>
+        <% if l.present? %>
+            <%= link_to l.name, list_performances_path(:l1 => l.id) %>
+            </td>
+            <td>
+            <%= l.cases_attempted %>
+            </td>
+            <td>
+            <% if l.cases_attempted != 0 %>
+                <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @correct) %>%
+                </td>
+                <td>
+                <% @excellent = (l.excellent_cases/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @excellent) %>%
+            <% else %>
+                -
+                </td>
+                <td>
+                -
+            <% end %>
+        <% else %>
+            <%= d.name %>
+            </td>
+            <td>
+            0
+            </td>
+            <td>
+            -
+            </td>
+            <td>
+            -
+        <% end %>
+    </td>
+    </tr>
+    <% end %>
+    <tr>
+    <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+    <td style="width: 190px">
+        <b><%= @dxlevel1.name %> key conditions</b>
+    </td>
+    <td style="width: 110px">
+        <b>Total reports</b>
+    </td>
+    <td style="width: 130px">
+        <b>Correct diagnoses</b>
+    </td>
+    <td style="width: 120px">
+        <b>Excellent reports</b>
+    </td>
+    </tr>
+    <!-- Level 2: Key conditions -->
+    <% @keyconditions.each do |d| %>
+    <% l = LearnerDx.where(:end_dx_id => d.id).first %>
+    <tr>
+    <td>
+        <% if l.present? %>
+            <%= l.name %>
+            </td>
+            <td>
+            <%= l.cases_attempted %>
+            </td>
+            <td>
+            <% if l.cases_attempted != 0 %>
+                <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @correct) %>%
+                </td>
+                <td>
+                <% @excellent = (l.excellent_cases/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @excellent) %>%
+            <% else %>
+                -
+                </td>
+                <td>
+                -
+            <% end %>
+        <% else %>
+            <%= d.name %>
+            </td>
+            <td>
+            0
+            </td>
+            <td>
+            -
+            </td>
+            <td>
+            -
+        <% end %>
+    </td>
+    </tr>
+    <% end %>
+    <% end %>
+</table>
 </div>
-<p></p>
+
 
 
 

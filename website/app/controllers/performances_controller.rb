@@ -43,6 +43,22 @@ def concept
 
 end
 
+def list
+	    @level = 1
+	    @learner_level1s = LearnerLevel1.where(:user_id => current_user.id)	
+	    # Display the appropriate level 2 data for the selected level 1 diagnosis  
+	    if params[:l1]  
+		@level = 2
+		# Get level 2 diagnoses
+		@learner1 = LearnerLevel1.where(:id => params[:l1]).first
+		@dxlevel1 = DxLevel1.where(:id => @learner1.dx_level1_id).first
+		@dxlevel2s = DxLevel2.where(:dx_level1_id => @dxlevel1.id)
+
+		# Get key conditions
+		@keyconditions = EndDx.where(:dxable_type => "DxLevel1").where(:dxable_id => @dxlevel1.id)
+	    end
+end
+
 def report_hx
 	    @studentreports = ((StudentReport.where(:user_id => current_user.id)).sort_by &:created_at).reverse
 	    @length = @studentreports.length
