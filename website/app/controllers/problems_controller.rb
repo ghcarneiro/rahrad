@@ -146,7 +146,6 @@ class ProblemsController < ApplicationController
 
 			r = StudentReport.new
 			r.report_text = @user_report
-			r.diagnosis_found = true
 			r.expert_report_id = @currentreport.id
 			r.user_id = current_user.id
 			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
@@ -167,6 +166,17 @@ class ProblemsController < ApplicationController
 
 			@percentage = ((@result[:n].length).to_f/(@result[:m].length + @result[:n].length))*100
 			r.score = @percentage
+		
+			# Uses some randomness to decide whether mock report diagnosis is correct/incorrect
+			if @percentage > 70
+				r.diagnosis_found = true
+			elsif @percentage < 30
+				r.diagnosis_found = false
+			elsif (Random.rand(10) > 5)
+				r.diagnosis_found = true
+			else
+				r.diagnosis_found = false
+			end
 
 			# Save student report
 			r.save
@@ -250,7 +260,7 @@ class ProblemsController < ApplicationController
 			end
 
 
-			@currentreport.difficulty = @currentreport.correct_diagnosis/@currentreport.times_attempted * 1.00 # Multiplication to convert to float
+			@currentreport.difficulty = @currentreport.correct_diagnosis/@currentreport.times_attempted.to_f
 			@currentreport.save
 			@learnerdx.save
 			@learner_l1.save
@@ -266,11 +276,6 @@ class ProblemsController < ApplicationController
 			@expert_sentences = @currentreport.report_text.split(".")
 			@student_sentences = r.report_text.split(".")
 			
-	
-
-			# Then we deleted the fileName file, because the search_engine program finished using it
-			#File.delete(fileName)
-		# Second report
 		else
 			@ids = ExpertReport.where(:learner_info_id => @learnerinfo.id)
 			@currentreport = ExpertReport.find(@ids.sample)

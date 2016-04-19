@@ -9,53 +9,70 @@ $(document).ready(function() {
     $('#modal-window').modal('show');
 });
 </script>
+
 <%= render "nav" %>
 <p></p>
+
 <table class="table">
 <tr>
 <td>
 <b>Report no.</b>
 </td>
 <td>
+<b>Category</b>
+</td>
+<td>
 <b>Diagnosis</b>
 </td>
 <td>
-<b>Date written</b>
+<b>Date</b>
 </td>
 <td>
-<b>Diagnosis correct</b>
+<b>Correct diagnosis</b>
 </td>
 <td>
 <b>Report accuracy</b>
 </td>
 <td>
-<b>No. of missing sentences</b>
+<b>Missing sentences</b>
 </td>
 <td>
-<b>No. of correct sentences</b>
+<b>Correct sentences</b>
 </td>
 <td>
 <b>View report</b>
 </td>
 </tr>
 <% @studentreports.each do |r| %>
-<tr>
+<% if r.diagnosis_found != true %>
+<tr class ="danger">
+<% elsif r.score <= 70 %>
+<tr class ="warning">
+<% else %>
+<tr class ="success">
+<% end %>
 <td>
 #<%= @length %>
 </td>
 <td>
-<%= r.learner_dx.name %> 
 <% if r.learner_dx.end_dx.category == "key" %>
-<span class="key">(Key condition)</span>
+Key
 <% else %>
-(Category <%= r.learner_dx.end_dx.category %>)
+<%= r.learner_dx.end_dx.category %>
 <% end %>
+</td>
+<td>
+<%= r.learner_dx.name %> 
 </td>
 <td>
 <%= r.created_at %>
 </td>
 <td>
+<% if r.diagnosis_found == true %>
 Yes
+<% else %>
+No
+<% end %>
 </td>
 <td>
 <%= sprintf('%.2f', r.score) %>%
@@ -72,7 +89,6 @@ Yes
 </td>
 </tr>
 <% end %>
-
 </table>
 
 <% if params[:id].present? %>

@@ -1,0 +1,7 @@
+I"‚(function() {
+  $(document).on("turbolinks:load", function() {
+    return $('#modal-window').modal('show');
+  });
+
+}).call(this);
+:ET

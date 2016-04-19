@@ -1,0 +1,13 @@
+<% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+<% else %>
+  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
+  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
+  <% if @excellent > 0.5 %>
+    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+  <% elsif @correct > 0.5 %>
+    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+  <% else %>
+    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+  <% end %>
+<% end %>
