@@ -1,7 +1,7 @@
 class ProblemsController < ApplicationController
-    def index
-		@ldx = LearnerDx.where(:review_list => true)
-    end
+    	def index
+		@ldx = LearnerDx.where(:review_list => true)		
+    	end
 	def user_select
 		@dxlevel1s = DxLevel1.all
 		if params[:search]
@@ -14,7 +14,7 @@ class ProblemsController < ApplicationController
 	end
 
 	def review_list
-		@ldx = LearnerDx.where(:review_list => true)
+		@ldx = LearnerDx.where(:review_list => true).where(:user => current_user.id)
 	end
 
 	def review_list_add
@@ -116,33 +116,9 @@ class ProblemsController < ApplicationController
 			#@learnerinfo.expert_report_id = @test.id
 			#@learnerinfo.save
 
-		elsif params[:q].present? and @gensim == false
+		elsif params[:q].present?
 			@currentreport = ExpertReport.where(:id => @learnerinfo.expert_report_id).first
 			@user_report = params[:q]
-
-			fileName = "fileName"
-			out_file = File.new(fileName, "w")
-			# Get the original report, store in file
-			out_file.puts(@currentreport.report_text)
-
-			# 1) search query
-			# Get search query, stores the search query in the file
-			@query = params[:q]
-			out_file.puts(@query)
-
-			# done close the file
-			out_file.close
-			
-			resultTemp = %x(python random-feedback.py fileName)
-			
-			# we should process resultCSV so that it can be displayed correctly
-			resultTemp = resultTemp.split("\n")
-			@result = {
-				n: Array.new,
-				e: Array.new,
-				m: Array.new,
-				t: Array.new
-			}	
 
 			r = StudentReport.new
 			r.report_text = @user_report
@@ -150,21 +126,28 @@ class ProblemsController < ApplicationController
 			r.user_id = current_user.id
 			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
 			r.learner_dx_id = @learnerdx.id
+			
+			# Send request to python server
+			@resultTemp = HTTP.post("http://localhost:5000", :json => { :expert_report => @currentreport.report_text, :learner_report => @user_report}).to_s
 
-
-			resultTemp.each do |i|
-				if (i.include? "n	") or (i.include? "e	") or (i.include? "m	") or (i.include? "t	")
-					temp = i.split("\t")
-					@result[temp[0].to_sym].push(temp[1])
-					if temp[0].to_sym == :"n"
-						r.correct_sentences << temp[2]
-					elsif temp[0].to_sym == :"m"
-						r.missing_sentences << temp[2]
-					end
+			@missingsent = false
+			@resultTemp = @resultTemp.split(',')
+			@resultTemp.pop
+			@resultTemp.shift
+			@resultTemp.each do |t|
+				if (t == '-100') or (t == '\"-100')
+					@missingsent = true
+				elsif @missingsent != true
+					r.correct_sentences << t
+				else
+					r.missing_sentences << t
 				end
 			end
 
-			@percentage = ((@result[:n].length).to_f/(@result[:m].length + @result[:n].length))*100
+
+
+			@percentage = 79
+			@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length)*100)
 			r.score = @percentage
 		
 			# Uses some randomness to decide whether mock report diagnosis is correct/incorrect

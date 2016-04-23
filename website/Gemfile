@@ -6,6 +6,8 @@ gem 'devise'
 gem 'gruff'
 # Get prawn
 gem 'prawn', '~> 2.0.2'
+# HTTP requests
+gem 'http'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'

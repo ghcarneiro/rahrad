@@ -65,7 +65,6 @@ $(document).ready(function(){
 				<%= label_tag nil,"Report feedback",:id => "corrections-label" %>
 				</div>
 				<hr>
-				
 				<div class="correction-stats">
 				<p style="color: green; font-weight: bold"><h3>Correct diagnosis: 
 				<% if @studentreport.diagnosis_found == true %>
@@ -80,39 +79,16 @@ $(document).ready(function(){
 				</div>
 				<hr>
 				<br>
-				<% if false %>
-				<% for i in @result %>	
-				<div class="corrections-box">
-					<div class="original-text"> 
-						<% if i[0] == "n" %>
-							<span class="glyphicon glyphicon-ok" style="color:green"></span>
-						<% elsif i[0] == "e" %>
-							<span class="glyphicon glyphicon-remove" style="color:red"></span>
-						<% elsif i[0] == "m" %>
-							<span class="glyphicon glyphicon-question-sign" style="color:blue"></span>
-							
-						<% end %>
-	
-						<%= i[1] %> 
-					</div>
-						<% if i[0] == "c" %>
-							<br>
-							<div class="correction-text">Correction:<br><%= i[2] %></div>
-						<% end %>
-					<br>
-				</div>
-				<hr>
-				<% end %>
-				<% end %>
-
 				<div class="correct-categories">
-				<strong style="background-color:red"> <%= @result[:m].length %> </strong>
+				<strong style="background-color:red"> <%= @studentreport.missing_sentences.length %> </strong>
 				Missing sentences
 				<hr>
 				</div>
-				<% if @result[:m].length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span><% end %>
+				<% if @studentreport.missing_sentences.length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span><% end %>
 				<div style="display:none">
-				<% for i in @result[:m] %>	
+				<% @count = 0 %>
+				<% @expert_sentences.each do |i| %>	
+				<% if @studentreport.missing_sentences.include? @count.to_s %>
 				<div class="corrections-box">
 					<div class="original-text"> 
 							<span class="glyphicon glyphicon-alert" style="color: red"></span>
@@ -121,17 +97,21 @@ $(document).ready(function(){
 					<br>
 				</div>
 				<hr>
+				<% end %>
+				<% @count = @count + 1 %>
 				<% end %>	
 				</div>
 
 				<div class="correct-categories">
-				<strong style="background-color:green"> <%= @result[:n].length %> </strong>
+				<strong style="background-color:green"> <%= @studentreport.correct_sentences.length %> </strong>
 				Correct sentences
 				<hr>
 				</div>
-				<% if @result[:n].length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span> <% end %>
+				<% if @studentreport.correct_sentences.length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span> <% end %>
 				<div style="display:none">
-				<% for i in @result[:n] %>	
+				<% @count = 0 %>
+				<% @student_sentences.each do |i| %>
+				<% if @studentreport.correct_sentences.include?(@count.to_s) %>	
 				<div class="corrections-box">
 					<div class="original-text"> 
 							<span class="glyphicon glyphicon-ok" style="color:green"></span>
@@ -140,18 +120,22 @@ $(document).ready(function(){
 					<br>
 				</div>
 				<hr>
+				<% end %>
+				<% @count = @count + 1 %>
 				<% end %>	
 				</div>
 
 
 				<div class="correct-categories">
-				<strong style="background-color:orange"> <%= @result[:e].length %> </strong>
+				<strong style="background-color:orange"> <%= (@student_sentences.length - @studentreport.correct_sentences.length) %> </strong>
 				Additional sentences
 				<hr>
 				</div>
-				<% if @result[:e].length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span><% end %>
+				<% if (@student_sentences.length - @studentreport.correct_sentences.length) > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span><% end %>
 				<div style="display:none">
-				<% for i in @result[:e] %>	
+				<% @count = 0 %>
+				<% @student_sentences.each do |i| %>
+				<% if !@studentreport.correct_sentences.include?(@count.to_s) %>		
 				<div class="corrections-box">
 					<div class="original-text"> 
 							<span class="glyphicon glyphicon-question-sign" style="color:orange"></span>
@@ -160,6 +144,8 @@ $(document).ready(function(){
 					<br>
 				</div>
 				<hr>
+				<% end %>
+				<% @count = @count + 1 %>
 				<% end %>	
 				</div>
 				<p></p>

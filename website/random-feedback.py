@@ -48,7 +48,7 @@ def runReportSimilarity(fileName,threshold=0.7):
             output['correct'] += 1
             correct_sent += 1
             print s
-        elif (sentence.strip()) != "": # Checks that string is not empty
+        elif (threshold_value > 0) and (sentence.strip()) != "": # Checks that string is not empty
             s ="e\t"+sent2[i]+" "+str(k)+"\t"+str(i)
             output['extras'] += 1
             print s

@@ -1,0 +1,82 @@
+				<% if false %>
+				<% for i in @result %>	
+				<div class="corrections-box">
+					<div class="original-text"> 
+						<% if i[0] == "n" %>
+							<span class="glyphicon glyphicon-ok" style="color:green"></span>
+						<% elsif i[0] == "e" %>
+							<span class="glyphicon glyphicon-remove" style="color:red"></span>
+						<% elsif i[0] == "m" %>
+							<span class="glyphicon glyphicon-question-sign" style="color:blue"></span>
+							
+						<% end %>
+	
+						<%= i[1] %> 
+					</div>
+						<% if i[0] == "c" %>
+							<br>
+							<div class="correction-text">Correction:<br><%= i[2] %></div>
+						<% end %>
+					<br>
+				</div>
+				<hr>
+				<% end %>
+				<% end %>
+
+				<div class="correct-categories">
+				<strong style="background-color:red"> <%= @result[:m].length %> </strong>
+				Missing sentences
+				<hr>
+				</div>
+				<% if @result[:m].length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span><% end %>
+				<div style="display:none">
+				<% for i in @result[:m] %>	
+				<div class="corrections-box">
+					<div class="original-text"> 
+							<span class="glyphicon glyphicon-alert" style="color: red"></span>
+						<%= i %> 
+					</div>
+					<br>
+				</div>
+				<hr>
+				<% end %>	
+				</div>
+
+				<div class="correct-categories">
+				<strong style="background-color:green"> <%= @result[:n].length %> </strong>
+				Correct sentences
+				<hr>
+				</div>
+				<% if @result[:n].length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span> <% end %>
+				<div style="display:none">
+				<% for i in @result[:n] %>	
+				<div class="corrections-box">
+					<div class="original-text"> 
+							<span class="glyphicon glyphicon-ok" style="color:green"></span>
+						<%= i %> 
+					</div>
+					<br>
+				</div>
+				<hr>
+				<% end %>	
+				</div>
+
+
+				<div class="correct-categories">
+				<strong style="background-color:orange"> <%= @result[:e].length %> </strong>
+				Additional sentences
+				<hr>
+				</div>
+				<% if @result[:e].length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span><% end %>
+				<div style="display:none">
+				<% for i in @result[:e] %>	
+				<div class="corrections-box">
+					<div class="original-text"> 
+							<span class="glyphicon glyphicon-question-sign" style="color:orange"></span>
+						<%= i %> 
+					</div>
+					<br>
+				</div>
+				<hr>
+				<% end %>	
+				</div>

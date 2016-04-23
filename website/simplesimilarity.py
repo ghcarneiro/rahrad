@@ -1,4 +1,4 @@
-import search_engine
+import search_engine2 as search_engine
 import gensim
 import sys
 import numpy as np
@@ -33,15 +33,15 @@ def runReportSimilarity(fileName,tfidf_model,lsi_model,dictionary,threshold=0.9,
 
     if reportType == "lsi":
         report1 = search_engine.textPreprocess(report1)
-        report1 = search_engine.getDerivations(report1)
+        report1 = search_engine.getDerivations(report1, dictionary)
         report2 = search_engine.textPreprocess(report2)
-        report2 = search_engine.getDerivations(report2)
+        report2 = search_engine.getDerivations(report2, dictionary)
         for i in range(len(sentences1)):
             sentences1[i] = search_engine.textPreprocess(sentences1[i])
-            sentences1[i] = search_engine.getDerivations(sentences1[i])
+            sentences1[i] = search_engine.getDerivations(sentences1[i], dictionary)
         for i in range(len(sentences2)):
             sentences2[i] = search_engine.textPreprocess(sentences2[i])
-            sentences2[i] = search_engine.getDerivations(sentences2[i])
+            sentences2[i] = search_engine.getDerivations(sentences2[i], dictionary)
 
 		#corpus = gensim.corpora.MmCorpus('./model_files/reports_lsi.mm')
         vec_lsi1 = lsi_model[tfidf_model[dictionary.doc2bow(report1)]]
