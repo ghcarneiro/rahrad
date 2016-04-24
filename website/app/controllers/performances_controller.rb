@@ -60,14 +60,31 @@ def list
 end
 
 def report_hx
-	    @studentreports = ((StudentReport.where(:user_id => current_user.id)).sort_by &:created_at).reverse
-	    @length = @studentreports.length
+	    @pageno = 1
+	    @offset = 0
+	    @student_reports = ((StudentReport.where(:user_id => current_user.id)).sort_by &:created_at).reverse
+	    @length = @student_reports.length
+	    if @length > 10
+		@pageno = @length/10
+		if @length > @pageno*10
+		    @pageno = @pageno + 1
+		end
+	    end
+
+	    @studentreports = ((StudentReport.where(:user_id => current_user.id).limit(10)).sort_by &:created_at).reverse
+
 	    if params[:id]
 	    	@currentreport = StudentReport.where(:id => params[:id]).first
 		@expertreport = ExpertReport.where(:id => @currentreport.expert_report_id).first
 		@expert_sentences = @expertreport.report_text.split(".")
 		@student_sentences = @currentreport.report_text.split(".")
 	    end
+	    if params[:count]
+		@offset = @pageno - params[:count].to_i
+		@studentreports = ((StudentReport.where(:user_id => current_user.id).offset(@offset*10).limit(10)).sort_by &:created_at).reverse
+
+	    end
+
 end
 
 end

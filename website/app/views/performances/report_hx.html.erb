@@ -7,12 +7,34 @@
 <script>
 $(document).ready(function() {
     $('#modal-window').modal('show');
+
+    $("input").click(function() {
+        if ($(this).parent().hasClass("checkbox-inline keydx")) {
+            $('.report-key').slideToggle();
+        }
+        else if ($(this).parent().hasClass("checkbox-inline 1")) {
+            $('.report-1').slideToggle();
+        }
+        else if ($(this).parent().hasClass("checkbox-inline 2")) {
+            $('.report-2').slideToggle();
+        }
+        else if ($(this).parent().hasClass("checkbox-inline 3")) {
+            $('.report-3').slideToggle();
+        }
+    });
 });
+
+
 </script>
 
 <%= render "nav" %>
 <p></p>
-
+<p>
+<label class="checkbox-inline keydx"><input type="checkbox" value="" checked>Key diagnoses</label>
+<label class="checkbox-inline 1"><input type="checkbox" value="" checked>Category 1</label>
+<label class="checkbox-inline 2"><input type="checkbox" value="" checked>Category 2</label>
+<label class="checkbox-inline 3"><input type="checkbox" value="" checked>Category 3</label>
+</p>
 <table class="table">
 <tr>
 <td>
@@ -45,14 +67,16 @@ $(document).ready(function() {
 </tr>
 <% @studentreports.each do |r| %>
 <% if r.diagnosis_found != true %>
-<tr class ="danger">
+<% @color = "danger" %>
 <% elsif r.score <= 70 %>
-<tr class ="warning">
+<% @color = "warning" %>
 <% else %>
-<tr class ="success">
+<% @color = "success" %>
 <% end %>
+<% @string = @color + " report-" + r.learner_dx.end_dx.category %>
+<%= content_tag_for(:tr, r, class: @string, style: "display: table-row") do %>
 <td>
-#<%= @length %>
+#<%= @length - (@offset*10)%>
 </td>
 <td>
 <% if r.learner_dx.end_dx.category == "key" %>
@@ -87,10 +111,39 @@ No
 <%= link_to "Compare report with original", report_hx_performances_path(:id => r.id) %>
 <% @length -= 1 %>
 </td>
-</tr>
+<% end %>
 <% end %>
 </table>
-
+<table>
+<tr>
+<td>
+<% if @offset != 0 %>
+    <%= link_to "Next", report_hx_performances_path(:count => (@pageno - @offset + 1))%>
+<% else %>
+    -Next-
+<% end %>
+</td>
+<td>
+Page: 
+<% @count = @pageno %>
+<% @pageno.times do %>
+<% if @count != (@pageno - @offset) %>
+    <%= link_to @count, report_hx_performances_path(:count => @count)%>
+<% else %>
+    <%= @count %>
+<% end %>
+<% @count = @count - 1 %>
+<% end %>
+</td>
+<td>
+<% if (@pageno - @offset) != 1 %>
+<%= link_to "Previous", report_hx_performances_path(:count => (@pageno - @offset - 1))%>
+<% else %>
+    -Previous-
+<% end %>
+</td>
+</tr>
+</table>
 <% if params[:id].present? %>
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog">
