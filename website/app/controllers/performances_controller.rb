@@ -32,7 +32,9 @@ f.plotOptions(:series => {:fillOpacity => 1, :marker => {:enabled => false, :sta
 end
 
 	end
+
 def concept
+	    @conceptlist = "public/conceptlist_" + current_user.id.to_s
 	    @dxlevel1s = DxLevel1.all
 	    @learner_level1s = LearnerLevel1.where(:user_id => current_user.id)
 	    @learner_level2s = LearnerLevel2.where(:user_id => current_user.id)
@@ -41,6 +43,112 @@ def concept
             #@nodxlevel3s = DxLevel2.includes(:dx_level3s).where(:dx_level3s => {:dxable_id => nil})
 	    #@hasdxlevel3s = DxLevel2.includes(:dx_level3s).where("dx_level3s.dxable_id IS NOT NULL")
 
+end
+
+def data
+
+	    @s = params[:l].split("_")
+	    @level = @s[0]
+	    @id = @s[1]
+	    @isend = 0
+	    if @level == "l1"
+		@next = DxLevel2.where(:dx_level1_id => @id.to_i)
+		@keydx = EndDx.where(:dxable_id => @id.to_i, :dxable_type => "DxLevel1")
+	    elsif @level == "l2"
+	    	@next = DxLevel3.where(:dx_level2_id => @id.to_i)
+		if @next.nil?
+		    @next = EndDx.where(:dxable_id => @id.to_i, :dxable_type => "DxLevel2")
+		    @isend = 1
+		end
+	    elsif @level == "l3"
+	    	@next = EndDx.where(:dxable_id => @id.to_i, :dxable_type => "DxLevel3")
+	    end
+	    @html= "<div class='subdata' style='margin-left: 50px'>"
+	    @next.each do |n|
+		@html = @html + "<table><tr><td>"
+
+		# Retrieve data from learner model
+	    	if @level == "l1"
+		    @ldx = LearnerLevel2.where(:dx_level2_id => n.id).where(:user_id => current_user.id).first
+		    @i = "l2_" + n.id.to_s
+		elsif @level == "l2"
+		    if @isend == 1
+		    	@ldx = LearnerDx.where(:end_dx_id => n.id).where(:user_id => current_user.id).first
+		        @i = "e_" + n.id.to_s
+		    else
+			@ldx = LearnerLevel3.where(:dx_level3_id => n.id).where(:user_id => current_user.id).first
+		    	@i = "l3_" + n.id.to_s
+		    end
+		elsif @level == "l3"
+			@ldx = LearnerDx.where(:end_dx_id => n.id).where(:user_id => current_user.id).first
+		        @i = "e_" + n.id.to_s
+		end
+
+		if (@ldx.nil?) or (@ldx.cases_attempted == 0)
+		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' />"
+		else
+		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
+		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
+			if @excellent > 0.5
+		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' />"
+			elsif @correct > 0.5
+		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' />"
+			else
+		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' />"
+			end
+		end
+		if !@i.include?("e_")
+  	    	@html = @html + n.name + "<span class='glyphicon glyphicon-menu-right' id='" + @i + "'></span></td></tr></table>"
+		else
+	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+	          <div class="progress-bar" style="width: 50px">
+	          </div>
+	        </div>
+	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + n.name + ': X% correct</span>
+	      </div>'
+  	    	@html = @html + "<span class='endDx'>" + n.name + "</span>" + @popup + "</td></tr></table>"	
+		end
+	    end
+
+	    # Add key diagnoses if level 1
+	    if @level == "l1"
+	    	@keydx.each do |k|
+		@html = @html + "<table><tr><td>"
+		@ldx = LearnerDx.where(:end_dx_id => k.id).where(:user_id => current_user.id).first
+		if (@ldx.nil?) or (@ldx.cases_attempted == 0)
+		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' />"
+		else
+		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
+		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
+			if @excellent > 0.5
+		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' />"
+			elsif @correct > 0.5
+		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' />"
+			else
+		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' />"
+			end
+		end
+	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+	          <div class="progress-bar" style="width: 50px">
+	          </div>
+	        </div>
+	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + k.name + ': X% correct</span>
+	      </div>'
+  	    	@html = @html + "<span class='endDx'>" + k.name +  "</span>" + @popup + "</td></tr></table>"
+	    	end
+	    end
+
+	    @html = @html + "</div>"
+	    respond_to do |format|
+  	    	format.html do
+		    render text: @html 
+		end
+  	    	format.json do
+   	    	    render :json => @next
+  	    	end
+	    end
 end
 
 def list

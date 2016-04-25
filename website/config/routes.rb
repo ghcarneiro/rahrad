@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resources :saved_search
   resources :performances do
     collection do
+      get 'data'
       get 'report'
       get 'radar'
       get 'skillmeters'

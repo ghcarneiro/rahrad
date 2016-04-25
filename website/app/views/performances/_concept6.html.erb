@@ -1,0 +1,189 @@
+<script>
+$(document).ready(function(){
+    $(".glyphicon").click(function(){
+	if ($(this).hasClass('glyphicon-menu-right')) {
+       	 	$(this).removeClass('glyphicon-menu-right');
+       		$(this).addClass('glyphicon-menu-down');
+    	}
+	else {
+       	 	$(this).removeClass('glyphicon-menu-down');
+       		$(this).addClass('glyphicon-menu-right');
+	}
+	if ($(this).prev().hasClass('view-reports')) {
+        	$(this).eq(2).slideToggle();
+	}
+	else {
+        	$(this).next().slideToggle();
+	}
+    }); 
+    $(".endDx").hover(
+	function(){
+	$(this).next().stop().css({"display":"block"});
+	},
+	function () {
+	$(this).next().stop().css({"display":"none"});
+	});
+});
+</script>
+<!-- Don't use < % = at the start of each.do or you get the entire array!!! -->
+
+
+<% @dxlevel1s.each do |d1| %>
+<table class="table" style="width: 550px; text-align: left; position: relative">
+  <tr>
+  <td>
+  <% @ldx = LearnerLevel1.where(:dx_level1_id => d1.id).where(:user_id => current_user.id).first %>
+  <% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+<% else %>
+  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
+  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
+  <% if @excellent > 0.5 %>
+    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+  <% elsif @correct > 0.5 %>
+    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+  <% else %>
+    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+  <% end %>
+<% end %>
+  <%= d1.name %> <span class="glyphicon glyphicon-menu-right"></span> 
+  <table style="margin-left: 50px;display:none" class="dxlevel2">
+    <tr>
+    <td>
+    <% d1.dx_level2s.each do |d2| %>
+      <% @ldx = LearnerLevel2.where(:dx_level2_id => d2.id).where(:user_id => current_user.id).first %>
+<% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+<% else %>
+  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
+  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
+  <% if @excellent > 0.5 %>
+    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+  <% elsif @correct > 0.5 %>
+    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+  <% else %>
+    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+  <% end %>
+<% end %>
+      <%= d2.name %> <span class="glyphicon glyphicon-menu-right"></span> 
+      <table style="margin-left: 50px;display:none" class="dxlevel2">
+        <tr>
+        <td>
+	<% d2.dx_level3s.each do |d3| %>
+	  <% @ldx = LearnerLevel3.where(:dx_level3_id => d3.id).where(:user_id => current_user.id).first %>
+<% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+<% else %>
+  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
+  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
+  <% if @excellent > 0.5 %>
+    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+  <% elsif @correct > 0.5 %>
+    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+  <% else %>
+    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+  <% end %>
+<% end %>
+	  <%= d3.name %> <span class="glyphicon glyphicon-menu-right"></span> 
+	  <table style="margin-left: 50px;display:none" class="dxlevel2">
+	    <tr>
+	    <td>
+	    <% d3.end_dxes.each do |e| %>
+	      <% @ldx = LearnerDx.where(:end_dx_id => e.id).where(:user_id => current_user.id).first %>
+<% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+<% else %>
+  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
+  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
+  <% if @excellent > 0.5 %>
+    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+  <% elsif @correct > 0.5 %>
+    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+  <% else %>
+    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+  <% end %>
+<% end %>
+	      <span class="endDx"><%= e.name %> <span style ="color: cornflowerblue">(Category <%= e.category %>)</span></span>
+
+	      <div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+	          <div class="progress-bar" style="width: 50px">
+	          </div>
+	        </div>
+	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px"><%= e.name %>: X% correct</span>
+	      </div>
+         
+	      <br />
+	    <% end %>
+	    </td>
+	    </tr>
+	  </table>
+	<br />
+	<% end %>
+<% d2.end_dxes.each do |e| %>
+	      <% @ldx = LearnerDx.where(:end_dx_id => e.id).where(:user_id => current_user.id).first %>
+<% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+<% else %>
+  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
+  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
+  <% if @excellent > 0.5 %>
+    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+  <% elsif @correct > 0.5 %>
+    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+  <% else %>
+    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+  <% end %>
+<% end %>
+	      <span class="endDx"><%= e.name %> <span style ="color: cornflowerblue">(Category <%= e.category %>)</span></span>
+
+	      <div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+	          <div class="progress-bar" style="width: 50px">
+	          </div>
+	        </div>
+	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px"><%= e.name %>: X% correct</span>
+	      </div>
+	      <br />
+	<% end %>
+    </td>
+</tr>
+</table>
+<br />
+<% end %>
+	    <% d1.end_dxes.each do |e| %>
+	      <% @ldx = LearnerDx.where(:end_dx_id => e.id).where(:user_id => current_user.id).first %>
+<% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+<% else %>
+  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
+  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
+  <% if @excellent > 0.5 %>
+    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+  <% elsif @correct > 0.5 %>
+    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+  <% else %>
+    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+  <% end %>
+<% end %>
+	      <span class="endDx"><%= e.name %> <span class="key">(Key condition)</span></span> 
+
+	      <div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+	          <div class="progress-bar" style="width: 50px">
+	          </div>
+	        </div>
+	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px"><%= e.name %>: X% correct</span>
+	      </div>
+         
+	      <br />
+	    <% end %>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+<% end %>
+

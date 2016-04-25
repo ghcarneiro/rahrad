@@ -182,10 +182,10 @@ class ProblemsController < ApplicationController
 				@dxlevel3 = "NOEXIST"
 			end
 
-			@learner_l1 = LearnerLevel1.where(:dx_level1_id => @dxlevel1.id).first
+			@learner_l1 = LearnerLevel1.where(:dx_level1_id => @dxlevel1.id).where(:user_id => current_user.id).first
 
 			if @dxlevel2 != "NOEXIST"
-				@learner_l2 = LearnerLevel2.where(:dx_level2_id => @dxlevel2.id).first
+				@learner_l2 = LearnerLevel2.where(:dx_level2_id => @dxlevel2.id).where(:user_id => current_user.id).first
 				if (@learner_l2.nil?) and (@enddx.category != "key")
 					@learner_l2 = LearnerLevel2.new
 					@learner_l2.name = @dxlevel2.name
@@ -198,7 +198,7 @@ class ProblemsController < ApplicationController
 			end
 
 			if @dxlevel3 != "NOEXIST"
-				@learner_l3 = LearnerLevel3.where(:dx_level3_id => @dxlevel3.id).first
+				@learner_l3 = LearnerLevel3.where(:dx_level3_id => @dxlevel3.id).where(:user_id => current_user.id).first
 				if (@learner_l3.nil?) and (@enddx.category != "key")
 					@learner_l3 = LearnerLevel3.new
 					@learner_l3.name = @dxlevel3.name
