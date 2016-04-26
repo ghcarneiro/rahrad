@@ -44,7 +44,8 @@ $(document).ready(function(){
 
         <div class="row">
                 <div class="col-md-6">
-                       <!-- <div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:relative"></div> --> 
+                <!-- This is the real code for a dicom image: <div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:relative"></div> --> 
+		<!-- INTERIM MOCK IMAGE CODE START -->
 		<% if !@currentreport.report_image.nil? %>
 		<%= image_tag(@currentreport.report_image, position: "relative") %> 
 		<% else %>
@@ -56,10 +57,11 @@ $(document).ready(function(){
 			</tr>
 		</table>
 		<% end %>
+		<!-- INTERIM MOCK IMAGE CODE END -->
                 </div>
 			
                 <div class="col-md-6">
-			Gensim currently toggled OFF. | Toggle on
+			<!-- Display report feedback -->
 			<% if params[:q].present? %>
 				<div class="corrections-box">
 				<%= label_tag nil,"Report feedback",:id => "corrections-label" %>
@@ -152,14 +154,15 @@ $(document).ready(function(){
 				
 
 				<button class="btn btn-default sm" data-toggle="modal" data-target="#modal-window">Compare with original report</button>
-				<%= link_to "Next report", review_select_problems_path, class: "btn btn-default btn-sm" %> 
+				<%= link_to "Next report", cases_problems_path, class: "btn btn-default btn-sm" %> 
+			<!-- Display image to be reported by trainee -->
 			<% else %>
 
-			<form  class="form-group form-group-lg" action="/problems/review_select" role="search">	
+			<form  class="form-group form-group-lg" action="/problems/cases" role="search">	
 				<%= label_tag :q,"Write a report:",:id => "teaching-label" %>
 				<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus></textarea>
 				<input id="search-box-button" type="submit" class="btn btn-default btn-lg" value="Submit" />
-				<%= link_to "Skip", review_select_problems_path, class: "btn btn-default btn-sm" %> 
+				<%= link_to "Skip", cases_problems_path, class: "btn btn-default btn-sm" %> 
 			</form>
 
 			<% end %>
@@ -168,7 +171,8 @@ $(document).ready(function(){
 
 </div>
 
-<!------- MODAL --->
+<!------- Modal: Compare expert report with trainee report --->
+<% if params[:q].present? %>
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -210,7 +214,7 @@ $(document).ready(function(){
       </div>
     </div>
   </div>
-
+<% end %>
 
 <script>
 	cornerstoneWADOImageLoader.configure({
