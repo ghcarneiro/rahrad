@@ -165,6 +165,27 @@ def list
 		# Get key conditions
 		@keyconditions = EndDx.where(:dxable_type => "DxLevel1").where(:dxable_id => @dxlevel1.id)
 	    end
+	    if params[:l2]  
+		@level = 3
+		# Get level 3 diagnoses
+		@learner2 = LearnerLevel2.where(:id => params[:l2]).first
+		@dxlevel2 = DxLevel2.where(:id => @learner2.dx_level2_id).first
+		@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
+		@dxlevel3s = DxLevel3.where(:dx_level2_id => @dxlevel2.id)
+		if @dxlevel3s.nil?
+		    @level = 4
+		    @end_dxes = EndDx.where(:dxable_id => @dxlevel2.id, :dxable_type => "DxLevel2")
+		end
+	    end
+	    if params[:l3]  
+		@level = 4
+		# Get level 3 diagnoses
+		@learner3 = LearnerLevel3.where(:id => params[:l3]).first
+		@dxlevel3 = DxLevel3.where(:id => @learner3.dx_level3_id).first
+		@dxlevel2 = DxLevel2.where(:id => @dxlevel3.dx_level2_id).first
+		@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
+		@end_dxes = EndDx.where(:dxable_id => @dxlevel3.id, :dxable_type => "DxLevel3")
+	    end
 end
 
 def report_hx

@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       get 'review_list_add'
       get 'review_list_remove'
       get 'review_select'
+      get 'cases'
     end 
   end
 

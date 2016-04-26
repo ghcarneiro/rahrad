@@ -33,6 +33,13 @@
 </p>
 <p>
 You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlevel1.name %>
+<% elsif @level == 3 %>
+<%= link_to "Body systems", list_performances_path %> > <%= link_to @dxlevel1.name, list_performances_path %> > <%= @dxlevel2.name %>
+<% elsif @level == 4 and @dxlevel3.nil? %>
+<%= link_to "Body systems", list_performances_path %> > <%= link_to @dxlevel1.name, list_performances_path %> > <%= @dxlevel2.name %>
+<% elsif !@dxlevel3.nil? and @level == 4 %>
+<%= link_to "Body systems", list_performances_path %> > <%= link_to @dxlevel1.name, list_performances_path %> > <%= link_to @dxlevel2.name, list_performances_path %> > <%= @dxlevel3.name %>
+
 <% end %>
 <p>
 
@@ -44,6 +51,14 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
             Body systems
         <% elsif @level == 2 %>
             <%= @dxlevel1.name %>
+        <% elsif @level == 3 %>
+	    <%= @dxlevel2.name %>
+        <% else %>
+	   <% if @dxlevel3.nil? and @level == 4 %>
+		<%= @dxlevel2.name %>
+	    <% else %>
+		<%= @dxlevel3.name %>
+	   <% end %>
         <% end %></b>
     </td>
     <td style="width: 110px">
@@ -91,7 +106,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     <tr>
     <td>
         <% if l.present? %>
-            <%= link_to l.name, list_performances_path(:l1 => l.id) %>
+            <%= link_to l.name, list_performances_path(:l2 => l.id) %>
             </td>
             <td>
             <%= l.cases_attempted %>
@@ -125,6 +140,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     </td>
     </tr>
     <% end %>
+ 
     <tr>
     <td></td><td></td><td></td><td></td>
     </tr>
@@ -169,6 +185,88 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
             <% end %>
         <% else %>
             <%= d.name %>
+            </td>
+            <td>
+            0
+            </td>
+            <td>
+            -
+            </td>
+            <td>
+            -
+        <% end %>
+    </td>
+    </tr>
+    <% end %>
+<!-- Level 3 diagnoses -->
+    <% elsif @level == 3 %>
+    <% @dxlevel3s.each do |d| %>
+    <% l = LearnerLevel3.where(:dx_level3_id => d.id).first %>
+    <tr>
+    <td>
+        <% if l.present? %>
+            <%= link_to l.name, list_performances_path(:l3 => l.id) %>
+            </td>
+            <td>
+            <%= l.cases_attempted %>
+            </td>
+            <td>
+            <% if l.cases_attempted != 0 %>
+                <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @correct) %>%
+                </td>
+                <td>
+                <% @excellent = (l.excellent_cases/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @excellent) %>%
+            <% else %>
+                -
+                </td>
+                <td>
+                -
+            <% end %>
+        <% else %>
+            <%= d.name %>
+            </td>
+            <td>
+            0
+            </td>
+            <td>
+            -
+            </td>
+            <td>
+            -
+        <% end %>
+    </td>
+    </tr>
+    <% end %>
+ <!-- End diagnoses -->
+    <% elsif @level == 4 %>
+    <% @end_dxes.each do |e| %>
+    <% l = LearnerDx.where(:end_dx_id => e.id).first %>
+    <tr>
+    <td>
+        <% if l.present? %>
+            <%= l.name %>
+            </td>
+            <td>
+            <%= l.cases_attempted %>
+            </td>
+            <td>
+            <% if l.cases_attempted != 0 %>
+                <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @correct) %>%
+                </td>
+                <td>
+                <% @excellent = (l.excellent_cases/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @excellent) %>%
+            <% else %>
+                -
+                </td>
+                <td>
+                -
+            <% end %>
+        <% else %>
+            <%= e.name %>
             </td>
             <td>
             0

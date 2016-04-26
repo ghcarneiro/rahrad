@@ -1,13 +1,9 @@
 <!-- Append content in the head tag -->
 <% content_for :for_head do %>
-	<title>Case selection</title>
+	<title>User select</title>
 <% end %>
 
-<%= link_to problems_path do %>
-<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
-<% end %>
 	<div style="padding-top: 30px">
-	<img src="/assets/userselect.jpg" style="width: 200px; height: 200px" />
 	<p style="font-size: 20px">
 	User select
 	</p>
@@ -19,57 +15,42 @@
 	</p>
 	</div>
 	<div style="padding-top: 50px">
+	<p>
+	<% if @noparam == true %>
+	ERROR: Please enter a search term.
+	<% elsif @nofound == true %>
+	ERROR: No matching search terms found.
+	<% end %>
+	</p>
 	<%= form_tag(user_select_problems_path, :method => "get", id: "search-dx-form") do %>
 	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
 	<%= submit_tag "Search", class: "btn btn-primary"%>
 	<% end %>
 	</div>
 <p></p>
-<%= form_tag("/table", method: "get") do %>
+
+<%= form_tag("/problems/user_select", method: "get") do %>
 <table class="table">
-	<% if @dx1.present? %>
-		<tr><td>Level 1</td></tr>
-		<% @dx1.each do |d1| %>
-			<tr><td>
-			<%= label_tag(d1.name, d1.name) %>
-			<%= check_box_tag(d1.name) %>
-			</td></tr>
-		<% end %>
-	<% end %>
-	<% if @dx2.present? %>
-		<tr><td>Level 2</td></tr>
-		<% @dx2.each do |d2| %>
-			<tr><td>
-			<%= label_tag(d2.name, (d2.dx_level1.name + " -> " + d2.name)) %>
-			<%= check_box_tag(d2.name) %>
-			</td></tr>
-		<% end %>
-	<% end %>
-	<% if @dx3.present? %>
-		<tr><td>Level 3</td></tr>
-			<tr><td>
-		<% @dx3.each do |d3| %>
-			<%= label_tag(d3.name, (d3.dx_level2.dx_level1.name + " -> " + d3.dx_level2.name + " -> " + d3.name)) %>
-			<%= check_box_tag(d3.name) %>
-			</td></tr>
-		<% end %>
-	<% end %>
-	<% if @endx.present? %>
+	<% if @searchdx.present? %>
 		<tr><td>Diagnoses</td></tr>
-		<% @endx.each do |e| %>
+		<% @searchdx.each do |s| %>
 			<tr><td>
-			<%= label_tag(e.name, (e.dxable.name + " -> " + e.name)) %>
-			<%= check_box_tag(e.name) %>
+	<% if s.category == "key" %>
+	<span class="key">Key diagnosis </span>
+	<% elsif s.category == "1" %>
+	Category 1
+	<% elsif s.category == "2" %>
+	Category 2
+	<% elsif s.category == "3" %>
+	Category 3
+	<% end %>
+			<%= label_tag(s.name, (s.dxable.name + " -> " + s.name)) %>
+			<%= check_box_tag("id[]", s.id, false, :id => s.id) %>
 			</td></tr>
 		<% end %>
 	<% end %>
-	<% if (@dx1.present? or @dx2.present? or @dx3.present? or @endx.present?) %>
-		<tr><td><%= submit_tag("Find cases") %></td></tr>
-	<% end %>
-	<% if (!@dx1.present? and !@dx2.present? and !@dx3.present? and !@endx.present?) %>
-		<tr><td>No posts found</td></tr>
+	<% if @searchdx.present? %>
+		<tr><td><%= submit_tag("Practice cases") %></td></tr>
 	<% end %>
 </table>
 <% end %>
-<p></p>
-</div>

@@ -9,7 +9,7 @@
 <h2>Review list</h2>
 <% if @ldx.present? %>
 <% end %>
-<%= form_tag("/problems/review_select", method: "get") do %>
+<%= form_tag("/problems/cases", method: "get") do %>
 <table class="table">
 <% @ldx.each do |l| %>
 <tr><td>
@@ -23,7 +23,7 @@
 	Category 3
 	<% end %>
 <%= label_tag(l.name, (l.end_dx.dxable.name + " -> " + l.name)) %>
-<%= check_box_tag("id[]", l.id, false, :id => l.id) %>
+<%= check_box_tag("id[]", l.end_dx.id, false, :id => l.end_dx.id) %>
 </td></tr>
 <% end %>
 <%= submit_tag("Find practice cases") %>
