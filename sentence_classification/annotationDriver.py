@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from dataUtils import *
 from featureExtraction import *
+import pipelines
 
 
 # Stop the process being killed accidentally so results aren't lost.
@@ -20,7 +21,7 @@ if len(sys.argv) != 2:
 
 tag = sys.argv[1]
 
-dataFile = './sentence_label_data/sentences_ALL.csv'
+dataFile = './sentence_label_data/sentences_ALL_notags.csv'
 
 
 if tag == "diagnostic":
@@ -30,7 +31,7 @@ elif tag == "sentiment":
 
 
 # Control loop for labelling sentences, returns the data list with tags changed
-def labelSentences(sentenceTags, tag):
+def labelSentences(sentenceTags, tag, ignoreProbs):
     userExits = False
     diff = 0
 
@@ -38,8 +39,9 @@ def labelSentences(sentenceTags, tag):
         raise ValueError("Expected SentenceRecord")
 
     for sentence in sentenceTags:
-        if tag == "diagnostic" and sentence.diagTag == "" and len(sentence.diagProbs) != 0:
-            diff = abs(sentence.diagProbs[0] - sentence.diagProbs[1])
+        if tag == "diagnostic" and sentence.diagTag == "" and len(sentence.diagProbs) != 0 or ignoreProbs:
+            if not ignoreProbs:
+                diff = abs(sentence.diagProbs[0] - sentence.diagProbs[1])
             userExits, ans = getTags(
                 "Is this sentence DIAGNOSTIC, (p)ositive / (n)egative / (u)nsure?",
                 ["p", "n", "u"],
@@ -48,8 +50,9 @@ def labelSentences(sentenceTags, tag):
 
             sentence.diagTag = ans
 
-        elif tag == "sentiment" and sentence.diagTag == "p" and sentence.sentTag == "" and len(sentence.sentProbs) != 0:
-            diff = abs(sentence.sentProbs[0] - sentence.sentProbs[1])
+        elif tag == "sentiment" and sentence.diagTag == "p" and sentence.sentTag == "" and len(sentence.sentProbs) != 0 or ignoreProbs:
+            if not ignoreProbs:
+                diff = abs(sentence.sentProbs[0] - sentence.sentProbs[1])
             userExits, ans = getTags(
                 "Is the diagnostic OUTCOME (p)ositive / (n)egative / (u)nsure?",
                 ["p", "n", "u"],
@@ -58,7 +61,7 @@ def labelSentences(sentenceTags, tag):
 
             sentence.sentTag = ans
 
-        if diff > diffTolerance:
+        if not ignoreProbs and diff > diffTolerance:
             print "Uncertainty tolerance reached. Rerun to classify more."
             userExits = True
 
@@ -151,6 +154,8 @@ data = readFromCSV(dataFile)
 taggedSentences = []
 labels = []
 
+ignoreProbs = False
+
 # Extract just the sentences that are tagged and were not unsure and preprocess them
 print "Extracting tagged sentences for classification"
 if tag == "diagnostic":
@@ -164,14 +169,9 @@ else:
 
 if len(taggedSentences) != 0:
     print "Number of tagged sentences: " + str(len(taggedSentences))
-    print "Building feature extraction model"
-    model = skModel()
-    model.fit([x.processedSentence for x in data[0:500]])
-
-    print "Building classifier"
-    # Create and fit RandomForest classifier with annotations
-    forest = RandomForestClassifier(n_estimators=500, min_samples_leaf=3)
-    forest.fit(model.getFeatures(taggedSentences), labels)
+    print "Building feature extraction model and classifier"
+    pipe = pipelines.get_count_lsi_randomforest()
+    pipe.fit(taggedSentences, labels)
 
     # Take smaller working set, not need to classify everything
     workingList = [x for x in data if x not in taggedSentences]
@@ -181,10 +181,11 @@ if len(taggedSentences) != 0:
     print "Calculating classifications"
     if tag == "diagnostic":
         for row in workingList:
-            row.diagProbs = forest.predict_proba(model.getFeatures([row.processedSentence]))[0]
+            row.diagProbs = pipe.predict_proba([row.processedSentence])[0]
+            # print row.diagProbs
     elif tag == "sentiment":
         for row in workingList:
-            row.sentProbs = forest.predict_proba(model.getFeatures([row.processedSentence]))[0]
+            row.sentProbs = pipe.predict_proba([row.processedSentence])
 
     print "Sorting data"
     if tag == "diagnostic":
@@ -192,13 +193,13 @@ if len(taggedSentences) != 0:
     elif tag == "sentiment":
         data.sort(cmp=compareSentProb)
 else:
+    ignoreProbs = True
     print "Classification skipped, there are no tagged sentences"
 
 #################
 ### Labelling ###
 #################
-
-data = labelSentences(data, tag)
+data = labelSentences(data, tag, ignoreProbs)
 
 print "Saving data"
 shuffle(data)

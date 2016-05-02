@@ -13,6 +13,7 @@ class SentenceRecord(object):
         self.sentProbs = []
         self.diagTag = ""
         self.sentTag = ""
+        self.reportID = ""
 
 
 # Write all sentences to file
@@ -21,9 +22,9 @@ def writeToCSV(sentenceFile, sentenceTags):
         writer = csv.writer(fout, lineterminator='\n')
 
         # Write header 'sentence, labels'
-        writer.writerow(["sentence"] + ["processed sentence"] + ["diagnostic label"] + ["sentiment label"])
+        writer.writerow(["sentence"] + ["processed sentence"] + ["diagnostic label"] + ["sentiment label"] + ["report id"])
         for row in sentenceTags:
-            writer.writerow([row.sentence] + [row.processedSentence] + [row.diagTag] + [row.sentTag])
+            writer.writerow([row.sentence] + [row.processedSentence] + [row.diagTag] + [row.sentTag] + [row.reportID])
 
 
 # Read in all sentences defined in the given file
@@ -38,6 +39,7 @@ def readFromCSV(sentenceFile):
             tmp.processedSentence = row[1]
             tmp.diagTag = row[2]
             tmp.sentTag = row[3]
+            tmp.reportID = row[4]
             data.append(tmp)
 
     # Return the read objects, but cut off the first row which was headers

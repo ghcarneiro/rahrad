@@ -1,3 +1,4 @@
+import sys
 from sklearn.metrics import classification_report, roc_curve, auc, average_precision_score, precision_recall_curve
 import matplotlib.pyplot as plt
 
@@ -5,29 +6,48 @@ import pipelines
 from dataUtils import readFromCSV
 import numpy as np
 
-dataFile = './sentence_label_data/sentences_ALL.csv'
+usage = "USAGE: " + sys.argv[0] + "type numTrain dataFile"
+if len(sys.argv) != 4:
+    print usage
+    sys.exit(1)
+
+type = sys.argv[1]
+numTrain = int(sys.argv[2])
+dataFile = sys.argv[3]
 
 data = readFromCSV(dataFile)
 
-taggedSentences = [x.processedSentence for x in data if x.diagTag != "" and x.diagTag != "u"]
-labels = [np.float32(x.diagTag == "p") for x in data if x.diagTag != "" and x.diagTag != "u"]
+if type == "diagnostic":
+    filteredData = [x for x in data if x.diagTag != "" and x.diagTag != "u"]
+    labels = [np.float32(x.diagTag == "p") for x in data if x.diagTag != "" and x.diagTag != "u"]
+elif type == "sentiment":
+    filteredData = [x for x in data if x.sentTag != "" and x.sentTag != "u"]
+    labels = [np.float32(x.sentTag == "p") for x in data if x.sentTag != "" and x.sentTag != "u"]
+else:
+    raise ValueError("Unknown tag: " + type)
 
 # Extract training data from overall data
-train = taggedSentences[:100]
-trainLabels = labels[:100]
+train = [x.processedSentence for x in filteredData[:numTrain]]
+trainReportIDs = [x.reportID for x in filteredData[:numTrain]]
+trainLabels = labels[:numTrain]
 
-# Create transformation pipelin
+# Create transformation pipeline
 # testPipe = pipelines.get_count_randomforest()
-# testPipe = pipelines.get_count_lsi_randomforest()
+testPipe = pipelines.get_count_lsi_randomforest()
 # testPipe = pipelines.get_tfidf_lsi_randomforest()
-testPipe = pipelines.get_count_lsi_SVM()
+# testPipe = pipelines.get_count_lsi_SVM()
 testPipe.fit(train, trainLabels)
 
-# # Extract test data from overall data
-test = taggedSentences[100:]
-testLabels = labels[100:]
+test = []
+testLabels = []
 
-print "Total = " + str(len(taggedSentences)) + " [" + str(labels.count(0)) + ", " + str(labels.count(1)) + "]"
+# Extract test data from overall test data
+for i, item in enumerate(filteredData[numTrain:]):
+    if item.reportID not in trainReportIDs:
+        test.append(item.processedSentence)
+        testLabels.append(labels[numTrain + i])
+
+print "Total = " + str(len(filteredData)) + " [" + str(labels.count(0)) + ", " + str(labels.count(1)) + "]"
 print "Train = " + str(len(train)) + " [" + str(trainLabels.count(0)) + ", " + str(trainLabels.count(1)) + "]"
 print "Test = " + str(len(test)) + " [" + str(testLabels.count(0)) + ", " + str(testLabels.count(1)) + "]"
 
@@ -52,20 +72,20 @@ plt.figure()
 # Plot ROC curve
 plt.subplot(121)
 plt.title('Receiver Operating Characteristic')
-plt.plot(false_positive_rate, true_positive_rate, 'b', label='AUC = %0.2f'% roc_auc)
+plt.plot(false_positive_rate, true_positive_rate, 'b', label='AUC = %0.2f' % roc_auc)
 plt.legend(loc='lower right')
-plt.plot([0,1],[0,1],'r--')
-plt.xlim([-0.1,1.2])
-plt.ylim([-0.1,1.2])
+plt.plot([0, 1], [0, 1], 'r--')
+plt.xlim([-0.1, 1.2])
+plt.ylim([-0.1, 1.2])
 plt.ylabel('True Positive Rate')
 plt.xlabel('False Positive Rate')
 
 plt.subplot(122)
 plt.title('Precision Recall')
-plt.plot(recall, precision, 'b', label='APS = %0.2f'% pr_avg)
+plt.plot(recall, precision, 'b', label='APS = %0.2f' % pr_avg)
 plt.legend(loc='lower right')
-plt.xlim([-0.1,1.2])
-plt.ylim([-0.1,1.2])
+plt.xlim([-0.1, 1.2])
+plt.ylim([-0.1, 1.2])
 plt.ylabel('Precision')
 plt.xlabel('Recall')
 
