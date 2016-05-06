@@ -96,3 +96,5 @@ plt.figure()
 add_curves("Train", y_true_train, y_pos_score_train, 1)
 add_curves("Test", y_true_test, y_pos_score_test, 3)
 plt.show()
+
+joblib.dump(pipe, 'last_model.pkl', compress=1)
