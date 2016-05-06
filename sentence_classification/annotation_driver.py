@@ -20,71 +20,71 @@ if len(sys.argv) != 2:
 
 tag = sys.argv[1]
 
-dataFile = './sentence_label_data/sentences_ALL_notags.csv'
+data_file = './sentence_label_data/sentences_ALL_notags.csv'
 
 
 if tag == "diagnostic":
-    diffTolerance = 0.15
+    diff_tolerance = 0.15
 elif tag == "sentiment":
-    diffTolerance = 0.5
+    diff_tolerance = 0.5
 
 
 # Control loop for labelling sentences, returns the data list with tags changed
-def labelSentences(sentenceTags, tag, ignoreProbs):
-    userExits = False
+def label_sentences(sentence_tags, tag, ignore_probs):
+    user_exits = False
     diff = 0
 
-    if not isinstance(sentenceTags[0], SentenceRecord):
+    if not isinstance(sentence_tags[0], SentenceRecord):
         raise ValueError("Expected SentenceRecord")
 
-    for sentence in sentenceTags:
-        if tag == "diagnostic" and sentence.diagTag == "" and len(sentence.diagProbs) != 0 or ignoreProbs:
-            if not ignoreProbs:
-                diff = abs(sentence.diagProbs[0] - sentence.diagProbs[1])
-            userExits, ans = getTags(
+    for sentence in sentence_tags:
+        if tag == "diagnostic" and sentence.diag_tag == "" and len(sentence.diag_probs) != 0 or ignore_probs:
+            if not ignore_probs:
+                diff = abs(sentence.diag_probs[0] - sentence.diag_probs[1])
+            user_exits, ans = get_tags(
                 "Is this sentence DIAGNOSTIC, (p)ositive / (n)egative / (u)nsure?",
                 ["p", "n", "u"],
                 sentence)
             print ""
 
-            sentence.diagTag = ans
+            sentence.diag_tag = ans
 
-        elif tag == "sentiment" and sentence.diagTag == "p" and sentence.sentTag == "" and len(sentence.sentProbs) != 0 or ignoreProbs:
-            if not ignoreProbs:
-                diff = abs(sentence.sentProbs[0] - sentence.sentProbs[1])
-            userExits, ans = getTags(
+        elif tag == "sentiment" and sentence.diag_tag == "p" and sentence.sent_tag == "" and len(sentence.sent_probs) != 0 or ignore_probs:
+            if not ignore_probs:
+                diff = abs(sentence.sent_probs[0] - sentence.sent_probs[1])
+            user_exits, ans = get_tags(
                 "Is the diagnostic OUTCOME (p)ositive / (n)egative / (u)nsure?",
                 ["p", "n", "u"],
                 sentence)
             print ""
 
-            sentence.sentTag = ans
+            sentence.sent_tag = ans
 
-        if not ignoreProbs and diff > diffTolerance:
+        if not ignore_probs and diff > diff_tolerance:
             print "Uncertainty tolerance reached. Rerun to classify more."
-            userExits = True
+            user_exits = True
 
-        if userExits:
+        if user_exits:
             break
 
-    if (userExits):
+    if (user_exits):
         print "Exiting: Saving progress so far, come back and tag more later."
     else:
         print "Finished tagging! If you were tagging diagnostic, " \
               "change 'diagnostic' to 'sentiment' to tag the second feature."
 
-    return sentenceTags
+    return sentence_tags
 
 
 # Controls tagging of single sentence
 # Returns whether the user wants to exit and the tag chosen
-def getTags(prompt, possibleAnswers, row):
-    userExits = False
+def get_tags(prompt, possible_answers, current_row):
+    user_exits = False
 
-    if not isinstance(row, SentenceRecord):
+    if not isinstance(current_row, SentenceRecord):
         raise ValueError("Expected SentenceRecord")
 
-    print "---> " + row.sentence
+    print "---> " + current_row.sentence
     print prompt
 
     while True:
@@ -93,25 +93,25 @@ def getTags(prompt, possibleAnswers, row):
         if ans:
             ans = ans.rstrip()
             if ans == "quit":
-                userExits = True
+                user_exits = True
                 break
             else:
-                if ans in possibleAnswers:
-                    return userExits, ans
+                if ans in possible_answers:
+                    return user_exits, ans
                 else:
-                    print "Invalid input. Valid answers: [" + ", ".join(possibleAnswers) + "]"
+                    print "Invalid input. Valid answers: [" + ", ".join(possible_answers) + "]"
                     continue
         # This block is entered if the user presses CTL+D
         else:
-            userExits = True
+            user_exits = True
             break
 
-    return userExits, ""
+    return user_exits, ""
 
 
-def compareDiagProb(item1, item2):
-    diff1 = 1 if item1.diagProbs == [] else abs(item1.diagProbs[0] - item1.diagProbs[1])
-    diff2 = 1 if item2.diagProbs == [] else abs(item2.diagProbs[0] - item2.diagProbs[1])
+def compare_diag_prob(item1, item2):
+    diff1 = 1 if item1.diag_probs == [] else abs(item1.diag_probs[0] - item1.diag_probs[1])
+    diff2 = 1 if item2.diag_probs == [] else abs(item2.diag_probs[0] - item2.diag_probs[1])
 
     if diff1 == diff2:
         return 0
@@ -121,9 +121,9 @@ def compareDiagProb(item1, item2):
         return 1
 
 
-def compareSentProb(item1, item2):
-    diff1 = 1 if item1.sentProbs == [] else abs(item1.sentProbs[0] - item1.sentProbs[1])
-    diff2 = 1 if item2.sentProbs == [] else abs(item2.sentProbs[0] - item2.sentProbs[1])
+def compare_sent_prob(item1, item2):
+    diff1 = 1 if item1.sent_probs == [] else abs(item1.sent_probs[0] - item1.sent_probs[1])
+    diff2 = 1 if item2.sent_probs == [] else abs(item2.sent_probs[0] - item2.sent_probs[1])
 
     if diff1 == diff2:
         return 0
@@ -136,7 +136,7 @@ def compareSentProb(item1, item2):
 # Generates the list of SentenceRecords from original data.
 # WILL DESTROY EXISTING TAGS
 if tag == "generate":
-    generateSentencesFromRaw()
+    generate_sentences_from_raw()
     exit(0)
 
 ########################
@@ -144,62 +144,62 @@ if tag == "generate":
 ########################
 
 print "Reading data file"
-data = readFromCSV(dataFile)
+data = read_from_csv(data_file)
 
 ########################
 ### Classification   ###
 ########################
 
-taggedSentences = []
+tagged_sentences = []
 labels = []
 
-ignoreProbs = False
+ignore_probs = False
 
 # Extract just the sentences that are tagged and were not unsure and preprocess them
 print "Extracting tagged sentences for classification"
 if tag == "diagnostic":
-    taggedSentences = [x.processedSentence for x in data if x.diagTag != "" and x.diagTag != "u"]
-    labels = [np.float32(x.diagTag == "p") for x in data if x.diagTag != "" and x.diagTag != "u"]
+    tagged_sentences = [x.processedSentence for x in data if x.diag_tag != "" and x.diag_tag != "u"]
+    labels = [np.float32(x.diag_tag == "p") for x in data if x.diag_tag != "" and x.diag_tag != "u"]
 elif tag == "sentiment":
-    taggedSentences = [x.processedSentence for x in data if x.sentTag != "" and x.sentTag != "u"]
-    labels = [np.float32(x.sentTag == "p") for x in data if x.sentTag != "" and x.sentTag != "u"]
+    tagged_sentences = [x.processedSentence for x in data if x.sent_tag != "" and x.sent_tag != "u"]
+    labels = [np.float32(x.sent_tag == "p") for x in data if x.sent_tag != "" and x.sent_tag != "u"]
 else:
     raise ValueError("Unknown tag: " + tag)
 
-if len(taggedSentences) != 0:
-    print "Number of tagged sentences: " + str(len(taggedSentences))
+if len(tagged_sentences) != 0:
+    print "Number of tagged sentences: " + str(len(tagged_sentences))
     print "Building feature extraction model and classifier"
     pipe = pipelines.get_count_lsi_randomforest()
-    pipe.fit(taggedSentences, labels)
+    pipe.fit(tagged_sentences, labels)
 
     # Take smaller working set, not need to classify everything
-    workingList = [x for x in data if x not in taggedSentences]
-    if len(workingList) > 300:
-        workingList = workingList[0:299]
+    working_list = [x for x in data if x not in tagged_sentences]
+    if len(working_list) > 300:
+        working_list = working_list[0:299]
 
     print "Calculating classifications"
     if tag == "diagnostic":
-        for row in workingList:
-            row.diagProbs = pipe.predict_proba([row.processedSentence])[0]
-            # print row.diagProbs
+        for row in working_list:
+            row.diag_probs = pipe.predict_proba([row.processedSentence])[0]
+            # print row.diag_probs
     elif tag == "sentiment":
-        for row in workingList:
-            row.sentProbs = pipe.predict_proba([row.processedSentence])
+        for row in working_list:
+            row.sent_probs = pipe.predict_proba([row.processedSentence])
 
     print "Sorting data"
     if tag == "diagnostic":
-        data.sort(cmp=compareDiagProb)
+        data.sort(cmp=compare_diag_prob)
     elif tag == "sentiment":
-        data.sort(cmp=compareSentProb)
+        data.sort(cmp=compare_sent_prob)
 else:
-    ignoreProbs = True
+    ignore_probs = True
     print "Classification skipped, there are no tagged sentences"
 
 #################
 ### Labelling ###
 #################
-data = labelSentences(data, tag, ignoreProbs)
+data = label_sentences(data, tag, ignore_probs)
 
 print "Saving data"
 shuffle(data)
-writeToCSV(dataFile, data)
+write_to_csv(data_file, data)

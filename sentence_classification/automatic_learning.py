@@ -7,24 +7,24 @@ from random import shuffle
 POS_THRESHOLD = 0.95
 NEG_THRESHOLD = 0.95
 
-usage = "USAGE: " + sys.argv[0] + " type passes inputFile outputFile"
+usage = "USAGE: " + sys.argv[0] + " type passes input_file output_file"
 if len(sys.argv) != 5:
     print usage
     sys.exit(1)
 
-type = sys.argv[1]
+tag_type = sys.argv[1]
 passes = int(float(sys.argv[2]))
-inputFile = sys.argv[3]
-outputFile = sys.argv[4]
+input_file = sys.argv[3]
+output_file = sys.argv[4]
 
-if type != "diagnostic" and type != "sentiment":
-    raise ValueError("Unknown tag: " + type)
+if tag_type != "diagnostic" and tag_type != "sentiment":
+    raise ValueError("Unknown tag: " + tag_type)
 
-data = readFromCSV(inputFile)
+data = read_from_csv(input_file)
 
 
-newPos = 0
-newNeg = 0
+new_pos = 0
+new_neg = 0
 
 # Each pass contains: classifier training, label prediction, finding the max and placing the respective labels
 for i in xrange(passes):
@@ -34,12 +34,12 @@ for i in xrange(passes):
     sentences = []
     labels = []
 
-    if type == "diagnostic":
-        sentences = [x.processedSentence for x in data if x.diagTag != "" and x.diagTag != "u"]
-        labels = [np.float32(x.diagTag == "p") for x in data if x.diagTag != "" and x.diagTag != "u"]
-    elif type == "sentiment":
-        sentences = [x.processedSentence for x in data if x.sentTag != "" and x.sentTag != "u"]
-        labels = [np.float32(x.sentTag == "p") for x in data if x.sentTag != "" and x.sentTag != "u"]
+    if tag_type == "diagnostic":
+        sentences = [x.processed_sentence for x in data if x.diag_tag != "" and x.diag_tag != "u"]
+        labels = [np.float32(x.diag_tag == "p") for x in data if x.diag_tag != "" and x.diag_tag != "u"]
+    elif tag_type == "sentiment":
+        sentences = [x.processed_sentence for x in data if x.sent_tag != "" and x.sent_tag != "u"]
+        labels = [np.float32(x.sent_tag == "p") for x in data if x.sent_tag != "" and x.sent_tag != "u"]
 
     print "There are " + str(len(sentences)) + " tagged sentences in this pass"
 
@@ -47,58 +47,58 @@ for i in xrange(passes):
     pipe = pipelines.get_count_lsi_randomforest()
     pipe.fit(sentences, labels)
 
-    bestPos = 0
-    bestNeg = 0
-    newPosThisPass = 0
-    newNegThisPass = 0
+    best_pos = 0
+    best_neg = 0
+    new_pos_this_pass = 0
+    new_neg_this_pass = 0
 
     # Makes predicitions for the unlabelled data in the first 1000 items,
     # also keeps track of the max confidence of each classification
-    if type == "diagnostic":
-        for item in [item for item in data[:500] if item.diagTag == ""]:
-            item.diagProbs = pipe.predict_proba([item.processedSentence])[0]
-            bestNeg = max(item.diagProbs[0], bestNeg)
-            bestPos = max(item.diagProbs[1], bestPos)
-    elif type == "sentiment":
-        for item in [item for item in data[:500] if item.sentTag == ""]:
-            item.sentProbs = pipe.predict_proba([item.processedSentence])[0]
-            bestNeg = max(item.sentProbs[0], bestNeg)
-            bestPos = max(item.sentProbs[1], bestPos)
+    if tag_type == "diagnostic":
+        for item in [item for item in data[:500] if item.diag_tag == ""]:
+            item.diag_probs = pipe.predict_proba([item.processed_sentence])[0]
+            best_neg = max(item.diag_probs[0], best_neg)
+            best_pos = max(item.diag_probs[1], best_pos)
+    elif tag_type == "sentiment":
+        for item in [item for item in data[:500] if item.sent_tag == ""]:
+            item.sentProbs = pipe.predict_proba([item.processed_sentence])[0]
+            best_neg = max(item.sentProbs[0], best_neg)
+            best_pos = max(item.sentProbs[1], best_pos)
 
-    print "Best positive confidence: " + str(bestPos)
-    print "Best negative confidence: " + str(bestNeg)
+    print "Best positive confidence: " + str(best_pos)
+    print "Best negative confidence: " + str(best_neg)
 
     # Allocates the labels for each of the determined max values if they lie above the threshold
-    if type == "diagnostic":
-        for item in [item for item in data[:500] if item.diagTag == ""]:
-            if POS_THRESHOLD < bestPos == item.diagProbs[1]:
-                item.diagTag = "p"
-                newPosThisPass += 1
-            if NEG_THRESHOLD < bestNeg == item.diagProbs[0]:
-                item.diagTag = "n"
-                newNegThisPass += 1
-    elif type == "sentiment":
-        for item in [item for item in data[:500] if item.sentTag == ""]:
-            if POS_THRESHOLD < bestPos == item.sentProbs[1]:
-                item.sentTag = "p"
-                newPosThisPass += 1
-            if NEG_THRESHOLD < bestNeg == item.sentProbs[0]:
-                item.sentTag = "n"
-                newNegThisPass += 1
+    if tag_type == "diagnostic":
+        for item in [item for item in data[:500] if item.diag_tag == ""]:
+            if POS_THRESHOLD < best_pos == item.diag_probs[1]:
+                item.diag_tag = "p"
+                new_pos_this_pass += 1
+            if NEG_THRESHOLD < best_neg == item.diag_probs[0]:
+                item.diag_tag = "n"
+                new_neg_this_pass += 1
+    elif tag_type == "sentiment":
+        for item in [item for item in data[:500] if item.sent_tag == ""]:
+            if POS_THRESHOLD < best_pos == item.sentProbs[1]:
+                item.sent_tag = "p"
+                new_pos_this_pass += 1
+            if NEG_THRESHOLD < best_neg == item.sentProbs[0]:
+                item.sent_tag = "n"
+                new_neg_this_pass += 1
 
     # Shuffle the data to ensure a new set of 1000 is served up on the next pass
     shuffle(data)
 
-    newPos += newPosThisPass
-    newNeg += newNegThisPass
+    new_pos += new_pos_this_pass
+    new_neg += new_neg_this_pass
 
-    print str(newPosThisPass) + " new positive tags added this pass"
-    print str(newNegThisPass) + " new negative tags added this pass"
+    print str(new_pos_this_pass) + " new positive tags added this pass"
+    print str(new_neg_this_pass) + " new negative tags added this pass"
 
 # Save the ouput of the automatic learning
-writeToCSV(outputFile, data)
+write_to_csv(output_file, data)
 
 print ""
 print "Completed " + str(passes) + " passes over the data."
-print str(newPos) + " new positive tags added"
-print str(newNeg) + " new negative tags added"
+print str(new_pos) + " new positive tags added"
+print str(new_neg) + " new negative tags added"

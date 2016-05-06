@@ -12,11 +12,11 @@ from sklearn import svm
 #### Model Parameters ####
 ##########################
 
-countVectorizerParams = {}
-tfidfVectorizerParams = {}
-truncatedSVDParams = {"n_components": 10, "random_state": 42}
-randomForestParams = {'n_estimators': 500, 'min_samples_leaf': 3}
-SVCParams = {"probability": True}
+count_vectorizer_params = {}
+tfidf_vectorizer_params = {}
+truncated_svd_params = {"n_components": 10, "random_state": 42}
+random_forest_params = {'n_estimators': 500, 'min_samples_leaf': 3}
+svc_params = {"probability": True}
 
 #######################
 #### Random Forest ####
@@ -24,18 +24,18 @@ SVCParams = {"probability": True}
 
 # CountVectorizer -> LSI -> RandomForest
 def get_count_lsi_randomforest():
-    vectorizer = CountVectorizer(**countVectorizerParams)
-    svd = TruncatedSVD(**truncatedSVDParams)
-    classifier = RandomForestClassifier(**randomForestParams)
+    vectorizer = CountVectorizer(**count_vectorizer_params)
+    svd = TruncatedSVD(**truncated_svd_params)
+    classifier = RandomForestClassifier(**random_forest_params)
 
     return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
 
 
 # TFIDFVectorizer -> LSI -> RandomForest
 def get_tfidf_lsi_randomforest():
-    vectorizer = TfidfVectorizer(**tfidfVectorizerParams)
-    svd = TruncatedSVD(**truncatedSVDParams)
-    classifier = RandomForestClassifier(**randomForestParams)
+    vectorizer = TfidfVectorizer(**tfidf_vectorizer_params)
+    svd = TruncatedSVD(**truncated_svd_params)
+    classifier = RandomForestClassifier(**random_forest_params)
 
     return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
 
@@ -45,17 +45,17 @@ def get_tfidf_lsi_randomforest():
 
 # CountVectorizer -> LSI -> SVM
 def get_count_lsi_SVM():
-    vectorizer = CountVectorizer(**countVectorizerParams)
-    svd = TruncatedSVD(**truncatedSVDParams)
-    classifier = svm.SVC(**SVCParams)
+    vectorizer = CountVectorizer(**count_vectorizer_params)
+    svd = TruncatedSVD(**truncated_svd_params)
+    classifier = svm.SVC(**svc_params)
 
     return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
 
 
 # TFIDFVectorizer -> LSI -> SVM
 def get_tfidf_lsi_SVM():
-    vectorizer = TfidfVectorizer(**tfidfVectorizerParams)
-    svd = TruncatedSVD(**truncatedSVDParams)
-    classifier = svm.SVC(**SVCParams)
+    vectorizer = TfidfVectorizer(**tfidf_vectorizer_params)
+    svd = TruncatedSVD(**truncated_svd_params)
+    classifier = svm.SVC(**svc_params)
 
     return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
