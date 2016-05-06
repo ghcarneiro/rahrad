@@ -2,7 +2,7 @@ import sys
 from sklearn.metrics import classification_report, roc_curve, auc, average_precision_score, precision_recall_curve
 import matplotlib.pyplot as plt
 import pipelines
-from dataUtils import readFromCSV
+from data_utils import readFromCSV
 import numpy as np
 from sklearn.externals import joblib
 

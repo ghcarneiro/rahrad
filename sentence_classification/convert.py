@@ -2,9 +2,12 @@ import csv
 
 import sys
 
-import dataUtils
+import cPickle as pickle
+
+import data_utils
 import nltk
 import re
+
 
 # # dataUtils.generateSentencesFromRaw()
 # exit(0)
@@ -34,6 +37,14 @@ import re
 #
 # dataUtils.writeToCSV('./sentence_label_data/sentences_ALL.csv', proc)
 
+def strip_labels(data):
+    for row in data:
+        row.diagTag = ""
+        row.sentTag = ""
+
+    return data
+
+
 def generateSentenceIDDict():
     sentenceFiles = ["./sentence_label_data/CleanedBrainsFull.csv",
                      "./sentence_label_data/CleanedCTPAFull.csv",
@@ -58,19 +69,41 @@ def generateSentenceIDDict():
 
     return sentIDs
 
+
 def addSentenceIDs(dataFile, sentIDFile='./sentence_label_data/sentence_id_mappings.csv'):
     csv.field_size_limit(sys.maxsize)
 
     sentIDs = dict(csv.reader(open(sentIDFile, 'rb')))
-    labelledData = dataUtils.readFromCSV(dataFile)
+    # with open('./sentence_label_data/sentence_id_mappings.pk', 'rb') as handle:
+    #     sentIDs = pickle.load(handle)
+    labelledData = []
+
+    with open(dataFile, 'rb') as fin:
+        reader = csv.reader(fin, delimiter=",")
+
+        for row in reader:
+            tmp = data_utils.SentenceRecord(row[0])
+            tmp.processedSentence = row[1]
+            tmp.diagTag = row[2]
+            tmp.sentTag = row[3]
+            labelledData.append(tmp)
+
+    # Return the read objects, but cut off the first row which was headers
+    labelledData = labelledData[1:]
 
     # Set as first report ID corresponding to that sentence
     for row in labelledData:
-        row.reportID = re.search("([0-9a-zA-Z]+)", sentIDs[row.sentence]).group(0)
+        q = row.sentence.replace('\\n', '')
+        q = q.replace('\n', '')
+        row.reportID = re.search("([0-9a-zA-Z]+)", sentIDs[q]).group(0)
 
-    dataUtils.writeToCSV(dataFile, labelledData)
+    data_utils.writeToCSV(dataFile, labelledData)
 
-#write dict to file
+
+# addSentenceIDs('./sentence_label_data/sentences_ALL.csv')
+# write dict to file
 # writer = csv.writer(open('./sentence_label_data/sentence_id_mappings.csv', 'wb'))
 # for key, value in sentIDs.items():
 #     writer.writerow([key, value])
+
+data_utils.writeToCSV('./sentence_label_data/sentences_ALL_notags.csv', strip_labels(data_utils.readFromCSV('./sentence_label_data/sentences_ALL.csv')))

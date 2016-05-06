@@ -2,8 +2,7 @@ import sys, signal
 from random import shuffle
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from dataUtils import *
-from featureExtraction import *
+from data_utils import *
 import pipelines
 
 
@@ -204,7 +203,3 @@ data = labelSentences(data, tag, ignoreProbs)
 print "Saving data"
 shuffle(data)
 writeToCSV(dataFile, data)
-
-## TODO
-# Create abstract class for model
-# Fix preprocesing to remove the LABEL: from sentences
