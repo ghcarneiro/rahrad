@@ -1,11 +1,10 @@
 import sys
 from sklearn.metrics import classification_report, roc_curve, auc, average_precision_score, precision_recall_curve
 import matplotlib.pyplot as plt
-
 import pipelines
 from dataUtils import readFromCSV
 import numpy as np
-
+from sklearn.externals import joblib
 
 def addCurves(setType, y_true, y_pos_score, subplotOffset, rows=2, cols=2):
     false_positive_rate, true_positive_rate, thresholds_roc = roc_curve(y_true, y_pos_score)
@@ -32,26 +31,29 @@ def addCurves(setType, y_true, y_pos_score, subplotOffset, rows=2, cols=2):
     plt.ylabel('Precision')
     plt.xlabel('Recall')
 
-
-usage = "USAGE: " + sys.argv[0] + " type numTrain dataFile [model file]"
-if len(sys.argv) != 4:
+usage = "USAGE: " + sys.argv[0] + " type numTrain dataFile [savedModel]"
+if len(sys.argv) != 4 and len(sys.argv) != 5:
     print usage
     sys.exit(1)
 
-type = sys.argv[1]
+testType = sys.argv[1]
 numTrain = int(sys.argv[2])
 dataFile = sys.argv[3]
+pipe = None
+if len(sys.argv) == 5:
+    prebuiltModelFile = sys.argv[4]
+    pipe = joblib.load(prebuiltModelFile)
 
 data = readFromCSV(dataFile)
 
-if type == "diagnostic":
+if testType == "diagnostic":
     filteredData = [x for x in data if x.diagTag != "" and x.diagTag != "u"]
     labels = [np.float32(x.diagTag == "p") for x in data if x.diagTag != "" and x.diagTag != "u"]
-elif type == "sentiment":
+elif testType == "sentiment":
     filteredData = [x for x in data if x.sentTag != "" and x.sentTag != "u"]
     labels = [np.float32(x.sentTag == "p") for x in data if x.sentTag != "" and x.sentTag != "u"]
 else:
-    raise ValueError("Unknown tag: " + type)
+    raise ValueError("Unknown tag: " + testType)
 
 # Extract training data from overall data
 train = [x.processedSentence for x in filteredData[:numTrain]]
@@ -59,8 +61,9 @@ trainReportIDs = [x.reportID for x in filteredData[:numTrain]]
 trainLabels = labels[:numTrain]
 
 # Create transformation pipeline
-testPipe = pipelines.get_count_lsi_randomforest()
-testPipe.fit(train, trainLabels)
+if pipe is None:
+    pipe = pipelines.get_count_lsi_randomforest()
+    pipe.fit(train, trainLabels)
 
 test = []
 testLabels = []
@@ -77,15 +80,15 @@ print "Test = " + str(len(test)) + " [" + str(testLabels.count(0)) + ", " + str(
 
 # Training performance data
 y_true_train = trainLabels
-y_pos_score_train = [testPipe.predict_proba([x]).tolist()[0][1] for x in train]
+y_pos_score_train = [pipe.predict_proba([x]).tolist()[0][1] for x in train]
 
 # Testing performance data
 y_true_test = testLabels
-y_pred_test = [testPipe.predict([x]).tolist()[0] for x in test]
-y_pos_score_test = [testPipe.predict_proba([x]).tolist()[0][1] for x in test]
+y_pred_test = [pipe.predict([x]).tolist()[0] for x in test]
+y_pos_score_test = [pipe.predict_proba([x]).tolist()[0][1] for x in test]
 print classification_report(y_true_test, y_pred_test, target_names=['yes', 'no'])
 
-# Plot both sets of perfomance curves
+# Plot both sets of performance curves
 plt.figure()
 addCurves("Train", y_true_train, y_pos_score_train, 1)
 addCurves("Test", y_true_test, y_pos_score_test, 3)

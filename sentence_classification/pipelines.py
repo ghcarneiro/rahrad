@@ -17,27 +17,10 @@ tfidfVectorizerParams = {}
 truncatedSVDParams = {"n_components": 10, "random_state": 42}
 randomForestParams = {'n_estimators': 500, 'min_samples_leaf': 3}
 SVCParams = {"probability": True}
-MLPParams = {}
 
 #######################
 #### Random Forest ####
 #######################
-
-# CountVectorizer -> RandomForest
-def get_count_randomforest():
-    vectorizer = CountVectorizer(**countVectorizerParams)
-    classifier = RandomForestClassifier(**randomForestParams)
-
-    return Pipeline([('vectorizer', vectorizer), ('classifier', classifier)])
-
-
-# TFIDFVectorizer -> RandomForest
-def get_tfidf_randomforest():
-    vectorizer = TfidfVectorizer(**tfidfVectorizerParams)
-    classifier = RandomForestClassifier(**randomForestParams)
-
-    return Pipeline([('vectorizer', vectorizer), ('classifier', classifier)])
-
 
 # CountVectorizer -> LSI -> RandomForest
 def get_count_lsi_randomforest():
@@ -56,26 +39,9 @@ def get_tfidf_lsi_randomforest():
 
     return Pipeline([('vectorizer', vectorizer), ('lsi', svd), ('classifier', classifier)])
 
-
 #############
 #### SVM ####
 #############
-
-# CountVectorizer -> SVM
-def get_count_SVM():
-    vectorizer = CountVectorizer(**countVectorizerParams)
-    classifier = svm.SVC(**SVCParams)
-
-    return Pipeline([('vectorizer', vectorizer), ('classifier', classifier)])
-
-
-# TFIDFVectorizer -> SVM
-def get_tfidf_SVM():
-    vectorizer = TfidfVectorizer(**tfidfVectorizerParams)
-    classifier = svm.SVC(**SVCParams)
-
-    return Pipeline([('vectorizer', vectorizer), ('classifier', classifier)])
-
 
 # CountVectorizer -> LSI -> SVM
 def get_count_lsi_SVM():
