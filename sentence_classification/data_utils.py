@@ -1,6 +1,7 @@
 import csv
 import re
 import sys
+import random
 
 import nltk
 
@@ -51,6 +52,7 @@ def read_from_csv(sentence_file):
     # Return the read objects, but cut off the first row which was headers
     return data[1:]
 
+
 # Generate the unlabelled sentence data from the given datafile
 def generate_sentences(data_files):
     data = []
@@ -83,6 +85,14 @@ def remove_duplicates(data):
     return res
 
 
+def strip_labels(data):
+    for row in data:
+        row.diag_tag = ""
+        row.sent_tag = ""
+
+    return data
+
+
 def generate_sentences_from_raw():
     confirm = raw_input("Are you sure you want to regenerate? (yes/no) ")
     if confirm == "yes":
@@ -96,14 +106,6 @@ def generate_sentences_from_raw():
         write_to_csv(output_file, remove_duplicates(generate_sentences(files)))
     else:
         print "Cancelled."
-
-
-def strip_labels(data):
-    for row in data:
-        row.diag_tag = ""
-        row.sent_tag = ""
-
-    return data
 
 
 def generate_sentence_id_dict():
@@ -157,3 +159,44 @@ def add_sentence_report_ids(data_file, sentence_id_file='./sentence_label_data/s
         row.report_id = re.search("([0-9a-zA-Z]+)", sentence_ids[query]).group(0)
 
     write_to_csv(data_file, labelled_data)
+
+
+def split_data(data, labels, report_ids, split=0.5, shuffle_items=True):
+    if not (len(data) == len(labels) == len(report_ids)):
+        raise ValueError("data, labels and report ids must be the same size")
+
+    split_count = int(split * len(data))
+    data_points = []
+
+    # Create tuples so data can be shuffled
+    for i, item in enumerate(data):
+        data_points.append((data[i], labels[i], report_ids[i]))
+
+    # Shuffle the data
+    if shuffle_items:
+        random.shuffle(data_points)
+
+    # Bucket the items into their respective report_ids to avoid overlap
+    distinct_report_ids = dict()
+    for item in data_points:
+        distinct_report_ids.setdefault(item[2], []).append(item)
+
+    train_data = []
+    train_labels = []
+    test_data = []
+    test_labels = []
+    count = 0
+
+    # iterate over each bucket
+    for key, value in distinct_report_ids.iteritems():
+        for item in value:
+            if count > split_count:
+                train_data.append(item[0])
+                train_labels.append(item[1])
+            else:
+                test_data.append(item[0])
+                test_labels.append(item[1])
+        # Only update count once the last bucket has finished so that a complete bucket stays in the same output list
+        count += len(value)
+
+    return train_data, train_labels, test_data, test_labels
