@@ -12,51 +12,54 @@ This project is split into several Python files with a specific purpose each. Mo
 ### Drivers
 #### Annotation Interface
 The annotation driver is to provide a more user friendly and safe way to label the data files, ensuring that inputted values are valid. This program also utilises an active learning process to classify unlabelled sentences and serve up the sentences which the classifier is least confident about first, hopefully providing more information gain per label than it would be otherwise.
+
 __annotation_driver.py__
 ```
-    USAGE: annotation_driver.py tag_type data_file
-        tag_type = string('diagnostic'|'sentiment')
-            Selects whether the diagnostic or sentiment labels will be tagged
-        data_file = string
-            The data file that the sentences will be read from adn written back to with the respective tags
+USAGE: annotation_driver.py tag_type data_file
+    tag_type = string('diagnostic'|'sentiment')
+        Selects whether the diagnostic or sentiment labels will be tagged
+    data_file = string
+        The data file that the sentences will be read from adn written back to with the respective tags
 ```
 
 #### Automatic Learning
 Automatic learning is the practice of automatically assigning labels to data, where the classifier is sufficiently confident. This file explores this process, it performs a number of passes over the data, training a classifier on each pass and selecting two sentences that it is most confident about in positive and negative tags and are also above a given threshold and applying the tags. It does this process until it has finished all passes and then writes the file. As well as actually applying these most confident tags it also keeps track of most confident tags in other buckets and at the end of the process provides a report of these tags for review. The buckets are (70,80), (80, 90) (90, 100]. 
+
 __automatic_learning.py__
 ```
-    USAGE: automatic_learning.py type passes input_file output_file
-        type = string('diagnostic'|'sentiment')
-            Selects whether the diagnostic or sentiment labels will be tagged
-        passes = integer
-            How many times to apply a label to the most confident data
-        input_file = string
-            File that the data will be read from
-        output_file = string
-            File to write the resulting data to 
+USAGE: automatic_learning.py type passes input_file output_file
+    type = string('diagnostic'|'sentiment')
+        Selects whether the diagnostic or sentiment labels will be tagged
+    passes = integer
+        How many times to apply a label to the most confident data
+    input_file = string
+        File that the data will be read from
+    output_file = string
+        File to write the resulting data to 
 ```
 
 #### Model Generation
 __In progress__
 #### Performance Evaluation
 This driver facilitates testing a given model, or a default model. If a model is supplied, loads the parameters, otherwise default parameters are used. Splits data into training and testing sets, trains the model and evaluates the test set. Outputs a classification report as well as graphs of Recevier Operating Characteristics and Precision Recall for both training and testing.
+
 __perf_eval.py__
 ```
-    USAGE: perf_eval.py type split_value data_file [saved_model]
-        type = string('diagnostic'|'sentiment')
-            Selects whether the diagnostic or sentiment labels should be tested
-        split_value = float(0,1)
-            Determines the split of training and test data. Value is proportion that is training.
-        data_file = string
-            File that the data will be read from
-        saved_model = string
-            File that contains the model parameters to be loaded into the pipeline.
-            default - count_lsi_random_forest pipeline will be used
+USAGE: perf_eval.py type split_value data_file [saved_model]
+    type = string('diagnostic'|'sentiment')
+        Selects whether the diagnostic or sentiment labels should be tested
+    split_value = float(0,1)
+        Determines the split of training and test data. Value is proportion that is training.
+    data_file = string
+        File that the data will be read from
+    saved_model = string
+        File that contains the model parameters to be loaded into the pipeline.
+        default - count_lsi_random_forest pipeline will be used
 ```
 ### Helpers
 #### Data Utils
 This file defines functions that generally operate on the data to be used in the driver code.
-```
+```python
 class SentenceRecord(object):
     def __init__(self, sentence):
         self.sentence = sentence        # string
@@ -69,7 +72,8 @@ class SentenceRecord(object):
 ```
 Main data class that the sentences are read and written with and passed around.
 
-```
+
+```python
 def write_to_csv(sentence_file, sentence_tags):
     sentence_file: string
         File path to write data to
@@ -79,9 +83,8 @@ def write_to_csv(sentence_file, sentence_tags):
     return None
         Function does not return anything
 ```
-Writes the given list of SentenceRecord files to the given file.
 
-```
+```python
 def read_from_csv(sentence_file{string}):
     sentence_file: string
         File path to read from.
@@ -89,45 +92,91 @@ def read_from_csv(sentence_file{string}):
     return list(SentenceRecord)
         Returns the list of Sentence Record objects that were read from disk.
 ```
-Reads a list of SentenceRecord objects from the given datafile.
 
-```
+```python
 def generate_sentences(data_files):
-   
-    return data
+    sentence_file: list(string)
+        List of data files containing raw reports to generate sentences from
+
+    return list(SentenceRecord)
+        Returns the list of Sentence Record objects that were generated from the raw data.
 ```
-```
+
+```python
 def remove_duplicates(data):
-   
-    return res
-```
-```
-def strip_labels(data):
+    data: list(SentenceRecord)
+        Removes all duplicates records where the processed sentences are the same from the given data.
     
-    return data
+    return list(SentenceRecord)
+        List of unique sentences
 ```
+
+```python
+def strip_labels(data):
+    data: list(SentenceRecord)
+        Removes all duplicates records where the processed sentences are the same from the given data.
+
+    return list(SentenceRecord)
+        Returns the original list with all sent_tags and diag_tags set to ""
 ```
+
+```python
+# Subject to change
 def generate_sentences_from_raw():
+
+    return None
+        Doesnt return anything but writes the output file with sentences from all 4 report types generated
         output_file = './sentence_label_data/sentences_ALL.csv'
 ```
 
-```
+```python
 def generate_sentence_id_dict():
   
-    return sentence_ids
+    return dict(string, string)
+        Returns a dictionary mapping from sentence to a list of report IDs
 ```
-```
-def add_sentence_report_ids(data_file, sentence_id_file='./sentence_label_data/sentence_id_mappings.csv'):
-    csv.field_size_limit(sys.maxsize)
 
-    write_to_csv(data_file, labelled_data)
+```python
+def add_sentence_report_ids(data_file, sentence_id_file='./sentence_label_data/sentence_id_mappings.csv'):
+    data_file: string
+        file path of data file
+    sentence_id_file: string, default='./sentence_label_data/sentence_id_mappings.csv'
+        file path of serialised dictionary
+    return None
+        writes data back to file with ids added
 ```
-```
+
+```python
 def split_data(data, labels, report_ids, split=0.5, shuffle_items=True):
-    
-    return train_data, train_labels, test_data, test_labels
+    data: list(string)
+        each processed sentence in the set to split
+    labels:  list(int)
+        each processed sentence in the set to split
+    report_ids: list(string)
+        each report ID in the set to split
+    split: float default=0.5
+        proportion to make the training set of the data
+    shuffle_items=True
+        whether to shuffle the data to perrform the splits
+
+    return train_data, train_labels, test_data, test_labels - each is list(SentenceRecord)
+        Returns the corresponding list for each section of the split
 ```
 #### Pipelines
+Each function returns an sklearn pipeline with the respective components.
+```python
+# CountVectorizer -> LSI -> RandomForest
+def get_count_lsi_randomforest():
+
+# TFIDFVectorizer -> LSI -> RandomForest
+def get_tfidf_lsi_randomforest():
+
+# CountVectorizer -> LSI -> SVM
+def get_count_lsi_SVM():
+
+# TFIDFVectorizer -> LSI -> SVM
+def get_tfidf_lsi_SVM():
+```
 ## [Data](#data-structure)
 Data should be placed in a sub directory called `sentence_label_data` to keep it all in one place.
 ##### Core Data Files
