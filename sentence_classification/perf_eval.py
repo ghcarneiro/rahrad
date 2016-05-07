@@ -1,3 +1,4 @@
+import json
 import sys
 from sklearn.metrics import classification_report, roc_curve, auc, average_precision_score, precision_recall_curve
 import matplotlib.pyplot as plt
@@ -40,10 +41,10 @@ if len(sys.argv) != 4 and len(sys.argv) != 5:
 test_type = sys.argv[1]
 split_value = float(sys.argv[2])
 data_file = sys.argv[3]
-pipe = None
+model_params = dict()
 if len(sys.argv) == 5:
     prebuilt_model_file = sys.argv[4]
-    pipe = joblib.load(prebuilt_model_file)
+    model_params = json.load(open(prebuilt_model_file, 'rb'))
 
 data = data_utils.read_from_csv(data_file)
 
@@ -62,9 +63,9 @@ report_ids = [x.report_id for x in filtered_data]
 train_data, train_labels, test_data, test_labels = data_utils.split_data(data, labels, report_ids, split_value)
 
 # Create transformation pipeline
-if pipe is None:
-    pipe = pipelines.get_count_lsi_randomforest()
-    pipe.fit(train_data, train_labels)
+pipe = pipelines.get_count_lsi_randomforest()
+pipe.set_params(**model_params)
+pipe.fit(train_data, train_labels)
 
 print "Total = " + str(len(filtered_data)) + " [" + str(labels.count(0)) + ", " + str(labels.count(1)) + "]"
 print "Train = " + str(len(train_data)) + " [" + str(train_labels.count(0)) + ", " + str(train_labels.count(1)) + "]"
@@ -85,5 +86,3 @@ plt.figure()
 add_curves("Train", y_true_train, y_pos_score_train, 1)
 add_curves("Test", y_true_test, y_pos_score_test, 3)
 plt.show()
-
-joblib.dump(pipe, 'last_model.pkl', compress=1)
