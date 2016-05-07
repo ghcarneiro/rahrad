@@ -13,25 +13,27 @@ This project is split into several Python files with a specific purpose each. Mo
 #### Annotation Interface
 The annotation driver is to provide a more user friendly and safe way to label the data files, ensuring that inputted values are valid. This program also utilises an active learning process to classify unlabelled sentences and serve up the sentences which the classifier is least confident about first, hopefully providing more information gain per label than it would be otherwise.
 __annotation_driver.py__
-```USAGE: annotation_driver.py tag_type data_file
-    tag_type = string('diagnostic'|'sentiment')
-        Selects whether the diagnostic or sentiment labels will be tagged
-    data_file = string
-        The data file that the sentences will be read from adn written back to with the respective tags
+```
+    USAGE: annotation_driver.py tag_type data_file
+        tag_type = string('diagnostic'|'sentiment')
+            Selects whether the diagnostic or sentiment labels will be tagged
+        data_file = string
+            The data file that the sentences will be read from adn written back to with the respective tags
 ```
 
 #### Automatic Learning
 Automatic learning is the practice of automatically assigning labels to data, where the classifier is sufficiently confident. This file explores this process, it performs a number of passes over the data, training a classifier on each pass and selecting two sentences that it is most confident about in positive and negative tags and are also above a given threshold and applying the tags. It does this process until it has finished all passes and then writes the file. As well as actually applying these most confident tags it also keeps track of most confident tags in other buckets and at the end of the process provides a report of these tags for review. The buckets are (70,80), (80, 90) (90, 100]. 
 __automatic_learning.py__
-```USAGE: automatic_learning.py type passes input_file output_file
-    type = string('diagnostic'|'sentiment')
-        Selects whether the diagnostic or sentiment labels will be tagged
-    passes = integer
-        How many times to apply a label to the most confident data
-    input_file = string
-        File that the data will be read from
-    output_file = string
-        File to write the resulting data to 
+```
+    USAGE: automatic_learning.py type passes input_file output_file
+        type = string('diagnostic'|'sentiment')
+            Selects whether the diagnostic or sentiment labels will be tagged
+        passes = integer
+            How many times to apply a label to the most confident data
+        input_file = string
+            File that the data will be read from
+        output_file = string
+            File to write the resulting data to 
 ```
 
 #### Model Generation
@@ -39,16 +41,17 @@ __In progress__
 #### Performance Evaluation
 This driver facilitates testing a given model, or a default model. If a model is supplied, loads the parameters, otherwise default parameters are used. Splits data into training and testing sets, trains the model and evaluates the test set. Outputs a classification report as well as graphs of Recevier Operating Characteristics and Precision Recall for both training and testing.
 __perf_eval.py__
-```USAGE: perf_eval.py type split_value data_file [saved_model]
-    type = string('diagnostic'|'sentiment')
-        Selects whether the diagnostic or sentiment labels should be tested
-    split_value = float(0,1)
-        Determines the split of training and test data. Value is proportion that is training.
-    data_file = string
-        File that the data will be read from
-    saved_model = string
-        File that contains the model parameters to be loaded into the pipeline.
-        default - count_lsi_random_forest pipeline will be used
+```
+    USAGE: perf_eval.py type split_value data_file [saved_model]
+        type = string('diagnostic'|'sentiment')
+            Selects whether the diagnostic or sentiment labels should be tested
+        split_value = float(0,1)
+            Determines the split of training and test data. Value is proportion that is training.
+        data_file = string
+            File that the data will be read from
+        saved_model = string
+            File that contains the model parameters to be loaded into the pipeline.
+            default - count_lsi_random_forest pipeline will be used
 ```
 ### Helpers
 #### Data Utils
