@@ -1,14 +1,11 @@
+import json
 import sys, numpy as np
 from data_utils import *
 import pipelines
 from random import shuffle
 
-# Will only tag if the confidence is above these values
-# POS_THRESHOLD = 0.95
-# NEG_THRESHOLD = 0.95
-
-usage = "USAGE: " + sys.argv[0] + " type passes input_file output_file"
-if len(sys.argv) != 5:
+usage = "USAGE: " + sys.argv[0] + " type passes input_file output_file [saved_model]"
+if len(sys.argv) != 5 and len(sys.argv) != 6:
     print usage
     sys.exit(1)
 
@@ -16,6 +13,10 @@ tag_type = sys.argv[1]
 passes = int(float(sys.argv[2]))
 input_file = sys.argv[3]
 output_file = sys.argv[4]
+model_params = dict()
+if len(sys.argv) == 6:
+    prebuilt_model_file = sys.argv[5]
+    model_params = json.load(open(prebuilt_model_file, 'rb'))
 
 if tag_type == 'diagnostic':
     tag_attr = 'diag_tag'
@@ -36,6 +37,7 @@ low_bucket = []  # 70-80
 mid_bucket = []  # 80-90
 high_bucket = []  # 90-100
 
+shuffle(data)
 
 # Each pass contains: classifier training, label prediction, finding the max and placing the respective labels
 for i in xrange(passes):
@@ -49,60 +51,64 @@ for i in xrange(passes):
 
     # Train model and classifier
     pipe = pipelines.get_count_lsi_randomforest()
+    pipe.set_params(**model_params)
     pipe.fit(sentences, labels)
 
     dflt = SentenceRecord("default")
     dflt.diag_probs = [0.0, 0.0]
     dflt.sent_probs = [0.0, 0.0]
 
-    best_low = dflt
-    best_mid = dflt
-    best_high = dflt
+    best_low_p = dflt
+    best_low_n = dflt
+    best_mid_p = dflt
+    best_mid_n = dflt
+    best_high_p = dflt
+    best_high_n = dflt
     new_pos_this_pass = 0
     new_neg_this_pass = 0
 
-    # Makes predicitions for the unlabelled data in the first 1000 items,
+    # Makes predictions for the unlabelled data in the first 1000 items,
     # also keeps track of the max confidence of each classification
 
-    for item in [item for item in data[:500] if item.diag_tag == ""]:
+    for item in [item for item in data[:500] if getattr(item, tag_attr) == ""]:
         setattr(item, prob_attr, pipe.predict_proba([item.processed_sentence])[0])
-        p_prob = getattr(item, prob_attr)[0]
-        n_prob = getattr(item, prob_attr)[1]
-        if p_prob > 0.9 or n_prob > 0.9:
-            if max(p_prob, n_prob) > max(getattr(best_high, prob_attr)[0], getattr(best_high, prob_attr)[1]):
-                best_high = item
-        elif p_prob > 0.8 or n_prob > 0.8:
-            if max(p_prob, n_prob) > max(getattr(best_mid, prob_attr)[0], getattr(best_mid, prob_attr)[1]):
-                best_mid = item
-        elif p_prob > 0.7 or n_prob > 0.7:
-            if max(p_prob, n_prob) > max(getattr(best_low, prob_attr)[0], getattr(best_low, prob_attr)[1]):
-                best_low = item
+        p_prob = getattr(item, prob_attr)[1]
+        n_prob = getattr(item, prob_attr)[0]
+        if p_prob > 0.9 and p_prob > getattr(best_high_p, prob_attr)[1]:
+            best_high_p = item
+        elif n_prob > 0.9 and n_prob > getattr(best_high_n, prob_attr)[0]:
+            best_high_n = item
+        elif 0.8 < p_prob < 0.9 and p_prob > getattr(best_mid_p, prob_attr)[1]:
+            best_mid_p = item
+        elif 0.8 < n_prob < 0.9 and n_prob > getattr(best_mid_n, prob_attr)[0]:
+            best_mid_n = item
+        elif 0.7 < p_prob < 0.8 and p_prob > getattr(best_low_p, prob_attr)[1]:
+            best_low_p = item
+        elif 0.7 < n_prob < 0.8 and n_prob > getattr(best_low_n, prob_attr)[0]:
+            best_low_n = item
 
-    if best_high is not dflt:
-        if getattr(best_high, prob_attr)[0] > getattr(best_high, prob_attr)[1]:
-            setattr(best_high, tag_attr, 'n')
-            new_neg_this_pass += 1
-            high_bucket.append((best_high, 'n'))
-        else:
-            setattr(best_high, tag_attr, 'p')
-            new_pos_this_pass += 1
-            high_bucket.append((best_high, 'p'))
-    if best_mid is not dflt:
-        if getattr(best_mid, prob_attr)[0] > getattr(best_mid, prob_attr)[1]:
-            new_neg_this_pass += 1
-            mid_bucket.append((best_mid, 'n'))
-        else:
-            new_pos_this_pass += 1
-            mid_bucket.append((best_mid, 'p'))
-    if best_low is not dflt:
-        if getattr(best_low, prob_attr)[0] > getattr(best_low, prob_attr)[1]:
-            new_neg_this_pass += 1
-            low_bucket.append((best_low, 'n'))
-        else:
-            new_pos_this_pass += 1
-            low_bucket.append((best_low, 'p'))
+    if best_high_p is not dflt:
+        setattr(best_high_p, tag_attr, 'p')
+        new_pos_this_pass += 1
+        high_bucket.append((best_high_p, 'p'))
+    if best_high_n is not dflt:
+        setattr(best_high_n, tag_attr, 'n')
+        new_neg_this_pass += 1
+        high_bucket.append((best_high_n, 'n'))
+    if best_mid_p is not dflt:
+        new_pos_this_pass += 1
+        mid_bucket.append((best_mid_p, 'p'))
+    if best_mid_n is not dflt:
+        new_neg_this_pass += 1
+        mid_bucket.append((best_mid_n, 'n'))
+    if best_low_p is not dflt:
+        new_pos_this_pass += 1
+        low_bucket.append((best_low_p, 'p'))
+    if best_low_n is not dflt:
+        new_neg_this_pass += 1
+        low_bucket.append((best_low_n, 'n'))
 
-    # Shuffle the data to ensure a new set of 1000 is served up on the next pass
+     # Shuffle the data to ensure a new set of 1000 is served up on the next pass
     shuffle(data)
 
     new_pos += new_pos_this_pass
