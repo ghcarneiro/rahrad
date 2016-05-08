@@ -45,20 +45,25 @@ def concept
 
 end
 
+#Retrieve data for concept hierarchy
 def data
 
 	    @s = params[:l].split("_")
 	    @level = @s[0]
 	    @id = @s[1]
+	    params[:search_id] = @id.to_i
+	    params[:year_level] = current_user.year_of_training
 	    @isend = 0
 	    if @level == "l1"
 		@next = DxLevel2.where(:dx_level1_id => @id.to_i)
-		@keydx = EndDx.where(:dxable_id => @id.to_i, :dxable_type => "DxLevel1")
+		params[:search_type] = "DxLevel1"
+		@keydx = EndDx.dxable_search(params[:search_id], params[:search_type], params[:year_level])
 	    elsif @level == "l2"
 	    	@next = DxLevel3.where(:dx_level2_id => @id.to_i)
-		if @next.nil?
-		    @next = EndDx.where(:dxable_id => @id.to_i, :dxable_type => "DxLevel2")
-		    @isend = 1
+		if @next.blank?
+			params[:search_type] = "DxLevel2"
+			@next = EndDx.dxable_search(params[:search_id], params[:search_type], params[:year_level])
+		    	@isend = 1
 		end
 	    elsif @level == "l3"
 	    	@next = EndDx.where(:dxable_id => @id.to_i, :dxable_type => "DxLevel3")
@@ -112,7 +117,7 @@ def data
 	    end
 
 	    # Add key diagnoses if level 1
-	    if @level == "l1"
+	    if @level == "l1" and current_user.year_of_training == "1"
 	    	@keydx.each do |k|
 		@html = @html + "<table><tr><td>"
 		@ldx = LearnerDx.where(:end_dx_id => k.id).where(:user_id => current_user.id).first

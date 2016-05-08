@@ -19,5 +19,16 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname, :lastname, :year_of_training, :email, :password, :password_confirmation, :id, :expert_report_id) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:firstname, :lastname, :year_of_training, :id, :expert_report_id) }
+    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:firstname, :lastname, :year_of_training, :email, :password, :password_confirmation, :current_password, :id, :expert_report_id) }
   end
+
+	before_filter :set_cache_headers
+
+	  private
+
+ 	 	def set_cache_headers
+  	  	response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+  	  	response.headers["Pragma"] = "no-cache"
+  	  	response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+ 	 	end
 end

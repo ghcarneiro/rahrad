@@ -21,6 +21,10 @@
       <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
     </div>
 
+  <div class="field" style="padding-top: 5px;">
+   Year of training: <%= f.select :year_of_training, [['1','1'],['2','2'],['3','3'],['4','4'],['5','5']] %>
+  </div>
+
     <div class="field" style="padding-top: 5px;">
     <%= f.password_field :current_password, :placeholder => 'current password' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
     </div>

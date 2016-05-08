@@ -1,5 +1,6 @@
 <script>
 $(document).ready(function(){
+    $.ajaxSetup({ cache: false });
     $(document).on('click', '.glyphicon', function(){
 	if ($(this).hasClass('glyphicon-menu-right')) {
        	 	$(this).removeClass('glyphicon-menu-right');
@@ -34,6 +35,16 @@ $(document).ready(function(){
 </script>
 <!-- Don't use < % = at the start of each.do or you get the entire array!!! -->
 
+<div>
+<b>Key:</b>
+<%= image_tag("grey.gif", width: "15px", height: "15px") %> No cases attempted yet 
+<span width="20"></span>
+<%= image_tag("green.gif", width: "15px", height: "15px") %> Excellent 
+<span width="20"></span>
+<%= image_tag("yellow.gif", width: "15px", height: "15px") %> Good 
+<span width="20"></span>
+<%= image_tag("red.gif", width: "15px", height: "15px") %> Needs more work 
+</div>
 
 <% @dxlevel1s.each do |d1| %>
 <table class="table" style="width: 550px; text-align: left; position: relative">
