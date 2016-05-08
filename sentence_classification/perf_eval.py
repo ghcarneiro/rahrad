@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 import pipelines
 import data_utils
 import numpy as np
-from sklearn.externals import joblib
-
 
 def add_curves(setType, y_true, y_pos_score, subplot_offset, rows=2, cols=2):
     false_positive_rate, true_positive_rate, thresholds_roc = roc_curve(y_true, y_pos_score)
@@ -32,6 +30,7 @@ def add_curves(setType, y_true, y_pos_score, subplot_offset, rows=2, cols=2):
     plt.ylim([-0.1, 1.2])
     plt.ylabel('Precision')
     plt.xlabel('Recall')
+
 
 usage = "USAGE: " + sys.argv[0] + " type split_value data_file [saved_model]"
 if len(sys.argv) != 4 and len(sys.argv) != 5:
@@ -85,4 +84,14 @@ print classification_report(y_true_test, y_pred_test, target_names=['yes', 'no']
 plt.figure()
 add_curves("Train", y_true_train, y_pos_score_train, 1)
 add_curves("Test", y_true_test, y_pos_score_test, 3)
+
+print "Failed prediction report:"
+for i in xrange(len(test_data)):
+    if y_true_test[i] != y_pred_test[i]:
+        print test_data[i]
+        print "Actual: " + str(y_true_test[i])
+        print "Predicted: " + str(y_pred_test[i])
+        print "(" + str(1 - y_pos_score_test[i]) + ", " + str(y_pos_score_test[i]) + ")"
+        print ""
+
 plt.show()

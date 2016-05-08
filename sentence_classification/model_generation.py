@@ -23,11 +23,12 @@ def scorer_auc(pipe, X, y):
     return auc(false_positive_rate, true_positive_rate)
 
 
-parameters = {'classifier__n_estimators': [10, 100, 1000],
+parameters = {'lsi__n_components': [100],
+              'classifier__n_estimators': [2000],
               # 'classifier__max_features': ['auto', 0.75],
-              'classifier__max_depth': [None, 4, 10, 100],
+              # 'classifier__max_depth': [None, 10, 1000],
               # 'classifier__min_samples_split': [2, 4, 8, 16],
-              # 'classifier__min_samples_leaf': [1, 2, 4],
+              # 'classifier__min_samples_leaf': [2, 4],
               # 'classifier__max_leaf_nodes': [None, 2, 4, 8]
               }
 
@@ -37,7 +38,7 @@ parameters = {'classifier__n_estimators': [10, 100, 1000],
 #     print "# Tuning hyper-parameters for %s" % score
 #     print ""
 
-clf = GridSearchCV(pipelines.get_count_lsi_randomforest(), parameters, scoring=scorer_auc)
+clf = GridSearchCV(pipelines.get_count_lsi_randomforest(), parameters)
 # clf = GridSearchCV(pipelines.get_count_lsi_randomforest(), parameters, scoring='%s_weighted' % score)
 clf.fit(train_data, train_labels)
 

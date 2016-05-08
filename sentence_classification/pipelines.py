@@ -14,7 +14,7 @@ from sklearn import svm
 
 count_vectorizer_params = {}
 tfidf_vectorizer_params = {}
-truncated_svd_params = {"n_components": 10, "random_state": 42}
+truncated_svd_params = {"n_components": 100}
 random_forest_params = {'n_estimators': 500, 'min_samples_leaf': 3}
 svc_params = {"probability": True}
 
