@@ -1,7 +1,91 @@
 class ProblemsController < ApplicationController
+
+	# Whenever learner diagnoses are searched for, the user_id MUST be
+	# the current user's id - otherwise it will fetch data from other
+	# users!!!!
+
+	# Main problem selection page
     	def index
-		@ldx = LearnerDx.where(:review_list => true)		
+		@ldx = LearnerDx.where(:review_list => true, :user_id => current_user.id)		
     	end
+
+	#Retrieve data for add to review list
+	def data
+
+	    @s = params[:l].split("_")
+	    @level = @s[0]
+	    @id = @s[1]
+	    params[:search_id] = @id.to_i
+	    params[:year_level] = current_user.year_of_training
+	    @isend = 0
+	    if @level == "l1"
+		@next = DxLevel2.where(:dx_level1_id => @id.to_i)
+		params[:search_type] = "DxLevel1"
+		@keydx = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
+	    elsif @level == "l2"
+	    	@next = DxLevel3.where(:dx_level2_id => @id.to_i)
+		if @next.blank?
+			params[:search_type] = "DxLevel2"
+			@next = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
+		    	@isend = 1
+		end
+	    elsif @level == "l3"
+		params[:search_type] = "DxLevel3"
+	    	@next = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
+	    end
+	    @html= "<div class='subdata' style='margin-left: 50px'>"
+
+	    @next.each do |n|
+		@html = @html + "<table width='100%'><tr><td>"
+
+	    	if @level == "l1"
+		    @i = "l2_" + n.id.to_s
+		elsif @level == "l2"
+		    if @isend == 1
+		        @i = "e_" + n.id.to_s
+		    else
+		    	@i = "l3_" + n.id.to_s
+		    end
+		elsif @level == "l3"
+		        @i = "e_" + n.id.to_s
+		end
+	    
+		if !@i.include?("e_")
+  	    	@html = @html + n.name + "<span class='glyphicon glyphicon-menu-right' id='" + @i + "'></span></td></tr></table>"
+		else
+		    @ldx = LearnerDx.where(:end_dx_id => n.id, :user_id => current_user.id, :review_list => true)
+		    if !@ldx.blank?
+			@checkbox = " <span class='key'>Already in review list</span>"
+		    else
+			@checkbox = " <input id='" + n.id.to_s + "' name=id[] value='" + n.id.to_s + "' type='checkbox'></input>"
+		    end
+		    @html = @html + "<strong>Category " + n.category + "</strong><label for='" + n.name + "'>" + n.name + "</label>" + @checkbox + "</td></tr></table>"
+		end
+	    end
+ 	    if @level == "l1" and current_user.year_of_training == "1"
+	    	@keydx.each do |k|
+		    @ldx = LearnerDx.where(:end_dx_id => k.id, :user_id => current_user.id, :review_list => true)
+		    if !@ldx.blank?
+			@checkbox = " <span class='key'>Already in review list</span>"
+		    else
+			@checkbox = " <input id='" + k.id.to_s + "' name=id[] value='" + k.id.to_s + "' type='checkbox'></input>"
+		    end
+		    @html = @html + "<table width='100%'><tr><td><strong class='key-strong'>Key condition</strong><label for='" + k.name + "'>" + k.name + "</label>" + @checkbox + "</td></tr></table>"
+	    	end
+	    end
+
+		
+
+	    @html = @html + "</div>"
+	    respond_to do |format|
+  	    	format.html do
+		    render text: @html 
+		end
+  	    	format.json do
+   	    	    render :json => @next
+  	    	end
+	    end
+end
 
 	def user_select
 		@noparam = false
@@ -23,33 +107,40 @@ class ProblemsController < ApplicationController
 
 	# Displays all diagnoses on the trainee's review list
 	def review_list
-		@ldx = LearnerDx.where(:review_list => true).where(:user => current_user.id)
+		@pagetype = "list"
+		@ldx = LearnerDx.where(:review_list => true, :user => current_user.id)
 	end
 
 	# Add diagnoses to the review list
 	def review_list_add
+		@pagetype = "add"
 		@count = 0 
 		@noparam = false
 		@nofound = false
 		
+		if params[:dropdown]
+	    		@dxlevel1s = DxLevel1.all
+		end
+		
 		# Process search term
 		if params[:search]
+			params[:year_level] = current_user.year_of_training
 			if params[:search] == ""
 				@noparam = true
 			else
-				@already_reviewed = LearnerDx.where(["name LIKE ?", "%#{params[:search]}%"]).where(:review_list => true).where(:user => current_user.id)
-				@searchdx = EndDx.where(["name LIKE ?", "%#{params[:search]}%"])	
+				@already_reviewed = LearnerDx.where(["name LIKE ?", "%#{params[:search]}%"]).where(:review_list => true).where(:user_id => current_user.id)
+				@searchdx = EndDx.dxable_search2(params[:search], params[:year_level])	
 			end
 			if !@searchdx.present?
 				@nofound = true
 			end
 		end
 
-		# Add selected diagnoses to review list
+		# Add selected diagnoses to review list and save
 		if params[:id]
 			@string = EndDx.where(:id => params[:id])
 			@string.each do |s|
-				@ldx = LearnerDx.where(:end_dx_id => s.id).first
+				@ldx = LearnerDx.where(:end_dx_id => s.id, :user => current_user.id).first
 				# If learner dx doesn't exist for this dx, create it
 				if @ldx.nil?
 					@ldx = LearnerDx.new
@@ -66,25 +157,30 @@ class ProblemsController < ApplicationController
 			end
 		end
 
-		@ldx = LearnerDx.where(:review_list => true)
+		@ldx = LearnerDx.where(:review_list => true, :user_id => current_user.id)
 	end
 
 	# Removes selected diagnoses from the review list
 	def review_list_remove
+		@pagetype = "remove"
 		@count = 0 # Counts the number of diagnoses selected to determine whether the singular or plural of diagnosis should be used
 		@nodx = true # If no diagnoses have been selected for removal, no additional text will be displayed
 		
 		if params[:id]
 			@nodx = false
-			@string = LearnerDx.where(:id => params[:id], :user => current_user.id)
+				@string = LearnerDx.where(:id => params[:id], :user_id => current_user.id)
 			@string.each do |s|
 				s.review_list = false
 				s.save
 				@count = @count + 1
 			end
+			if @count == 0
+				@count = -1
+			end
 		end
 
-		@ldx = LearnerDx.where(:review_list => true)
+		@ldx = LearnerDx.where(:review_list => true, :user_id => current_user.id)
+
 	end
 
 	# Displays cases for the trainee to write reports on and processes their answers

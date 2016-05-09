@@ -2,37 +2,69 @@
 <% content_for :for_head do %>
 	<title>Review list</title>
 <% end %>
-
-<%= render "nav" %>
+<script>
+$(document).ready(function(){
+    	$(document).on('change', 'input[type=checkbox]', function(){
+	if ($(this).is(':checked')) {
+		$(this).closest('td').addClass('danger');  // unchecked	
+	}
+	else {
+    		$(this).closest('td').removeClass('danger');  // checked
+	}
+    	}); 
+});
+</script>
+<a href="top"></a>
+<%= render :partial => 'nav', :locals => { :pagetype => @pagetype } %>
 <p></p>
-<h2>Remove from review list</h2>
-<%= form_tag("/problems/review_list_remove", method: "get") do %>
-<table class="table">
+<p>
 <% if @count == 1 %>
-<tr><td>Diagnosis successfully removed.</td></tr>
+<span class="key">Diagnosis successfully removed.</span>
 <% elsif @count > 1 %>
-<tr><td>Diagnoses successfully removed.</td></tr>
+<span class="key">Diagnoses successfully removed.</span>
+<% elsif @count == -1 %>
+<span class="error">ERROR: No diagnoses were selected for removal.</span>
 <% end %>
-	<% if @ldx.present? %>
-		<% @ldx.each do |l| %>
-			<tr><td>
-	<% if l.end_dx.category == "key" %>
-	<span class="key">Key diagnosis </span>
-	<% elsif l.end_dx.category == "1" %>
-	Category 1
-	<% elsif l.end_dx.category == "2" %>
-	Category 2
-	<% elsif l.end_dx.category == "3" %>
-	Category 3
-	<% end %>
-			<%= label_tag(l.name, (l.end_dx.dxable.name + " -> " + l.name)) %>
-			<%= check_box_tag("id[]", l.id, false, :id => l.id) %>
-			</td></tr>
+</p>
+<% if @ldx.present? %>
+<%= form_tag("/problems/review_list_remove", method: "get") do %>
+<div style="padding-top: 30px">
+<p>Select the diagnoses you want to remove and click 'Remove from review list' at the bottom of the page.</p>
+</div>
+<table class="table">
+	<% @ldx.each do |l| %>
+		<tr><td>
+		<% if l.end_dx.category == "key" %>
+			<span class="key-strong">Key diagnosis</span> 
+		<% elsif l.end_dx.category == "1" %>
+			<strong>Category 1</strong>
+		<% elsif l.end_dx.category == "2" %>
+			<strong>Category 2</strong>
+		<% elsif l.end_dx.category == "3" %>
+			<strong>Category 3</strong>
 		<% end %>
-		<tr><td><%= submit_tag("Remove from review list") %></td></tr>
-	<% else %>
-		<tr><td><p>Your review list is empty.</p>  <p><%= link_to "Click here", review_list_add_problems_path %> to add some diagnoses to your review list.</p></td></tr>
+<%= l.end_dx.l1_name %>
+<% if l.end_dx.dxable_type != "DxLevel1" %>
+-> <%= l.end_dx.l2_name %>
+	<% if l.end_dx.dxable_type == "DxLevel3" %>
+	-> <%= l.end_dx.l3_name %>
 	<% end %>
-</table>
+<% end %>	
+		->	
+		<%= label_tag(l.id, (l.name)) %>		
+		<%= check_box_tag("id[]", l.id, false, :id => l.id) %>
+
+		</td></tr>
+	<% end %>
+	</table>
+	<label for="submit-button" class="btn btn-danger"><i class="glyphicon glyphicon-minus"></i> Remove from review list</label>
+	<%= submit_tag "Remove from review list", id: "submit-button", class: "hidden"%>
+	<p></p><p><a href="#top">Click here to go back to top</a></p>
 <% end %>
+<% else %>
+<table height="50px"><tr><td></td></tr></table>
+<p>Your review list is empty.</p>  <p><%= link_to "Click here", review_list_add_problems_path %> to add some diagnoses to your review list.</p>
+<% end %>
+
+
 

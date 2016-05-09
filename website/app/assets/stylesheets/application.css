@@ -74,6 +74,21 @@ form#change {
   color: green;
 }
 
+/* Categories */
+.category {
+  color: blue;
+}
+
+/* Page titles */
+.section_title {
+  font-size: 2em;
+}
+
+/* Error message text */
+.error {
+  color: red;
+}
+
 .corrections-box {
   text-align:left;
   margin: 0 0 10px;
@@ -119,9 +134,23 @@ strong {
 	font-weight: 400;
 	padding: 0 0.3em;
 	margin-right:0.1em;
-	background-color: #a2a2a2;
+	background-color: #428bca;
 	color: #fff;
 }
+.key-strong {
+	border-radius: 2px;
+	font-weight: 400;
+	padding: 0 0.3em;
+	margin-right:0.1em;
+	background-color: #5cb85c;
+	color: #fff;
+	font-weight: bold;
+}
+
+.success-dropdown {
+	background-color: #9ecf99;
+}
+
 #search-box-button {
 	float:left;
 	background-color: #99CCFF;

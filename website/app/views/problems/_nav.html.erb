@@ -1,5 +1,27 @@
 <%= link_to problems_path do %>
 <span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
 <% end %>
-<p></p>
-<%= link_to "View review list", review_list_problems_path, class: "btn btn-default btn-sm" %> <%= link_to "Add diagnoses to review list", review_list_add_problems_path, class: "btn btn-default btn-sm" %> <%= link_to "Remove diagnoses from review list", review_list_remove_problems_path, class: "btn btn-default btn-sm" %> 
+<p class="section_title">
+<% if @pagetype == "add" %>
+Add diagnoses to review list
+<% elsif @pagetype == "remove" %>
+Remove diagnoses from review list
+<% else %>
+Review list
+<% end %>
+</p>
+<% if @pagetype == "list" %>
+<button type ="button" class ="btn btn-secondary btn-sm">Review list</button>
+<% else %>
+<%= link_to "View review list", review_list_problems_path, class: "btn btn-primary btn-sm" %> 
+<% end %>
+<% if @pagetype == "add" %>
+<button type ="button" class ="btn btn-secondary btn-sm">Add diagnoses to review list</button>
+<% else %>
+<%= link_to "Add diagnoses to review list", review_list_add_problems_path, class: "btn btn-primary btn-sm" %> 
+<% end %>
+<% if @pagetype == "remove" %>
+<button type ="button" class ="btn btn-secondary btn-sm">Remove diagnoses from review list</button>
+<% else %>
+<%= link_to "Remove diagnoses from review list", review_list_remove_problems_path, class: "btn btn-primary btn-sm" %> 
+<% end %>

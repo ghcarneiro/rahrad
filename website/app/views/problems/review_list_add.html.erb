@@ -2,75 +2,162 @@
 <% content_for :for_head do %>
 	<title>Review list</title>
 <% end %>
-
-<%= render "nav" %>
-	<div style="padding-top: 30px">
-	<p style="font-size: 20px">
-	<span class="glyphicon glyphicon-plus" style="color:green"></span> Add to review list
+<a href="top"></a>
+<%= render :partial => 'nav', :locals => { :pagetype => @pagetype } %>
+	<p></p>
+	<p>
+	<% if @noparam == true %>
+	<span class="error">ERROR: Please enter a search term.</span>
+	<% elsif @nofound == true %>
+	<span class="error">ERROR: No matching search terms found.</span></p><p>
+	<% end %>
+	<% if @count == 1 %>
+	<span class="key">Diagnosis successfully added. <%= link_to "Click here", review_list_problems_path %> to view your review list or continue searching for diagnoses below.</span>
+	<% elsif @count > 1 %>
+	<span class="key">Diagnoses successfully added. <%= link_to "Click here", review_list_problems_path %> to view your review list or continue searching for diagnoses below.</span>
+	<% end %>
 	</p>
+
+<!----- DROPDOWN MENU MODE ---->
+<% if params[:dropdown] %>
+<script>
+$(document).ready(function(){
+    $.ajaxSetup({ cache: false });
+    $(document).on('click', '.glyphicon', function(){
+	if ($(this).hasClass('glyphicon-menu-right')) {
+       	 	$(this).removeClass('glyphicon-menu-right');
+       		$(this).addClass('glyphicon-menu-down');
+    	}
+	else {
+       	 	$(this).removeClass('glyphicon-menu-down');
+       		$(this).addClass('glyphicon-menu-right');
+	}
+
+	if ($(this).next().hasClass('subdata')) {
+        	$(this).next().slideToggle();
+	}
+	else {
+		var level = $(this).attr("id");
+        	// Get data from model
+		$.ajax({
+  			type:"GET",
+  			url:"data",
+  			dataType:"html",
+  			data: {l: level},
+  			success: function(data){
+    				$("#" + level).after(data);
+  			}
+		});
+	}
+    }); 
+    	$(document).on('change', 'input[type=checkbox]', function(){
+	if ($(this).is(':checked')) {
+		$(this).closest('td').addClass('success-dropdown');  // unchecked	
+	}
+	else {
+    		$(this).closest('td').removeClass('success-dropdown');  // checked
+	}
+    	}); 
+});
+</script>
+<div style="padding-top: 30px">
+	<p>
+Use the arrows to explore different sections of the RANZCR Body Systems Syllabus.
+<br/>
+	Select the diagnoses you want to add and click 'Add to review list' at the bottom of the page.
+	</p>
+	<p>
+	<%= link_to "Switch to text search mode", review_list_add_problems_path %>
+	</p>
+	</div>
+	
+<%= form_tag("/problems/review_list_add", method: "get") do %>
+<% @count = 1 %>
+<% @dxlevel1s.each do |d1| %>
+<table class="table" style="max-width: 600px; text-align: left; margin: 0 auto">
+  <tr>
+  <td>
+  <b><%= @count %>. <%= d1.name %></b> <% @id = "l1_" + d1.id.to_s %> <%= content_tag :span, "", id: @id, class: "glyphicon glyphicon-menu-right" %>
+  <% @count=@count+1 %>
+  </td>
+  </tr>
+</table>
+<% end %>
+		<label for="submit-button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Add to review list</label>
+		<%= submit_tag "Add to review list", id: "submit-button", class: "hidden"%>
+		<p></p><p><a href="#top">Click here to go back to top</a></p>
+<% end %>
+
+<!------ TEXT SEARCH MODE-->
+<% elsif !@searchdx.present? %>
+	<div style="padding-top: 30px">
 	<p>
 	Search for a diagnosis from the RANZCR Radiodiagnosis Curriculum
 	</p>
 	<p>
-	<u>Switch to dropdown menu mode</u>
+	<%= link_to "Switch to dropdown menu mode", review_list_add_problems_path(:dropdown => true) %>
 	</p>
 	</div>
 	<div style="padding-top: 50px">
-	<p>
-	<% if @noparam == true %>
-	ERROR: Please enter a search term.
-	<% elsif @nofound == true %>
-	ERROR: No matching search terms found.
-		<% if @already_reviewed.present? %>
-			However, the following diagnoses are already in your review list: 
-			<% @already_reviewed.each do |a| %>
-			<%= a.name %> 
-			<% end %>
-		<% end %>
-	<% end %>
-	<% if @count == 1 %>
-	Diagnosis successfully added. <%= link_to "Click here", review_list_problems_path %> to view your review list or continue searching for diagnoses below.
-	<% elsif @count > 1 %>
-	Diagnoses successfully added. <%= link_to "Click here", review_list_problems_path %> to view your review list or continue searching for diagnoses below.
-	<% end %>
-	</p>
 	<%= form_tag(review_list_add_problems_path, :method => "get", id: "search-dx-form") do %>
 	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
 	<%= submit_tag "Search", class: "btn btn-primary"%>
 	<% end %>
 	</div>
+<% else %>
+<script>
+$(document).ready(function(){
+	$.ajaxSetup({ cache: false });
+    	$(document).on('change', 'input[type=checkbox]', function(){
+	if ($(this).is(':checked')) {
+		$(this).closest('td').addClass('success');  // unchecked	
+	}
+	else {
+    		$(this).closest('td').removeClass('success');  // checked
+	}
+    	}); 
+});
+</script>
 <p></p>
 
 <%= form_tag("/problems/review_list_add", method: "get") do %>
-<table class="table">
-	<% if @searchdx.present? %>
-		<tr><td>Diagnoses</td></tr>
-		<% if @already_reviewed.present? %>
-		<tr><td>		
-			Matching diagnoses currently in your review list: 
-			<% @already_reviewed.each do |a| %>
-			<%= a.name %> 
-			<% end %>
-		</td></tr>		
-		<% end %>
+<p></p>
+		<h3>Search results</h3>
+		Select the diagnoses you want to add and click 'Add to review list' at the bottom of the page.
+		<p><%= link_to "Search for a different diagnosis", review_list_add_problems_path %></p>
+		<table class="table">
 		<% @searchdx.each do |s| %>
 			<tr><td>
 	<% if s.category == "key" %>
-	<span class="key">Key diagnosis </span>
+	<strong class="key-strong">Key condition</strong>
 	<% elsif s.category == "1" %>
-	Category 1
+		<strong>Category 1</strong>
 	<% elsif s.category == "2" %>
-	Category 2
+		<strong>Category 2</strong>
 	<% elsif s.category == "3" %>
-	Category 3
+		<strong>Category 3</strong>
 	<% end %>
-			<%= label_tag(s.name, (s.dxable.name + " -> " + s.name)) %>
+<%= s.l1_name %>
+<% if s.dxable_type != "DxLevel1" %>
+-> <%= s.l2_name %>
+	<% if s.dxable_type == "DxLevel3" %>
+	-> <%= s.l3_name %>
+	<% end %>
+<% end %>	
+		->
+			<%= label_tag(s.name, (s.name)) %>
+			<% @ldx = LearnerDx.where(:end_dx_id => s.id, :user_id => current_user.id, :review_list => true) %>
+			<% if !@ldx.blank? %>
+			<span class="key">Already in review list</span>
+			<% else %>
 			<%= check_box_tag("id[]", s.id, false, :id => s.id) %>
+			<% end %>
 			</td></tr>
 		<% end %>
-	<% end %>
-	<% if @searchdx.present? %>
-		<tr><td><%= submit_tag("Add to review list") %></td></tr>
-	<% end %>
-</table>
+		</table>
+		<label for="submit-button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Add to review list</label>
+		<%= submit_tag "Add to review list", id: "submit-button", class: "hidden"%>
+		<p></p><p><a href="#top">Click here to go back to top</a></p>
+
+<% end %>
 <% end %>

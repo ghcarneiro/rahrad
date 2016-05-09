@@ -57,16 +57,17 @@ def data
 	    if @level == "l1"
 		@next = DxLevel2.where(:dx_level1_id => @id.to_i)
 		params[:search_type] = "DxLevel1"
-		@keydx = EndDx.dxable_search(params[:search_id], params[:search_type], params[:year_level])
+		@keydx = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 	    elsif @level == "l2"
 	    	@next = DxLevel3.where(:dx_level2_id => @id.to_i)
 		if @next.blank?
 			params[:search_type] = "DxLevel2"
-			@next = EndDx.dxable_search(params[:search_id], params[:search_type], params[:year_level])
+			@next = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 		    	@isend = 1
 		end
 	    elsif @level == "l3"
-	    	@next = EndDx.where(:dxable_id => @id.to_i, :dxable_type => "DxLevel3")
+		params[:search_type] = "DxLevel3"
+	    	@next = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 	    end
 	    @html= "<div class='subdata' style='margin-left: 50px'>"
 	    @next.each do |n|
@@ -90,16 +91,16 @@ def data
 		end
 
 		if (@ldx.nil?) or (@ldx.cases_attempted == 0)
-		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' />"
+		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
 		else
 		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
 		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
 			if @excellent > 0.5
-		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' />"
+		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' /> "
 			elsif @correct > 0.5
-		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' />"
+		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' /> "
 			else
-		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' />"
+		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
 			end
 		end
 		if !@i.include?("e_")
@@ -122,16 +123,16 @@ def data
 		@html = @html + "<table><tr><td>"
 		@ldx = LearnerDx.where(:end_dx_id => k.id).where(:user_id => current_user.id).first
 		if (@ldx.nil?) or (@ldx.cases_attempted == 0)
-		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' />"
+		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
 		else
 		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
 		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
 			if @excellent > 0.5
-		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' />"
+		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' /> "
 			elsif @correct > 0.5
-		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' />"
+		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' /> "
 			else
-		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' />"
+		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
 			end
 		end
 	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">

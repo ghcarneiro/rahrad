@@ -31,13 +31,13 @@
     </div>
 
     <!-- Dropdown user account menu -->
+    <div>
     <button class="btn btn-info pull-right dropdown-toggle navbar-icon" type="button" data-toggle="dropdown" style="border-radius: 100%;" title="Account related information">
       <span class="glyphicon glyphicon-user"></span>
     </button>
-    <ul class="dropdown-menu dropdown-menu-right">
+    <ul class="dropdown-menu dropdown-menu-right dropdown">
       <% if user_signed_in? %>
-        <li><a>Logged in as <strong><%= current_user.email %></strong>.</a></li>
-        <li><a href="#"><%= link_to 'Performance data', performances_path %></a></li>
+        <li ><a>Logged in as <strong><%= current_user.firstname %> <%= current_user.lastname %></strong>.</a></li>
         <li><a href="#"><%= link_to 'Edit profile', edit_user_registration_path %></a></li>
         <li><a href="#"><%= link_to "Logout", destroy_user_session_path, method: :delete %></a></li>
       <% else %>
@@ -45,13 +45,26 @@
         <li><a href="#"><%= link_to "Login", new_user_session_path %></a></li>
       <% end %>
      </ul>
+    </div>
 
     <!-- Display buttons only if user is logged in  -->
     <% if user_signed_in? %>
       <!-- Repeating searches and saved searches page button -->
-      <%= link_to report_hx_performances_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "View performance" do %>
-        <i class="glyphicon glyphicon-list-alt", style="padding-top: 5px;"></i>
-      <% end %>
+
+    <div>
+    <button class="btn btn-info pull-right dropdown-toggle navbar-icon" type="button" data-toggle="dropdown" style="border-radius: 100%;" title="Performance overview">
+        <span class="glyphicon glyphicon-list-alt"></span>
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-right">
+        <li><a><strong>Performance overview</strong></a></li>
+        <li><a href="#"><%= link_to 'Skill meters', skillmeters_performances_path %></a></li>
+        <li><a href="#"><%= link_to 'Concept hierarchy', concept_performances_path %></a></li>
+        <li><a href="#"><%= link_to "List", list_performances_path %></a></li>
+        <li><a href="#"><%= link_to "Top missed diagnoses", missed_dx_performances_path %></a></li>
+        <li><a href="#"><%= link_to "Report history", report_hx_performances_path %></a></li>
+     </ul>
+    </div>
 
       <!-- Search page button -->
       <%= link_to problems_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "Practice cases" do %>

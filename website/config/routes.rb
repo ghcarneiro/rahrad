@@ -49,6 +49,7 @@ Rails.application.routes.draw do
 
   resources :problems do
     collection do
+      get 'data'
       get 'user_select'
       get 'system_select'
       get 'review_list'
