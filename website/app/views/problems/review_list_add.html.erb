@@ -1,6 +1,6 @@
 <!-- Append content in the head tag -->
 <% content_for :for_head do %>
-	<title>Review list</title>
+	<title>CRISTAL: Review list</title>
 <% end %>
 <a href="top"></a>
 <%= render :partial => 'nav', :locals => { :pagetype => @pagetype } %>
@@ -23,6 +23,8 @@
 <script>
 $(document).ready(function(){
     $.ajaxSetup({ cache: false });
+    var count = 0;
+    var buttonHTML = '<input id="submit-button" class="hidden" name="commit" value="Add to review list" type="submit" style="display: none"></input>';
     $(document).on('click', '.glyphicon', function(){
 	if ($(this).hasClass('glyphicon-menu-right')) {
        	 	$(this).removeClass('glyphicon-menu-right');
@@ -53,11 +55,33 @@ $(document).ready(function(){
     	$(document).on('change', 'input[type=checkbox]', function(){
 	if ($(this).is(':checked')) {
 		$(this).closest('td').addClass('success-dropdown');  // unchecked	
+		count++;
 	}
 	else {
     		$(this).closest('td').removeClass('success-dropdown');  // checked
+		count--;
 	}
+
+	if (count == 0) {
+		if ($('#submit-label').hasClass('btn btn-success')) {
+			$('#submit-label').removeClass('btn btn-success');
+			$('#submit-label').addClass('btn btn-success disabled');
+			$('#submit-button').remove();
+		}
+	}
+	else if (count > 0) {
+		if ($('#submit-label').hasClass('disabled')) {
+			$('#submit-label').removeClass('disabled');
+			$('#submit-label').after(buttonHTML)
+		}
+	}
+
     	}); 
+    	$(document).on('click', '#submit-label', function(){
+	if (count == 0) {
+		alert('ERROR: You must select at least one diagnosis.');
+	}
+	});
 });
 </script>
 <div style="padding-top: 30px">
@@ -83,8 +107,7 @@ Use the arrows to explore different sections of the RANZCR Body Systems Syllabus
   </tr>
 </table>
 <% end %>
-		<label for="submit-button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Add to review list</label>
-		<%= submit_tag "Add to review list", id: "submit-button", class: "hidden"%>
+		<label for="submit-button" class="btn btn-success disabled" id="submit-label"><i class="glyphicon glyphicon-plus"></i> Add to review list</label>
 		<p></p><p><a href="#top">Click here to go back to top</a></p>
 <% end %>
 
@@ -108,14 +131,37 @@ Use the arrows to explore different sections of the RANZCR Body Systems Syllabus
 <script>
 $(document).ready(function(){
 	$.ajaxSetup({ cache: false });
+	var count = 0;
+	var buttonHTML = '<input id="submit-button" class="hidden" name="commit" value="Add to review list" type="submit" style="display: none"></input>';
     	$(document).on('change', 'input[type=checkbox]', function(){
 	if ($(this).is(':checked')) {
-		$(this).closest('td').addClass('success');  // unchecked	
+		$(this).closest('td').addClass('success');  // unchecked
+		count++;	
 	}
 	else {
     		$(this).closest('td').removeClass('success');  // checked
+		count--;
 	}
+	if (count == 0) {
+		if ($('#submit-label').hasClass('btn btn-success')) {
+			$('#submit-label').removeClass('btn btn-success');
+			$('#submit-label').addClass('btn btn-success disabled');
+			$('#submit-button').remove();
+		}
+	}
+	else if (count > 0) {
+		if ($('#submit-label').hasClass('disabled')) {
+			$('#submit-label').removeClass('disabled');
+			$('#submit-label').after(buttonHTML)
+		}
+	}
+
     	}); 
+    	$(document).on('click', '#submit-label', function(){
+	if (count == 0) {
+		alert('ERROR: You must select at least one diagnosis.');
+	}
+	}); 
 });
 </script>
 <p></p>
@@ -155,8 +201,7 @@ $(document).ready(function(){
 			</td></tr>
 		<% end %>
 		</table>
-		<label for="submit-button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Add to review list</label>
-		<%= submit_tag "Add to review list", id: "submit-button", class: "hidden"%>
+		<label for="submit-button" class="btn btn-success disabled" id="submit-label"><i class="glyphicon glyphicon-plus"></i> Add to review list</label>
 		<p></p><p><a href="#top">Click here to go back to top</a></p>
 
 <% end %>

@@ -32,9 +32,7 @@
 
     <!-- Dropdown user account menu -->
     <div>
-    <button class="btn btn-info pull-right dropdown-toggle navbar-icon" type="button" data-toggle="dropdown" style="border-radius: 100%;" title="Account related information">
-      <span class="glyphicon glyphicon-user"></span>
-    </button>
+<span class="dropdown-toggle pull-right navtext" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Account <span class="caret"></span></span>
     <ul class="dropdown-menu dropdown-menu-right dropdown">
       <% if user_signed_in? %>
         <li ><a>Logged in as <strong><%= current_user.firstname %> <%= current_user.lastname %></strong>.</a></li>
@@ -52,12 +50,10 @@
       <!-- Repeating searches and saved searches page button -->
 
     <div>
-    <button class="btn btn-info pull-right dropdown-toggle navbar-icon" type="button" data-toggle="dropdown" style="border-radius: 100%;" title="Performance overview">
-        <span class="glyphicon glyphicon-list-alt"></span>
-    </button>
+    <span class="dropdown-toggle pull-right navtext" data-toggle="dropdown"><span class="glyphicon glyphicon-list-alt"></span> My performance <span class="caret"></span></span>
 
-    <ul class="dropdown-menu dropdown-menu-right">
-        <li><a><strong>Performance overview</strong></a></li>
+    <ul class="dropdown-menu dropdown-menu-right" style="margin-right: 105px">
+        <li><a>Dashboard</a></li>
         <li><a href="#"><%= link_to 'Skill meters', skillmeters_performances_path %></a></li>
         <li><a href="#"><%= link_to 'Concept hierarchy', concept_performances_path %></a></li>
         <li><a href="#"><%= link_to "List", list_performances_path %></a></li>
@@ -67,9 +63,13 @@
     </div>
 
       <!-- Search page button -->
-      <%= link_to problems_path, class: "btn btn-info pull-right navbar-icon", style: "border-radius: 100%;", title: "Practice cases" do %>
-        <i class="glyphicon glyphicon-pencil", style="padding-top: 5px;"></i>
-      <% end %>
+    <span class="dropdown-toggle pull-right navtext" data-toggle="dropdown"><span class="glyphicon glyphicon-pencil"></span> Practise <span class="caret"></span></span>
+    <ul class="dropdown-menu dropdown-menu-right" style="margin-right: 260px">
+        <li><a href="#"><%= link_to 'Case selection', problems_path %></a></li>
+        <li><a href="#"><%= link_to 'User select', user_select_problems_path %></a></li>
+        <li><a href="#"><%= link_to 'System select', system_select_problems_path %></a></li>
+        <li><a href="#"><%= link_to "Review list", review_list_problems_path %></a></li>
+     </ul>
 
     <% end %>
   </nav>

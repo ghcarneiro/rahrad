@@ -1,56 +1,158 @@
 <!-- Append content in the head tag -->
 <% content_for :for_head do %>
-	<title>User select</title>
+	<title>CRISTAL: User select</title>
+<% end %>
+<a href="top"></a>
+<%= link_to problems_path do %>
+<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection</span>
+<% end %>
+<p class="section_title">
+User select
+</p>
+	<p></p>
+	<p>
+	<% if @noparam == true %>
+	<span class="error">ERROR: Please enter a search term.</span>
+	<% elsif @nofound == true %>
+	<span class="error">ERROR: No matching search terms found.</span></p><p>
+	<% end %>
+	</p>
+
+<!----- DROPDOWN MENU MODE ---->
+<% if params[:dropdown] %>
+<script>
+$(document).ready(function(){
+    $.ajaxSetup({ cache: false });
+    $(document).on('click', '.glyphicon', function(){
+	if ($(this).hasClass('glyphicon-menu-right')) {
+       	 	$(this).removeClass('glyphicon-menu-right');
+       		$(this).addClass('glyphicon-menu-down');
+    	}
+	else {
+       	 	$(this).removeClass('glyphicon-menu-down');
+       		$(this).addClass('glyphicon-menu-right');
+	}
+
+	if ($(this).next().hasClass('subdata')) {
+        	$(this).next().slideToggle();
+	}
+	else {
+		var level = $(this).attr("id");
+        	// Get data from model
+		$.ajax({
+  			type:"GET",
+  			url:"data",
+  			dataType:"html",
+  			data: {l: level},
+  			success: function(data){
+    				$("#" + level).after(data);
+  			}
+		});
+	}
+    }); 
+    	$(document).on('change', 'input[type=checkbox]', function(){
+	if ($(this).is(':checked')) {
+		$(this).closest('td').addClass('info-dropdown');  // unchecked	
+	}
+	else {
+    		$(this).closest('td').removeClass('info-dropdown');  // checked
+	}
+    	}); 
+});
+</script>
+<div style="padding-top: 30px">
+	<p>
+Use the arrows to explore different sections of the RANZCR Body Systems Syllabus.
+<br/>
+	Select the diagnoses you want to practise and click 'Find practice cases' at the bottom of the page.
+	</p>
+	<p>
+	<%= link_to "Switch to text search mode", user_select_problems_path %>
+	</p>
+	</div>
+	
+<%= form_tag("/problems/cases", method: "get") do %>
+<% @count = 1 %>
+<% @dxlevel1s.each do |d1| %>
+<table class="table" style="max-width: 600px; text-align: left; margin: 0 auto">
+  <tr>
+  <td>
+  <b><%= @count %>. <%= d1.name %></b> <% @id = "l1_" + d1.id.to_s %> <%= content_tag :span, "", id: @id, class: "glyphicon glyphicon-menu-right" %>
+  <% @count=@count+1 %>
+  </td>
+  </tr>
+</table>
+<% end %>
+<label for="submit-button" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Find practice cases</label>
+<%= submit_tag "Find practice cases", id: "submit-button", class: "hidden"%>
+		<p></p><p><a href="#top">Click here to go back to top</a></p>
 <% end %>
 
+<!------ TEXT SEARCH MODE-->
+<% elsif !@searchdx.present? %>
 	<div style="padding-top: 30px">
-	<p style="font-size: 20px">
-	User select
+	<p>
+	Search for diagnoses from the RANZCR Radiodiagnosis Curriculum to practise cases on.
 	</p>
 	<p>
-	Search for a topic or diagnosis from the RANZCR Radiodiagnosis Curriculum
-	</p>
-	<p>
-	<u>Switch to dropdown menu mode</u>
+	<%= link_to "Switch to dropdown menu mode", user_select_problems_path(:dropdown => true) %>
 	</p>
 	</div>
 	<div style="padding-top: 50px">
-	<p>
-	<% if @noparam == true %>
-	ERROR: Please enter a search term.
-	<% elsif @nofound == true %>
-	ERROR: No matching search terms found.
-	<% end %>
-	</p>
 	<%= form_tag(user_select_problems_path, :method => "get", id: "search-dx-form") do %>
 	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
 	<%= submit_tag "Search", class: "btn btn-primary"%>
 	<% end %>
 	</div>
+<% else %>
+<script>
+$(document).ready(function(){
+	$.ajaxSetup({ cache: false });
+    	$(document).on('change', 'input[type=checkbox]', function(){
+	if ($(this).is(':checked')) {
+		$(this).closest('td').addClass('info');  // unchecked	
+	}
+	else {
+    		$(this).closest('td').removeClass('info');  // checked
+	}
+    	}); 
+});
+</script>
 <p></p>
 
 <%= form_tag("/problems/cases", method: "get") do %>
-<table class="table">
-	<% if @searchdx.present? %>
-		<tr><td>Diagnoses</td></tr>
+<p></p>
+		<h3>Search results</h3>
+		Select the diagnoses you want to practise and click 'Find practice cases' at the bottom of the page.
+		<p><%= link_to "Search for a different diagnosis", user_select_problems_path %></p>
+		<table class="table">
 		<% @searchdx.each do |s| %>
 			<tr><td>
 	<% if s.category == "key" %>
-	<span class="key">Key diagnosis </span>
+	<strong class="key-strong">Key condition</strong>
 	<% elsif s.category == "1" %>
-	Category 1
+		<strong>Category 1</strong>
 	<% elsif s.category == "2" %>
-	Category 2
+		<strong>Category 2</strong>
 	<% elsif s.category == "3" %>
-	Category 3
+		<strong>Category 3</strong>
 	<% end %>
-			<%= label_tag(s.name, (s.dxable.name + " -> " + s.name)) %>
+<%= s.l1_name %>
+<% if s.dxable_type != "DxLevel1" %>
+-> <%= s.l2_name %>
+	<% if s.dxable_type == "DxLevel3" %>
+	-> <%= s.l3_name %>
+	<% end %>
+<% end %>	
+		->
+			<%= label_tag(s.name, (s.name)) %>
 			<%= check_box_tag("id[]", s.id, false, :id => s.id) %>
 			</td></tr>
 		<% end %>
-	<% end %>
-	<% if @searchdx.present? %>
-		<tr><td><%= submit_tag("Practice cases") %></td></tr>
-	<% end %>
-</table>
+		</table>
+<label for="submit-button" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Find practice cases</label>
+<%= submit_tag "Find practice cases", id: "submit-button", class: "hidden"%>
+		<p></p><p><a href="#top">Click here to go back to top</a></p>
+
+<% end %>
 <% end %>

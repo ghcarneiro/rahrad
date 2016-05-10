@@ -24,9 +24,13 @@
   <div class="field" style="padding-top: 5px">
     <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
   </div>
-
-  <div class="field" style="padding-top: 5px;">
-   Year of training: <%= f.select :year_of_training, [['1','1'],['2','2'],['3','3'],['4','4'],['5','5']] %>
+  <div class="field" style="margin-top: 5px; border: 1px solid #99CCFF; padding: 10px; border-radius: 3px; width: 100%; background-color: #f5f5f5">
+   <span style="padding-right: 10px">Year of training:</span>
+   <label class="radio-inline"><input id="user_year_of_training_1" value="1" name="user[year_of_training]" type="radio">1</label>
+   <label class="radio-inline"><input id="user_year_of_training_2" value="2" name="user[year_of_training]" type="radio">2</label>
+   <label class="radio-inline"><input id="user_year_of_training_3" value="3" name="user[year_of_training]" type="radio">3</label>
+   <label class="radio-inline"><input id="user_year_of_training_4" value="4" name="user[year_of_training]" type="radio">4</label>
+   <label class="radio-inline"><input id="user_year_of_training_5" value="5" name="user[year_of_training]" type="radio">5</label>
   </div>
 
   <div class="actions" style="padding-top: 10px">

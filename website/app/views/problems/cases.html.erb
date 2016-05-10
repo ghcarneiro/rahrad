@@ -5,14 +5,16 @@
 <% end %>
 <script>
 $(document).ready(function(){
-    $(".glyphicon").click(function(){
-	if ($(this).hasClass('glyphicon-menu-right')) {
-       	 	$(this).removeClass('glyphicon-menu-right');
-       		$(this).addClass('glyphicon-menu-down');
+    $(".sentence-toggle").click(function(){
+	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
+       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-right');
+       		$(this).children(':first-child').next().addClass('glyphicon-menu-down');
+		$(this).children(':first-child').text('Hide ');
     	}
 	else {
-       	 	$(this).removeClass('glyphicon-menu-down');
-       		$(this).addClass('glyphicon-menu-right');
+       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-down');
+       		$(this).children(':first-child').next().addClass('glyphicon-menu-right');
+		$(this).children(':first-child').text('View ');
 	}
 
     $(this).next().slideToggle();
@@ -38,7 +40,7 @@ $(document).ready(function(){
 <!-- include the cornerstoneWADOImageLoader library -->
 <script src="/index_files/cornerstoneWADOImageLoader.js"></script>
 <%= link_to problems_path do %>
-<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection index</span>
+<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection</span>
 <% end %>
 <div class="container">
 
@@ -66,8 +68,10 @@ $(document).ready(function(){
 				<div class="corrections-box">
 				<%= label_tag nil,"Report feedback",:id => "corrections-label" %>
 				</div>
-				<hr>
 				<div class="correction-stats">
+				<p style="color: cornflowerblue">
+				<h3><%= sprintf('%.2f', @percentage) %>% correct</h3>
+				</p>
 				<p style="color: green; font-weight: bold"><h3>Correct diagnosis: 
 				<% if @studentreport.diagnosis_found == true %>
 					Yes</h3></p>
@@ -75,80 +79,111 @@ $(document).ready(function(){
 					No</h3><br />Answer: <%= @showdx.name %></p>
 				<% end %>				
 				<span class="glyphicon glyphicon-plus" style="color:green"></span> Add diagnosis to review list
-				<p style="color: cornflowerblue">
-				<h3><%= sprintf('%.2f', @percentage) %>% correct</h3>
-				</p>
 				</div>
-				<hr>
 				<br>
 				<div class="correct-categories">
-				<strong style="background-color:red"> <%= @studentreport.missing_sentences.length %> </strong>
-				Missing sentences
+				<% @missinglength = @studentreport.missing_sentences.length %>
+				<strong style="background-color:red"> <%=  @missinglength %> </strong>
+				Missing 
+				<% if @missinglength == 1 %>
+				sentence
+				<% else %>
+				sentences
+				<% end %>
 				<hr>
 				</div>
-				<% if @studentreport.missing_sentences.length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span><% end %>
-				<div style="display:none">
+				<% if @missinglength > 0 %>
+					<span class="sentence-toggle">
+						<span class="viewhide">View </span>
+						<% if @missinglength == 1 %>
+							sentence
+						<% else %>
+							sentences
+						<% end %>
+						<span class="glyphicon glyphicon-menu-right"></span>
+					</span>
+				<% end %>
+				<div style="display:none; text-align: left">
 				<% @count = 0 %>
+				<ul>
 				<% @expert_sentences.each do |i| %>	
 				<% if @studentreport.missing_sentences.include? @count.to_s %>
-				<div class="corrections-box">
-					<div class="original-text"> 
-							<span class="glyphicon glyphicon-alert" style="color: red"></span>
-						<%= i %> 
-					</div>
-					<br>
-				</div>
-				<hr>
+				<li>
+						<%= i %> <a href="#">Ignore</a>
+				</li>
 				<% end %>
 				<% @count = @count + 1 %>
 				<% end %>	
+				</ul>
 				</div>
 
 				<div class="correct-categories">
-				<strong style="background-color:green"> <%= @studentreport.correct_sentences.length %> </strong>
-				Correct sentences
+				<% @correctlength = @studentreport.correct_sentences.length %> 
+				<strong style="background-color:green"> <%= @correctlength  %> </strong>
+				Correct 
+				<% if @correctlength == 1 %>
+				sentence
+				<% else %>
+				sentences
+				<% end %>
 				<hr>
 				</div>
-				<% if @studentreport.correct_sentences.length > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span> <% end %>
-				<div style="display:none">
+				<% if @correctlength > 0 %>
+					<span class="sentence-toggle">
+						<span class="viewhide">View </span>
+						<% if @correctlength == 1 %>
+							sentence
+						<% else %>
+							sentences
+						<% end %>
+						<span class="glyphicon glyphicon-menu-right"></span>
+					</span>
+				<% end %>
+				<div style="display:none; text-align: left">
 				<% @count = 0 %>
+				<ul>
 				<% @student_sentences.each do |i| %>
 				<% if @studentreport.correct_sentences.include?(@count.to_s) %>	
-				<div class="corrections-box">
-					<div class="original-text"> 
-							<span class="glyphicon glyphicon-ok" style="color:green"></span>
-						<%= i %> 
-					</div>
-					<br>
-				</div>
-				<hr>
+						<li><%= i %> </li>
 				<% end %>
 				<% @count = @count + 1 %>
-				<% end %>	
+				<% end %>
+				</ul>	
 				</div>
 
 
 				<div class="correct-categories">
-				<strong style="background-color:orange"> <%= (@student_sentences.length - @studentreport.correct_sentences.length) %> </strong>
-				Additional sentences
+				<% @extralength = (@student_sentences.length - @studentreport.correct_sentences.length) %>
+				<strong style="background-color:orange"> <%= @extralength %> </strong>
+				Extra 
+				<% if @extralength == 1 %>
+				sentence
+				<% else %>
+				sentences
+				<% end %>
 				<hr>
 				</div>
-				<% if (@student_sentences.length - @studentreport.correct_sentences.length) > 0 %>View sentences <span class="glyphicon glyphicon-menu-right"></span><% end %>
-				<div style="display:none">
+				<% if @extralength > 0 %>
+					<span class="sentence-toggle">
+						<span class="viewhide">View </span>
+						<% if @extralength == 1 %>
+							sentence
+						<% else %>
+							sentences
+						<% end %>
+						<span class="glyphicon glyphicon-menu-right"></span>
+					</span>
+				<% end %>
+				<div style="display:none; text-align: left">
 				<% @count = 0 %>
+				<ul>
 				<% @student_sentences.each do |i| %>
 				<% if !@studentreport.correct_sentences.include?(@count.to_s) %>		
-				<div class="corrections-box">
-					<div class="original-text"> 
-							<span class="glyphicon glyphicon-question-sign" style="color:orange"></span>
-						<%= i %> 
-					</div>
-					<br>
-				</div>
-				<hr>
+						<li><%= i %> </li>
 				<% end %>
 				<% @count = @count + 1 %>
-				<% end %>	
+				<% end %>
+				</li>	
 				</div>
 				<p></p>
 				
@@ -162,7 +197,7 @@ $(document).ready(function(){
 				<%= label_tag :q,"Write a report:",:id => "teaching-label" %>
 				<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus></textarea>
 				<input id="search-box-button" type="submit" class="btn btn-default btn-lg" value="Submit" />
-				<%= link_to "Skip", cases_problems_path, class: "btn btn-default btn-sm" %> 
+				<%= link_to "Go to new case", cases_problems_path, class: "btn btn-default btn-sm" %> 
 			</form>
 
 			<% end %>
@@ -178,6 +213,7 @@ $(document).ready(function(){
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="thing">Report review</h4>
+	Missing sentences in the expert report are <span style="color: red"><b>red</b></span>. Correct sentences in your report are <span style="color: green"><b>green</b></span>. Extra sentences in your report are <span style="color: orange"><b>orange</b></span>.
         </div>
         <div class="modal-body">
           <table><tr>
@@ -201,7 +237,7 @@ $(document).ready(function(){
 		<% if @studentreport.correct_sentences.include?(@count.to_s) %>
 			<span style="color: green"><%= i %></span>
 		<% else %>
-			<%= i %>
+			<span style="color: orange"><%= i %></span>
 		<% end %>
 		<% @count = @count + 1 %>
 	<% end %>

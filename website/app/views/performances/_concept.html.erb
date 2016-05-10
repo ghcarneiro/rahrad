@@ -35,7 +35,7 @@ $(document).ready(function(){
 </script>
 <!-- Don't use < % = at the start of each.do or you get the entire array!!! -->
 
-<div>
+<div style="padding-bottom: 30px">
 <b>Key:</b>
 <%= image_tag("grey.gif", width: "15px", height: "15px") %> No cases attempted yet 
 <span width="20"></span>
@@ -47,7 +47,7 @@ $(document).ready(function(){
 </div>
 
 <% @dxlevel1s.each do |d1| %>
-<table class="table" style="width: 550px; text-align: left; position: relative">
+<table class="table" style="max-width: 600px; text-align: left; margin: 0 auto">
   <tr>
   <td>
 <% @ldx = LearnerLevel1.where(:dx_level1_id => d1.id).where(:user_id => current_user.id).first %>

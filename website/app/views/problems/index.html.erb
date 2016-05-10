@@ -19,38 +19,42 @@
 		<td style="padding-left: 25px; padding-right: 25px; width: 300px">
 			<%= link_to user_select_problems_path do %>
 				<img src="/assets/userselect.jpg" style="width: 200px; height: 200px" />
-			<% end %> 
-			<p>User select
+			
+			<p class="no-underline">User select
 			<br/>
 			<span style="font-size: 15px">Choose a topic to practise cases from. Topics are based off the RANZCR Radiodiagnosis Curriculum.</span>	
 			</p>
+			<% end %> 
 		</td>
 		<td style="padding-left: 25px; padding-right: 25px; width: 300px">
 			<%= link_to system_select_problems_path do %>
 				<img src="/assets/systemselect.jpg" style="width: 200px; height: 200px" />  
-			<% end %>	
-			<p>System select
+				
+			<p class="no-underline">System select
 			<br/>
 			<span style="font-size: 15px">The system will choose cases that are relevant to your current stage of training. As you complete practice cases, the system will use this information to present you with cases on topics you have had less exposure to and those which you need to practise more.</span>
 			</p>
+			<% end %>
 		</td>
 		<td style="padding-left: 25px; padding-right: 25px; width: 300px">
 			<% if @ldx.present? %>
 			<%= link_to review_list_problems_path do %>
 				<img src="/assets/reviewlist.jpg" style="width: 200px; height: 200px" />  
-			<% end %>
-			<p>
+			
+			<p class="no-underline">
 			Review list<br/>
-			<span style="font-size: 15px">Practise cases from your review list.</span>
+			<span style="font-size: 15px">Practise cases from your review list.</span></p>
+			<% end %>
 			<% else %>
 			<%= link_to review_list_add_problems_path do %>
 				<img src="/assets/reviewlist.jpg" style="width: 200px; height: 200px" />  
-			<% end %>
-			<p>
+			
+			<p class="no-underline">
 			Create review list<br/>
-			<span style="font-size: 15px">Add topics that you want to focus on to your review list.</span>
+			<span style="font-size: 15px">Add topics that you want to focus on to your review list.</span></p>
 			<% end %>
-			</p>
+			<% end %>
+			
 		</td>
 	</tr>
 	</table>

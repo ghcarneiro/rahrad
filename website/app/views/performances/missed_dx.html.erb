@@ -26,7 +26,31 @@
 
 <div class = style="align: center; width: 100%; margin: 0 auto">
 <%= render "nav" %>
-<%= render "missedDx" %>
+<table id="reports" class="table" style="width: 600px; margin: 0 auto">
+<tr>
+<td>
+<h4 class="diagnosis"><span class="dx" style="align: left">1. Oesophageal carcinoma</span> <span class="percent" style="padding-left: 200px; color: red"><font color="red">32% correct</font></span></h4>
+<span class = "view-reports" style="padding-left:30px">View reports</span> <span class="glyphicon glyphicon-menu-down"></span>  <span style="padding-left: 250px"> <span class="glyphicon glyphicon-plus"></span> Add to review list</span>
+<div style="padding-left:60px; padding-top:5px">
+<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-window">
+    1
+  </button>
+<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal-window">
+    2
+  </button>
+<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-window">
+    3
+  </button>
+<button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-window">
+    4
+  </button>
+<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-window">
+    5
+  </button>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <p></p>
 

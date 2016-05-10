@@ -23,3 +23,4 @@
 //= require fusioncharts/fusioncharts.powercharts
 //= require turbolinks
 
+

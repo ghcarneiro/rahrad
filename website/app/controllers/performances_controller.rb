@@ -34,6 +34,7 @@ end
 	end
 
 def concept
+	    @pagetype = "concept"
 	    @conceptlist = "public/conceptlist_" + current_user.id.to_s
 	    @dxlevel1s = DxLevel1.all
 	    @learner_level1s = LearnerLevel1.where(:user_id => current_user.id)
@@ -106,14 +107,24 @@ def data
 		if !@i.include?("e_")
   	    	@html = @html + n.name + "<span class='glyphicon glyphicon-menu-right' id='" + @i + "'></span></td></tr></table>"
 		else
-	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
 	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
 	          <div class="progress-bar" style="width: 50px">
 	          </div>
 	        </div>
 	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + n.name + ': X% correct</span>
-	      </div>'
-  	    	@html = @html + "<span class='endDx'>" + n.name + "</span>" + @popup + "</td></tr></table>"	
+	      </div> '
+		
+		if n.category == "key"
+			@categorytext = ' <strong class="key-strong">Key condition</strong>'
+		elsif n.category == "1"
+			@categorytext=' <strong>Category 1</strong>'
+		elsif n.category == "2"
+			@categorytext = ' <strong>Category 2</strong>'
+		elsif n.category == "3"
+			@categorytext= ' <strong>Category 3</strong>'
+		end
+  	    	@html = @html + "<span class='endDx'>" + n.name + @categorytext + "</span>" + @popup + "</td></tr></table>"	
 		end
 	    end
 
@@ -158,13 +169,14 @@ def data
 end
 
 def list
+	    @pagetype = "list"
 	    @level = 1
 	    @learner_level1s = LearnerLevel1.where(:user_id => current_user.id)	
 	    # Display the appropriate level 2 data for the selected level 1 diagnosis  
 	    if params[:l1]  
 		@level = 2
 		# Get level 2 diagnoses
-		@learner1 = LearnerLevel1.where(:id => params[:l1]).first
+		@learner1 = LearnerLevel1.where(:id => params[:l1], :user_id => current_user.id).first
 		@dxlevel1 = DxLevel1.where(:id => @learner1.dx_level1_id).first
 		@dxlevel2s = DxLevel2.where(:dx_level1_id => @dxlevel1.id)
 
@@ -174,7 +186,7 @@ def list
 	    if params[:l2]  
 		@level = 3
 		# Get level 3 diagnoses
-		@learner2 = LearnerLevel2.where(:id => params[:l2]).first
+		@learner2 = LearnerLevel2.where(:id => params[:l2], :user_id => current_user.id).first
 		@dxlevel2 = DxLevel2.where(:id => @learner2.dx_level2_id).first
 		@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
 		@dxlevel3s = DxLevel3.where(:dx_level2_id => @dxlevel2.id)
@@ -186,7 +198,7 @@ def list
 	    if params[:l3]  
 		@level = 4
 		# Get level 3 diagnoses
-		@learner3 = LearnerLevel3.where(:id => params[:l3]).first
+		@learner3 = LearnerLevel3.where(:id => params[:l3], :user_id => current_user.id).first
 		@dxlevel3 = DxLevel3.where(:id => @learner3.dx_level3_id).first
 		@dxlevel2 = DxLevel2.where(:id => @dxlevel3.dx_level2_id).first
 		@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
@@ -194,7 +206,13 @@ def list
 	    end
 end
 
+def missed_dx
+	    @pagetype = "misseddx"
+	    #@missed = LearnerDx.where(:cases_attempted > 0, :user_id => current_user.id).sort_by &:correct_dx
+end
+
 def report_hx
+	    @pagetype = "reporthx"
 	    @pageno = 1
 	    @offset = 0
 	    @student_reports = ((StudentReport.where(:user_id => current_user.id)).sort_by &:created_at).reverse
@@ -220,6 +238,10 @@ def report_hx
 
 	    end
 
+end
+
+def skillmeters
+	    @pagetype = "skillmeters"
 end
 
 end

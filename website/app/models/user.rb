@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  validates :year_of_training, :presence => true,
+                               :on => :create
   # When the user object is destroyed, all its reoccurences will be destroy too
   has_many :reoccurences, dependent: :destroy
 

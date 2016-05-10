@@ -14,27 +14,78 @@
 }
 </style>
 <% end %>
+<script>
+$(document).ready(function(){
+    $.ajaxSetup({ cache: false });
+    $(document).on('click', '.glyphicon', function(){
+	if ($(this).hasClass('glyphicon-menu-right')) {
+       	 	$(this).removeClass('glyphicon-menu-right');
+       		$(this).addClass('glyphicon-menu-down');
+    	}
+	else {
+       	 	$(this).removeClass('glyphicon-menu-down');
+       		$(this).addClass('glyphicon-menu-right');
+	}
 
-<!-- JQuery library must be loaded before Highcharts code for it to work-->
-<script src="/index_files/customEvents.js"></script>
-
-
-<!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
-</div> -->
-<table id="mainpage">
-<tr>
-<td>
+	if ($(this).next().hasClass('subdata')) {
+        	$(this).next().slideToggle();
+	}
+	else {
+		var level = $(this).attr("id");
+        	// Get data from model
+		$.ajax({
+  			type:"GET",
+  			url:"data",
+  			dataType:"html",
+  			data: {l: level},
+  			success: function(data){
+    				$("#" + level).after(data);
+  			}
+		});
+	}
+    }); 
+    $(document).on('mouseenter mouseleave', '.endDx', function(){
+	$(this).next().stop().slideToggle();
+    });
+});
+</script>
 <p></p>
-<div id="chartoptions" style="align: center; width: 100%; margin: 0 auto">
 <%= render "nav" %>
-</div>
 <p></p>
-<%= render :partial => 'concept', :locals => { :dxlevel1s => @dxlevel1s, :enddxes => @enddxes } %>
-<!-- <div id="datacharts" style="width: 600px; height: 400px"></div> -->
-</td>
-</tr>
-</table>
+<div style="padding-bottom: 30px">
+<b>Key:</b>
+<%= image_tag("grey.gif", width: "15px", height: "15px") %> No cases attempted yet 
+<span width="20"></span>
+<%= image_tag("green.gif", width: "15px", height: "15px") %> Excellent 
+<span width="20"></span>
+<%= image_tag("yellow.gif", width: "15px", height: "15px") %> Good 
+<span width="20"></span>
+<%= image_tag("red.gif", width: "15px", height: "15px") %> Needs more work 
+</div>
 
+<% @dxlevel1s.each do |d1| %>
+<table class="table" style="max-width: 600px; text-align: left; margin: 0 auto">
+  <tr>
+  <td>
+<% @ldx = LearnerLevel1.where(:dx_level1_id => d1.id).where(:user_id => current_user.id).first %>
+  <% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+<% else %>
+  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
+  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
+  <% if @excellent > 0.5 %>
+    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+  <% elsif @correct > 0.5 %>
+    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+  <% else %>
+    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+  <% end %>
+<% end %>
+  <%= d1.name %> <% @id = "l1_" + d1.id.to_s %> <%= content_tag :span, "", id: @id, class: "glyphicon glyphicon-menu-right" %>
+  </td>
+  </tr>
+</table>
+<% end %>
 
   <!-- Modal -->
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

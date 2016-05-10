@@ -4,14 +4,37 @@
 <% end %>
 <script>
 $(document).ready(function(){
+	var count = 0;
+	var buttonHTML = '<input id="submit-button" class="hidden" name="commit" value="Find practise cases" type="submit" style="display: none"></input>';
     	$(document).on('change', 'input[type=checkbox]', function(){
 	if ($(this).is(':checked')) {
 		$(this).closest('td').addClass('info');  // unchecked	
+		count++;
 	}
 	else {
     		$(this).closest('td').removeClass('info');  // checked
+		count--;
+	}
+	
+	if (count == 0) {
+		if ($('#submit-label').hasClass('btn btn-primary')) {
+			$('#submit-label').removeClass('btn btn-primary');
+			$('#submit-label').addClass('btn btn-primary disabled');
+			$('#submit-button').remove();
+		}
+	}
+	else if (count > 0) {
+		if ($('#submit-label').hasClass('disabled')) {
+			$('#submit-label').removeClass('disabled');
+			$('#submit-label').after(buttonHTML)
+		}
 	}
     	}); 
+    	$(document).on('click', '#submit-label', function(){
+	if (count == 0) {
+		alert('ERROR: You must select at least one diagnosis.');
+	}
+	});
 });
 </script>
 <a href="top"></a>
@@ -47,8 +70,7 @@ $(document).ready(function(){
 </td></tr>
 <% end %>
 </table>
-<label for="submit-button" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Find practice cases</label>
-<%= submit_tag "Find practice cases", id: "submit-button", class: "hidden"%>
+<label for="submit-button" class="btn btn-primary disabled" id="submit-label"><i class="glyphicon glyphicon-search"></i> Find practice cases</label>
 <p></p><p><a href="#top">Click here to go back to top</a></p>
 <% end %>
 <% else %>

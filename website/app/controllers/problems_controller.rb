@@ -91,12 +91,17 @@ end
 		@noparam = false
 		@nofound = false
 
+		if params[:dropdown]
+	    		@dxlevel1s = DxLevel1.all
+		end
+
 		# Process search term
 		if params[:search]
+			params[:year_level] = current_user.year_of_training
 			if params[:search] == ""
 				@noparam = true
 			else
-				@searchdx = EndDx.where(["name LIKE ?", "%#{params[:search]}%"])	
+				@searchdx = EndDx.dxable_search2(params[:search], params[:year_level])	
 			end
 			if !@searchdx.present?
 				@nofound = true

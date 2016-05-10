@@ -4,14 +4,37 @@
 <% end %>
 <script>
 $(document).ready(function(){
+	var count = 0;
+	var buttonHTML = '<input id="submit-button" class="hidden" name="commit" value="Add to review list" type="submit" style="display: none"></input>';
     	$(document).on('change', 'input[type=checkbox]', function(){
 	if ($(this).is(':checked')) {
 		$(this).closest('td').addClass('danger');  // unchecked	
+		count++;
 	}
 	else {
     		$(this).closest('td').removeClass('danger');  // checked
+		count--;
 	}
+	if (count == 0) {
+		if ($('#submit-label').hasClass('btn btn-danger')) {
+			$('#submit-label').removeClass('btn btn-danger');
+			$('#submit-label').addClass('btn btn-danger disabled');
+			$('#submit-button').remove();
+		}
+	}
+	else if (count > 0) {
+		if ($('#submit-label').hasClass('disabled')) {
+			$('#submit-label').removeClass('disabled');
+			$('#submit-label').after(buttonHTML)
+		}
+	}
+
     	}); 
+    	$(document).on('click', '#submit-label', function(){
+	if (count == 0) {
+		alert('ERROR: You must select at least one diagnosis.');
+	}
+	}); 
 });
 </script>
 <a href="top"></a>
@@ -57,8 +80,7 @@ $(document).ready(function(){
 		</td></tr>
 	<% end %>
 	</table>
-	<label for="submit-button" class="btn btn-danger"><i class="glyphicon glyphicon-minus"></i> Remove from review list</label>
-	<%= submit_tag "Remove from review list", id: "submit-button", class: "hidden"%>
+	<label for="submit-button" class="btn btn-danger disabled" id="submit-label"><i class="glyphicon glyphicon-minus"></i> Remove from review list</label>
 	<p></p><p><a href="#top">Click here to go back to top</a></p>
 <% end %>
 <% else %>

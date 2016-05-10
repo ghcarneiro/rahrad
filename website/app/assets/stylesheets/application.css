@@ -147,8 +147,22 @@ strong {
 	font-weight: bold;
 }
 
+/** Bootstrap table background color for success **/
 .success-dropdown {
-	background-color: #9ecf99;
+	background-color: #dff0d8; 
+}
+
+/** Bootstrap table background color for info **/
+.info-dropdown {
+	background-color: #d9edf7; 
+}
+
+.navtext {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-right: 10px;
+	padding-left: 10px;
+	color: #428bca;
 }
 
 #search-box-button {

@@ -1,6 +1,29 @@
+<%= link_to problems_path do %>
+<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Performance Dashboard</span>
+<% end %>
 <p><span class="section_title"><h2>Performance overview</h2></span></p>
-<%= link_to "Skill meters", skillmeters_performances_path, class: "btn btn-default btn-sm" %> 
-<%= link_to "Concept hierarchy", concept_performances_path, class: "btn btn-default btn-sm" %> 
-<%= link_to "List", list_performances_path, class: "btn btn-default btn-sm" %> 
-<%= link_to "Top missed diagnoses", missed_dx_performances_path, class: "btn btn-default btn-sm" %>
-<%= link_to "Report history", report_hx_performances_path, class: "btn btn-default btn-sm" %> 
+<% if @pagetype == "skillmeters" %>
+<button type ="button" class ="btn btn-primary disabled btn-sm">Skill meters</button>
+<% else %>
+<%= link_to "Skill meters", skillmeters_performances_path, class: "btn btn-primary btn-sm" %> 
+<% end %>
+<% if @pagetype == "concept" %>
+<button type ="button" class ="btn btn-primary disabled btn-sm">Concept hierarchy</button>
+<% else %>
+<%= link_to "Concept hierarchy", concept_performances_path, class: "btn btn-primary btn-sm" %> 
+<% end %>
+<% if @pagetype == "list" %>
+<button type ="button" class ="btn btn-primary disabled btn-sm">List</button>
+<% else %>
+<%= link_to "List", list_performances_path, class: "btn btn-primary btn-sm" %> 
+<% end %>
+<% if @pagetype == "misseddx" %>
+<button type ="button" class ="btn btn-primary disabled btn-sm">Top missed diagnoses</button>
+<% else %>
+<%= link_to "Top missed diagnoses", missed_dx_performances_path, class: "btn btn-primary btn-sm" %>
+<% end %>
+<% if @pagetype == "reporthx" %>
+<button type ="button" class ="btn btn-primary disabled btn-sm">Report history</button>
+<% else %>
+<%= link_to "Report history", report_hx_performances_path, class: "btn btn-primary btn-sm" %> 
+<% end %>

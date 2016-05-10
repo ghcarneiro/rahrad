@@ -102,7 +102,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     <!-- Level 2 diagnoses -->
     <% elsif @level == 2 %>
     <% @dxlevel2s.each do |d| %>
-    <% l = LearnerLevel2.where(:dx_level2_id => d.id).first %>
+    <% l = LearnerLevel2.where(:dx_level2_id => d.id, :user_id => current_user.id).first %>
     <tr>
     <td>
         <% if l.present? %>
@@ -160,7 +160,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     </tr>
     <!-- Level 2: Key conditions -->
     <% @keyconditions.each do |d| %>
-    <% l = LearnerDx.where(:end_dx_id => d.id).first %>
+    <% l = LearnerDx.where(:end_dx_id => d.id, :user_id => current_user.id).first %>
     <tr>
     <td>
         <% if l.present? %>
@@ -201,7 +201,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
 <!-- Level 3 diagnoses -->
     <% elsif @level == 3 %>
     <% @dxlevel3s.each do |d| %>
-    <% l = LearnerLevel3.where(:dx_level3_id => d.id).first %>
+    <% l = LearnerLevel3.where(:dx_level3_id => d.id, :user_id => current_user.id).first %>
     <tr>
     <td>
         <% if l.present? %>
@@ -242,7 +242,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
  <!-- End diagnoses -->
     <% elsif @level == 4 %>
     <% @end_dxes.each do |e| %>
-    <% l = LearnerDx.where(:end_dx_id => e.id).first %>
+    <% l = LearnerDx.where(:end_dx_id => e.id, :user_id => current_user.id).first %>
     <tr>
     <td>
         <% if l.present? %>
