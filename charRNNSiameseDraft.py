@@ -73,7 +73,7 @@ def create_base_network(input_dim):
     #model.add(LSTM(512, return_sequences=True))
     #model.add(Dropout(0.2))
     #model.add(Dense(len(chars)))
-    #model.add(TimeDistributedDense(len(chars)))
+    model.add(TimeDistributedDense(len(chars)))
     model.add(Activation('softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
@@ -83,7 +83,12 @@ def euclidean_distance(inputs):
     assert len(inputs) == 2, ('Euclidean distance needs '
                               '2 inputs, %d given' % len(inputs))
     u, v = inputs.values()
-    return K.sqrt(K.sum(K.square(u - v), axis=1, keepdims=True))
+    c = np.matrix(u)
+    d = np.matrix(v)
+    #return K.sqrt(K.sum(K.square(u - v), axis=1, keepdims=True))
+    return np.mean(np.linalg.norm(c-d,axis=1))
+    #return K.sqrt(K.sum(K.sum(K.square(u-v),axis=0),axis=0))
+	
 
 print('Build model...')
 if not continueTraining:
@@ -151,11 +156,13 @@ for iteration in range(1, 60):
 	print('Iteration', iteration)
         # base network takes the both sides of input
         # model takes pairs of inputs
-	X1 = X[::2]
+	X1 = X[::2][:]
+	print(X.shape)
 	print(X1.shape)
-	X2 = X[1::2]
-	z2 = z[::2]
-	print(z.shape)
+	X2 = X[1::2][:]
+	z2 = z[::2][:]
+	#z2 = z2.reshape(z2.shape[0],1)
+	print(z2.shape)
 	#model.fit(X, y, batch_size=256, nb_epoch=1)
         g.fit({'input_a': X1, 'input_b': X2, 'output': z2}, batch_size=256,nb_epoch=1)
 
