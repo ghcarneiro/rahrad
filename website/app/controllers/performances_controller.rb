@@ -46,6 +46,36 @@ def concept
 
 end
 
+# Add to review list
+def add
+	    @l_id = params[:l]
+	    @add_dx = LearnerDx.where(:id => @l_id, :user_id => current_user.id).first
+	    @add_dx.review_list = true
+	    @add_dx.save
+	    
+	    @html = '<span class="key">Added to review list</span><br/><span class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Remove from review list</span>'
+	    respond_to do |format|
+  	    	format.html do
+		    render text: @html 
+		end
+	    end
+end
+
+# Remove from review list
+def remove
+	    @l_id = params[:l]
+	    @add_dx = LearnerDx.where(:id => @l_id, :user_id => current_user.id).first
+	    @add_dx.review_list = false
+	    @add_dx.save
+	    
+	    @html = '<span class="error">Removed from review list</span><br/><span class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add to review list</span>'
+	    respond_to do |format|
+  	    	format.html do
+		    render text: @html 
+		end
+	    end
+end
+
 #Retrieve data for concept hierarchy
 def data
 
@@ -129,7 +159,7 @@ def data
 	    end
 
 	    # Add key diagnoses if level 1
-	    if @level == "l1" and current_user.year_of_training == "1"
+ 	    if @level == "l1" and (current_user.year_of_training == "1" or current_user.year_of_training == "2")
 	    	@keydx.each do |k|
 		@html = @html + "<table><tr><td>"
 		@ldx = LearnerDx.where(:end_dx_id => k.id).where(:user_id => current_user.id).first
@@ -146,14 +176,14 @@ def data
 		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
 			end
 		end
-	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 200px; display: none">
+	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
 	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
 	          <div class="progress-bar" style="width: 50px">
 	          </div>
 	        </div>
 	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + k.name + ': X% correct</span>
 	      </div>'
-  	    	@html = @html + "<span class='endDx'>" + k.name +  "</span>" + @popup + "</td></tr></table>"
+  	    	@html = @html + "<span class='endDx'>" + k.name +  " <strong class='key-strong'>Key condition</strong></span>" + @popup + "</td></tr></table>"
 	    	end
 	    end
 
@@ -208,7 +238,7 @@ end
 
 def missed_dx
 	    @pagetype = "misseddx"
-	    #@missed = LearnerDx.where(:cases_attempted > 0, :user_id => current_user.id).sort_by &:correct_dx
+	    @missed = (LearnerDx.where('cases_attempted > ?', 0).where(:user_id => current_user.id).sort_by &:missed_dx).reverse
 end
 
 def report_hx

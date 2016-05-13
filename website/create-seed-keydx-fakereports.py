@@ -39,7 +39,7 @@ with open("keydiagnosis-list","rb") as fin, open("test-seed-key.txt", "wb") as f
 				string = 'keydx_' + str(count) + ' = EndDx.create(name: "' + diagnosis + '", category: "key", dxable_id: ' + level1 + '.id, l1_name: "' + levelname + '", l2_name: "0", l3_name: "0", dxable_type: "DxLevel1", frequency: 0.1) \n'
 				fout.write(string)
 				for x in range(0, 5):
-					string2 = 'ExpertReport.create(report_number: "' + str(expert_no) + '", report_text: "Report no ' + str(expert_no) + '. This is a fake report about ' + diagnosis + '. This is a fake report. This is a fake report. Repeat, this is a fake report.", end_dx_id: keydx_' + str(count) + '.id, times_attempted: 0, correct_diagnosis: 0, difficulty: 0) \n'
+					string2 = 'ExpertReport.create(report_number: "' + str(expert_no) + '", report_text: "Report no ' + str(expert_no) + '. This is a fake report about ' + diagnosis + '. This is a fake report. This is a fake report. Repeat, this is a fake report.", end_dx_id: keydx_' + str(count) + '.id, times_attempted: 0, correct_dx: 0, incorrect_dx: 0, difficulty: 0) \n'
 					fout.write(string2)
 					expert_no = expert_no + 1
 				count = count + 1

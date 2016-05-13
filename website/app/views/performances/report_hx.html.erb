@@ -6,9 +6,9 @@
 
 <script>
 $(document).ready(function() {
+    $.ajaxSetup({ cache: false });
     $('#modal-window').modal('show');
-
-    $("input").click(function() {
+    $(document).on('click', 'input', function(){
         if ($(this).parent().hasClass("checkbox-inline keydx")) {
             $('.report-key').slideToggle();
         }
@@ -28,6 +28,9 @@ $(document).ready(function() {
 </script>
 
 <%= render "nav" %>
+<% if @studentreports.nil? %>
+You haven't written any reports yet! <%= link_to "Click here", index_problems_path %> to start writing some.
+<% else %>
 <p></p>
 <p>
 <label class="checkbox-inline keydx"><input type="checkbox" value="" checked>Key diagnoses</label>
@@ -186,4 +189,5 @@ Page:
       </div>
     </div>
   </div>
+<% end %>
 <% end %>

@@ -7,7 +7,8 @@ class CreateExpertReports < ActiveRecord::Migration
       t.references :end_dx, index: true, foreign_key: true
       t.references :learner_info, index: true, foreign_key: true
       t.integer :times_attempted
-      t.integer :correct_diagnosis
+      t.integer :correct_dx
+      t.integer :incorrect_dx
       t.decimal :difficulty
       t.timestamps null: false
     end

@@ -35,6 +35,7 @@ class ProblemsController < ApplicationController
 	    end
 	    @html= "<div class='subdata' style='margin-left: 50px'>"
 
+	    if !@next.blank?
 	    @next.each do |n|
 		@html = @html + "<table width='100%'><tr><td>"
 
@@ -62,7 +63,10 @@ class ProblemsController < ApplicationController
 		    @html = @html + "<strong>Category " + n.category + "</strong><label for='" + n.name + "'>" + n.name + "</label>" + @checkbox + "</td></tr></table>"
 		end
 	    end
- 	    if @level == "l1" and current_user.year_of_training == "1"
+	    else
+		@html = @html + "No diagnoses could be found."
+	    end
+ 	    if @level == "l1" and (current_user.year_of_training == "1" or current_user.year_of_training == "2")
 	    	@keydx.each do |k|
 		    @ldx = LearnerDx.where(:end_dx_id => k.id, :user_id => current_user.id, :review_list => true)
 		    if !@ldx.blank?
@@ -153,6 +157,8 @@ end
 					@ldx.end_dx_id = s.id
 					@ldx.user_id = current_user.id
 					@ldx.cases_attempted = 0
+					@ldx.missed_dx = 0
+					@ldx.accuracy = 0
 					@ldx.correct_dx = 0
 					@ldx.excellent_cases = 0
 				end
@@ -191,6 +197,9 @@ end
 	# Displays cases for the trainee to write reports on and processes their answers
 	def cases
 		@learnerinfo = LearnerInfo.where(:user_id => current_user.id).first
+		if params[:system_select]
+			
+		end
 
 		# Shows a new problem to the trainee based on the diagnoses they have selected
 		if params[:id]
@@ -232,6 +241,21 @@ end
 			r.report_text = @user_report
 			r.expert_report_id = @currentreport.id
 			r.user_id = current_user.id
+			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
+			# Create learner dx if not found
+			if @learnerdx.nil?
+					@e = EndDx.where(:id => @currentreport.end_dx_id).first
+					@learnerdx = LearnerDx.new
+					@learnerdx.name = @e.name
+					@learnerdx.end_dx_id = @e.id
+					@learnerdx.user_id = current_user.id
+					@learnerdx.cases_attempted = 0
+					@learnerdx.correct_dx = 0
+					@learnerdx.missed_dx = 0
+					@learnerdx.accuracy = 0
+					@learnerdx.excellent_cases = 0
+					@learnerdx.save
+			end
 			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
 			r.learner_dx_id = @learnerdx.id
 			
@@ -330,7 +354,7 @@ end
 			end
 
 			if r.diagnosis_found == true
-				@currentreport.correct_diagnosis += 1
+				@currentreport.correct_dx += 1
 				@learnerdx.correct_dx += 1
 				@learner_l1.correct_dx += 1
 				if @learner_l2.present?
@@ -349,9 +373,13 @@ end
 						@learner_l3.excellent_cases += 1
 					end
 				end
+			else
+				@currentreport.incorrect_dx += 1
+				@learnerdx.missed_dx += 1
 			end
 
-			@currentreport.difficulty = @currentreport.correct_diagnosis/@currentreport.times_attempted.to_f
+			@learnerdx.accuracy = @learnerdx.correct_dx/@learnerdx.cases_attempted.to_f
+			@currentreport.difficulty = @currentreport.incorrect_dx/@currentreport.times_attempted.to_f
 			@currentreport.save
 			@learnerdx.save
 			@learner_l1.save

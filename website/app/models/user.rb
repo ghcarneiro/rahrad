@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   end
 
   def create_learner_info
-    LearnerInfo.create(:user_id => self.id)
+    LearnerInfo.create(:user_id => self.id, :test => false)
   end
 
 end

@@ -11,8 +11,6 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
-//= require jquery_ujs
 //= require_tree .
 //= require highcharts/highcharts
 //= require highcharts/highcharts-more
@@ -21,6 +19,5 @@
 //= require fusioncharts/fusioncharts.charts
 //= require fusioncharts/themes/fusioncharts.theme.fint
 //= require fusioncharts/fusioncharts.powercharts
-//= require turbolinks
 
 

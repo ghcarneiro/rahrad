@@ -11,7 +11,7 @@
 	Year of training: <%= current_user.year_of_training %>
 	</p>
 	<p>
-		To get started with some practice cases, please click on one of the options below.
+		To get started with some practice cases, click on one of the options below.
 	</p>
 	</div>
 	<table style="margin: 0 auto; padding-top: 20px; max-width:100%; font-size: 20px">
@@ -27,7 +27,7 @@
 			<% end %> 
 		</td>
 		<td style="padding-left: 25px; padding-right: 25px; width: 300px">
-			<%= link_to system_select_problems_path do %>
+			<%= link_to cases_problems_path(:system_select => true) do %>
 				<img src="/assets/systemselect.jpg" style="width: 200px; height: 200px" />  
 				
 			<p class="no-underline">System select

@@ -4,6 +4,7 @@
 <% end %>
 <script>
 $(document).ready(function(){
+    $.ajaxSetup({ cache: false });
 	var count = 0;
 	var buttonHTML = '<input id="submit-button" class="hidden" name="commit" value="Find practise cases" type="submit" style="display: none"></input>';
     	$(document).on('change', 'input[type=checkbox]', function(){

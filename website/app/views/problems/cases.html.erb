@@ -48,6 +48,9 @@ $(document).ready(function(){
                 <div class="col-md-6">
                 <!-- This is the real code for a dicom image: <div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:relative"></div> --> 
 		<!-- INTERIM MOCK IMAGE CODE START -->
+		<% if params[:system_select] %>
+		System select active
+		<% end %>
 		<% if !@currentreport.report_image.nil? %>
 		<%= image_tag(@currentreport.report_image, position: "relative") %> 
 		<% else %>

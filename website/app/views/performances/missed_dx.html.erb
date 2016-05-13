@@ -1,53 +1,138 @@
 <% content_for :for_head do %>
 	<title>Performance Data</title>
-<style>
-
-#mainpage {
-	width: 1200px;
-	margin: 0 auto;
-}
-
-#reports {
-	width: 600px;
-	text-align: left;
-	align: center;
-}
-</style>
-
-	<!-- <script src="/index_files/chart.js"></script> -->
-
 <% end %>
-	<!-- JQuery library must be loaded before Highcharts code for it to work-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="/index_files/customEvents.js"></script>
+<script>
+$(document).ready(function(){
+    $(".sentence-toggle").click(function(){
+	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
+       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-right');
+       		$(this).children(':first-child').next().addClass('glyphicon-menu-down');
+		$(this).children(':first-child').text('Hide ');
+    	}
+	else {
+       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-down');
+       		$(this).children(':first-child').next().addClass('glyphicon-menu-right');
+		$(this).children(':first-child').text('View ');
+	}
+
+    $(this).next().slideToggle();
+
+    }); 
+
+    $(document).on('click', '.add-review', function(){
+		var id = $(this).attr("id");
+		var $this = $(this)
+        	// Get data from model
+		$.ajax({
+  			type:"GET",
+  			url:"add",
+  			dataType:"html",
+  			data: {l: id},
+  			success: function(data) {
+				$this.removeClass('add-review');
+				$this.addClass('remove-review');
+				$this.html(data);
+			}
+		});
+
+    }); 
+    $(document).on('click', '.remove-review', function(){
+		var id = $(this).attr("id");
+		var $this = $(this)
+        	// Get data from model
+		$.ajax({
+  			type:"GET",
+  			url:"remove",
+  			dataType:"html",
+  			data: {l: id},
+  			success: function(data) {
+				$this.removeClass('remove-review');
+				$this.addClass('add-review');
+				$this.html(data);
+			}
+		});
+
+    }); 
+
+
+});
+
+</script>
 
 <!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
 </div> -->
 
 <div class = style="align: center; width: 100%; margin: 0 auto">
 <%= render "nav" %>
-<table id="reports" class="table" style="width: 600px; margin: 0 auto">
+<table id="reports" style="width: 600px; margin: 0 auto">
 <tr>
 <td>
-<h4 class="diagnosis"><span class="dx" style="align: left">1. Oesophageal carcinoma</span> <span class="percent" style="padding-left: 200px; color: red"><font color="red">32% correct</font></span></h4>
-<span class = "view-reports" style="padding-left:30px">View reports</span> <span class="glyphicon glyphicon-menu-down"></span>  <span style="padding-left: 250px"> <span class="glyphicon glyphicon-plus"></span> Add to review list</span>
-<div style="padding-left:60px; padding-top:5px">
+<% @count = 1 %>
+<% @missed.each do |m| %>
+<table width="100%">
+<tr>
+<td style="width: 400px; text-align: left">
+<span class="dx"><%= @count %>. <%= m.name %></span> 
+<% if m.end_dx.category == "key" %>
+<strong class="key-strong">Key condition</strong>
+<% elsif m.end_dx.category == "1" %>
+<strong>Category 1</strong>
+<% elsif m.end_dx.category == "2" %>
+<strong>Category 2</strong>
+<% elsif m.end_dx.category == "3" %>
+<strong>Category 3</strong>
+<% end %>
+<br />
+<span style="font-style: italic; color: #555555"><%= m.end_dx.l1_name %>
+<% if m.end_dx.dxable_type != "DxLevel1" %>
+-> <%= m.end_dx.l2_name %>
+	<% if m.end_dx.dxable_type == "DxLevel3" %>
+	-> <%= m.end_dx.l3_name %>
+	<% end %>
+<% end %> 
+</span>	
+<br />
+<span class="sentence-toggle">
+	<span class="viewhide">View </span>
+	<% if @correctlength == 1 %>
+		report
+	<% else %>
+		reports
+	<% end %>
+	<span class="glyphicon glyphicon-menu-right"></span>
+</span> 
+<div style="padding-left:60px; padding-top:5px; display: none">
+<% @reportcount = 1 %>
+<% m.student_reports.each do %>
 <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-window">
     1
   </button>
-<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal-window">
-    2
-  </button>
-<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-window">
-    3
-  </button>
-<button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-window">
-    4
-  </button>
-<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-window">
-    5
-  </button>
+<% @reportcount = @reportcount + 1 %>
+<% end %>
 </div>
+</td>
+<td style="width: 200px; text-align: right">
+<span class="dx" style="color: red"><font color="red"><%= m.missed_dx %> missed 
+<% if m.missed_dx != 1 %>diagnoses<% else %> diagnosis<% end %></font></span>
+out of <%= m.cases_attempted %><br />
+<% if m.review_list == true %>
+<%= content_tag :span, class: "remove-review", id: m.id do -%>
+<span class="key">Already in review list</span>
+<br />
+<span class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Remove from review list</span>
+<% end %>
+<% else %>
+<%= content_tag :span, class: "add-review", id: m.id do -%>
+<span class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add to review list</span>
+<% end %>
+<% end %>
+</td>
+</tr>
+</table>
+<hr>
+<% @count = @count + 1 %>
+<% end %>
+
 </td>
 </tr>
 </table>

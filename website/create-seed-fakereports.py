@@ -80,7 +80,7 @@ with open("diagnosis-list.txt","rb") as fin, open("test-seed.txt", "wb") as fout
 					string = '			end_dx_' + str(end_dx_no) + ' = EndDx.create(name: "' + diagnosis + '", category: "' + current_category + '", dxable_id: d1_' + str(level1_count -1) + '_d2_' + str(level2_count -1) + '.id, l1_name: "' + level1 + '", l2_name: "' + level2 + '", l3_name: "0", dxable_type: "DxLevel2", frequency: 0.1) \n'
 					fout.write(string)
 					for x in range(0, 5):
-						string2 = 'ExpertReport.create(report_number: "' + str(expert_no) + '", report_text: "Report no ' + str(expert_no) + '. This is a fake report about ' + diagnosis + '. This is a fake report. This is a fake report. Repeat, this is a fake report.", end_dx_id: end_dx_' + str(end_dx_no) + '.id, times_attempted: 0, correct_diagnosis: 0, difficulty: 0) \n'
+						string2 = 'ExpertReport.create(report_number: "' + str(expert_no) + '", report_text: "Report no ' + str(expert_no) + '. This is a fake report about ' + diagnosis + '. This is a fake report. This is a fake report. Repeat, this is a fake report.", end_dx_id: end_dx_' + str(end_dx_no) + '.id, times_attempted: 0, correct_dx: 0, incorrect_dx: 0, difficulty: 0) \n'
 						expert_no = expert_no + 1
 						fout.write(string2)
 					end_dx_no = end_dx_no + 1
@@ -89,7 +89,7 @@ with open("diagnosis-list.txt","rb") as fin, open("test-seed.txt", "wb") as fout
 					string = '			end_dx_' + str(end_dx_no) + ' = EndDx.create(name: "' + diagnosis + '", category: "' + current_category + '", dxable_id: d1_' + str(level1_count -1) + '_d2_' + str(level2_count -1) + '_d3_' + str(level3_count -1) + '.id, l1_name: "' + level1 + '", l2_name: "' + level2 + '", l3_name: "' + level3 + '", dxable_type: "DxLevel3", frequency: 0.1) \n'
 					fout.write(string)
 					for x in range(0, 5):
-						string2 = 'ExpertReport.create(report_number: "' + str(expert_no) + '", report_text: "Report no ' + str(expert_no) + '. This is a fake report about ' + diagnosis + '. This is a fake report. This is a fake report. Repeat, this is a fake report.", end_dx_id: end_dx_' + str(end_dx_no) + '.id, times_attempted: 0, correct_diagnosis: 0, difficulty: 0) \n'
+						string2 = 'ExpertReport.create(report_number: "' + str(expert_no) + '", report_text: "Report no ' + str(expert_no) + '. This is a fake report about ' + diagnosis + '. This is a fake report. This is a fake report. Repeat, this is a fake report.", end_dx_id: end_dx_' + str(end_dx_no) + '.id, times_attempted: 0, correct_dx: 0, incorrect_dx: 0, difficulty: 0) \n'
 						expert_no = expert_no + 1
 						fout.write(string2)
 					end_dx_no = end_dx_no + 1

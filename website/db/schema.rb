@@ -57,7 +57,8 @@ ActiveRecord::Schema.define(version: 20160417082949) do
     t.integer  "end_dx_id"
     t.integer  "learner_info_id"
     t.integer  "times_attempted"
-    t.integer  "correct_diagnosis"
+    t.integer  "correct_dx"
+    t.integer  "incorrect_dx"
     t.decimal  "difficulty"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -71,6 +72,8 @@ ActiveRecord::Schema.define(version: 20160417082949) do
     t.integer  "user_id"
     t.boolean  "review_list"
     t.integer  "cases_attempted"
+    t.integer "missed_dx"
+    t.float "accuracy"
     t.integer  "correct_dx"
     t.integer  "excellent_cases"
     t.datetime "created_at",      null: false
@@ -83,6 +86,7 @@ ActiveRecord::Schema.define(version: 20160417082949) do
   create_table "learner_infos", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "expert_report_id"
+    t.boolean "test"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
@@ -155,6 +159,7 @@ ActiveRecord::Schema.define(version: 20160417082949) do
     t.boolean  "diagnosis_found"
     t.text  "correct_sentences", array: true, default: []
     t.text  "missing_sentences", array: true, default: []
+    t.text  "ignore_sentences", array: true, default: []
     t.float "score"
     t.integer  "expert_report_id"
     t.integer  "learner_dx_id"

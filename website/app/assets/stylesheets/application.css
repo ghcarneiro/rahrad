@@ -69,6 +69,11 @@ form#change {
 
 
 **/
+
+.dx {
+  font-size: 1.5em;
+}
+
 /* Key diagnoses */
 .key {
   color: green;
