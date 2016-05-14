@@ -89,9 +89,29 @@ form#change {
   font-size: 2em;
 }
 
+/* Case selection titles */
+.selection_type {
+  font-size: 1.75em;
+}
+
+/* Case selection columns */
+.case-column {
+  line-height: 1.6;
+  padding-bottom: 30px;
+}
+
 /* Error message text */
 .error {
   color: red;
+}
+
+div.case-column a, div.case-column a:visited {
+    color: #333333 !important;
+}
+
+div.case-column a:hover, div.case-column a:active {
+    color: #555555 !important;
+    text-decoration: none !important;
 }
 
 .corrections-box {
