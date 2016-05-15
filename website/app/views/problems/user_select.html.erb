@@ -4,7 +4,7 @@
 <% end %>
 <a href="top"></a>
 <div class="row container" style="max-width: 600px; margin: 0 auto">
-  <div class="col-md-12 back" style="margin: 0 auto">
+  <div class="col-md-12 back">
     <%= link_to problems_path do %><span class="glyphicon glyphicon-triangle-left"></span>  Back to Case Selection<% end %>
   </div>
 
@@ -93,19 +93,19 @@ Use the arrows to explore different sections of the RANZCR Body Systems Syllabus
 </div>
 <!------ TEXT SEARCH MODE-->
 <% elsif !@searchdx.present? %>
-	<div style="padding-top: 30px">
+	<div class="col-md-12">
 	<p>
-	Search for diagnoses from the RANZCR Radiodiagnosis Curriculum to practise cases on.
+	Search for diagnoses from the RANZCR Radiodiagnosis Curriculum to practise writing cases on.
 	</p>
 	<p>
 	<%= link_to "Switch to dropdown menu mode", user_select_problems_path(:dropdown => true) %>
 	</p>
-	</div>
 	<div style="padding-top: 50px">
 	<%= form_tag(user_select_problems_path, :method => "get", id: "search-dx-form") do %>
 	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
 	<%= submit_tag "Search", class: "btn btn-primary"%>
 	<% end %>
+	</div>
 	</div>
 <% else %>
 <script>
@@ -121,12 +121,17 @@ $(document).ready(function(){
     	}); 
 });
 </script>
+<div class="col-md-12">
 <p></p>
 
 <%= form_tag("/problems/cases", method: "get") do %>
 <p></p>
-		<h3>Search results</h3>
-		Select the diagnoses you want to practise and click 'Find practice cases' at the bottom of the page.
+		<p><span class="key">Search results: <%= @searchdx.length %> 
+		<% if @searchdx.length > 1 %>diagnoses
+		<% else %>
+		diagnosis
+		<% end %> found.</span></p>
+		<p>Select the diagnoses you want to practise and click 'Find practice cases' at the bottom of the page.</p>
 		<p><%= link_to "Search for a different diagnosis", user_select_problems_path %></p>
 		<table class="table">
 		<% @searchdx.each do |s| %>
@@ -158,5 +163,6 @@ $(document).ready(function(){
 		<p></p><p><a href="#top">Click here to go back to top</a></p>
 
 <% end %>
+</div>
 <% end %>
 </div>

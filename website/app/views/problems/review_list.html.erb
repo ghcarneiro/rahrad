@@ -1,6 +1,6 @@
 <!-- Append content in the head tag -->
 <% content_for :for_head do %>
-	<title>Review list</title>
+	<title>CRISTAL: Review list</title>
 <% end %>
 <script>
 $(document).ready(function(){
@@ -39,13 +39,17 @@ $(document).ready(function(){
 });
 </script>
 <a href="top"></a>
+<div class="row container" style="max-width: 600px; margin: 0 auto">
 <%= render :partial => 'nav', :locals => { :pagetype => @pagetype } %>
 <p></p></p></p>
 <% if @ldx.present? %>
 <%= form_tag("/problems/cases", method: "get") do %>
-<div style="padding-top: 30px">
+<p><span class="key">Your review list currently contains <%= @ldx.length %> 
+		<% if @ldx.length > 1 %>items.
+		<% else %>
+		item.
+		<% end %></span></p>
 <p>Select the diagnoses you want to practise and click 'Find practice cases' at the bottom of the page.</p>
-</div>
 <table class="table">
 <% @ldx.each do |l| %>
 <tr><td>
@@ -75,7 +79,7 @@ $(document).ready(function(){
 <p></p><p><a href="#top">Click here to go back to top</a></p>
 <% end %>
 <% else %>
-<table height="50px"><tr><td></td></tr></table>
+<table height="20px"><tr><td></td></tr></table>
 <p>Your review list is empty.</p><p> <%= link_to "Click here", review_list_add_problems_path %> to add some diagnoses to your review list.</p>
 <% end %>
-
+</div>

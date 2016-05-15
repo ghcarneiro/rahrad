@@ -99,18 +99,20 @@ $(document).ready(function(){
 			<!-- Display report feedback -->
 			<% if params[:q].present? %>
 				<div class="corrections-box">
-				<%= label_tag nil,"Report feedback",:id => "corrections-label" %>
-				</div>
-				<div class="correction-stats">
-				<p style="color: cornflowerblue">
-				<h3><%= sprintf('%.2f', @percentage) %>% correct</h3>
-				</p>
-				<p style="font-weight: bold"><h3>Correct diagnosis: 
-				<% if @studentreport.diagnosis_found == true %>
-					Yes</h3><br />Answer: <%= @showdx.name %></p>
+				<b>Report feedback</b>
+				<% if @percentage > 70 %>
+				<h2 class="key" style="text-align: left"><%= sprintf('%.2f', @percentage) %>% correct</h2>
+				<% elsif @percentage > 50 %>
+				<h2 style="color: orange" style="text-align: left"><%= sprintf('%.2f', @percentage) %>% correct</h2>
 				<% else %>
-					No</h3><br />Correct answer: <%= @showdx.name %></p>
-				<% end %>				
+				<h2 class="error" style="text-align: left"><%= sprintf('%.2f', @percentage) %>% correct</h2>
+				<% end %>
+				<% if @studentreport.diagnosis_found == true %>
+					<span style="font-size: 1.5em; color: green">Correct diagnosis: Yes</span><br />Diagnosis: <%= @showdx.name %>
+				<% else %>
+					<span style="font-size: 1.5em; color: red">Correct diagnosis: No</span><br />Actual diagnosis: <%= @showdx.name %>
+				<% end %>
+				</p>				
 				<% if @learnerdx.review_list == true %>
 				<%= content_tag :span, class: "remove-review", id: @learnerdx.id do -%>
 				<span class="key">Already in review list</span>

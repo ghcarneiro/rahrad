@@ -116,8 +116,6 @@ div.case-column a:hover, div.case-column a:active {
 
 .corrections-box {
   text-align:left;
-  margin: 0 0 10px;
-  padding: 10 10 0 10;
   overflow:hidden;
 }
 .original-text {
@@ -173,7 +171,6 @@ strong {
 }
 
 .back {
-	width: 550px;
 	text-align: left;
 	margin-top: 10px;
 	margin-bottom: 10px;

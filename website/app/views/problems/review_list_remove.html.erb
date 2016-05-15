@@ -38,6 +38,7 @@ $(document).ready(function(){
 });
 </script>
 <a href="top"></a>
+<div class="row container" style="max-width: 600px; margin: 0 auto">
 <%= render :partial => 'nav', :locals => { :pagetype => @pagetype } %>
 <p></p>
 <p>
@@ -51,9 +52,7 @@ $(document).ready(function(){
 </p>
 <% if @ldx.present? %>
 <%= form_tag("/problems/review_list_remove", method: "get") do %>
-<div style="padding-top: 30px">
 <p>Select the diagnoses you want to remove and click 'Remove from review list' at the bottom of the page.</p>
-</div>
 <table class="table">
 	<% @ldx.each do |l| %>
 		<tr><td>
@@ -84,9 +83,9 @@ $(document).ready(function(){
 	<p></p><p><a href="#top">Click here to go back to top</a></p>
 <% end %>
 <% else %>
-<table height="50px"><tr><td></td></tr></table>
+<table height="20px"><tr><td></td></tr></table>
 <p>Your review list is empty.</p>  <p><%= link_to "Click here", review_list_add_problems_path %> to add some diagnoses to your review list.</p>
 <% end %>
-
+</div>
 
 
