@@ -3,14 +3,14 @@
 	<title>CRISTAL: User select</title>
 <% end %>
 <a href="top"></a>
-<%= link_to problems_path do %>
-<span class="back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Problem Selection</span>
-<% end %>
-<p class="section_title">
-User select
-</p>
-	<p></p>
-	<p>
+<div class="row container" style="max-width: 600px; margin: 0 auto">
+  <div class="col-md-12 back" style="margin: 0 auto">
+    <%= link_to problems_path do %><span class="glyphicon glyphicon-triangle-left"></span>  Back to Case Selection<% end %>
+  </div>
+
+  <p class="section_title">
+    User select
+  </p>
 	<% if @noparam == true %>
 	<span class="error">ERROR: Please enter a search term.</span>
 	<% elsif @nofound == true %>
@@ -23,14 +23,14 @@ User select
 <script>
 $(document).ready(function(){
     $.ajaxSetup({ cache: false });
-    $(document).on('click', '.glyphicon', function(){
-	if ($(this).hasClass('glyphicon-menu-right')) {
-       	 	$(this).removeClass('glyphicon-menu-right');
-       		$(this).addClass('glyphicon-menu-down');
+    $(document).on('click', '.dx-toggle', function(){
+	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
+       	 	$(this).children('span').removeClass('glyphicon-menu-right');
+       		$(this).children('span').addClass('glyphicon-menu-down');
     	}
 	else {
-       	 	$(this).removeClass('glyphicon-menu-down');
-       		$(this).addClass('glyphicon-menu-right');
+       	 	$(this).children('span').removeClass('glyphicon-menu-down');
+       		$(this).children('span').addClass('glyphicon-menu-right');
 	}
 
 	if ($(this).next().hasClass('subdata')) {
@@ -38,6 +38,7 @@ $(document).ready(function(){
 	}
 	else {
 		var level = $(this).attr("id");
+		var $this = $(this)
         	// Get data from model
 		$.ajax({
   			type:"GET",
@@ -45,7 +46,7 @@ $(document).ready(function(){
   			dataType:"html",
   			data: {l: level},
   			success: function(data){
-    				$("#" + level).after(data);
+    				$this.after(data);
   			}
 		});
 	}
@@ -60,7 +61,7 @@ $(document).ready(function(){
     	}); 
 });
 </script>
-<div style="padding-top: 30px">
+<div class="col-md-12">
 	<p>
 Use the arrows to explore different sections of the RANZCR Body Systems Syllabus.
 <br/>
@@ -69,7 +70,6 @@ Use the arrows to explore different sections of the RANZCR Body Systems Syllabus
 	<p>
 	<%= link_to "Switch to text search mode", user_select_problems_path %>
 	</p>
-	</div>
 	
 <%= form_tag("/problems/cases", method: "get") do %>
 <% @count = 1 %>
@@ -77,8 +77,11 @@ Use the arrows to explore different sections of the RANZCR Body Systems Syllabus
 <table class="table" style="max-width: 600px; text-align: left; margin: 0 auto">
   <tr>
   <td>
-  <b><%= @count %>. <%= d1.name %></b> <% @id = "l1_" + d1.id.to_s %> <%= content_tag :span, "", id: @id, class: "glyphicon glyphicon-menu-right" %>
+  <% @id = "l1_" + d1.id.to_s %>
+  <%= content_tag :span, id: @id, class: "dx-toggle" do-%>
+  <b><%= @count %>. <%= d1.name %></b> <%= content_tag :span, "", class: "glyphicon glyphicon-menu-right" %>
   <% @count=@count+1 %>
+  <% end %>
   </td>
   </tr>
 </table>
@@ -87,7 +90,7 @@ Use the arrows to explore different sections of the RANZCR Body Systems Syllabus
 <%= submit_tag "Find practice cases", id: "submit-button", class: "hidden"%>
 		<p></p><p><a href="#top">Click here to go back to top</a></p>
 <% end %>
-
+</div>
 <!------ TEXT SEARCH MODE-->
 <% elsif !@searchdx.present? %>
 	<div style="padding-top: 30px">
@@ -156,3 +159,4 @@ $(document).ready(function(){
 
 <% end %>
 <% end %>
+</div>

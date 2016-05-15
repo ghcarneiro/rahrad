@@ -172,6 +172,13 @@ strong {
 	font-weight: bold;
 }
 
+.back {
+	width: 550px;
+	text-align: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
 /** Bootstrap table background color for success **/
 .success-dropdown {
 	background-color: #dff0d8; 

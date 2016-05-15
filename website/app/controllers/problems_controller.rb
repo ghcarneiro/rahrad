@@ -9,6 +9,36 @@ class ProblemsController < ApplicationController
 		@ldx = LearnerDx.where(:review_list => true, :user_id => current_user.id)		
     	end
 
+# Add to review list
+def add
+	    @l_id = params[:l]
+	    @add_dx = LearnerDx.where(:id => @l_id, :user_id => current_user.id).first
+	    @add_dx.review_list = true
+	    @add_dx.save
+	    
+	    @html = '<span class="key">Added to review list</span><br/><span class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Remove from review list</span>'
+	    respond_to do |format|
+  	    	format.html do
+		    render text: @html 
+		end
+	    end
+end
+
+# Remove from review list
+def remove
+	    @l_id = params[:l]
+	    @add_dx = LearnerDx.where(:id => @l_id, :user_id => current_user.id).first
+	    @add_dx.review_list = false
+	    @add_dx.save
+	    
+	    @html = '<span class="error">Removed from review list</span><br/><span class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add to review list</span>'
+	    respond_to do |format|
+  	    	format.html do
+		    render text: @html 
+		end
+	    end
+end
+
 	#Retrieve data for add to review list
 	def data
 
@@ -52,7 +82,7 @@ class ProblemsController < ApplicationController
 		end
 	    
 		if !@i.include?("e_")
-  	    	@html = @html + n.name + "<span class='glyphicon glyphicon-menu-right' id='" + @i + "'></span></td></tr></table>"
+  	    	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
 		else
 		    @ldx = LearnerDx.where(:end_dx_id => n.id, :user_id => current_user.id, :review_list => true)
 		    if !@ldx.blank?
@@ -258,7 +288,9 @@ end
 			end
 			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
 			r.learner_dx_id = @learnerdx.id
-			
+
+			# PROPER CODE FOR SENDING REPORT TO PYTHON SERVER - DOES NOT RUN IN TEST MODE #
+			if current_user.learner_info.test == false 
 			# Send request to python server
 			@resultTemp = HTTP.post("http://localhost:5000", :json => { :expert_report => @currentreport.report_text, :learner_report => @user_report}).to_s
 
@@ -276,6 +308,14 @@ end
 				else
 					r.missing_sentences << t
 				end
+			end
+			# FOR TEST CODE ONLY - MOCK DATA
+			else
+				r.correct_sentences << "0"
+				r.correct_sentences << "1"
+				r.missing_sentences << "2"
+				r.missing_sentences << "3"
+				r.missing_sentences << "4"
 			end
 
 			@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length)*100)
