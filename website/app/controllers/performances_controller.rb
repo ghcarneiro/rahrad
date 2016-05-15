@@ -220,9 +220,12 @@ def list
 		@dxlevel2 = DxLevel2.where(:id => @learner2.dx_level2_id).first
 		@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
 		@dxlevel3s = DxLevel3.where(:dx_level2_id => @dxlevel2.id)
-		if @dxlevel3s.nil?
+		if @dxlevel3s.empty?
 		    @level = 4
-		    @end_dxes = EndDx.where(:dxable_id => @dxlevel2.id, :dxable_type => "DxLevel2")
+		    params[:search_id] = @dxlevel2.id
+		    params[:search_type] = "DxLevel2"
+		    params[:year_level] = current_user.year_of_training
+		    @end_dxes = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 		end
 	    end
 	    if params[:l3]  
@@ -232,7 +235,10 @@ def list
 		@dxlevel3 = DxLevel3.where(:id => @learner3.dx_level3_id).first
 		@dxlevel2 = DxLevel2.where(:id => @dxlevel3.dx_level2_id).first
 		@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
-		@end_dxes = EndDx.where(:dxable_id => @dxlevel3.id, :dxable_type => "DxLevel3")
+		    params[:search_id] = @dxlevel3.id
+		    params[:search_type] = "DxLevel3"
+		    params[:year_level] = current_user.year_of_training
+		@end_dxes = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 	    end
 end
 
