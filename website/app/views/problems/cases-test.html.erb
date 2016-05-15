@@ -126,40 +126,6 @@ $(document).ready(function(){
 				<% end %>
 				</div>
 				<br>
-				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691) %>
-				<!--- START OF TEST CODE--->
-				<div class="correct-categories">
-				<% @missinglength = @studentreport.missing_sentences.length %>
-				<strong style="background-color:red"> <%=  @missinglength %> </strong>
-				Missing 
-				<% if @missinglength == 1 %>
-				sentence
-				<% else %>
-				sentences
-				<% end %>
-				<hr>
-				</div>
-				<% if @missinglength > 0 %>
-					<span class="sentence-toggle">
-						<span class="viewhide">View </span>
-						<% if @missinglength == 1 %>
-							sentence
-						<% else %>
-							sentences
-						<% end %>
-						<span class="glyphicon glyphicon-menu-right"></span>
-					</span>
-				<% end %>
-				<div style="display:none; text-align: left">
-				<% @count = 0 %>
-				<ul>
-				<li>THE OVERALL VOLUME OF HAEMORRHAGE HAS NOT CHANGED SIGNIFICANTLY COMPARED WITH THE PRIOR STUDY OF 30.12.99.</li>
-				<li>RIGHT MASTOID BONY DEFECT CONSISTENT WITH HISTORY OF SURGERY.</li>
-				<li>THERE IS AN ILL-DEFINED MASS WITHIN THE POSTERIOR FOSSA ADJACENT THE CLIVUS CONSISTENT WITH HISTORY OF CLIVUS CHORDOMA WITH INCOMPLETE INCISION.</li>	
-				</ul>
-				</div>
-				<!--- END OF TEST CODE--->
-				<% else %>
 				<div class="correct-categories">
 				<% @missinglength = @studentreport.missing_sentences.length %>
 				<strong style="background-color:red"> <%=  @missinglength %> </strong>
@@ -195,7 +161,7 @@ $(document).ready(function(){
 				<% end %>	
 				</ul>
 				</div>
-				<% end %>
+
 				<div class="correct-categories">
 				<% @correctlength = @studentreport.correct_sentences.length %> 
 				<strong style="background-color:green"> <%= @correctlength  %> </strong>
@@ -279,7 +245,7 @@ $(document).ready(function(){
 			</div>
 			<div class="col-md-12">
 			<form  class="form-group form-group-lg" action="/problems/cases" role="search">	
-				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691) %>
+				<% if current_user.learner_info.test == true %>
 <textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus>THERE IS A 1CM DIAMETER RIGHT SIDED SUBDURAL HAEMATOMA CONSISTENT WITH VARYING AGE OF FORMATION INCLUDING SOME HIGH ATTENUATION ANTERIORLY CONSISTENT WITH RECENT HAEMORRHAGE. THIS IS CAUSING 1CM OF MIDLINE SHIFT TO THE LEFT. NO OTHER AREAS OF HAEMORRHAGE NOTED.</textarea>
 				<% else %>
 				<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus></textarea>			<% end %>

@@ -289,8 +289,9 @@ end
 			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
 			r.learner_dx_id = @learnerdx.id
 
+			
 			# PROPER CODE FOR SENDING REPORT TO PYTHON SERVER - DOES NOT RUN IN TEST MODE #
-			if current_user.learner_info.test == false 
+			if current_user.learner_info.test == false
 			# Send request to python server
 			@resultTemp = HTTP.post("http://localhost:5000", :json => { :expert_report => @currentreport.report_text, :learner_report => @user_report}).to_s
 
@@ -309,14 +310,6 @@ end
 					r.missing_sentences << t
 				end
 			end
-			# FOR TEST CODE ONLY - MOCK DATA
-			else
-				r.correct_sentences << "0"
-				r.correct_sentences << "1"
-				r.missing_sentences << "2"
-				r.missing_sentences << "3"
-				r.missing_sentences << "4"
-			end
 
 			@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length)*100)
 			r.score = @percentage
@@ -331,6 +324,28 @@ end
 				r.diagnosis_found = true
 			else
 				r.diagnosis_found = false
+			end
+
+			# FOR TEST CODE ONLY - MOCK DATA
+			else
+				if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691)
+					r.correct_sentences << "0"
+					r.correct_sentences << "1"
+					r.missing_sentences << "1"
+					r.missing_sentences << "3"
+					r.missing_sentences << "4"
+					r.diagnosis_found = true
+				else
+					r.correct_sentences << "0"
+					r.correct_sentences << "1"
+					r.missing_sentences << "2"
+					r.missing_sentences << "3"
+					r.missing_sentences << "4"
+					r.diagnosis_found = false
+				end
+
+				@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length)*100)
+				r.score = @percentage
 			end
 
 			# Save student report
