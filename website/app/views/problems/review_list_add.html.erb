@@ -87,13 +87,15 @@ $(document).ready(function(){
 });
 </script>
 	<div class="col-md-12">
-	<p>
-Use the arrows to explore different sections of the RANZCR Body Systems Syllabus.
-<br/>
-	Select the diagnoses you want to add and click 'Add to review list' at the bottom of the page.
-	</p>
-	<p>
+	<div class="well well-sm">
+	<b>Looking for a specific diagnosis?</b>
+	<br />
 	<%= link_to "Switch to text search mode", review_list_add_problems_path %>
+	</div>
+	<p>
+<b>Dropdown mode</b>
+<br/>
+Use the arrows to explore different sections of the RANZCR Body Systems Syllabus. Select the diagnoses you want to add and click <b>'Add to review list'</b> at the bottom of the page.
 	</p>
 
 	
@@ -119,13 +121,17 @@ Use the arrows to explore different sections of the RANZCR Body Systems Syllabus
 <!------ TEXT SEARCH MODE-->
 <% elsif !@searchdx.present? %>
 	<div class="col-md-12">
+	<div class="well well-sm">
+	<b>Unsure what you're looking for?</b>
+	<br />
+	<%= link_to "Switch to dropdown menu mode", review_list_add_problems_path(:dropdown => true) %>
+	</div>
 	<p>
+	<b>Text search mode</b>
+	<br/>
 	Search for a diagnosis from the RANZCR Radiodiagnosis Curriculum.
 	</p>
-	<p>
-	<%= link_to "Switch to dropdown menu mode", review_list_add_problems_path(:dropdown => true) %>
-	</p>
-	<div style="padding-top: 50px">
+	<div style="padding-top: 30px">
 	<%= form_tag(review_list_add_problems_path, :method => "get", id: "search-dx-form") do %>
 	<%= text_field_tag :search, params[:search], placeholder: "Enter search term here", style: "width: 300px; height: 33px" %>
 	<%= submit_tag "Search", class: "btn btn-primary"%>

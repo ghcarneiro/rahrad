@@ -1,14 +1,26 @@
 <div style="padding: 10px">
-<div style="border: 5px solid #99CCFF; border-radius: 25px; width: 400px; margin: 0 auto;">
-
+<div style="border: 0px; width: 500px; margin: 0 auto;">
+<h1>CRISTAL</h1>
+<b>Clinical Radiology Intelligent Simulation Tool with Adaptive Learning</b>
+<div style="margin-top: 10px; margin-bottom: 10px">A joint project by staff and students of the University of Adelaide and the Royal Adelaide Hospital</div>
+<div class="well">
+<p>
+<h4>New to CRISTAL? Click the button below to get started.</h4>
+</p>
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%= link_to "Sign up", new_registration_path(resource_name), class: "btn btn-primary btn-lg" %><br />
+<% end -%>
+</div>
+<p>
+<b>If you already have an account, log in below.</b>
+</p>
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-<h2>Log in</h2>
   <div class="field" style="padding-top: 5px">
-    <%= f.email_field :email, autofocus: true, :placeholder => 'Email address', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+    <%= f.email_field :email, autofocus: true, :placeholder => 'Email address', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 300px" %>
   </div>
 
   <div class="field" style="padding-top: 5px">
-    <%= f.password_field :password, :placeholder => 'Password' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+    <%= f.password_field :password, :placeholder => 'Password' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 300px" %>
   </div>
 
   <% if devise_mapping.rememberable? -%>
@@ -22,8 +34,9 @@
     <%= f.submit "Log in", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px; width: 100px; padding: 10px" %>
   </div>
 <div style="padding: 5px"></div>
-<%= render "devise/shared/links" %>
-<div style="padding: 10px"></div>
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <%= link_to "Forgot your password?", new_password_path(resource_name) %><br />
+<% end -%>
 <% end %>
 
 

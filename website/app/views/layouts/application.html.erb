@@ -30,13 +30,14 @@
       <img src="/assets/text.gif" style="padding-top: 3px; max-height: 35px;"/>
     </div>
 
+
+    <!-- Display buttons only if user is logged in  -->
     <% if user_signed_in? %>
       <% if current_user.learner_info.test == true %>
         <div style="position: absolute; float: left; margin-left: 45%; margin-top: 20px; text-align: center">
           <span class="key">** Test mode active **</span>
         </div>
       <% end %>
-    <% end %>
 
     <!-- Dropdown user account menu -->
     <div>
@@ -53,8 +54,7 @@
      </ul>
     </div>
 
-    <!-- Display buttons only if user is logged in  -->
-    <% if user_signed_in? %>
+
       <!-- Repeating searches and saved searches page button -->
 
     <div>
@@ -73,10 +73,9 @@
       <!-- Search page button -->
     <span class="dropdown-toggle pull-right navtext" data-toggle="dropdown"><span class="glyphicon glyphicon-pencil"></span> Practise <span class="caret"></span></span>
     <ul class="dropdown-menu dropdown-menu-right" style="margin-right: 260px">
-        <li><a href="#"><%= link_to 'Case selection', problems_path %></a></li>
-        <li><a href="#"><%= link_to 'User select', user_select_problems_path %></a></li>
-        <li><a href="#"><%= link_to 'System select', cases_problems_path %></a></li>
-        <li><a href="#"><%= link_to "Review list", review_list_problems_path %></a></li>
+        <li><a href="#"><%= link_to 'Practise cases', cases_problems_path %></a></li>
+        <li><a href="#"><%= link_to 'Search for cases', user_select_problems_path %></a></li>
+        <li><a href="#"><%= link_to "My review list", review_list_problems_path %></a></li>
      </ul>
 
     <% end %>
