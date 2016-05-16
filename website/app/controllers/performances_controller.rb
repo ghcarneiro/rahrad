@@ -48,12 +48,38 @@ end
 
 # Add to review list
 def add
+	    if params[:l]
 	    @l_id = params[:l]
 	    @add_dx = LearnerDx.where(:id => @l_id, :user_id => current_user.id).first
 	    @add_dx.review_list = true
 	    @add_dx.save
 	    
 	    @html = '<span class="key">Added to review list</span><br/><span class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Remove from review list</span>'
+	    end
+
+	    # Concept hierarchy
+	    if params[:c]
+	    @e_id = params[:c]
+	    @add_dx = LearnerDx.where(:end_dx_id => @e_id, :user_id => current_user.id).first
+	    @e = EndDx.where(:id => @e_id).first
+	    # CREATE LEARNER DX IF DOES NOT EXIST
+	    if @add_dx.nil?
+					@add_dx = LearnerDx.new
+					@add_dx.name = @e.name
+					@add_dx.end_dx_id = @e.id
+					@add_dx.user_id = current_user.id
+					@add_dx.cases_attempted = 0
+					@add_dx.missed_dx = 0
+					@add_dx.accuracy = 0
+					@add_dx.correct_dx = 0
+					@add_dx.excellent_cases = 0
+	    end
+	    @add_dx.review_list = true
+	    @add_dx.save
+	    
+	    @html = "<span class='glyphicon glyphicon-list-alt' style='color: green', id='" + @e.id.to_s + "'></span>"
+	    end
+
 	    respond_to do |format|
   	    	format.html do
 		    render text: @html 
@@ -63,12 +89,24 @@ end
 
 # Remove from review list
 def remove
+	    if params[:l]
 	    @l_id = params[:l]
 	    @add_dx = LearnerDx.where(:id => @l_id, :user_id => current_user.id).first
 	    @add_dx.review_list = false
 	    @add_dx.save
 	    
 	    @html = '<span class="error">Removed from review list</span><br/><span class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add to review list</span>'
+	    end
+
+	    if params[:c]
+	    @e_id = params[:c]
+	    @remove_dx = LearnerDx.where(:end_dx_id => @e_id, :user_id => current_user.id).first
+	    @remove_dx.review_list = false
+	    @remove_dx.save
+	    
+	    @html = "<span class='glyphicon glyphicon-list-alt' style='color: gray', id='" + @e_id.to_s + "'></span>"
+	    end
+
 	    respond_to do |format|
   	    	format.html do
 		    render text: @html 
@@ -135,7 +173,7 @@ def data
 			end
 		end
 		if !@i.include?("e_")
-  	    	@html = @html + n.name + "<span class='glyphicon glyphicon-menu-right' id='" + @i + "'></span></td></tr></table>"
+  	    	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
 		else
 	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
 	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
@@ -154,7 +192,16 @@ def data
 		elsif n.category == "3"
 			@categorytext= ' <strong>Category 3</strong>'
 		end
-  	    	@html = @html + "<span class='endDx'>" + n.name + @categorytext + "</span>" + @popup + "</td></tr></table>"	
+
+		@reviewhtml = " <span class='add', id='" + n.id.to_s + "'><span class='glyphicon glyphicon-list-alt' style='color: gray'></span></span> "
+
+		if (!@ldx.nil?)
+		    if @ldx.review_list == true # Override default set above
+			@reviewhtml = " <span class='remove', id='" + n.id.to_s + "'><span class='glyphicon glyphicon-list-alt' style='color: green'></span></span> "
+		    end
+		end
+
+  	    	@html = @html + "<span class='endDx'>" + n.name + @reviewhtml + @categorytext + "</span>" + @popup + "</td></tr></table>"	
 		end
 	    end
 
@@ -183,7 +230,16 @@ def data
 	        </div>
 	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + k.name + ': X% correct</span>
 	      </div>'
-  	    	@html = @html + "<span class='endDx'>" + k.name +  " <strong class='key-strong'>Key condition</strong></span>" + @popup + "</td></tr></table>"
+
+		@reviewhtml = " <span class='add', id='" + k.id.to_s + "'><span class='glyphicon glyphicon-list-alt' style='color: gray'></span></span> "
+
+		if (!@ldx.nil?)
+		    if @ldx.review_list == true # Override default set above
+			@reviewhtml = " <span class='remove', id='" + k.id.to_s + "'><span class='glyphicon glyphicon-list-alt' style='color: green'></span></span> "
+		    end
+		end
+
+  	    	@html = @html + "<span class='endDx'>" + k.name + @reviewhtml + "<strong class='key-strong'>Key condition</strong></span>" + @popup + "</td></tr></table>"
 	    	end
 	    end
 
