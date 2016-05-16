@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 
 </script>
-
+<div class="row container" style="max-width: 1000px; margin: 0 auto">
 <%= render "nav" %>
 <% if @studentreports.nil? %>
 You haven't written any reports yet! <%= link_to "Click here", index_problems_path %> to start writing some.
@@ -191,3 +191,4 @@ Page:
   </div>
 <% end %>
 <% end %>
+</div>

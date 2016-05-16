@@ -24,7 +24,7 @@
 <!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
 </div> -->
 
-<div class = style="align: center; width: 100%; margin: 0 auto">
+<div class="row container" style="max-width: 800px; margin: 0 auto">
 <%= render "nav" %>
 
 <p>
@@ -75,7 +75,9 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     <% @learner_level1s.each do |l| %>
     <tr>
     <td>
-        <%= link_to l.name, list_performances_path(:l1 => l.id) %>
+        <%= link_to list_performances_path(:l1 => l.id) do-%>
+	<%= l.name %> <span class="glyphicon glyphicon-triangle-right"></span>
+	<% end %>
     </td>
     <td>
         <%= l.cases_attempted %>
@@ -105,7 +107,9 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     <tr>
     <td>
         <% if l.present? %>
-            <%= link_to l.name, list_performances_path(:l2 => l.id) %>
+            <%= link_to list_performances_path(:l2 => l.id) do-%>
+	    <%= l.name %> <span class="glyphicon glyphicon-triangle-right"></span>
+	    <% end %>
             </td>
             <td>
             <%= l.cases_attempted %>
@@ -204,7 +208,9 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     <tr>
     <td>
         <% if l.present? %>
-            <%= link_to l.name, list_performances_path(:l3 => l.id) %>
+            <%= link_to list_performances_path(:l3 => l.id) do-%>
+	    <%= l.name %> <span class="glyphicon glyphicon-triangle-right"></span>
+	    <% end %>
             </td>
             <td>
             <%= l.cases_attempted %>

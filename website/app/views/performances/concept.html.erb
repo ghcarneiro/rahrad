@@ -84,11 +84,10 @@ $(document).ready(function(){
     }); 
 });
 </script>
-<a href="top">
-<p></p>
+<a href="top"></a>
+<div class="row container" style="max-width: 600px; margin: 0 auto">
 <%= render "nav" %>
 <p></p>
-<div style="padding-bottom: 30px">
 <b>Key:</b>
 <%= image_tag("grey.gif", width: "15px", height: "15px") %> No cases attempted yet 
 <span width="20"></span>
@@ -97,8 +96,13 @@ $(document).ready(function(){
 <%= image_tag("yellow.gif", width: "15px", height: "15px") %> Good 
 <span width="20"></span>
 <%= image_tag("red.gif", width: "15px", height: "15px") %> Needs more work 
+<div style="margin-top: 10px">
+<span class="glyphicon glyphicon-list-alt" style="color: green"></span> Diagnosis in review list 
+<span class="glyphicon glyphicon-list-alt" style="color: gray"></span> Diagnosis not in review list 
+<div class="well well-sm" style="margin-top: 10px">
+<i>Clicking on the <span class="glyphicon glyphicon-list-alt"></span> review list icon next to a diagnosis will change its status in the review list- if it is currently in the review list it will be removed, and if it is not in the review list it will be added.</i>
 </div>
-
+</div>
 <% @dxlevel1s.each do |d1| %>
 <table class="table" style="max-width: 600px; text-align: left; margin: 0 auto">
   <tr>
@@ -127,7 +131,10 @@ $(document).ready(function(){
 <% end %>
 <p></p>
 <a href="#top">Back to top</a>
+</div>
+
 <table style="height: 30px"><tr><td></td></tr></table>
+
   <!-- Modal -->
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

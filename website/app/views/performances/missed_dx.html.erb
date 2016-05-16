@@ -59,19 +59,13 @@ $(document).ready(function(){
 
 </script>
 
-<!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
-</div> -->
-
-<div class = style="align: center; width: 100%; margin: 0 auto">
+<div class="row container" style="max-width: 650px; margin: 0 auto">
 <%= render "nav" %>
-<table id="reports" style="width: 600px; margin: 0 auto">
-<tr>
-<td>
 <% @count = 1 %>
 <% @missed.each do |m| %>
 <table width="100%">
 <tr>
-<td style="width: 400px; text-align: left">
+<td style="width: 66%; text-align: left">
 <span class="dx"><%= @count %>. <%= m.name %></span> 
 <% if m.end_dx.category == "key" %>
 <strong class="key-strong">Key condition</strong>
@@ -111,7 +105,7 @@ $(document).ready(function(){
 <% end %>
 </div>
 </td>
-<td style="width: 200px; text-align: right">
+<td style="width: 33%; text-align: right">
 <span class="dx" style="color: red"><font color="red"><%= m.missed_dx %> missed 
 <% if m.missed_dx != 1 %>diagnoses<% else %> diagnosis<% end %></font></span>
 out of <%= m.cases_attempted %><br />
@@ -133,9 +127,7 @@ out of <%= m.cases_attempted %><br />
 <% @count = @count + 1 %>
 <% end %>
 
-</td>
-</tr>
-</table>
+
 </div>
 <p></p>
 
