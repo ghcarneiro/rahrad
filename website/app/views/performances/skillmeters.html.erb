@@ -1,31 +1,34 @@
 <% content_for :for_head do %>
 	<title>Performance Data</title>
-<style>
-
-#mainpage {
-	width: 1200px;
-	margin: 0 auto;
-}
-
-#reports {
-	width: 600px;
-	text-align: left;
-	align: center;
-}
-</style>
-
-	<!-- <script src="/index_files/chart.js"></script> -->
-
 <% end %>
-	<!-- JQuery library must be loaded before Highcharts code for it to work-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="/index_files/customEvents.js"></script>
-<p></p>
-<div class = style="align: center; width: 100%; margin: 0 auto">
+<a href="top"></a>
+<div class="row container" style="max-width: 600px; margin: 0 auto">
 <%= render "nav" %>
+<% @l1.each do |l| %>
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b><%= l.name %></b>
 </div>
-<p></p>
-<%= render "skillmeters" %>
+
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<% @e = EndDx.where(:l1_name => l.name) %>
+<% @total = @e.length*5 %>
+<% @test = "width: " + ((l.correct_dx/@total)*100.00).to_s + "%" %>
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:10%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:10%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:20%">
+  </div>
+
+</div>
+ 10% excellent, 10% good, 20% needs more work, 60% not seen
+</div>
+
+</div>
+<% end %>
+
+</div>
 
 
 

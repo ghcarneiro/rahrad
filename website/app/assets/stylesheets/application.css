@@ -105,11 +105,11 @@ form#change {
   color: red;
 }
 
-div.case-column a, div.case-column a:visited {
+div.graylink a, div.graylink a:visited {
     color: #333333 !important;
 }
 
-div.case-column a:hover, div.case-column a:active {
+div.graylink a:hover, div.graylink a:active {
     color: #555555 !important;
     text-decoration: none !important;
 }

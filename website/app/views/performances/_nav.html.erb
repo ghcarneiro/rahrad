@@ -1,7 +1,26 @@
 <div class="col-md-12 back">
-<span class="glyphicon glyphicon-triangle-left"></span>  Back to Performance Dashboard
+<%= link_to performances_path do %><span class="glyphicon glyphicon-triangle-left"></span>  Back to Performance dashboard<% end %>
 </div>
-<p><span class="section_title"><h2>Performance overview</h2></span></p>
+<div class="col-md-12">
+<p><span class="section_title"><h2>
+<% if @pagetype == "misseddx" %>
+Top missed diagnoses
+<% elsif @pagetype == "skillmeters" %>
+Skill meters
+<% elsif @pagetype == "concept" %>
+Concept hierarchy
+<% elsif @pagetype == "list" %>
+List
+<% elsif @pagetype == "reporthx" %>
+Report history
+<% end %>
+</h2></span></p>
+
+<% if @pagetype == "misseddx" %>
+<button type ="button" class ="btn btn-primary disabled btn-sm">Top missed diagnoses</button>
+<% else %>
+<%= link_to "Top missed diagnoses", missed_dx_performances_path, class: "btn btn-primary btn-sm" %>
+<% end %>
 <% if @pagetype == "skillmeters" %>
 <button type ="button" class ="btn btn-primary disabled btn-sm">Skill meters</button>
 <% else %>
@@ -17,13 +36,9 @@
 <% else %>
 <%= link_to "List", list_performances_path, class: "btn btn-primary btn-sm" %> 
 <% end %>
-<% if @pagetype == "misseddx" %>
-<button type ="button" class ="btn btn-primary disabled btn-sm">Top missed diagnoses</button>
-<% else %>
-<%= link_to "Top missed diagnoses", missed_dx_performances_path, class: "btn btn-primary btn-sm" %>
-<% end %>
 <% if @pagetype == "reporthx" %>
 <button type ="button" class ="btn btn-primary disabled btn-sm">Report history</button>
 <% else %>
 <%= link_to "Report history", report_hx_performances_path, class: "btn btn-primary btn-sm" %> 
 <% end %>
+</div>

@@ -228,7 +228,6 @@ end
 	def cases
 		@learnerinfo = LearnerInfo.where(:user_id => current_user.id).first
 		if params[:system_select]
-			
 		end
 
 		# Shows a new problem to the trainee based on the diagnoses they have selected

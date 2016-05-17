@@ -61,21 +61,22 @@
     <span class="dropdown-toggle pull-right navtext" data-toggle="dropdown"><span class="glyphicon glyphicon-list-alt"></span> My performance <span class="caret"></span></span>
 
     <ul class="dropdown-menu dropdown-menu-right" style="margin-right: 105px">
-        <li><a>Dashboard</a></li>
-        <li><a href="#"><%= link_to 'Skill meters', skillmeters_performances_path %></a></li>
-        <li><a href="#"><%= link_to 'Concept hierarchy', concept_performances_path %></a></li>
-        <li><a href="#"><%= link_to "List", list_performances_path %></a></li>
-        <li><a href="#"><%= link_to "Top missed diagnoses", missed_dx_performances_path %></a></li>
-        <li><a href="#"><%= link_to "Report history", report_hx_performances_path %></a></li>
+ 	<li><%= link_to performances_path do-%><span class="glyphicon glyphicon-home"></span> Performance dashboard<% end %></li>
+        <li><%= link_to missed_dx_performances_path do-%><span class="glyphicon glyphicon-alert"></span> Top missed diagnoses<% end %></li>
+        <li><%= link_to skillmeters_performances_path do-%><span class="glyphicon glyphicon-tasks"></span> Skill meters<% end %></li>
+        <li><%= link_to concept_performances_path do-%><span class="glyphicon glyphicon-list"></span> Concept hierarchy<% end %></li>
+        <li><%= link_to list_performances_path do-%><span class="glyphicon glyphicon-list-alt"></span> List<% end %></li>
+        <li><%= link_to report_hx_performances_path do-%><span class="glyphicon glyphicon-calendar"></span> Report history<% end %></li>
      </ul>
     </div>
 
       <!-- Search page button -->
     <span class="dropdown-toggle pull-right navtext" data-toggle="dropdown"><span class="glyphicon glyphicon-pencil"></span> Practise <span class="caret"></span></span>
     <ul class="dropdown-menu dropdown-menu-right" style="margin-right: 260px">
-        <li><a href="#"><%= link_to 'Practise cases', cases_problems_path %></a></li>
-        <li><a href="#"><%= link_to 'Search for cases', user_select_problems_path %></a></li>
-        <li><a href="#"><%= link_to "My review list", review_list_problems_path %></a></li>
+	<li><%= link_to problems_path do-%><span class="glyphicon glyphicon-home"></span> Case selection<% end %></li>
+        <li><%= link_to cases_problems_path do-%><span class="glyphicon glyphicon-pencil"></span> Practise cases<% end %></li>
+        <li><%= link_to user_select_problems_path do-%><span class="glyphicon glyphicon-search"></span> Search for cases<% end %></li>
+        <li><%= link_to review_list_problems_path do-%><span class="glyphicon glyphicon-list-alt"></span> My review list<% end %></li>
      </ul>
 
     <% end %>
