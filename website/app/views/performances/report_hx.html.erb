@@ -154,9 +154,8 @@ Page:
         <div class="modal-header">
           <h4 class="modal-title" id="thing">Report review</h4>
         </div>
-        <div class="modal-body">
-          <table><tr>
-	<td>
+        <div class="modal-body row">
+<div class="col-md-6">
 	<h4>Expert report</h4>
 	<% if @expert_sentences.present? %>
 	<% @count = 0 %>
@@ -169,7 +168,9 @@ Page:
 		<% @count = @count + 1 %>
 	<% end %>
 	<% end %>
-	</td><td><h4>Your report</h4>			
+</div>
+<div class="col-md-6">
+<h4>Your report</h4>			
 	<% if @student_sentences.present? %>
 	<% @count = 0 %>
 	<% @student_sentences.each do |i| %>
@@ -181,7 +182,7 @@ Page:
 		<% @count = @count + 1 %>
 	<% end %>
 	<% end %>
-	</td></tr></table>
+</div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

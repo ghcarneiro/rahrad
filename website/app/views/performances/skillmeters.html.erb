@@ -4,29 +4,150 @@
 <a href="top"></a>
 <div class="row container" style="max-width: 600px; margin: 0 auto">
 <%= render "nav" %>
-<% @l1.each do |l| %>
+
 <div class="row">
 <div class="col-md-3" style="padding-top: 20px; text-align: right">
-<b><%= l.name %></b>
+<b>Abdominal</b>
 </div>
-
 <div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
 <div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
-<% @e = EndDx.where(:l1_name => l.name) %>
-<% @total = @e.length*5 %>
-<% @test = "width: " + ((l.correct_dx/@total)*100.00).to_s + "%" %>
-<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:10%" %>
-  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:10%">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:3%">
   </div>
-  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:20%">
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:5%">
   </div>
-
 </div>
- 10% excellent, 10% good, 20% needs more work, 60% not seen
+ 2% good, 3% needs more work, 95% not seen
+</div>
 </div>
 
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b>Cardiothoracic</b>
 </div>
-<% end %>
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:3%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+  </div>
+</div>
+ 3% good, 97% not seen
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b>Extracranial head & neck</b>
+</div>
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+  </div>
+</div>
+ 100% not seen
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b>Neuroradiology</b>
+</div>
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+  </div>
+</div>
+ 100% not seen
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b>Musculoskeletal</b>
+</div>
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+  </div>
+</div>
+ 100% not seen
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b>Paediatric</b>
+</div>
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:2%">
+  </div>
+</div>
+ 2% needs more work, 98% not seen
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b>Breast</b>
+</div>
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+  </div>
+</div>
+ 100% not seen
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b>Obstetric & gynaecological</b>
+</div>
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+  </div>
+</div>
+ 100% not seen
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3" style="padding-top: 20px; text-align: right">
+<b>Vascular</b>
+</div>
+<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+<%= content_tag :div, "", class: "progress-bar progress-bar-success", role: "progressbar", style: "width:0%" %>
+  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+  </div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:4%">
+  </div>
+</div>
+ 4% needs more work, 96% not seen
+</div>
+</div>
 
 </div>
 

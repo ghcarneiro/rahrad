@@ -97,10 +97,9 @@ $(document).ready(function(){
 <span width="20"></span>
 <%= image_tag("red.gif", width: "15px", height: "15px") %> Needs more work 
 <div style="margin-top: 10px">
-<span class="glyphicon glyphicon-list-alt" style="color: green"></span> Diagnosis in review list 
-<span class="glyphicon glyphicon-list-alt" style="color: gray"></span> Diagnosis not in review list 
+<span class="glyphicon glyphicon-ok"></span> Diagnosis in review list 
 <div class="well well-sm" style="margin-top: 10px">
-<i>Clicking on the <span class="glyphicon glyphicon-list-alt"></span> review list icon next to a diagnosis will change its status in the review list- if it is currently in the review list it will be removed, and if it is not in the review list it will be added.</i>
+<i>Clicking on the coloured box to the left of a diagnosis will change its status in the review list- if it is currently in the review list it will be removed, and if it is not in the review list it will be added.</i>
 </div>
 </div>
 <% @dxlevel1s.each do |d1| %>

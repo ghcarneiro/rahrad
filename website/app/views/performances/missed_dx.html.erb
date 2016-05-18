@@ -106,9 +106,9 @@ $(document).ready(function(){
 </div>
 </td>
 <td style="width: 33%; text-align: right">
-<span class="dx" style="color: red"><font color="red"><%= m.missed_dx %> missed 
-<% if m.missed_dx != 1 %>diagnoses<% else %> diagnosis<% end %></font></span>
-out of <%= m.cases_attempted %><br />
+<span class="dx" style="color: red"><font color="red"><%= m.accuracy %>% correct</font></span>
+<br />
+<%= m.missed_dx %> missed <% if m.missed_dx != 1 %>diagnoses<% else %>diagnosis<% end %> out of <%= m.cases_attempted %><br />
 <% if m.review_list == true %>
 <%= content_tag :span, class: "remove-review", id: m.id do -%>
 <span class="key">Already in review list</span>

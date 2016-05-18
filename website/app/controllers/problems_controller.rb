@@ -228,6 +228,14 @@ end
 	def cases
 		@learnerinfo = LearnerInfo.where(:user_id => current_user.id).first
 		if params[:system_select]
+			@string = EndDx.where(:id => 2070)
+			@string.each do |n|
+				@select = ExpertReport.where(:end_dx_id => n.id)
+				@select.each do |s|
+					s.learner_info_id = @learnerinfo.id
+					s.save
+				end
+			end
 		end
 
 		# Shows a new problem to the trainee based on the diagnoses they have selected
@@ -310,7 +318,7 @@ end
 				end
 			end
 
-			@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length)*100)
+			@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length))*100
 			r.score = @percentage
 		
 			# TEMPORARY FILL-IN CODE ONLY FOR TESTING PURPOSES - WILL BE REPLACED BY PROPER CLASSIFIER
@@ -327,12 +335,13 @@ end
 
 			# FOR TEST CODE ONLY - MOCK DATA
 			else
-				if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691)
+				if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252)
 					r.correct_sentences << "0"
 					r.correct_sentences << "1"
-					r.missing_sentences << "1"
-					r.missing_sentences << "3"
+					r.correct_sentences << "2"
+					r.correct_sentences << "3"
 					r.missing_sentences << "4"
+					r.missing_sentences << "5"
 					r.diagnosis_found = true
 				else
 					r.correct_sentences << "0"
@@ -343,7 +352,7 @@ end
 					r.diagnosis_found = false
 				end
 
-				@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length)*100)
+				@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length))*100
 				r.score = @percentage
 			end
 

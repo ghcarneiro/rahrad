@@ -48,8 +48,19 @@ def add
 	    end
 	    @add_dx.review_list = true
 	    @add_dx.save
-	    
-	    @html = "<span class='glyphicon glyphicon-list-alt' style='color: green', id='" + @e.id.to_s + "'></span>"
+	    @add = LearnerDx.where(:end_dx_id => @e_id, :user_id => current_user.id).first
+
+	    		    @correct = @add.correct_dx/@add.cases_attempted.to_f
+		    @excellent = @add.excellent_cases/@add.cases_attempted.to_f
+			if @excellent > 0.5
+			    @html = "<img height='15' width='15' src='/assets/green-tick.gif'></img>"
+			elsif @correct > 0.5
+			    @html = "<img height='15' width='15' src='/assets/yellow-tick.gif'></img>"
+			elsif @add.cases_attempted == 0
+			    @html = "<img height='15' width='15' src='/assets/grey-tick.gif'></img>"
+			else
+			    @html = "<img height='15' width='15' src='/assets/red-tick.gif'></img>"
+			end
 	    end
 
 	    respond_to do |format|
@@ -76,7 +87,17 @@ def remove
 	    @remove_dx.review_list = false
 	    @remove_dx.save
 	    
-	    @html = "<span class='glyphicon glyphicon-list-alt' style='color: gray', id='" + @e_id.to_s + "'></span>"
+	    	    		    @correct = @remove_dx.correct_dx/@remove_dx.cases_attempted.to_f
+		    @excellent = @remove_dx.excellent_cases/@remove_dx.cases_attempted.to_f
+			if @excellent > 0.5
+			    @html = "<img height='15' width='15' src='/assets/green.gif'></img>"
+			elsif @correct > 0.5
+			    @html = "<img height='15' width='15' src='/assets/yellow.gif'></img>"
+			elsif @remove_dx.cases_attempted == 0
+			    @html = "<img height='15' width='15' src='/assets/grey.gif'></img>"
+			else
+			    @html = "<img height='15' width='15' src='/assets/red.gif'></img>"
+			end
 	    end
 
 	    respond_to do |format|
@@ -131,6 +152,8 @@ def data
 		        @i = "e_" + n.id.to_s
 		end
 
+
+		if !@i.include?("e_")
 		if (@ldx.nil?) or (@ldx.cases_attempted == 0)
 		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
 		else
@@ -144,7 +167,6 @@ def data
 		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
 			end
 		end
-		if !@i.include?("e_")
   	    	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
 		else
 	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
@@ -165,36 +187,42 @@ def data
 			@categorytext= ' <strong>Category 3</strong>'
 		end
 
-		@reviewhtml = " <span class='add', id='" + n.id.to_s + "'><span class='glyphicon glyphicon-list-alt' style='color: gray'></span></span> "
-
 		if (!@ldx.nil?)
+		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
+		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
 		    if @ldx.review_list == true # Override default set above
-			@reviewhtml = " <span class='remove', id='" + n.id.to_s + "'><span class='glyphicon glyphicon-list-alt' style='color: green'></span></span> "
+			if @excellent > 0.5
+			    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/green-tick.gif' width='15' height='15'></span> "
+			elsif @correct > 0.5
+			    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/yellow-tick.gif' width='15' height='15'></span> "
+			elsif @ldx.cases_attempted == 0
+			    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/grey-tick.gif' width='15' height='15'></span> "
+			else
+			    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/red-tick.gif' width='15' height='15'></span> "
+			end
+		    else
+			if @excellent > 0.5
+			    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/green.gif' width='15' height='15'></span> "
+			elsif @correct > 0.5
+			    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/yellow.gif' width='15' height='15'></span> "
+			elsif @ldx.cases_attempted == 0
+			    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/grey.gif' width='15' height='15'></span> "
+			else
+			    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/red.gif' width='15' height='15'></span> "
+			end
 		    end
+		else
+		    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/grey.gif' width='15' height='15'></span> "
 		end
 
-  	    	@html = @html + "<span class='endDx'>" + n.name + @reviewhtml + @categorytext + "</span>" + @popup + "</td></tr></table>"	
+  	    	@html = @html + "<table><tr><td>"  + @reviewhtml + "<span class='endDx'>" + n.name + @categorytext + "</span>" + @popup + "</td></tr></table>"	
 		end
 	    end
 
 	    # Add key diagnoses if level 1
  	    if @level == "l1" and (current_user.year_of_training == "1" or current_user.year_of_training == "2")
 	    	@keydx.each do |k|
-		@html = @html + "<table><tr><td>"
 		@ldx = LearnerDx.where(:end_dx_id => k.id).where(:user_id => current_user.id).first
-		if (@ldx.nil?) or (@ldx.cases_attempted == 0)
-		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
-		else
-		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
-		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
-			if @excellent > 0.5
-		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' /> "
-			elsif @correct > 0.5
-		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' /> "
-			else
-		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
-			end
-		end
 	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
 	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
 	          <div class="progress-bar" style="width: 50px">
@@ -202,16 +230,35 @@ def data
 	        </div>
 	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + k.name + ': X% correct</span>
 	      </div>'
-
-		@reviewhtml = " <span class='add', id='" + k.id.to_s + "'><span class='glyphicon glyphicon-list-alt' style='color: gray'></span></span> "
-
 		if (!@ldx.nil?)
+		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
+		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
 		    if @ldx.review_list == true # Override default set above
-			@reviewhtml = " <span class='remove', id='" + k.id.to_s + "'><span class='glyphicon glyphicon-list-alt' style='color: green'></span></span> "
+			if @excellent > 0.5
+			    @reviewhtml = "<span class='remove' id='" + k.id.to_s + "'><img src='/assets/green-tick.gif' width='15' height='15'></span> "
+			elsif @correct > 0.5
+			    @reviewhtml = "<span class='remove' id='" + k.id.to_s + "'><img src='/assets/yellow-tick.gif' width='15' height='15'></span> "
+			elsif @ldx.cases_attempted == 0
+			    @reviewhtml = "<span class='remove' id='" + k.id.to_s + "'><img src='/assets/grey-tick.gif' width='15' height='15'></span> "
+			else
+			    @reviewhtml = "<span class='remove' id='" + k.id.to_s + "'><img src='/assets/red-tick.gif' width='15' height='15'></span> "
+			end
+		    else
+			if @excellent > 0.5
+			    @reviewhtml = "<span class='add' id='" + k.id.to_s + "'><img src='/assets/green.gif' width='15' height='15'></span> "
+			elsif @correct > 0.5
+			    @reviewhtml = "<span class='add' id='" + k.id.to_s + "'><img src='/assets/yellow.gif' width='15' height='15'></span> "
+			elsif @ldx.cases_attempted == 0
+			    @reviewhtml = "<span class='add' id='" + k.id.to_s + "'><img src='/assets/grey.gif' width='15' height='15'></span> "
+			else
+			    @reviewhtml = "<span class='add' id='" + k.id.to_s + "'><img src='/assets/red.gif' width='15' height='15'></span> "
+			end
 		    end
+		else
+		    @reviewhtml = "<span class='add' id='" + k.id.to_s + "'><img src='/assets/grey.gif' width='15' height='15'></span> "
 		end
 
-  	    	@html = @html + "<span class='endDx'>" + k.name + @reviewhtml + "<strong class='key-strong'>Key condition</strong></span>" + @popup + "</td></tr></table>"
+		@html = @html + "<table><tr><td>" + @reviewhtml + "<span class='endDx'>" + k.name + " <strong class='key-strong'>Key condition</strong></span>" + @popup + "</td></tr></table>"
 	    	end
 	    end
 
@@ -272,7 +319,7 @@ end
 
 def missed_dx
 	    @pagetype = "misseddx"
-	    @missed = (LearnerDx.where('cases_attempted > ?', 0).where(:user_id => current_user.id).sort_by &:missed_dx).reverse
+	    @missed = (LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).sort_by &:accuracy)
 end
 
 def report_hx

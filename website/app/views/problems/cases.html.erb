@@ -87,15 +87,21 @@ $(document).ready(function(){
 		<% if !@currentreport.report_image.nil? %>
 		<%= image_tag(@currentreport.report_image, position: "relative") %> 
 		<% else %>
+			<!------- TEST IMAGE --->
+			<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+			<%= image_tag("testcase.jpg", width: "500px", style: "border: 1px solid #666666") %>  
+			<% else %>
 		<div style="color: white; font-size: 2em; background-color: black; width: 500px; height: 500px; padding-top: 200px">
 			IMAGE GOES HERE FOR REPORT #<%= @currentreport.report_number %> <br /> (<%= @showdx.name %>)
+
 		</div>
+		<% end %>
 		<% end %>
 		<!-- INTERIM MOCK IMAGE CODE END -->
 		<p></p><p></p>
                 </div>
 			
-                <div class="col-md-6" style="margin: 0 auto; max-width: 550px">
+                <div class="col-md-6" style="margin: 0 auto; max-width: 500px">
 			<!-- Display report feedback -->
 			<% if params[:q].present? %>
 				<div class="corrections-box">
@@ -126,7 +132,7 @@ $(document).ready(function(){
 				<% end %>
 				</div>
 				<br>
-				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691) %>
+				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
 				<!--- START OF TEST CODE--->
 				<div class="correct-categories">
 				<% @missinglength = @studentreport.missing_sentences.length %>
@@ -153,9 +159,8 @@ $(document).ready(function(){
 				<div style="display:none; text-align: left">
 				<% @count = 0 %>
 				<ul>
-				<li>THE OVERALL VOLUME OF HAEMORRHAGE HAS NOT CHANGED SIGNIFICANTLY COMPARED WITH THE PRIOR STUDY OF 30.12.99.</li>
-				<li>RIGHT MASTOID BONY DEFECT CONSISTENT WITH HISTORY OF SURGERY.</li>
-				<li>THERE IS AN ILL-DEFINED MASS WITHIN THE POSTERIOR FOSSA ADJACENT THE CLIVUS CONSISTENT WITH HISTORY OF CLIVUS CHORDOMA WITH INCOMPLETE INCISION.</li>	
+				<li>Recent decubitus positioning may account for the asymmetry. </li>
+				<li>Remaining bones and soft tissues are unremarkable.</li>
 				</ul>
 				</div>
 				<!--- END OF TEST CODE--->
@@ -269,6 +274,7 @@ $(document).ready(function(){
 
 				<button class="btn btn-primary" data-toggle="modal" data-target="#modal-window">Compare with original report</button>
 				<%= link_to "Next report", cases_problems_path, class: "btn btn-primary" %> 
+				<p></p>
 			<!-- Display image to be reported by trainee -->
 			<% else %>
 			<div class="col-md-6" style="text-align: left">
@@ -279,13 +285,15 @@ $(document).ready(function(){
 			</div>
 			<div class="col-md-12">
 			<form  class="form-group form-group-lg" action="/problems/cases" role="search">	
-				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691) %>
-<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus>THERE IS A 1CM DIAMETER RIGHT SIDED SUBDURAL HAEMATOMA CONSISTENT WITH VARYING AGE OF FORMATION INCLUDING SOME HIGH ATTENUATION ANTERIORLY CONSISTENT WITH RECENT HAEMORRHAGE. THIS IS CAUSING 1CM OF MIDLINE SHIFT TO THE LEFT. NO OTHER AREAS OF HAEMORRHAGE NOTED.</textarea>
+				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus>There is cardiomegaly exceeding the amount expected even for an AP projection.
+Gross vascular congestion is evident, with interstitial and alveolar opacities noted in the right lung field. These features are consistent with pulmonary oedema. Congestion in the left lung is less prominent than the right. A well-circumscribed nodule is noted in the midzone of the left lung.</textarea>
 				<% else %>
 				<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus></textarea>			<% end %>
 				<input id="search-box-button" type="submit" class="btn btn-default btn-lg" value="Submit" style="display:block"/>
 			</form>
 			</div>
+			<% if current_user.learner_info.test != true %>
 			<div class="col-md-12 well well-sm" style="text-align: left; margin-top: 20px">
 				<span class="sentence-toggle">
 					<span class="viewhide">View</span> image adjustment options <span class="glyphicon glyphicon-menu-right"></span>
@@ -299,6 +307,7 @@ $(document).ready(function(){
 			</ul>
 			</div>
 			</div>
+			<% end %>
 
 			<% end %>
                 </div>
@@ -315,8 +324,12 @@ $(document).ready(function(){
         <div class="modal-body row" style="width:100%">
 	<div class="col-md-6">
 	<h4>Expert's report</h4>
-	<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691) %>
-APPROXIMATELY 1CM THICK RIGHT SIDED SUBDURAL HAEMATOMA OF VARYING DENSITY CONSISTENT WITH VARYING AGE OF FORMATION INCLUDING, ANTERIORLY, SOME HIGH ATTENUATION CONSISTENT WITH RECENT HAEMORRHAGE. <span style="color: red">THE OVERALL VOLUME OF HAEMORRHAGE HAS NOT CHANGED SIGNIFICANTLY COMPARED WITH THE PRIOR STUDY OF 30.12.99.</span> THERE IS APPROXIMATELY 1CM MIDSHIFT TO THE LEFT WHICH IS ALSO UNALTERED. <span style="color: red">RIGHT MASTOID BONY DEFECT CONSISTENT WITH HISTORY OF SURGERY. THERE IS AN ILL-DEFINED MASS WITHIN THE POSTERIOR FOSSA ADJACENT THE CLIVUS CONSISTENT WITH HISTORY OF CLIVUS CHORDOMA WITH INCOMPLETE INCISION.</span>
+	<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+There is cardiomegaly even allowing for the AP projection. 
+There is gross vascular congestion, with interstitial and alveolar opacities on the right. The left lung appears significantly less affected.
+Findings are compatible with pulmonary oedema. 
+<span style="color: red">Recent decubitus positioning may account for the asymmetry. 
+Remaining bones and soft tissues are unremarkable.</span>
 	<% else %>
 	<% if @expert_sentences.present? %>
 	<% @count = 0 %>
