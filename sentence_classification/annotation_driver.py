@@ -20,7 +20,7 @@ if len(sys.argv) != 2:
 
 tag = sys.argv[1]
 
-data_file = './sentence_label_data/sentences_ALL_notags.csv'
+data_file = './sentence_label_data/sentences_ALL_LukeLabelled.csv'
 
 
 if tag == "diagnostic":
@@ -158,10 +158,10 @@ ignore_probs = False
 # Extract just the sentences that are tagged and were not unsure and preprocess them
 print "Extracting tagged sentences for classification"
 if tag == "diagnostic":
-    tagged_sentences = [x.processedSentence for x in data if x.diag_tag != "" and x.diag_tag != "u"]
+    tagged_sentences = [x.processed_sentence for x in data if x.diag_tag != "" and x.diag_tag != "u"]
     labels = [np.float32(x.diag_tag == "p") for x in data if x.diag_tag != "" and x.diag_tag != "u"]
 elif tag == "sentiment":
-    tagged_sentences = [x.processedSentence for x in data if x.sent_tag != "" and x.sent_tag != "u"]
+    tagged_sentences = [x.processed_sentence for x in data if x.sent_tag != "" and x.sent_tag != "u"]
     labels = [np.float32(x.sent_tag == "p") for x in data if x.sent_tag != "" and x.sent_tag != "u"]
 else:
     raise ValueError("Unknown tag: " + tag)
@@ -180,11 +180,11 @@ if len(tagged_sentences) != 0:
     print "Calculating classifications"
     if tag == "diagnostic":
         for row in working_list:
-            row.diag_probs = pipe.predict_proba([row.processedSentence])[0]
+            row.diag_probs = pipe.predict_proba([row.processed_sentence])[0]
             # print row.diag_probs
     elif tag == "sentiment":
         for row in working_list:
-            row.sent_probs = pipe.predict_proba([row.processedSentence])
+            row.sent_probs = pipe.predict_proba([row.processed_sentence])[0]
 
     print "Sorting data"
     if tag == "diagnostic":
@@ -202,4 +202,4 @@ data = label_sentences(data, tag, ignore_probs)
 
 print "Saving data"
 shuffle(data)
-write_to_csv(data_file, data)
+# write_to_csv(data_file, data)

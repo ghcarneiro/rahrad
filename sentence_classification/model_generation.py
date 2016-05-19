@@ -4,6 +4,7 @@ import data_utils
 from sklearn.grid_search import GridSearchCV
 import numpy as np
 import pipelines
+import matplotlib.pyplot as plt
 
 data = data_utils.read_from_csv('./sentence_label_data/sentences_ALL_LukeLabelled.csv')
 
@@ -24,11 +25,11 @@ def scorer_auc(pipe, X, y):
 
 
 parameters = {'lsi__n_components': [100],
-              'classifier__n_estimators': [2000],
+              'classifier__n_estimators': [1000],
               # 'classifier__max_features': ['auto', 0.75],
-              # 'classifier__max_depth': [None, 10, 1000],
-              # 'classifier__min_samples_split': [2, 4, 8, 16],
-              # 'classifier__min_samples_leaf': [2, 4],
+              'classifier__max_depth': [5, 10],
+              'classifier__min_samples_split': [5, 10],
+              'classifier__min_samples_leaf': [5, 10],
               # 'classifier__max_leaf_nodes': [None, 2, 4, 8]
               }
 
