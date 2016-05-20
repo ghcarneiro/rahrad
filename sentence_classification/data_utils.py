@@ -19,6 +19,7 @@ class SentenceRecord(object):
         self.diag_tag = ""
         self.sent_tag = ""
         self.report_id = ""
+        self.feature_vector = []
 
 
 # Write all sentences to file

@@ -39,13 +39,22 @@ high_bucket = []  # 90-100
 
 shuffle(data)
 
+# All available positive diagnostics were tagged, so some had to be clobbered
+if tag_type == 'sentiment':
+    counter = 0
+    for item in data:
+        if counter > 150:
+            item.sent_tag = ""
+        if item.sent_tag != "":
+            counter += 1
+
 # Each pass contains: classifier training, label prediction, finding the max and placing the respective labels
 for i in xrange(passes):
     print ""
     print "PASS " + str(i)
 
-    sentences = [x.processed_sentence for x in data if getattr(x, tag_attr) != "" and  getattr(x, tag_attr) != "u"]
-    labels = [np.float32(x.diag_tag == "p") for x in data if getattr(x, tag_attr) != "" and getattr(x, tag_attr) != "u"]
+    sentences = [x.processed_sentence for x in data if getattr(x, tag_attr) != "" and getattr(x, tag_attr) != "u"]
+    labels = [np.float32(getattr(x, tag_attr) == "p") for x in data if getattr(x, tag_attr) != "" and getattr(x, tag_attr) != "u"]
 
     print "There are " + str(len(sentences)) + " tagged sentences in this pass"
 
@@ -53,6 +62,7 @@ for i in xrange(passes):
     pipe = pipelines.get_count_lsi_randomforest()
     pipe.set_params(**model_params)
     pipe.fit(sentences, labels)
+
 
     dflt = SentenceRecord("default")
     dflt.diag_probs = [0.0, 0.0]
@@ -70,7 +80,14 @@ for i in xrange(passes):
     # Makes predictions for the unlabelled data in the first 1000 items,
     # also keeps track of the max confidence of each classification
 
-    for item in [item for item in data[:500] if getattr(item, tag_attr) == ""]:
+    dataset = []
+    if tag_type == "diagnostic":
+        dataset = [item for item in data[:500] if item.diag_tag == ""]
+    else:
+        dataset = [item for item in data if item.sent_tag == "" and item.diag_tag == "p"]
+    print len(dataset)
+
+    for item in dataset:
         setattr(item, prob_attr, pipe.predict_proba([item.processed_sentence])[0])
         p_prob = getattr(item, prob_attr)[1]
         n_prob = getattr(item, prob_attr)[0]
@@ -96,15 +113,19 @@ for i in xrange(passes):
         new_neg_this_pass += 1
         high_bucket.append((best_high_n, 'n'))
     if best_mid_p is not dflt:
+        # setattr(best_mid_p, tag_attr, 'p')
         new_pos_this_pass += 1
         mid_bucket.append((best_mid_p, 'p'))
     if best_mid_n is not dflt:
+        # setattr(best_mid_n, tag_attr, 'n')
         new_neg_this_pass += 1
         mid_bucket.append((best_mid_n, 'n'))
     if best_low_p is not dflt:
+        # setattr(best_low_p, tag_attr, 'p')
         new_pos_this_pass += 1
         low_bucket.append((best_low_p, 'p'))
     if best_low_n is not dflt:
+        # setattr(best_low_n, tag_attr, 'n')
         new_neg_this_pass += 1
         low_bucket.append((best_low_n, 'n'))
 
