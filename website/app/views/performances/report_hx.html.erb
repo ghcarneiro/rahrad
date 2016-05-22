@@ -3,10 +3,10 @@
 	<title>CRISTAL: Report History</title>
 	<link href="/index_files/cornerstone.min.css" rel="stylesheet">
 <% end %>
-
 <script>
 $(document).ready(function() {
     $.ajaxSetup({ cache: false });
+    jQuery.noConflict();
     $('#modal-window').modal('show');
     $(document).on('click', 'input', function(){
         if ($(this).parent().hasClass("checkbox-inline keydx")) {
@@ -152,7 +152,7 @@ Page:
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="thing">Report review</h4>
+          <h4 class="modal-title">Report review</h4>
         </div>
         <div class="modal-body row">
 <div class="col-md-6">
@@ -193,3 +193,4 @@ Page:
 <% end %>
 <% end %>
 </div>
+

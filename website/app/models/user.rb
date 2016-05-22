@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  validates :firstname, :presence => true,
+                               :on => :create
+
   validates :year_of_training, :presence => true,
                                :on => :create
   # When the user object is destroyed, all its reoccurences will be destroy too
@@ -19,10 +22,19 @@ class User < ActiveRecord::Base
   has_many :learner_level3s, dependent: :destroy
   has_many :learner_dxes, dependent: :destroy
 
+  before_save :capitalize_name
+
   after_create :create_learner_info
   #after_create :create_learner_level1s
 
   private
+
+  def capitalize_name
+    self.firstname = self.firstname[0].upcase + self.firstname[1..-1]
+    if self.lastname.present?
+      self.lastname = self.lastname[0].upcase + self.lastname[1..-1]
+    end
+  end
 
   def create_learner_info
     @dxlist = DxLevel1.all

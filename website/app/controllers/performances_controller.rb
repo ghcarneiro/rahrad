@@ -319,7 +319,7 @@ end
 
 def missed_dx
 	    @pagetype = "misseddx"
-	    @missed = (LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).sort_by &:accuracy)
+	    @missed = LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).order('accuracy asc, cases_attempted desc')
 end
 
 def report_hx

@@ -1,51 +1,123 @@
 <% content_for :for_head do %>
 	<title>CRISTAL: Sign up</title>
 <% end %>
+
 <div style="padding: 10px">
 <div style="border: 0px; margin: 0 auto;">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-<h2>Sign up</h2>
-  <%= devise_error_messages! %>
-
-  <div class="field" style="padding-top: 5px;">
-    <%= f.text_field :firstname, autofocus: true, :placeholder => 'First name (required)', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
-  </div>
-
-  <div class="field" style="padding-top: 5px;">
-    <%= f.text_field :lastname, :placeholder => 'Last name', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
-  </div>
-
-  <div class="field" style="padding-top: 5px;">
-    <%= f.email_field :email, :placeholder => 'Email address (required)', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
-  </div>
-
-  <div class="field" style="padding-top: 5px">
-    <%= f.password_field :password, :placeholder => 'Password (required)' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
-  </div>
-
-  <div class="field" style="padding-top: 5px">
-    <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation (required)' , autocomplete: "off", style: "padding: 10px; margin-bottom: 5px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
-  </div>
-  <div class="field" style="margin: 0 auto; border: 1px solid #99CCFF; padding: 10px; border-radius: 3px; width: 350px; background-color: #f5f5f5">
-   <span style="padding-right: 10px">Year of training:</span>
-   <label class="radio-inline"><input id="user_year_of_training_1" value="1" name="user[year_of_training]" type="radio">1</label>
-   <label class="radio-inline"><input id="user_year_of_training_2" value="2" name="user[year_of_training]" type="radio">2</label>
-   <label class="radio-inline"><input id="user_year_of_training_3" value="3" name="user[year_of_training]" type="radio">3</label>
-   <label class="radio-inline"><input id="user_year_of_training_4" value="4" name="user[year_of_training]" type="radio">4</label>
-   <label class="radio-inline"><input id="user_year_of_training_5" value="5" name="user[year_of_training]" type="radio">5</label>
-  </div>
-
-  <div class="actions" style="padding-top: 10px">
-    <%= f.submit "Sign up", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px; width: 100px; padding: 10px" %>
-  </div>
-
-<div style="padding: 5px"></div>
-
-  <%= render "devise/shared/links", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px;" %>
-  
-<div style="padding: 10px"></div>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <h2>Sign up</h2>
+<% if !resource.errors.empty? %>
+<span style="color: red">ERROR: 
+<%= resource.errors.count %>
+<% if resource.errors.count == 1 %>
+ error
+<% else %>
+ errors
+<% end %>
+ detected. <br /> Please correct
+<% if resource.errors.count == 1 %>
+ it
+<% else %>
+ them
+<% end %>
+before resubmitting the form.</span>
 <% end %>
 
+    <div class="field" style="padding-top: 5px">
+      <% if !resource.errors.empty? and devise_error_messages![:firstname].present? %> 
+        <% devise_error_messages![:firstname].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** First name <%= e %> **</span>
+          <br />
+        <% end %>
+        <%= f.text_field :firstname, autofocus: true, :placeholder => 'First name (required)', style: "padding: 10px; border: 1px solid red; background-color: #FFC8C9; border-radius: 3px; width: 350px;" %>
+      <% else %>
+        <%= f.text_field :firstname, autofocus: true, :placeholder => 'First name (required)', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
+      <% end %>
+    </div>
+
+    <div class="field" style="padding-top: 5px;">
+      <%= f.text_field :lastname, :placeholder => 'Last name', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
+    </div>
+
+    <div class="field" style="padding-top: 5px">
+      <% if !resource.errors.empty? and devise_error_messages![:email].present? %> 
+        <% devise_error_messages![:email].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** Email <%= e %> **</span>
+          <br />
+        <% end %>
+        <%= f.email_field :email, :placeholder => 'Email address (required)', style: "padding: 10px; border: 1px solid red; background-color: #FFC8C9; border-radius: 3px; width: 350px;" %>
+      <% else %>
+        <%= f.email_field :email, :placeholder => 'Email address (required)', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
+      <% end %>
+    </div>
+
+    <div class="field" style="padding-top: 5px">
+      <% if !resource.errors.empty? and devise_error_messages![:password].present? %> 
+        <% devise_error_messages![:password].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** Password <%= e %> **</span>
+          <br />
+        <% end %>
+        <%= f.password_field :password, :placeholder => 'Password (minimum 8 characters required)', autocomplete: "off", style: "padding: 10px; border: 1px solid red; background-color: #FFC8C9; border-radius: 3px; width: 350px;" %>
+      <% else %>
+        <%= f.password_field :password, :placeholder => 'Password (minimum 8 characters required)', autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
+      <% end %>
+    </div>
+
+    <div class="field" style="padding-top: 5px">
+      <% if !resource.errors.empty? and devise_error_messages![:password_confirmation].present? %> 
+        <% devise_error_messages![:password_confirmation].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** Password confirmation <%= e %> **</span>
+          <br />
+        <% end %>
+        <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation (required)', autocomplete: "off", style: "padding: 10px; border: 1px solid red; background-color: #FFC8C9; border-radius: 3px; width: 350px;" %>
+      <% else %>
+        <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation (required)', autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
+      <% end %>
+    </div>
+
+    <div style="padding-top: 5px">
+    </div>
+
+      <% if !resource.errors.empty? and devise_error_messages![:year_of_training].present? %> 
+        <% devise_error_messages![:year_of_training].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** Year of training <%= e %> **</span>
+        <% end %>
+        <div class="field" style="margin: 0 auto; border: 1px solid red; background-color: #FFC8C9; padding: 10px; border-radius: 3px; width: 350px">
+      <% else %>
+        <div class="field" style="margin: 0 auto; border: 1px solid #99CCFF; padding: 10px; border-radius: 3px; width: 350px; background-color: #f5f5f5">
+      <% end %>
+      <span style="padding-right: 10px">Year of training:</span>
+      <%= f.radio_button :year_of_training, "1" %>
+      <%= label :year_of_training, "1" %>
+      <%= f.radio_button :year_of_training, "2" %>
+      <%= label :year_of_training, "2" %>
+      <%= f.radio_button :year_of_training, "3" %>
+      <%= label :year_of_training, "3" %>
+      <%= f.radio_button :year_of_training, "4" %>
+      <%= label :year_of_training, "4" %>
+      <%= f.radio_button :year_of_training, "5" %>
+      <%= label :year_of_training, "5" %>
+
+<!--<label class="radio-inline"><input id="user_year_of_training_1" value="1" name="user[year_of_training]" type="radio">1</label>
+      <label class="radio-inline"><input id="user_year_of_training_2" value="2" name="user[year_of_training]" type="radio">2</label>
+      <label class="radio-inline"><input id="user_year_of_training_3" value="3" name="user[year_of_training]" type="radio">3</label>
+      <label class="radio-inline"><input id="user_year_of_training_4" value="4" name="user[year_of_training]" type="radio">4</label>
+      <label class="radio-inline"><input id="user_year_of_training_5" value="5" name="user[year_of_training]" type="radio">5</label>-->
+    </div>
+
+    <div class="actions" style="padding-top: 10px">
+      <%= f.submit "Sign up", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px; width: 100px; padding: 10px" %>
+    </div>
+
+    <div style="padding: 5px">
+    </div>
+
+    <%= render "devise/shared/links", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px;" %>
+  
+    <div style="padding: 10px">
+    </div>
+
+  <% end %>
 </div>
 </div>
