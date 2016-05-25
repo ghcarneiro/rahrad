@@ -10,6 +10,8 @@ class CreateLearnerDxes < ActiveRecord::Migration
       t.float :accuracy
       t.integer :correct_dx
       t.integer :excellent_cases
+      t.float :recent_correct
+      t.float :recent_excellent
       t.timestamps null: false
     end
   end

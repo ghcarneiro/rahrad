@@ -4,13 +4,20 @@ class ProblemsController < ApplicationController
 	# the current user's id - otherwise it will fetch data from other
 	# users!!!!
 
+	# You must check whether something is present before performing actions on it,
+	# otherwise Rails will complain if it doesn't exist. eg. if !@next.blank?
+
+	##################################################################################
 	# Main problem selection page
+	##################################################################################
     	def index
 		@ldx = LearnerDx.where(:review_list => true, :user_id => current_user.id)		
     	end
 
-# Add to review list
-def add
+	##################################################################################
+	# Add to review list - response to AJAX request
+	##################################################################################
+	def add
 	    @l_id = params[:l]
 	    @add_dx = LearnerDx.where(:id => @l_id, :user_id => current_user.id).first
 	    @add_dx.review_list = true
@@ -22,10 +29,12 @@ def add
 		    render text: @html 
 		end
 	    end
-end
+	end
 
-# Remove from review list
-def remove
+	##################################################################################
+	# Remove from review list - response to AJAX request
+	##################################################################################
+	def remove
 	    @l_id = params[:l]
 	    @add_dx = LearnerDx.where(:id => @l_id, :user_id => current_user.id).first
 	    @add_dx.review_list = false
@@ -37,17 +46,22 @@ def remove
 		    render text: @html 
 		end
 	    end
-end
+	end
 
-	#Retrieve data for add to review list
+	##################################################################################
+	# Retrieve data for dropdown menus - response to AJAX request
+	##################################################################################
 	def data
 
+	    # The parameter sent contains the level of the topic clicked (level 1, 2 or 3) and the id for that topic
 	    @s = params[:l].split("_")
 	    @level = @s[0]
 	    @id = @s[1]
 	    params[:search_id] = @id.to_i
 	    params[:year_level] = current_user.year_of_training
 	    @isend = 0
+
+	    # Search for the appropriate data
 	    if @level == "l1"
 		@next = DxLevel2.where(:dx_level1_id => @id.to_i)
 		params[:search_type] = "DxLevel1"
@@ -69,6 +83,7 @@ end
 	    @next.each do |n|
 		@html = @html + "<table width='100%'><tr><td>"
 
+		# Create ids in the same manner as the initial param sent (level + id)
 	    	if @level == "l1"
 		    @i = "l2_" + n.id.to_s
 		elsif @level == "l2"
@@ -81,6 +96,7 @@ end
 		        @i = "e_" + n.id.to_s
 		end
 	    
+		# Code for topics (that are not diagnoses)
 		if !@i.include?("e_")
   	    	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
 		else
@@ -96,6 +112,8 @@ end
 	    else
 		@html = @html + "No diagnoses could be found."
 	    end
+
+	    # Code to display key diagnoses if appropriate
  	    if @level == "l1" and (current_user.year_of_training == "1" or current_user.year_of_training == "2")
 	    	@keydx.each do |k|
 		    @ldx = LearnerDx.where(:end_dx_id => k.id, :user_id => current_user.id, :review_list => true)
@@ -109,7 +127,7 @@ end
 	    end
 
 		
-
+	    # Send AJAX response
 	    @html = @html + "</div>"
 	    respond_to do |format|
   	    	format.html do
@@ -120,7 +138,9 @@ end
   	    	end
 	    end
 end
-
+	##################################################################################
+	# User select page - now 'Search for cases' page
+	##################################################################################
 	def user_select
 		@noparam = false
 		@nofound = false
@@ -144,13 +164,17 @@ end
 			
 	end
 
+	##################################################################################
 	# Displays all diagnoses on the trainee's review list
+	##################################################################################
 	def review_list
 		@pagetype = "list"
 		@ldx = LearnerDx.where(:review_list => true, :user => current_user.id)
 	end
 
-	# Add diagnoses to the review list
+	##################################################################################
+	# Add diagnoses to the review list (data for the actual page)
+	##################################################################################
 	def review_list_add
 		@pagetype = "add"
 		@count = 0 
@@ -191,6 +215,8 @@ end
 					@ldx.accuracy = 0
 					@ldx.correct_dx = 0
 					@ldx.excellent_cases = 0
+					@ldx.recent_correct = 0
+					@ldx.recent_excellent = 0
 				end
 				@ldx.review_list = true
 				@ldx.save
@@ -201,7 +227,9 @@ end
 		@ldx = LearnerDx.where(:review_list => true, :user_id => current_user.id)
 	end
 
-	# Removes selected diagnoses from the review list
+	##################################################################################
+	# Removes selected diagnoses from the review list (data for the actual page)
+	##################################################################################
 	def review_list_remove
 		@pagetype = "remove"
 		@count = 0 # Counts the number of diagnoses selected to determine whether the singular or plural of diagnosis should be used
@@ -224,9 +252,14 @@ end
 
 	end
 
+	##################################################################################
 	# Displays cases for the trainee to write reports on and processes their answers
+	# REPORT ANALYSIS PART HERE
+	##################################################################################
 	def cases
 		@learnerinfo = LearnerInfo.where(:user_id => current_user.id).first
+
+		# SYSTEM SELECT - SYSTEM DECIDES WHAT DIAGNOSES TO SHOW #
 		if params[:system_select]
 			@string = EndDx.where(:id => 2070)
 			@string.each do |n|
@@ -238,6 +271,7 @@ end
 			end
 		end
 
+		# USER SELECT OR REVIEW LIST DIAGNOSES #
 		# Shows a new problem to the trainee based on the diagnoses they have selected
 		if params[:id]
 			# Remove old current report
@@ -268,18 +302,19 @@ end
 			@learnerinfo.expert_report_id = @currentreport.id
 			@learnerinfo.save
 
-		# Processing the submitted student report
+		# REPORT ANALYSIS SECTION #
 		elsif params[:q].present?
 			@currentreport = ExpertReport.where(:id => @learnerinfo.expert_report_id).first
 			@user_report = params[:q]
 
-			# Create new student report in database
+			# Create new student report object in database
 			r = StudentReport.new
 			r.report_text = @user_report
 			r.expert_report_id = @currentreport.id
 			r.user_id = current_user.id
 			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
-			# Create learner dx if not found
+
+			# Create learner dx if it does not exist yet
 			if @learnerdx.nil?
 					@e = EndDx.where(:id => @currentreport.end_dx_id).first
 					@learnerdx = LearnerDx.new
@@ -291,23 +326,31 @@ end
 					@learnerdx.missed_dx = 0
 					@learnerdx.accuracy = 0
 					@learnerdx.excellent_cases = 0
+					@learnerdx.recent_correct = 0
+					@learnerdx.recent_excellent = 0
 					@learnerdx.save
 			end
 			@learnerdx = LearnerDx.where(:end_dx_id => @currentreport.end_dx_id).where(:user_id => current_user.id).first
 			r.learner_dx_id = @learnerdx.id
 
 			
-			# PROPER CODE FOR SENDING REPORT TO PYTHON SERVER - DOES NOT RUN IN TEST MODE #
+			# PROPER CODE FOR SENDING REPORT TO PYTHON SERVER FOR ANALYSIS - DOES NOT RUN IN TEST MODE #
 			if current_user.learner_info.test == false
-			# Send request to python server
+
+			# Send request to python server - response is stored in @resultTemp
 			@resultTemp = HTTP.post("http://localhost:5000", :json => { :expert_report => @currentreport.report_text, :learner_report => @user_report}).to_s
 
 			# The response from the python server is the positions of the correct and missing sentences in their respective reports in a single array.
 			# The correct sentences are separated from the missing sentences by the value -100.
-			@missingsent = false # Tracks the transition from correct to missing sentences
+
+			# Tracks the transition from correct to missing sentences
+			@missingsent = false 
 			@resultTemp = @resultTemp.split(',')
+			# Pop/shift gets rid of some unnecessary info from the array - I forgot what it is exactly
 			@resultTemp.pop
 			@resultTemp.shift
+
+			# Put values into the appropriate array - correct or missing sentences
 			@resultTemp.each do |t|
 				if (t == '-100') or (t == '\"-100')
 					@missingsent = true
@@ -318,7 +361,13 @@ end
 				end
 			end
 
-			@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length))*100
+			#Split text into sentences
+			@expert_sentences = @currentreport.report_text.split(".")
+			@student_sentences = r.report_text.split(".")
+			@correct_sentences = @expert_sentences.length - r.missing_sentences.length
+
+			# Calculate score for overall report correctness
+			@percentage = (@correct_sentences.to_f/@expert_sentences.length)*100
 			r.score = @percentage
 		
 			# TEMPORARY FILL-IN CODE ONLY FOR TESTING PURPOSES - WILL BE REPLACED BY PROPER CLASSIFIER
@@ -333,7 +382,9 @@ end
 				r.diagnosis_found = false
 			end
 
-			# FOR TEST CODE ONLY - MOCK DATA
+			###################################################################################
+			# FOR TEST CODE ONLY - MOCK DATA   (used for usability testing)
+			###################################################################################
 			else
 				if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252)
 					r.correct_sentences << "0"
@@ -355,26 +406,44 @@ end
 				@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length))*100
 				r.score = @percentage
 			end
+			####################################################################################
+			# TEST CODE END #
+			###################################################################################
 
 			# Save student report
 			r.save
 			@studentreport = r
 
+			#Calculate results from 5 most recent reports (for skill meters, graph)
+			@recentfive = StudentReport.where(:expert_report_id => @currentreport.id, :user_id => current_user.id).limit(5)
+			@recent_correct = 0
+			@recent_excellent = 0
+			@recentfive.each do |f|
+				if f.diagnosis_found == true
+					if f.score > 70
+						@recent_excellent += 0.2
+					end
+					@recent_correct += 0.2
+				end
+			end
+
+			@learnerdx.recent_correct = @recent_correct
+			@learnerdx.recent_excellent = @recent_excellent
+
 			# Check if Level 1, 2 and 3 exist for the diagnosis in the learner model - if not, create them
 			@enddx = EndDx.where(:id => @learnerdx.end_dx_id).first
-			if @enddx.category != "key"
+			@dxlevel3 = "NOEXIST"
+			@dxlevel2 = "NOEXIST"
+			@dxlevel1 = "NOEXIST"
+			if @enddx.dxable_type == "DxLevel3"
 				@dxlevel3 = DxLevel3.where(:id => @enddx.dxable_id).first
-				if @dxlevel3.nil?
-					@dxlevel3 = "NOEXIST"
-					@dxlevel2 = DxLevel2.where(:id => @enddx.dxable_id).first
-				else
 				@dxlevel2 = DxLevel2.where(:id => @dxlevel3.dx_level2_id).first
-				end
 				@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
-			else			
+			elsif @enddx.dxable_type == "DxLevel2"
+				@dxlevel2 = DxLevel2.where(:id => @enddx.dxable_id).first
+				@dxlevel1 = DxLevel1.where(:id => @dxlevel2.dx_level1_id).first
+			else		
 				@dxlevel1 = DxLevel1.where(:id => @enddx.dxable_id).first
-				@dxlevel2 = "NOEXIST"
-				@dxlevel3 = "NOEXIST"
 			end
 
 			@learner_l1 = LearnerLevel1.where(:dx_level1_id => @dxlevel1.id).where(:user_id => current_user.id).first
@@ -453,12 +522,9 @@ end
 				@learner_l3.save
 			end
 			
-
-			#Split text into sentences
-			@expert_sentences = @currentreport.report_text.split(".")
-			@student_sentences = r.report_text.split(".")
 			
 		else
+			# If user goes directly to 'practise cases' then it will just show stuff from the previous session
 			@ids = ExpertReport.where(:learner_info_id => @learnerinfo.id)
 			@currentreport = ExpertReport.find(@ids.sample)
 			@learnerinfo.expert_report_id = @currentreport.id

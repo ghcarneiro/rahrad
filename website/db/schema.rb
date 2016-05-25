@@ -60,8 +60,8 @@ ActiveRecord::Schema.define(version: 20160417082949) do
     t.integer  "correct_dx"
     t.integer  "incorrect_dx"
     t.decimal  "difficulty"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   add_index "expert_reports", ["end_dx_id"], name: "index_expert_reports_on_end_dx_id"
@@ -72,10 +72,12 @@ ActiveRecord::Schema.define(version: 20160417082949) do
     t.integer  "user_id"
     t.boolean  "review_list"
     t.integer  "cases_attempted"
-    t.integer "missed_dx"
-    t.float "accuracy"
+    t.integer  "missed_dx"
+    t.float    "accuracy"
     t.integer  "correct_dx"
     t.integer  "excellent_cases"
+    t.float    "recent_excellent"
+    t.float    "recent_correct"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
@@ -86,7 +88,7 @@ ActiveRecord::Schema.define(version: 20160417082949) do
   create_table "learner_infos", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "expert_report_id"
-    t.boolean "test"
+    t.boolean  "test"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
@@ -157,21 +159,21 @@ ActiveRecord::Schema.define(version: 20160417082949) do
   create_table "student_reports", force: :cascade do |t|
     t.string   "report_text"
     t.boolean  "diagnosis_found"
-    t.text  "correct_sentences", array: true, default: []
-    t.text  "missing_sentences", array: true, default: []
-    t.text  "ignore_sentences", array: true, default: []
-    t.float "score"
+    t.text     "correct_sentences", default: "--- []\n"
+    t.text     "missing_sentences", default: "--- []\n"
+    t.text     "ignore_sentences",  default: "--- []\n"
+    t.float    "score"
     t.integer  "expert_report_id"
     t.integer  "learner_dx_id"
     t.integer  "user_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
-    t.string   "firstname",		 default: "", null: false
+    t.string   "firstname",              default: "", null: false
     t.string   "lastname"
     t.string   "year_of_training"
     t.string   "reset_password_token"

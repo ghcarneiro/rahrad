@@ -201,10 +201,13 @@ def runReportSimilarity(fileName,fileName2,threshold=0.9,reportType="lsi"):
 
         threshold_value = bestSim
 
+	# Correct sentences in student report
         if aboveTopThreshold and (sent1[i].strip()) != "":
             s="n\t"+sent2[i]+" "+str(threshold_value)+"\t"+str(i) + "\n"	
             print s
             return_sentences = return_sentences + str(i) + ','
+
+	# Extra sentences in student report
         elif (threshold_value > 0) and (sent1[i].strip()) != "": # Exclude blank strings
 			#sent2[i] = " ".join([k for k in sent2[i]])
             s ="e\t"+sent2[i]+" "+str(threshold_value)+"\t"+str(i) + "\n"
@@ -213,12 +216,15 @@ def runReportSimilarity(fileName,fileName2,threshold=0.9,reportType="lsi"):
     i=0
     return_sentences = return_sentences + '-100,'
     for k in missing:
+	# Missing sentences in expert report
         if k <= threshold and (sent1[i].strip()) != "":
 			#sent1[i] = " ".join([k for k in sent1[i]])
 			#s = str(k)
             s = "m\t"+sent1[i]+"\t"+str(i) + "\n"
             print s
             return_sentences = return_sentences + str(i) + ','
+
+	# Sentences matching the student report in the expert report
         elif (sent1[i].strip()) != "": # Checks that string is not empty
 	    s = "t\t"+sent1[i]+"\t"+str(i) + "\n"
             print s	

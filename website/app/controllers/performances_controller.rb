@@ -1,11 +1,8 @@
 class PerformancesController < ApplicationController
 	def index
-
-
-
 	end
 
-def concept
+	def concept
 	    @pagetype = "concept"
 	    @conceptlist = "public/conceptlist_" + current_user.id.to_s
 	    @dxlevel1s = DxLevel1.all
@@ -16,7 +13,7 @@ def concept
             #@nodxlevel3s = DxLevel2.includes(:dx_level3s).where(:dx_level3s => {:dxable_id => nil})
 	    #@hasdxlevel3s = DxLevel2.includes(:dx_level3s).where("dx_level3s.dxable_id IS NOT NULL")
 
-end
+	end
 
 # Add to review list
 def add
@@ -169,12 +166,13 @@ def data
 		end
   	    	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
 		else
-	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
+		    @meter = @ldx.recent_correct
+	      	    @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
 	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
-	          <div class="progress-bar" style="width: 50px">
+	          <div class="progress-bar" style="width: ' + (@meter * 100) + '%">
 	          </div>
 	        </div>
-	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + n.name + ': X% correct</span>
+	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + n.name + ': ' + (@meter * 100) + '% correct</span>
 	      </div> '
 		
 		if n.category == "key"
@@ -221,15 +219,20 @@ def data
 
 	    # Add key diagnoses if level 1
  	    if @level == "l1" and (current_user.year_of_training == "1" or current_user.year_of_training == "2")
+
 	    	@keydx.each do |k|
-		@ldx = LearnerDx.where(:end_dx_id => k.id).where(:user_id => current_user.id).first
-	      @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
-	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
-	          <div class="progress-bar" style="width: 50px">
-	          </div>
-	        </div>
-	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + k.name + ': X% correct</span>
-	      </div>'
+		    @ldx = LearnerDx.where(:end_dx_id => k.id).where(:user_id => current_user.id).first
+		    @meter = @ldx.recent_correct
+
+	            # Code for mouseover popup
+	            @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
+	            <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
+	            <div class="progress-bar" style="width: ' + (@meter * 100) + '%">
+	            </div>
+	            </div>
+	            <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + k.name + ': ' + (@meter * 100) + '% correct</span>
+	     	    </div>'
+
 		if (!@ldx.nil?)
 		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
 		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
@@ -319,7 +322,7 @@ end
 
 def missed_dx
 	    @pagetype = "misseddx"
-	    @missed = LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).order('accuracy asc, cases_attempted desc')
+	    @missed = LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).limit(5).order('accuracy asc, cases_attempted desc')
 end
 
 def report_hx
