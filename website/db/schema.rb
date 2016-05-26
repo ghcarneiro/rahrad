@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417082949) do
+ActiveRecord::Schema.define(version: 20160526005903) do
 
   create_table "dx_level1s", force: :cascade do |t|
     t.string   "name"
@@ -78,8 +78,9 @@ ActiveRecord::Schema.define(version: 20160417082949) do
     t.integer  "excellent_cases"
     t.float    "recent_excellent"
     t.float    "recent_correct"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.float    "recent_incorrect"
   end
 
   add_index "learner_dxes", ["end_dx_id"], name: "index_learner_dxes_on_end_dx_id"

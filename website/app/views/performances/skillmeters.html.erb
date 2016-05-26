@@ -3,46 +3,49 @@
 <% end %>
 <a href="top"></a>
 <div class="row container" style="max-width: 600px; margin: 0 auto">
-<%= render "nav" %>
-<% @l1.each do |l| %>
-<div class="row">
-<div class="col-md-3" style="padding-top: 20px; text-align: right">
-<b><%= l.name %></b>
-</div>
-<% @enddx = EndDx.where(:l1_name => l.name, :category => "1") %>
-<% @excellent = 0 %>
-<% @good = 0 %>
-<% @incorrect = 0 %>
-<% @count = 0 %>
+  <%= render "nav" %>
+  <% @l1.each do |l| %>
+    <% @enddx = EndDx.where(:l1_name => l.name, :category => "1") %>
+    <% @excellent = 0 %>
+    <% @good = 0 %>
+    <% @incorrect = 0 %>
+    <% @count = 0 %>
 
-<% @enddx.each do |e| %>
-	<% @count += 1 %>
-<% @ldx = LearnerDx.where(:end_dx_id => e.id, :user_id => current_user.id).first %>
-<% if @ldx.present? %>
-	<% @excellent += @ldx.recent_excellent %>
-	<% @good += @ldx.recent_correct %>
-<% end %>
-<% end %>
-<% if @count != 0 %>
-<% @orange = ((@good - @excellent)/@count)*100 %>
-<% @excellent = (@excellent/@count)*100 %>
-<% @incorrect = (@incorrect/@count)*100 %>
-<% end %>
+    <% @enddx.each do |e| %>
+      <% @count += 1 %>
+      <% @ldx = LearnerDx.where(:end_dx_id => e.id, :user_id => current_user.id).first %>
+      <% if @ldx.present? %>
+        <% @excellent += @ldx.recent_excellent %>
+        <% @good += @ldx.recent_correct %>
+        <% @incorrect += @ldx.recent_incorrect %>
+      <% end %>
+    <% end %>
+    <% if @count != 0 %>
+      <% @good = (@good/@count)*100 %>
+      <% @excellent = (@excellent/@count)*100 %>
+      <% @incorrect = (@incorrect/@count)*100 %>
+      <% @notseen = 100 - @good - @excellent - @incorrect %>
+    <% end %>
+  <div class="row">
+    <div class="col-md-3" style="padding-top: 20px; text-align: right">
+      <b><%= l.name %></b><br />
+<span style="font-size: 0.9em"><%= @count %> diagnoses</span>
+    </div>
 
 
-<div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
-<div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
-<div class="progress-bar progress-bar-success" role="progressbar" style="width: <%= @excellent.to_s %>%">
-</div>
-<div class="progress-bar progress-bar-warning" role="progressbar" style="width: <%= @orange.to_s %>%">
-</div>
-<div class="progress-bar progress-bar-danger" role="progressbar" style="width: <%= @incorrect.to_s %>%">
-</div>
-</div>
- <%= @good/@count*100 %>% good, <%= @incorrect %>% needs more work, 95% not seen / <%= @count %>
-</div>
-</div>
+    <div class="col-md-9" style="margin: 0 auto; padding-top: 20px; font-size: 0.9em">
+      <div class="progress" style="border: 1px solid #444444; width: 100%; margin: 0 auto">
+        <div class="progress-bar progress-bar-success" role="progressbar" style="width: <%= @excellent.to_s %>%">
+        </div>
+        <div class="progress-bar progress-bar-warning" role="progressbar" style="width: <%= @good.to_s %>%">
+        </div>
+        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <%= @incorrect.to_s %>%">
+        </div>
+      </div>
+      <% if @excellent !=0 %><%= sprintf('%.2f', @excellent) %>% excellent, <% end %><% if @good !=0 %><%= sprintf('%.2f', @good) %>% good, <% end %><% if @incorrect !=0 %><%= sprintf('%.2f', @incorrect) %>% needs more work, <% end %><%= sprintf('%.2f', @notseen) %>% not seen
+    </div>
+  </div>
 <% end %>
-
+		<p></p><p><a href="#top">Click here to go back to top</a></p>
 </div>
 

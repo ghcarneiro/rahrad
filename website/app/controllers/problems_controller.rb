@@ -215,6 +215,7 @@ end
 					@ldx.accuracy = 0
 					@ldx.correct_dx = 0
 					@ldx.excellent_cases = 0
+					@ldx.recent_incorrect = 0
 					@ldx.recent_correct = 0
 					@ldx.recent_excellent = 0
 				end
@@ -326,6 +327,7 @@ end
 					@learnerdx.missed_dx = 0
 					@learnerdx.accuracy = 0
 					@learnerdx.excellent_cases = 0
+					@learnerdx.recent_incorrect = 0
 					@learnerdx.recent_correct = 0
 					@learnerdx.recent_excellent = 0
 					@learnerdx.save
@@ -415,18 +417,23 @@ end
 			@studentreport = r
 
 			#Calculate results from 5 most recent reports (for skill meters, graph)
-			@recentfive = StudentReport.where(:expert_report_id => @currentreport.id, :user_id => current_user.id).limit(5)
+			@recentfive = StudentReport.where(:learner_dx_id => @learnerdx.id, :user_id => current_user.id).order("created_at desc").limit(5)
+			@recent_incorrect = 0
 			@recent_correct = 0
 			@recent_excellent = 0
 			@recentfive.each do |f|
 				if f.diagnosis_found == true
 					if f.score > 70
 						@recent_excellent += 0.2
+					else
+						@recent_correct += 0.2
 					end
-					@recent_correct += 0.2
+				else
+						@recent_incorrect += 0.2
 				end
 			end
 
+			@learnerdx.recent_incorrect = @recent_incorrect
 			@learnerdx.recent_correct = @recent_correct
 			@learnerdx.recent_excellent = @recent_excellent
 

@@ -166,13 +166,17 @@ def data
 		end
   	    	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
 		else
-		    @meter = @ldx.recent_correct
+		    if !@ldx.nil?
+		    @meter = @ldx.recent_correct + @ldx.recent_excellent
+		    else
+		    @meter = 0
+		    end
 	      	    @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
 	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
-	          <div class="progress-bar" style="width: ' + (@meter * 100) + '%">
+	          <div class="progress-bar" style="width: ' + (@meter * 100).to_s + '%">
 	          </div>
 	        </div>
-	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + n.name + ': ' + (@meter * 100) + '% correct</span>
+	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + n.name + ': ' + (@meter * 100).to_s + '% correct</span>
 	      </div> '
 		
 		if n.category == "key"
@@ -222,15 +226,19 @@ def data
 
 	    	@keydx.each do |k|
 		    @ldx = LearnerDx.where(:end_dx_id => k.id).where(:user_id => current_user.id).first
-		    @meter = @ldx.recent_correct
+		    if !@ldx.nil?
+		    @meter = @ldx.recent_correct + @ldx.recent_excellent
+		    else
+		    @meter = 0
+		    end
 
 	            # Code for mouseover popup
 	            @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
 	            <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
-	            <div class="progress-bar" style="width: ' + (@meter * 100) + '%">
+	            <div class="progress-bar" style="width: ' + (@meter * 100).to_s + '%">
 	            </div>
 	            </div>
-	            <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + k.name + ': ' + (@meter * 100) + '% correct</span>
+	            <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + k.name + ': ' + (@meter * 100).to_s + '% correct</span>
 	     	    </div>'
 
 		if (!@ldx.nil?)
@@ -338,7 +346,7 @@ def report_hx
 		end
 	    end
 
-	    @studentreports = ((StudentReport.where(:user_id => current_user.id).limit(10)).sort_by &:created_at).reverse
+	    @studentreports = StudentReport.where(:user_id => current_user.id).order("created_at desc").limit(10)
 
 	    if params[:id]
 	    	@currentreport = StudentReport.where(:id => params[:id]).first
@@ -348,7 +356,7 @@ def report_hx
 	    end
 	    if params[:count]
 		@offset = @pageno - params[:count].to_i
-		@studentreports = ((StudentReport.where(:user_id => current_user.id).offset(@offset*10).limit(10)).sort_by &:created_at).reverse
+		@studentreports = StudentReport.where(:user_id => current_user.id).order("created_at desc").offset(@offset*10).limit(10)
 
 	    end
 
