@@ -3,6 +3,9 @@
 <% end %>
 <script>
 $(document).ready(function(){
+    $.ajaxSetup({ cache: false });
+    jQuery.noConflict();
+    $('#modal-window').modal('show');
     $(".sentence-toggle").click(function(){
 	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
        	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-right');
@@ -61,6 +64,10 @@ $(document).ready(function(){
 
 <div class="row container" style="max-width: 650px; margin: 0 auto">
 <%= render "nav" %>
+<span style="color: white">a</span>
+<div class="well well-sm">
+<b>View top 5 based on:</b> Percentage of diagnoses missed | <%= link_to "Number of incorrect reports", missed_dx_performances_path(:type => "number") %>
+</div>
 <% @count = 1 %>
 <% @missed.each do |m| %>
 <table width="100%">
@@ -97,16 +104,15 @@ $(document).ready(function(){
 </span> 
 <div style="padding-left:60px; padding-top:5px; display: none">
 <% @reportcount = m.student_reports.length %>
-<% m.student_reports.each do |s| %>
+<% @sreports = StudentReport.where(:learner_dx_id => m.id).order("created_at desc") %>
+<% @sreports.each do |s| %>
 <% if s.diagnosis_found == false %>
-<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-window">
+<%= link_to missed_dx_performances_path(:id => s.id), class: "btn btn-danger btn-xs" do-%><%= @reportcount %><% end %>
 <% elsif s.score < 70 %>
-<button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-window">
+<%= link_to missed_dx_performances_path(:id => s.id), class: "btn btn-warning btn-xs" do-%><%= @reportcount %><% end %>
 <% else %>
-<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal-window">
+<%= link_to missed_dx_performances_path(:id => s.id), class: "btn btn-success btn-xs" do-%><%= @reportcount %><% end %>
 <% end %>
-    <%= @reportcount %>
-  </button>
 <% @reportcount = @reportcount - 1 %>
 <% end %>
 </div>
@@ -137,29 +143,59 @@ $(document).ready(function(){
 </div>
 <p></p>
 
+<% if params[:id].present? %>
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+ <div class="modal-header row">
           <h4 class="modal-title" id="thing">Report review</h4>
+	  Date: <%= @currentreport.created_at %>
         </div>
-        <div class="modal-body row">
-<div class="col-md-6">
-	<h4>Expert report</h4>
-THERE IS A HYPODENSE LESION IN SEGMENT 4A OF THE LIVER MEASURING 1.5CM IN DIAMETER.  THE APPEARANCES ARE CONSISTENT WITH THAT OF A SIMPLE CYST.  THE REMAINDER OF THE LIVER SHOWS NO EVIDENCE OF ANY ABNORMALITY. THERE IS A VERY LARGE MASS ON THE SUPERIOR PART OF THE LEFT KIDNEY MEASURING 8X9.5CM. THERE IS PATCHY ENHANCEMENT WITH CONTRAST, SUGGESTING SOME NECROSIS WITHIN THE CENTRE OF THE TUMOUR. APPEARANCES WOULD BE CONSISTENT WITH A RENAL CELL CARCINOMA. THERE IS GROSS ENLARGEMENT OF THE LEFT RENAL VEIN, SUGGESTING THAT THIS IS INVOLVED IN THE TUMOUROUS PROCESS. THE LEFT GONADAL VEIN HOWEVER IS ENHANCING WELL.  THERE IS NO EVIDENCE OF ANY OBSTRUCTION OF THE INFERIOR VENA CAVA. THERE IS NO EVIDENCE OF ANY ILLUSION WITHIN THE RIGHT KIDNEY.  THE SPLEEN, PANCREAS AND ADRENALS APPEAR NORMAL. THE AORTA IS NOT DILATED THROUGHOUT ITS LENGTH. THE PATIENT APPEARS TO HAVE HAD A HYSTERECTOMY IN THE PAST.  THERE IS NO EVIDENCE OF ANY OTHER ABNORMALITY, OR LYMPHADENOPATHY WITHIN THE ABDOMEN OR PELVIS.  COMMENT:  VERY LARGE MASS ON THE LEFT KIDNEY INVOLVING THE LEFT RENAL VEIN, CONSISTENT WITH A RENAL CELL CARCINOMA.
-</div>
-<div class="col-md-6">
-<h4>Your report</h4>			
-THERE IS A HYPODENSE LESION IN SEGMENT 4A OF THE LIVER MEASURING 1.5CM IN DIAMETER.  THE APPEARANCES ARE CONSISTENT WITH THAT OF A SIMPLE CYST. THERE IS A VERY LARGE MASS ON THE SUPERIOR PART OF THE LEFT KIDNEY MEASURING 8X9.5CM. THE APPEARANCE IS CONSISTENT WITH A BENIGN CYST. THE ABDOMINAL AORTA IS DILATED AT THE LEVEL OF THE LEFT RENAL ARTERY. THE SPLEEN, PANCREAS AND ADRENALS APPEAR NORMAL. THE PATIENT APPEARS TO HAVE HAD A HYSTERECTOMY IN THE PAST.  THERE IS NO EVIDENCE OF ANY OTHER ABNORMALITY, OR LYMPHADENOPATHY WITHIN THE ABDOMEN OR PELVIS.  COMMENT:  VERY LARGE MASS ON THE LEFT KIDNEY CONSISTENT WITH BENIGN CYST.
-</div>
+        <div class="modal-body row" style="width:100%">
+	<div class="col-md-6">
+	<h4>Expert's report</h4>
+	<% if @expert_sentences.present? %>
+	<% @count = 0 %>
+	<% @expert_sentences.each do |i| %>
+		<% if @currentreport.missing_sentences.include?(@count.to_s) %>
+			<span style="color: red"><%= i %>.</span>
+		<% else %>
+			<%= i %>.
+		<% end %>
+		<% @count = @count + 1 %>
+	<% end %>
+	<% end %>
+	</div>
+	<div class="col-md-6"><h4>Your report</h4>	
+	<% if @student_sentences.present? %>
+	<% @count = 0 %>
+	<% @student_sentences.each do |i| %>
+		<% if @currentreport.correct_sentences.include?(@count.to_s) %>
+			<span style="color: green"><%= i %>.</span>
+		<% else %>
+			<span style="color: orange"><%= i %>.</span>
+		<% end %>
+		<% @count = @count + 1 %>
+	<% end %>
+	<% end %>
+	</div>
         </div>
+			<div class="col-md-12 well well-sm" style="text-align: left; padding-left: 20px">
+				<span class="sentence-toggle">
+					<span class="viewhide">View</span> colour key <span class="glyphicon glyphicon-menu-right"></span>
+				</span>
+			<div style="display: none">
+			<ul>
+			<li><%= image_tag("red.gif", width: "15px", height: "15px") %> Missing sentences</li>
+			<li><%= image_tag("yellow.gif", width: "15px", height: "15px") %> Extra sentences</li>
+			<li><%= image_tag("green.gif", width: "15px", height: "15px") %> Correct sentences</li>
+			</ul>
+			</div>
+			</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-
-
+<% end %>

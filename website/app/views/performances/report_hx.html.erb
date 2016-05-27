@@ -7,6 +7,21 @@
 $(document).ready(function() {
     $.ajaxSetup({ cache: false });
     jQuery.noConflict();
+    $(".sentence-toggle").click(function(){
+	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
+       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-right');
+       		$(this).children(':first-child').next().addClass('glyphicon-menu-down');
+		$(this).children(':first-child').text('Hide ');
+    	}
+	else {
+       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-down');
+       		$(this).children(':first-child').next().addClass('glyphicon-menu-right');
+		$(this).children(':first-child').text('View ');
+	}
+
+    $(this).next().slideToggle();
+
+    }); 
     $('#modal-window').modal('show');
     $(document).on('click', 'input', function(){
         if ($(this).parent().hasClass("checkbox-inline keydx")) {
@@ -151,39 +166,51 @@ Page:
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Report review</h4>
+ <div class="modal-header row">
+          <h4 class="modal-title" id="thing">Report review</h4>
+	  Date: <%= @currentreport.created_at %>
         </div>
-        <div class="modal-body row">
-<div class="col-md-6">
-	<h4>Expert report</h4>
+        <div class="modal-body row" style="width:100%">
+	<div class="col-md-6">
+	<h4>Expert's report</h4>
 	<% if @expert_sentences.present? %>
 	<% @count = 0 %>
 	<% @expert_sentences.each do |i| %>
 		<% if @currentreport.missing_sentences.include?(@count.to_s) %>
-			<span style="color: red"><%= i %></span>
+			<span style="color: red"><%= i %>.</span>
 		<% else %>
-			<%= i %>
+			<%= i %>.
 		<% end %>
 		<% @count = @count + 1 %>
 	<% end %>
 	<% end %>
-</div>
-<div class="col-md-6">
-<h4>Your report</h4>			
+	</div>
+	<div class="col-md-6"><h4>Your report</h4>	
 	<% if @student_sentences.present? %>
 	<% @count = 0 %>
 	<% @student_sentences.each do |i| %>
 		<% if @currentreport.correct_sentences.include?(@count.to_s) %>
-			<span style="color: green"><%= i %></span>
+			<span style="color: green"><%= i %>.</span>
 		<% else %>
-			<%= i %>
+			<span style="color: orange"><%= i %>.</span>
 		<% end %>
 		<% @count = @count + 1 %>
 	<% end %>
 	<% end %>
-</div>
+	</div>
         </div>
+			<div class="col-md-12 well well-sm" style="text-align: left; padding-left: 20px">
+				<span class="sentence-toggle">
+					<span class="viewhide">View</span> colour key <span class="glyphicon glyphicon-menu-right"></span>
+				</span>
+			<div style="display: none">
+			<ul>
+			<li><%= image_tag("red.gif", width: "15px", height: "15px") %> Missing sentences</li>
+			<li><%= image_tag("yellow.gif", width: "15px", height: "15px") %> Extra sentences</li>
+			<li><%= image_tag("green.gif", width: "15px", height: "15px") %> Correct sentences</li>
+			</ul>
+			</div>
+			</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
@@ -193,4 +220,9 @@ Page:
 <% end %>
 <% end %>
 </div>
+
+
+
+
+
 

@@ -42,6 +42,9 @@ def add
 					@add_dx.accuracy = 0
 					@add_dx.correct_dx = 0
 					@add_dx.excellent_cases = 0
+					@add_dx.recent_excellent = 0
+					@add_dx.recent_correct = 0
+					@add_dx.recent_incorrect = 0
 	    end
 	    @add_dx.review_list = true
 	    @add_dx.save
@@ -331,6 +334,15 @@ end
 def missed_dx
 	    @pagetype = "misseddx"
 	    @missed = LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).limit(5).order('accuracy asc, cases_attempted desc')
+	    if params[:type]
+		@missed = LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).limit(5).order('missed_dx desc, cases_attempted desc')
+	    end
+	    if params[:id]
+	    	@currentreport = StudentReport.where(:id => params[:id]).first
+		@expertreport = ExpertReport.where(:id => @currentreport.expert_report_id).first
+		@expert_sentences = @expertreport.report_text.split(".")
+		@student_sentences = @currentreport.report_text.split(".")
+	    end
 end
 
 def report_hx
