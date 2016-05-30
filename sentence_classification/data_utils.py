@@ -2,8 +2,11 @@ import csv
 import re
 import sys
 import random
+import matplotlib.pyplot as plt
 
 import nltk
+from sklearn.metrics import auc, roc_curve, precision_recall_curve
+from sklearn.metrics import average_precision_score
 
 sys.path.append("..")  # Adds higher directory to python modules path.
 
@@ -19,6 +22,7 @@ class SentenceRecord(object):
         self.diag_tag = ""
         self.sent_tag = ""
         self.report_id = ""
+        self.report_class = -1
         self.feature_vector = []
 
 
@@ -29,10 +33,12 @@ def write_to_csv(sentence_file, sentence_tags):
 
         # Write header 'sentence, labels'
         writer.writerow(
-            ["sentence"] + ["processed sentence"] + ["diagnostic label"] + ["sentiment label"] + ["report id"])
+            ["sentence"] + ["processed sentence"] + ["diagnostic label"] + ["sentiment label"] + ["report id"] + [
+                "report_class"])
         for row in sentence_tags:
             writer.writerow(
-                [row.sentence] + [row.processed_sentence] + [row.diag_tag] + [row.sent_tag] + [row.report_id])
+                [row.sentence] + [row.processed_sentence] + [row.diag_tag] + [row.sent_tag] + [row.report_id] + [
+                    row.report_class])
 
 
 # Read in all sentences defined in the given file
@@ -42,16 +48,18 @@ def read_from_csv(sentence_file):
     with open(sentence_file, 'rb') as fin:
         reader = csv.reader(fin, delimiter=",")
 
+        next(fin)  # skip header row
         for row in reader:
             tmp = SentenceRecord(row[0])
             tmp.processed_sentence = row[1]
             tmp.diag_tag = row[2]
             tmp.sent_tag = row[3]
             tmp.report_id = row[4]
+            tmp.report_class = int(row[5])
             data.append(tmp)
 
     # Return the read objects, but cut off the first row which was headers
-    return data[1:]
+    return data
 
 
 # Generate the unlabelled sentence data from the given datafile
@@ -59,7 +67,7 @@ def generate_sentences(data_files):
     data = []
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
-    for file_name in data_files:
+    for i, file_name in enumerate(data_files):
         with open(file_name, 'rb') as file:
             file.readline()  # skip header line
             reader = csv.reader(file)
@@ -69,6 +77,7 @@ def generate_sentences(data_files):
                     tmp.processed_sentence = " ".join(
                         preprocess.textPreprocess(sentence, removeNegationsFromSentences=False))
                     tmp.report_id = row[0]
+                    tmp.report_class = i
                     data.append(tmp)
 
     return data
@@ -162,6 +171,41 @@ def add_sentence_report_ids(data_file, sentence_id_file='./sentence_label_data/s
     write_to_csv(data_file, labelled_data)
 
 
+def generate_sentence_class_dict():
+    sentence_files = ["./sentence_label_data/CleanedBrainsFull.csv",
+                      "./sentence_label_data/CleanedCTPAFull.csv",
+                      "./sentence_label_data/CleanedPlainabFull.csv",
+                      "./sentence_label_data/CleanedPvabFull.csv"]
+
+    # Dictionary <sentence, report ID>
+    sentence_classes = dict()
+
+    tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+
+    for i, file_name in enumerate(sentence_files):
+        with open(file_name, 'rb') as file:
+            file.readline()  # skip header line
+            reader = csv.reader(file)
+            for row in reader:
+                for sentence in tokenizer.tokenize(row[1]):
+                    if sentence not in sentence_classes:
+                        sentence_classes[sentence] = i
+
+    return sentence_classes
+
+
+def add_sentence_report_class(data, sentence_class_dict):
+    csv.field_size_limit(sys.maxsize)
+
+       # Set as first report ID corresponding to that sentence
+    for row in data:
+        # query = row.sentence.replace('\\n', '')
+        # query = query.replace('\n', '')
+        row.report_class = sentence_class_dict[row.sentence]
+
+    return data
+
+
 def split_data(data, labels, report_ids, split=0.5, shuffle_items=True):
     if not (len(data) == len(labels) == len(report_ids)):
         raise ValueError("data, labels and report ids must be the same size")
@@ -201,3 +245,29 @@ def split_data(data, labels, report_ids, split=0.5, shuffle_items=True):
         count += len(value)
 
     return train_data, train_labels, test_data, test_labels
+
+
+def add_curves(setType, y_true, y_pos_score, subplot_offset, rows=2, cols=2):
+    false_positive_rate, true_positive_rate, thresholds_roc = roc_curve(y_true, y_pos_score)
+    roc_auc = auc(false_positive_rate, true_positive_rate)
+    pr_avg = average_precision_score(y_true, y_pos_score)
+    precision, recall, thresholds_pr = precision_recall_curve(y_true, y_pos_score)
+
+    plt.subplot(rows, cols, subplot_offset)
+    plt.title(setType + ' - Receiver Operating Characteristic')
+    plt.plot(false_positive_rate, true_positive_rate, 'b', label='AUC = %0.2f' % roc_auc)
+    plt.legend(loc='lower right')
+    plt.plot([0, 1], [0, 1], 'r--')
+    plt.xlim([-0.1, 1.2])
+    plt.ylim([-0.1, 1.2])
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+
+    plt.subplot(rows, cols, subplot_offset + 1)
+    plt.title(setType + ' - Precision Recall')
+    plt.plot(recall, precision, 'b', label='APS = %0.2f' % pr_avg)
+    plt.legend(loc='lower right')
+    plt.xlim([-0.1, 1.2])
+    plt.ylim([-0.1, 1.2])
+    plt.ylabel('Precision')
+    plt.xlabel('Recall')

@@ -16,7 +16,7 @@ count_vectorizer_params = {}
 tfidf_vectorizer_params = {}
 truncated_svd_params = {"n_components": 100}
 random_forest_params = {'n_estimators': 500, 'min_samples_leaf': 3}
-svc_params = {"probability": True}
+svc_params = {}
 
 #######################
 #### Random Forest ####

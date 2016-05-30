@@ -9,37 +9,6 @@ sys.path.append("..")  # Adds higher directory to python modules path.
 
 import preprocess
 
-usage = "USAGE: " + sys.argv[0] + " type input_file saved_model\n\t type - (input|guess)"
-if len(sys.argv) != 4:
-    print usage
-    sys.exit(1)
-
-game_type = sys.argv[1]
-input_file = sys.argv[2]
-prebuilt_model_file = sys.argv[3]
-model_params = json.load(open(prebuilt_model_file, 'rb'))
-
-if game_type != "input" and game_type != "guess":
-    print "Unknown game type. Valid types: input, guess"
-    exit(1)
-
-print "Reading data..."
-data = data_utils.read_from_csv(input_file)
-shuffle(data)
-tagged_data = [x for x in data if x.diag_tag == 'n' or x.diag_tag == 'p']
-untagged_data = [x for x in data if x.diag_tag == '']
-
-sentences = [x.processed_sentence for x in tagged_data]
-labels = [np.float32(x.diag_tag == "p") for x in tagged_data]
-
-print "Building random forest..."
-pipe = pipelines.get_count_lsi_randomforest()
-pipe.set_params(**model_params)
-pipe.fit(sentences, labels)
-
-guess_index = 0
-print ""
-
 def input_game():
     print "Write a sentence to see if the system thinks it's diagnostic:"
     sys.stdout.write("> ")
@@ -108,14 +77,46 @@ def guess_game(index):
 
     return index
 
-if game_type == "guess":
-    print str(len(tagged_data)) + " tagged sentences were used to train the classifier."
-    print "The classifier has never seen any of the following sentences before."
-    print "The machine has learnt what a diagnostic sentence is."
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4:
+        print "USAGE: " + sys.argv[0] + " type input_file saved_model\n\t type - (input|guess)"
+        sys.exit(1)
+
+    game_type = sys.argv[1]
+    input_file = sys.argv[2]
+    prebuilt_model_file = sys.argv[3]
+    model_params = json.load(open(prebuilt_model_file, 'rb'))
+
+    if game_type != "input" and game_type != "guess":
+        print "Unknown game type. Valid types: input, guess"
+        exit(1)
+
+    print "Reading data..."
+    data = data_utils.read_from_csv(input_file)
+    shuffle(data)
+    tagged_data = [x for x in data if x.diag_tag == 'n' or x.diag_tag == 'p']
+    untagged_data = [x for x in data if x.diag_tag == '']
+
+    sentences = [x.processed_sentence for x in tagged_data]
+    labels = [np.float32(x.diag_tag == "p") for x in tagged_data]
+
+    print "Building random forest..."
+    pipe = pipelines.get_count_lsi_randomforest()
+    pipe.set_params(**model_params)
+    pipe.fit(sentences, labels)
+
+    guess_index = 0
     print ""
 
-while True:
-    if game_type == "input":
-        input_game()
-    elif game_type == "guess":
-        guess_index = guess_game(guess_index)
+    if game_type == "guess":
+        print str(len(tagged_data)) + " tagged sentences were used to train the classifier."
+        print "The classifier has never seen any of the following sentences before."
+        print "The machine has learnt what a diagnostic sentence is."
+        print ""
+
+    while True:
+        if game_type == "input":
+            input_game()
+        elif game_type == "guess":
+            guess_index = guess_game(guess_index)
