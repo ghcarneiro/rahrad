@@ -5,7 +5,10 @@
 <div class="row container" style="max-width: 600px; margin: 0 auto">
   <%= render "nav" %>
   <% @l1.each do |l| %>
-    <% @enddx = EndDx.where(:l1_name => l.name, :category => "1") %>
+    <% params[:l1_name] = l.name %>
+    <% params[:year_level] = current_user.year_of_training %>
+    <% @enddx = EndDx.dxable_search2a(params[:l1_name], params[:year_level]) %>
+    <% if @enddx.present? %>
     <% @excellent = 0 %>
     <% @good = 0 %>
     <% @incorrect = 0 %>
@@ -45,6 +48,7 @@
       <% if @excellent !=0 %><%= sprintf('%.2f', @excellent) %>% excellent, <% end %><% if @good !=0 %><%= sprintf('%.2f', @good) %>% good, <% end %><% if @incorrect !=0 %><%= sprintf('%.2f', @incorrect) %>% needs more work, <% end %><%= sprintf('%.2f', @notseen) %>% not seen
     </div>
   </div>
+<% end %>
 <% end %>
 		<p></p><p><a href="#top">Click here to go back to top</a></p>
 </div>

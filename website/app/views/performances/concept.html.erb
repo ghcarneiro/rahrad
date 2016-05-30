@@ -1,161 +1,83 @@
 <% content_for :for_head do %>
-	<title>Performance Data</title>	
-<style>
-
-#mainpage {
-	width: 1200px;
-	margin: 0 auto;
-}
-
-#reports {
-	width: 600px;
-	text-align: left;
-	align: center;
-}
-</style>
+  <title>Performance Data</title>	
 <% end %>
-<script>
-$(document).ready(function(){
-    $.ajaxSetup({ cache: false });
-    $(document).on('click', '.dx-toggle', function(){
-	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
-       	 	$(this).children('span').removeClass('glyphicon-menu-right');
-       		$(this).children('span').addClass('glyphicon-menu-down');
-    	}
-	else {
-       	 	$(this).children('span').removeClass('glyphicon-menu-down');
-       		$(this).children('span').addClass('glyphicon-menu-right');
-	}
+<script src="/concept.js"></script>
 
-	if ($(this).next().hasClass('subdata')) {
-        	$(this).next().slideToggle();
-	}
-	else {
-		var level = $(this).attr("id");
-        	// Get data from model
-		$.ajax({
-  			type:"GET",
-  			url:"data",
-  			dataType:"html",
-  			data: {l: level},
-  			success: function(data){
-    				$("#" + level).after(data);
-  			}
-		});
-	}
-    }); 
-    $(document).on('mouseenter mouseleave', '.endDx', function(){
-	$(this).next().stop().slideToggle();
-    });
-
-    $(document).on('click', '.add', function(){
-		var id = $(this).attr("id");
-		var $this = $(this)
-        	// Get data from model
-		$.ajax({
-  			type:"GET",
-  			url:"add",
-  			dataType:"html",
-  			data: {c: id},
-  			success: function(data) {
-				$this.removeClass('add');
-				$this.addClass('remove');
-				$this.html(data);
-			}
-		});
-
-    }); 
-    $(document).on('click', '.remove', function(){
-		var id = $(this).attr("id");
-		var $this = $(this)
-        	// Get data from model
-		$.ajax({
-  			type:"GET",
-  			url:"remove",
-  			dataType:"html",
-  			data: {c: id},
-  			success: function(data) {
-				$this.removeClass('remove');
-				$this.addClass('add');
-				$this.html(data);
-			}
-		});
-
-    }); 
-});
-</script>
 <a href="top"></a>
 <div class="row container" style="max-width: 600px; margin: 0 auto">
-<%= render "nav" %>
-<p></p>
-<b>Key:</b>
-<%= image_tag("grey.gif", width: "15px", height: "15px") %> No cases attempted yet 
-<span width="20"></span>
-<%= image_tag("green.gif", width: "15px", height: "15px") %> Excellent 
-<span width="20"></span>
-<%= image_tag("yellow.gif", width: "15px", height: "15px") %> Good 
-<span width="20"></span>
-<%= image_tag("red.gif", width: "15px", height: "15px") %> Needs more work 
-<div style="margin-top: 10px">
-<span class="glyphicon glyphicon-ok"></span> Diagnosis in review list 
-<div class="well well-sm" style="margin-top: 10px">
-<i>Clicking on the coloured box to the left of a diagnosis will change its status in the review list- if it is currently in the review list it will be removed, and if it is not in the review list it will be added.</i>
-</div>
-</div>
-<% @dxlevel1s.each do |d1| %>
-<table class="table" style="max-width: 600px; text-align: left; margin: 0 auto">
-  <tr>
-  <td>
-<% @ldx = LearnerLevel1.where(:dx_level1_id => d1.id).where(:user_id => current_user.id).first %>
-  <% if (@ldx.nil?) or (@ldx.cases_attempted == 0) %>    
-  <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
-<% else %>
-  <% @correct = @ldx.correct_dx/@ldx.cases_attempted*1.00 %>
-  <% @excellent = @ldx.excellent_cases/@ldx.cases_attempted*1.00 %>
-  <% if @excellent > 0.5 %>
-    <%= image_tag("green.gif", width: "15px", height: "15px") %>  
-  <% elsif @correct > 0.5 %>
-    <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
-  <% else %>
-    <%= image_tag("red.gif", width: "15px", height: "15px") %> 
-  <% end %>
-<% end %>
-<% @id = "l1_" + d1.id.to_s %>
-  <%= content_tag :span, id: @id, class: "dx-toggle" do-%>
-  <%= d1.name %>  <%= content_tag :span, "", class: "glyphicon glyphicon-menu-right" %>
-  <% end %>
-  </td>
-  </tr>
-</table>
-<% end %>
-<p></p>
-<a href="#top">Back to top</a>
-</div>
 
-<table style="height: 30px"><tr><td></td></tr></table>
+  <%= render "nav" %>
+  <p></p>
+  <b>Key:</b>
+  <%= image_tag("grey.gif", width: "15px", height: "15px") %> No cases attempted yet 
+  <span width="20"></span>
+  <%= image_tag("green.gif", width: "15px", height: "15px") %> Excellent 
+  <span width="20"></span>
+  <%= image_tag("yellow.gif", width: "15px", height: "15px") %> Good 
+  <span width="20"></span>
+  <%= image_tag("red.gif", width: "15px", height: "15px") %> Needs more work
 
-  <!-- Modal -->
-  <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="thing">Report review</h4>
-        </div>
-        <div class="modal-body">
-          <table><tr>
-	<td width="300">
-	IMAGE HERE
-	</td>
-	<td>
-<h4>Report corrections</h4>
-CT ABDOMEN & PELVIS - PLAIN L3  CLINICAL: SECOND EPISODE OF RENAL COLIC.  NON CONTRAST CT OF THE RENAL TRACT HAS BEEN PERFORMED. MILD RIGHT SIDED HYDRONEPHROSIS EXTENDING DOWN TO AND OBSTRUCTING CALCULUS AT SOME 4 TO 5CM PROXIMAL TO THE RIGHT VUJ AND IS APPROXIMATELY 5MM IN LENGTH. RETICULATION CAN BE SEEN OF THE RIGHT PERINEPHRIC SPACE  EXTENDING INFERIORLY TO THE L4/5 LEVEL. THIS MOST LIKELY REPRESENTS FLUID IN THE RIGHT PERINEPHRIC SPACE. SMALL FOCI OF CALCIFICATION CAN BE SEEN IN THE RIGHT MID POLE, RIGHT LOWER POLE AND LEFT LOWER POLE. BOTH KIDNEYS ARE IRREGULAR IN OUTLINE. PREVIOUS CHOLECYSTECTOMY IS NOTED.  COMMENT: 5MM OBSTRUCTING CALCULUS AT THE RIGHT PELVIC URETER RESULTING IN MILD RIGHT HYDRONEPHROSIS.
-	</td></tr></table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
+  <div style="margin-top: 10px">
+    <span class="glyphicon glyphicon-ok"></span> Diagnosis in review list 
+    <div class="well well-sm" style="margin-top: 10px">
+      <i>Clicking on the coloured box to the left of a diagnosis will change its status in the review list- if it is currently in the review list it will be removed, and if it is not in the review list it will be added.</i>
     </div>
   </div>
 
+  <% @dxlevel1s.each do |d1| %>
+    <!-- Check if there are relevant diagnoses in that category- breast category will not be displayed if only key diagnoses are counted -->
+    <% params[:l1_name] = d1.name %>
+    <% params[:year_level] = current_user.year_of_training %>
+    <% @enddx = EndDx.dxable_search2a(params[:l1_name], params[:year_level]) %>
 
+    <% if @enddx.present? %>  
+      <table class="table" style="max-width: 600px; text-align: left; margin: 0 auto">
+        <tr>
+          <td>
+            <% @excellent = 0 %>
+            <% @good = 0 %>
+            <% @total = 0 %>
+
+            <!-- Calculate performance in that category -->
+            <% @enddx.each do |e| %>
+              <% @ldx = LearnerDx.where(:end_dx_id => e.id, :user_id => current_user.id).first %>
+
+              <% if @ldx.present? %>
+                <% @excellent += @ldx.excellent_cases %>
+                <% @good += @ldx.excellent_cases %>
+                <% @good += @ldx.correct_dx %>
+	        <% @total += @ldx.cases_attempted %>
+              <% end %>
+            <% end %>
+
+            <!-- Assign appropriate colour box -->
+            <% if @total == 0 %>
+              <%= image_tag("grey.gif", width: "15px", height: "15px") %> 
+            <% else %>
+              <% @good = @good/@total*1.00 %>
+              <% @excellent = @excellent/@total*1.00 %>
+
+              <% if @excellent > 0.5 %>
+                <%= image_tag("green.gif", width: "15px", height: "15px") %>  
+              <% elsif @good > 0.5 %>
+                <%= image_tag("yellow.gif", width: "15px", height: "15px") %> 
+              <% else %>
+                <%= image_tag("red.gif", width: "15px", height: "15px") %> 
+              <% end %>
+            <% end %>
+
+            <!-- Dropdown link -->
+            <% @id = "l1_" + d1.id.to_s %>
+            <%= content_tag :span, id: @id, class: "dx-toggle" do-%>
+              <%= d1.name %>  <%= content_tag :span, "", class: "glyphicon glyphicon-menu-right" %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  <% end %>
+
+  <p></p>
+  <a href="#top">Back to top</a>
+</div>
+<p></p>

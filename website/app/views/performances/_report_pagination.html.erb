@@ -1,0 +1,40 @@
+<!-- Pagination -->
+<table style="width: 100%; margin: 0 auto">
+<tr>
+<td>
+<% if @offset != 0 %>
+  <ul class="pager">
+  <li><%= link_to "Next", report_hx_performances_path(:count => (@pageno - @offset + 1)) %></li>
+  </ul>
+<% else %>
+ <ul class="pager">
+  <li class="disabled"><a href="#">Next</a></li>
+</ul>
+<% end %>
+</td>
+<td>
+<ul class="pagination">
+<% @count = @pageno %>
+<% @pageno.times do %>
+<% if @count != (@pageno - @offset) %>
+    <li><%= link_to @count, report_hx_performances_path(:count => @count)%></li>
+<% else %>
+    <li class="active"><a href="#"><%= @count %></a></li>
+<% end %>
+<% @count = @count - 1 %>
+<% end %>
+</ul>
+</td>
+<td>
+<% if (@pageno - @offset) != 1 %>
+  <ul class="pager">
+<li><%= link_to "Previous", report_hx_performances_path(:count => (@pageno - @offset - 1))%></li>
+</ul>
+<% else %>
+  <ul class="pager">
+   <li class="disabled"><a href="#">Previous</a></li>
+</ul>
+<% end %>
+</td>
+</tr>
+</table>

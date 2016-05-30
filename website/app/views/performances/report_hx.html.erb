@@ -53,6 +53,7 @@ You haven't written any reports yet! <%= link_to "Click here", index_problems_pa
 <label class="checkbox-inline 2"><input type="checkbox" value="" checked>Category 2</label>
 <label class="checkbox-inline 3"><input type="checkbox" value="" checked>Category 3</label>
 </p>
+<%= render "report_pagination" %>
 <table class="table">
 <tr>
 <td>
@@ -107,7 +108,7 @@ Key
 <%= r.learner_dx.name %> 
 </td>
 <td>
-<%= r.created_at %>
+<%= localize(r.created_at, :format => :long) %>
 </td>
 <td>
 <% if r.diagnosis_found == true %>
@@ -126,49 +127,22 @@ No
 <%= r.correct_sentences.length %>	
 </td>
 <td>
-<%= link_to "Compare report with original", report_hx_performances_path(:id => r.id) %>
+<%= link_to "Compare report with original", report_hx_performances_path(:id => r.id, :count => params[:count], :report => (@length - (@offset*10))) %>
 <% @length -= 1 %>
 </td>
 <% end %>
 <% end %>
 </table>
-<table>
-<tr>
-<td>
-<% if @offset != 0 %>
-    <%= link_to "Next", report_hx_performances_path(:count => (@pageno - @offset + 1))%>
-<% else %>
-    -Next-
-<% end %>
-</td>
-<td>
-Page: 
-<% @count = @pageno %>
-<% @pageno.times do %>
-<% if @count != (@pageno - @offset) %>
-    <%= link_to @count, report_hx_performances_path(:count => @count)%>
-<% else %>
-    <%= @count %>
-<% end %>
-<% @count = @count - 1 %>
-<% end %>
-</td>
-<td>
-<% if (@pageno - @offset) != 1 %>
-<%= link_to "Previous", report_hx_performances_path(:count => (@pageno - @offset - 1))%>
-<% else %>
-    -Previous-
-<% end %>
-</td>
-</tr>
-</table>
+
+<%= render "report_pagination" %>
+
 <% if params[:id].present? %>
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog">
       <div class="modal-content">
  <div class="modal-header row">
-          <h4 class="modal-title" id="thing">Report review</h4>
-	  Date: <%= @currentreport.created_at %>
+          <h4 class="modal-title" id="thing">Report #<%= params[:report] %></h4>
+	  Date: <%= localize(@currentreport.created_at, :format => :long) %>
         </div>
         <div class="modal-body row" style="width:100%">
 	<div class="col-md-6">

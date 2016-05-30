@@ -61,12 +61,17 @@ $(document).ready(function(){
 });
 
 </script>
-
+<a href="top"></a>
 <div class="row container" style="max-width: 650px; margin: 0 auto">
 <%= render "nav" %>
 <span style="color: white">a</span>
 <div class="well well-sm">
-<b>View top 5 based on:</b> Percentage of diagnoses missed | <%= link_to "Number of incorrect reports", missed_dx_performances_path(:type => "number") %>
+<b>View top 5 based on:</b> 
+<% if params[:type].present? %>
+<%= link_to "Percentage of diagnoses missed", missed_dx_performances_path %> | Number of incorrect reports
+<% else %>
+Percentage of diagnoses missed | <%= link_to "Number of incorrect reports", missed_dx_performances_path(:type => "number") %>
+<% end %>
 </div>
 <% @count = 1 %>
 <% @missed.each do |m| %>
@@ -139,9 +144,8 @@ $(document).ready(function(){
 <% @count = @count + 1 %>
 <% end %>
 
-
+<p></p><p><a href="#top">Click here to go back to top</a></p>
 </div>
-<p></p>
 
 <% if params[:id].present? %>
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

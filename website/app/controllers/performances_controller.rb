@@ -109,13 +109,14 @@ end
 
 #Retrieve data for concept hierarchy
 def data
-
+	    # Split received parameter
 	    @s = params[:l].split("_")
 	    @level = @s[0]
 	    @id = @s[1]
 	    params[:search_id] = @id.to_i
 	    params[:year_level] = current_user.year_of_training
 	    @isend = 0
+
 	    if @level == "l1"
 		@next = DxLevel2.where(:dx_level1_id => @id.to_i)
 		params[:search_type] = "DxLevel1"
@@ -131,50 +132,108 @@ def data
 		params[:search_type] = "DxLevel3"
 	    	@next = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 	    end
+
 	    @html= "<div class='subdata' style='margin-left: 50px'>"
 	    @next.each do |n|
-		@html = @html + "<table><tr><td>"
 
 		# Retrieve data from learner model
 	    	if @level == "l1"
+		    params[:l2_name] = n.name
+		    @checkdx = EndDx.dxable_search2b(params[:l2_name], params[:year_level])
+		    if !@checkdx.blank?
+			@excellent = 0
+            		@good = 0
+            		@total = 0
+
+			@checkdx.each do |c|
+            		    #Calculate performance in that category
+              		    @c_ldx = LearnerDx.where(:end_dx_id => c.id, :user_id => current_user.id).first
+
+              		    if @c_ldx.present?
+                		@excellent += @c_ldx.excellent_cases
+               			@good += @c_ldx.excellent_cases
+               			@good += @c_ldx.correct_dx
+	       			@total += @c_ldx.cases_attempted
+              		    end
+			end
+
+			if @total != 0
+             		   @good = @good/@total.to_f
+             		    @excellent = @excellent/@total.to_f
+			end
+		    end
 		    @ldx = LearnerLevel2.where(:dx_level2_id => n.id).where(:user_id => current_user.id).first
 		    @i = "l2_" + n.id.to_s
 		elsif @level == "l2"
 		    if @isend == 1
 		    	@ldx = LearnerDx.where(:end_dx_id => n.id).where(:user_id => current_user.id).first
 		        @i = "e_" + n.id.to_s
+			@checkdx = EndDx.where(:id => n.id).first
 		    else
+		        params[:l2_name] = n.dx_level2.name
+		        params[:l3_name] = n.name
+		        @checkdx = EndDx.dxable_search2c(params[:l2_name], params[:l3_name], params[:year_level])
+		    if !@checkdx.blank?
+			@excellent = 0
+            		@good = 0
+            		@total = 0
+
+			@checkdx.each do |c|
+
+            		    #Calculate performance in that category
+              		    @c_ldx = LearnerDx.where(:end_dx_id => c.id, :user_id => current_user.id).first
+
+              		    if @c_ldx.present?
+                		@excellent += @c_ldx.excellent_cases
+               			@good += @c_ldx.excellent_cases
+               			@good += @c_ldx.correct_dx
+	       			@total += @c_ldx.cases_attempted
+              		    end
+			end
+
+			if @total != 0
+             		   @good = @good/@total.to_f
+             		   @excellent = @excellent/@total.to_f
+			end
+		    end
 			@ldx = LearnerLevel3.where(:dx_level3_id => n.id).where(:user_id => current_user.id).first
 		    	@i = "l3_" + n.id.to_s
 		    end
 		elsif @level == "l3"
 			@ldx = LearnerDx.where(:end_dx_id => n.id).where(:user_id => current_user.id).first
 		        @i = "e_" + n.id.to_s
+			@checkdx = EndDx.where(:id => n.id).first
 		end
 
+		# Only display data if there are any relevant diagnoses in the sub-topic
+		if !@checkdx.blank?
+		    @html = @html + "<table><tr><td>"
 
-		if !@i.include?("e_")
-		if (@ldx.nil?) or (@ldx.cases_attempted == 0)
-		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
-		else
-		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
-		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
-			if @excellent > 0.5
-		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' /> "
-			elsif @correct > 0.5
-		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' /> "
+		    if !@i.include?("e_")
+			if (@ldx.nil?) or (@ldx.cases_attempted == 0)
+		   	    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
 			else
-		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
+			    if @total == 0
+				@html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
+			    elsif @excellent > 0.5
+		    	    	@html = @html + "<img src='/assets/green.gif' width='15' height='15' /> "
+			    elsif @good > 0.5
+		    	   	 @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' /> "
+			    else
+		    	  	  @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
+			    end
 			end
-		end
-  	    	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
-		else
-		    if !@ldx.nil?
-		    @meter = @ldx.recent_correct + @ldx.recent_excellent
+  	    	 	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
 		    else
-		    @meter = 0
-		    end
-	      	    @popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
+
+			# Pop-up progress bar for diagnosis
+		   	if !@ldx.nil?
+		   	     @meter = @ldx.recent_correct + @ldx.recent_excellent
+		   	else
+		   	     @meter = 0
+		    	end
+
+	      	    	@popup = '<div style="width: 250px; height: 50px; background-color: white; border: 1px solid #CCCCCC; position: absolute; left: 50%; display: none">
 	        <div class="progress" style="width: 200px; position: relative; left: 20px; top: 10px">
 	          <div class="progress-bar" style="width: ' + (@meter * 100).to_s + '%">
 	          </div>
@@ -182,46 +241,48 @@ def data
 	        <span style="font-size: 10px; position: relative; left: 10px; top: -10px">' + n.name + ': ' + (@meter * 100).to_s + '% correct</span>
 	      </div> '
 		
-		if n.category == "key"
-			@categorytext = ' <strong class="key-strong">Key condition</strong>'
-		elsif n.category == "1"
-			@categorytext=' <strong>Category 1</strong>'
-		elsif n.category == "2"
-			@categorytext = ' <strong>Category 2</strong>'
-		elsif n.category == "3"
-			@categorytext= ' <strong>Category 3</strong>'
-		end
+		   	if n.category == "key"
+			    @categorytext = ' <strong class="key-strong">Key condition</strong>'
+		    	elsif n.category == "1"
+			    @categorytext=' <strong>Category 1</strong>'
+			elsif n.category == "2"
+			    @categorytext = ' <strong>Category 2</strong>'
+			elsif n.category == "3"
+			    @categorytext= ' <strong>Category 3</strong>'
+			end
 
-		if (!@ldx.nil?)
-		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
-		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
-		    if @ldx.review_list == true # Override default set above
-			if @excellent > 0.5
-			    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/green-tick.gif' width='15' height='15'></span> "
-			elsif @correct > 0.5
-			    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/yellow-tick.gif' width='15' height='15'></span> "
-			elsif @ldx.cases_attempted == 0
-			    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/grey-tick.gif' width='15' height='15'></span> "
+			if (!@ldx.nil?)
+		   	    @correct = (@ldx.correct_dx + @ldx.excellent_cases)/@ldx.cases_attempted.to_f
+		   	    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
+
+		    	    if @ldx.review_list == true # Override default set above
+			        if @excellent > 0.5
+			  	    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/green-tick.gif' width='15' height='15'></span> "
+			   	elsif @correct > 0.5
+			    	    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/yellow-tick.gif' width='15' height='15'></span> "
+			    	elsif @ldx.cases_attempted == 0
+			    	    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/grey-tick.gif' width='15' height='15'></span> "
+			    	else
+			   	    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/red-tick.gif' width='15' height='15'></span> "
+			    	end
+		            else
+			   	if @excellent > 0.5
+			    	    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/green.gif' width='15' height='15'></span> "
+			    	elsif @correct > 0.5
+			   	    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/yellow.gif' width='15' height='15'></span> "
+			    	elsif @ldx.cases_attempted == 0
+			   	    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/grey.gif' width='15' height='15'></span> "
+			    	else
+			   	    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/red.gif' width='15' height='15'></span> "
+			    	end
+		   	    end
 			else
-			    @reviewhtml = "<span class='remove' id='" + n.id.to_s + "'><img src='/assets/red-tick.gif' width='15' height='15'></span> "
+		     	    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/grey.gif' width='15' height='15'></span> "
 			end
-		    else
-			if @excellent > 0.5
-			    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/green.gif' width='15' height='15'></span> "
-			elsif @correct > 0.5
-			    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/yellow.gif' width='15' height='15'></span> "
-			elsif @ldx.cases_attempted == 0
-			    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/grey.gif' width='15' height='15'></span> "
-			else
-			    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/red.gif' width='15' height='15'></span> "
-			end
+
+  	    		@html = @html + "<table><tr><td>"  + @reviewhtml + "<span class='endDx'>" + n.name + @categorytext + "</span>" + @popup + "</td></tr></table>"	
 		    end
-		else
-		    @reviewhtml = "<span class='add' id='" + n.id.to_s + "'><img src='/assets/grey.gif' width='15' height='15'></span> "
-		end
-
-  	    	@html = @html + "<table><tr><td>"  + @reviewhtml + "<span class='endDx'>" + n.name + @categorytext + "</span>" + @popup + "</td></tr></table>"	
-		end
+	        end
 	    end
 
 	    # Add key diagnoses if level 1
@@ -245,7 +306,7 @@ def data
 	     	    </div>'
 
 		if (!@ldx.nil?)
-		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
+		    @correct = (@ldx.correct_dx + @ldx.excellent_cases)/@ldx.cases_attempted.to_f
 		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
 		    if @ldx.review_list == true # Override default set above
 			if @excellent > 0.5

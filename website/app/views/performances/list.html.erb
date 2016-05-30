@@ -14,32 +14,34 @@
 }
 </style>
 
-	<!-- <script src="/index_files/chart.js"></script> -->
-
 <% end %>
 	<!-- JQuery library must be loaded before Highcharts code for it to work-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="/index_files/customEvents.js"></script>
 
-<!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
-</div> -->
-
+<a href="top"></a>
 <div class="row container" style="max-width: 800px; margin: 0 auto">
 <%= render "nav" %>
-
 <p>
-<% if @level == 2 %>
-<span style="align: left"><%= link_to "Back", list_performances_path %></span>
 </p>
-<p>
-You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlevel1.name %>
+<span style="color: white">a</span>
+<% if @level != 1 %>
+<div class="well well-sm">
+<% if @level == 2 %>
+You are here: <%= link_to "Body systems", list_performances_path %> -> <%= @dxlevel1.name %>
 <% elsif @level == 3 %>
-<%= link_to "Body systems", list_performances_path %> > <%= link_to @dxlevel1.name, list_performances_path %> > <%= @dxlevel2.name %>
+<% @learner = LearnerLevel1.where(:dx_level1_id => @dxlevel1.id, :user_id => current_user.id).first %>
+You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_to @dxlevel1.name, list_performances_path(:l1 => @learner.id) %> -> <%= @dxlevel2.name %>
 <% elsif @level == 4 and @dxlevel3.nil? %>
-<%= link_to "Body systems", list_performances_path %> > <%= link_to @dxlevel1.name, list_performances_path %> > <%= @dxlevel2.name %>
+<% @learner = LearnerLevel1.where(:dx_level1_id => @dxlevel1.id, :user_id => current_user.id).first %>
+You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_to @dxlevel1.name, list_performances_path(:l1 => @learner.id) %> -> <%= @dxlevel2.name %>
 <% elsif !@dxlevel3.nil? and @level == 4 %>
-<%= link_to "Body systems", list_performances_path %> > <%= link_to @dxlevel1.name, list_performances_path %> > <%= link_to @dxlevel2.name, list_performances_path %> > <%= @dxlevel3.name %>
+<% @learner = LearnerLevel1.where(:dx_level1_id => @dxlevel1.id, :user_id => current_user.id).first %>
+<% @learner2 = LearnerLevel2.where(:dx_level2_id => @dxlevel2.id, :user_id => current_user.id).first %>
+You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_to @dxlevel1.name, list_performances_path(:l1 => @learner.id) %> -> <%= link_to @dxlevel2.name, list_performances_path(:l2 => @learner2.id) %> -> <%= @dxlevel3.name %>
 
+<% end %>
+</div>
 <% end %>
 <p>
 <table class="table">
@@ -143,7 +145,10 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     </td>
     </tr>
     <% end %>
- 
+
+    <!-- Only display key conditions table if there are key conditions for that dx (there are none for breast category) -->
+    <% @check = EndDx.where(:dxable_id => @dxlevel1.id, :dxable_type => "DxLevel1") %>
+    <% if @check.present? %>
     <tr>
     <td></td><td></td><td></td><td></td>
     </tr>
@@ -200,6 +205,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
         <% end %>
     </td>
     </tr>
+    <% end %>
     <% end %>
 <!-- Level 3 diagnoses -->
     <% elsif @level == 3 %>
@@ -287,6 +293,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> > <%= @dxlev
     <% end %>
     <% end %>
 </table>
+		<p></p><p><a href="#top">Click here to go back to top</a></p>
 </div>
 
 
