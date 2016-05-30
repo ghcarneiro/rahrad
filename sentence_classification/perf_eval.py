@@ -1,6 +1,5 @@
 import json
 import sys
-from random import shuffle
 from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
 import pipelines
@@ -41,7 +40,6 @@ if __name__ == "__main__":
         raise ValueError("Unknown tag: " + test_type)
 
     data = data_utils.read_from_csv(data_file)
-    # shuffle(data)
     filtered_data = [x for x in data if getattr(x, tag_attr) != "" and getattr(x, tag_attr) != "u"]
     filtered_data = filtered_data[:2500]  # put a limit on the size for performance
 
@@ -85,13 +83,13 @@ if __name__ == "__main__":
     data_utils.add_curves("Train", y_true_train, y_pos_score_train, 1)
     data_utils.add_curves("Test", y_true_test, y_pos_score_test, 3)
 
-    # print "Failed prediction report:"
-    # for i in xrange(len(test_data)):
-    #     if y_true_test[i] != y_pred_test[i]:
-    #         print test_data[i]
-    #         print "Actual: " + str(y_true_test[i])
-    #         print "Predicted: " + str(y_pred_test[i])
-    #         print "(" + str(1 - y_pos_score_test[i]) + ", " + str(y_pos_score_test[i]) + ")"
-    #         print ""
+    print "Failed prediction report:"
+    for i in xrange(len(test_data)):
+        if y_true_test[i] != y_pred_test[i]:
+            print test_data[i]
+            print "Actual: " + str(y_true_test[i])
+            print "Predicted: " + str(y_pred_test[i])
+            print "(" + str(1 - y_pos_score_test[i]) + ", " + str(y_pos_score_test[i]) + ")"
+            print ""
 
     plt.show()

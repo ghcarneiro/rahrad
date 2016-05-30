@@ -1,12 +1,9 @@
 import csv
-import re
-import sys
 import random
+import sys
 import matplotlib.pyplot as plt
-
 import nltk
-from sklearn.metrics import auc, roc_curve, precision_recall_curve
-from sklearn.metrics import average_precision_score
+from sklearn.metrics import auc, roc_curve, precision_recall_curve, average_precision_score
 
 sys.path.append("..")  # Adds higher directory to python modules path.
 
@@ -55,10 +52,9 @@ def read_from_csv(sentence_file):
             tmp.diag_tag = row[2]
             tmp.sent_tag = row[3]
             tmp.report_id = row[4]
-            tmp.report_class = int(row[5])
+            tmp.report_class = int(row[5])  # report class is dependant on the order in which files are converted to sentences. In future a mapping would be better.
             data.append(tmp)
 
-    # Return the read objects, but cut off the first row which was headers
     return data
 
 
@@ -116,94 +112,6 @@ def generate_sentences_from_raw():
         write_to_csv(output_file, remove_duplicates(generate_sentences(files)))
     else:
         print "Cancelled."
-
-
-def generate_sentence_id_dict():
-    sentence_files = ["./sentence_label_data/CleanedBrainsFull.csv",
-                      "./sentence_label_data/CleanedCTPAFull.csv",
-                      "./sentence_label_data/CleanedPlainabFull.csv",
-                      "./sentence_label_data/CleanedPvabFull.csv"]
-
-    # Dictionary <sentence, report ID>
-    sentence_ids = dict()
-
-    tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-
-    for file_name in sentence_files:
-        with open(file_name, 'rb') as file:
-            file.readline()  # skip header line
-            reader = csv.reader(file)
-            for row in reader:
-                for sentence in tokenizer.tokenize(row[1]):
-                    if sentence not in sentence_ids:
-                        sentence_ids[sentence] = row[0]
-                    else:
-                        sentence_ids[sentence] = sentence_ids[sentence] + "," + row[0]
-
-    return sentence_ids
-
-
-def add_sentence_report_ids(data_file, sentence_id_file='./sentence_label_data/sentence_id_mappings.csv'):
-    csv.field_size_limit(sys.maxsize)
-
-    sentence_ids = dict(csv.reader(open(sentence_id_file, 'rb')))
-    labelled_data = []
-
-    with open(data_file, 'rb') as fin:
-        reader = csv.reader(fin, delimiter=",")
-
-        for row in reader:
-            tmp = SentenceRecord(row[0])
-            tmp.processed_sentence = row[1]
-            tmp.diag_tag = row[2]
-            tmp.sent_tag = row[3]
-            labelled_data.append(tmp)
-
-    # Return the read objects, but cut off the first row which was headers
-    labelled_data = labelled_data[1:]
-
-    # Set as first report ID corresponding to that sentence
-    for row in labelled_data:
-        query = row.sentence.replace('\\n', '')
-        query = query.replace('\n', '')
-        row.report_id = re.search("([0-9a-zA-Z]+)", sentence_ids[query]).group(0)
-
-    write_to_csv(data_file, labelled_data)
-
-
-def generate_sentence_class_dict():
-    sentence_files = ["./sentence_label_data/CleanedBrainsFull.csv",
-                      "./sentence_label_data/CleanedCTPAFull.csv",
-                      "./sentence_label_data/CleanedPlainabFull.csv",
-                      "./sentence_label_data/CleanedPvabFull.csv"]
-
-    # Dictionary <sentence, report ID>
-    sentence_classes = dict()
-
-    tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-
-    for i, file_name in enumerate(sentence_files):
-        with open(file_name, 'rb') as file:
-            file.readline()  # skip header line
-            reader = csv.reader(file)
-            for row in reader:
-                for sentence in tokenizer.tokenize(row[1]):
-                    if sentence not in sentence_classes:
-                        sentence_classes[sentence] = i
-
-    return sentence_classes
-
-
-def add_sentence_report_class(data, sentence_class_dict):
-    csv.field_size_limit(sys.maxsize)
-
-       # Set as first report ID corresponding to that sentence
-    for row in data:
-        # query = row.sentence.replace('\\n', '')
-        # query = query.replace('\n', '')
-        row.report_class = sentence_class_dict[row.sentence]
-
-    return data
 
 
 def split_data(data, labels, report_ids, split=0.5, shuffle_items=True):

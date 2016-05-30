@@ -16,7 +16,6 @@ if __name__ == "__main__":
 
     train_data, train_labels, test_data, test_labels = data_utils.split_data(data, labels, report_ids, split=0.7)
 
-    #
     parameters = {'lsi__n_components': [100],
                   'classifier__n_estimators': [1000],
                   'classifier__max_depth': [5, 10],
