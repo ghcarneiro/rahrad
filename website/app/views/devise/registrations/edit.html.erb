@@ -1,33 +1,88 @@
+<% content_for :for_head do %>
+	<title>CRISTAL: Edit profile</title>
+<% end %>
+
 <div style="padding: 10px">
-<div style="border: 5px solid #99CCFF; border-radius: 25px; width: 500px; margin: 0 auto;">
+<div style="border: 0px; margin: 0 auto;">
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <h2>Edit <%= resource_name.to_s.humanize %></h2>
-    <%= devise_error_messages! %>
+<% if !resource.errors.empty? %>
+<span style="color: red">ERROR: 
+<%= resource.errors.count %>
+<% if resource.errors.count == 1 %>
+ error
+<% else %>
+ errors
+<% end %>
+ detected. <br /> Please correct
+<% if resource.errors.count == 1 %>
+ it
+<% else %>
+ them
+<% end %>
+before resubmitting the form.</span>
+<% end %>
 
-    <div class="field" style="padding-top: 5px;">
-      <%= f.email_field :email, autofocus: true, :placeholder => 'Email address', style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+    <div class="field" style="padding-top: 5px">
+      <% if !resource.errors.empty? and devise_error_messages![:current_password].present? %> 
+        <% devise_error_messages![:current_password].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** Current password <%= e %> **</span>
+          <br />
+        <% end %>
+        <%= f.password_field :current_password, :placeholder => 'Current password (required)', autocomplete: "off", style: "padding: 10px; border: 1px solid red; background-color: #FFC8C9; border-radius: 3px; width: 350px;" %>
+      <% else %>
+        <%= f.password_field :current_password, :placeholder => 'Current password (required)', autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
+      <% end %>
     </div>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-    <% end %>
-
-    <div class="field" style="padding-top: 5px;">
-      <%= f.password_field :password, :placeholder => 'Password' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+    <div class="field" style="padding-top: 5px">
+      <% if !resource.errors.empty? and devise_error_messages![:password].present? %> 
+        <% devise_error_messages![:password].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** New password <%= e %> **</span>
+          <br />
+        <% end %>
+        <%= f.password_field :password, :placeholder => 'New password (minimum 8 characters)', autocomplete: "off", style: "padding: 10px; border: 1px solid red; background-color: #FFC8C9; border-radius: 3px; width: 350px;" %>
+      <% else %>
+        <%= f.password_field :password, :placeholder => 'New password (minimum 8 characters)', autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
+      <% end %>
     </div>
 
-    <div class="field" style="padding-top: 5px;">
-      <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+    <div class="field" style="padding-top: 5px">
+      <% if !resource.errors.empty? and devise_error_messages![:password_confirmation].present? %> 
+        <% devise_error_messages![:password_confirmation].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** Password confirmation <%= e %> **</span>
+          <br />
+        <% end %>
+        <%= f.password_field :password_confirmation, :placeholder => 'Confirm new password', autocomplete: "off", style: "padding: 10px; border: 1px solid red; background-color: #FFC8C9; border-radius: 3px; width: 350px;" %>
+      <% else %>
+        <%= f.password_field :password_confirmation, :placeholder => 'Confirm new password', autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 350px;" %>
+      <% end %>
     </div>
 
-  <div class="field" style="padding-top: 5px;">
-   Year of training: <%= f.select :year_of_training, [['1','1'],['2','2'],['3','3'],['4','4'],['5','5']] %>
-  </div>
-
-    <div class="field" style="padding-top: 5px;">
-    <%= f.password_field :current_password, :placeholder => 'current password' , autocomplete: "off", style: "padding: 10px; border: 1px solid #99CCFF; border-radius: 3px; width: 100%;" %>
+    <div style="padding-top: 5px">
     </div>
+
+      <% if !resource.errors.empty? and devise_error_messages![:year_of_training].present? %> 
+        <% devise_error_messages![:year_of_training].each do |e| %>
+          <span width="100%" style="color: red; font-weight: bold">** Year of training <%= e %> **</span>
+        <% end %>
+        <div class="field" style="margin: 0 auto; border: 1px solid red; background-color: #FFC8C9; padding: 10px; border-radius: 3px; width: 350px">
+      <% else %>
+        <div class="field" style="margin: 0 auto; border: 1px solid #99CCFF; padding: 10px; border-radius: 3px; width: 350px; background-color: #f5f5f5">
+      <% end %>
+      <span style="padding-right: 10px">Year of training:</span>
+      <%= f.radio_button :year_of_training, "1" %>
+      <%= label :year_of_training, "1" %>
+      <%= f.radio_button :year_of_training, "2" %>
+      <%= label :year_of_training, "2" %>
+      <%= f.radio_button :year_of_training, "3" %>
+      <%= label :year_of_training, "3" %>
+      <%= f.radio_button :year_of_training, "4" %>
+      <%= label :year_of_training, "4" %>
+      <%= f.radio_button :year_of_training, "5" %>
+      <%= label :year_of_training, "5" %>
+      </div>
 
     <div class="actions" style="padding-top: 10px">
       <%= f.submit "Update", style: "border: 1px solid #99CCFF; background-color: #99CCFF; border-radius: 3px; width: 100px; padding: 10px" %>
@@ -39,7 +94,7 @@
 
     <div style="padding: 0px"></div>
 
-    <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, style: "padding: 10px" %>
+    <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure? This will PERMANENTLY delete all of your progress from the system." }, method: :delete, style: "padding: 10px" %>
 
   <div style="padding: 10px"></div>
 

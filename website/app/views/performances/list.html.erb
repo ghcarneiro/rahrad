@@ -22,9 +22,8 @@
 <a href="top"></a>
 <div class="row container" style="max-width: 800px; margin: 0 auto">
 <%= render "nav" %>
-<p>
-</p>
-<span style="color: white">a</span>
+<div class="col-md-12">
+<p></p>
 <% if @level != 1 %>
 <div class="well well-sm">
 <% if @level == 2 %>
@@ -43,7 +42,6 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
 <% end %>
 </div>
 <% end %>
-<p>
 <table class="table">
     <tr>
     <td style="width: 190px">
@@ -293,6 +291,7 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
     <% end %>
     <% end %>
 </table>
+</div>
 		<p></p><p><a href="#top">Click here to go back to top</a></p>
 </div>
 

@@ -64,7 +64,8 @@ $(document).ready(function(){
 <a href="top"></a>
 <div class="row container" style="max-width: 650px; margin: 0 auto">
 <%= render "nav" %>
-<span style="color: white">a</span>
+<div class="col-md-12">
+<p></p>
 <div class="well well-sm">
 <b>View top 5 based on:</b> 
 <% if params[:type].present? %>
@@ -143,7 +144,7 @@ Percentage of diagnoses missed | <%= link_to "Number of incorrect reports", miss
 <hr>
 <% @count = @count + 1 %>
 <% end %>
-
+</div>
 <p></p><p><a href="#top">Click here to go back to top</a></p>
 </div>
 

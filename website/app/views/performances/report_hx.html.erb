@@ -23,7 +23,9 @@ $(document).ready(function() {
 
     }); 
     $('#modal-window').modal('show');
-    $(document).on('click', 'input', function(){
+
+    // Old code - for showing/hiding categories
+    /** $(document).on('click', 'input', function(){
         if ($(this).parent().hasClass("checkbox-inline keydx")) {
             $('.report-key').slideToggle();
         }
@@ -36,7 +38,7 @@ $(document).ready(function() {
         else if ($(this).parent().hasClass("checkbox-inline 3")) {
             $('.report-3').slideToggle();
         }
-    });
+    }); **/
 });
 
 
@@ -47,12 +49,12 @@ $(document).ready(function() {
 You haven't written any reports yet! <%= link_to "Click here", index_problems_path %> to start writing some.
 <% else %>
 <p></p>
-<p>
+<!-- Check which categories you want to view/hide <p>
 <label class="checkbox-inline keydx"><input type="checkbox" value="" checked>Key diagnoses</label>
 <label class="checkbox-inline 1"><input type="checkbox" value="" checked>Category 1</label>
 <label class="checkbox-inline 2"><input type="checkbox" value="" checked>Category 2</label>
 <label class="checkbox-inline 3"><input type="checkbox" value="" checked>Category 3</label>
-</p>
+</p> -->
 <%= render "report_pagination" %>
 <table class="table">
 <tr>

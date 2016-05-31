@@ -2,6 +2,8 @@
 <%= link_to performances_path do %><span class="glyphicon glyphicon-triangle-left"></span>  Back to Performance dashboard<% end %>
 </div>
 <div class="col-md-12">
+<p><span class="section_title"><h2>Performance data</h2></span></p>
+<!--
 <p><span class="section_title"><h2>
 <% if @pagetype == "misseddx" %>
 Top missed diagnoses
@@ -15,30 +17,30 @@ List
 Report history
 <% end %>
 </h2></span></p>
-
+-->
 <% if @pagetype == "misseddx" %>
-<button type ="button" class ="btn btn-primary disabled btn-sm">Top missed diagnoses</button>
+<button type ="button" class ="btn btn-primary btn-sm">Top missed diagnoses</button>
 <% else %>
-<%= link_to "Top missed diagnoses", missed_dx_performances_path, class: "btn btn-primary btn-sm" %>
+<%= link_to "Top missed diagnoses", missed_dx_performances_path, class: "btn btn-default btn-sm" %>
 <% end %>
 <% if @pagetype == "skillmeters" %>
-<button type ="button" class ="btn btn-primary disabled btn-sm">Skill meters</button>
+<button type ="button" class ="btn btn-primary btn-sm">Skill meters</button>
 <% else %>
-<%= link_to "Skill meters", skillmeters_performances_path, class: "btn btn-primary btn-sm" %> 
+<%= link_to "Skill meters", skillmeters_performances_path, class: "btn btn-default btn-sm" %> 
 <% end %>
 <% if @pagetype == "concept" %>
-<button type ="button" class ="btn btn-primary disabled btn-sm">Concept hierarchy</button>
+<button type ="button" class ="btn btn-primary btn-sm">Concept hierarchy</button>
 <% else %>
-<%= link_to "Concept hierarchy", concept_performances_path, class: "btn btn-primary btn-sm" %> 
+<%= link_to "Concept hierarchy", concept_performances_path, class: "btn btn-default btn-sm" %> 
 <% end %>
 <% if @pagetype == "list" %>
-<button type ="button" class ="btn btn-primary disabled btn-sm">List</button>
+<button type ="button" class ="btn btn-primary btn-sm">List</button>
 <% else %>
-<%= link_to "List", list_performances_path, class: "btn btn-primary btn-sm" %> 
+<%= link_to "List", list_performances_path, class: "btn btn-default btn-sm" %> 
 <% end %>
 <% if @pagetype == "reporthx" %>
-<button type ="button" class ="btn btn-primary disabled btn-sm">Report history</button>
+<button type ="button" class ="btn btn-primary btn-sm">Report history</button>
 <% else %>
-<%= link_to "Report history", report_hx_performances_path, class: "btn btn-primary btn-sm" %> 
+<%= link_to "Report history", report_hx_performances_path, class: "btn btn-default btn-sm" %> 
 <% end %>
 </div>
