@@ -13,7 +13,7 @@ This project is split into several Python files with a specific purpose each. Mo
 #### Annotation Interface
 The annotation driver is to provide a more user friendly and safe way to label the data files, ensuring that inputted values are valid. This program also utilises an active learning process to classify unlabelled sentences and serve up the sentences which the classifier is least confident about first, hopefully providing more information gain per label than it would be otherwise.
 
-__annotation_driver.py__
+_annotation_driver.py_
 ```
 USAGE: annotation_driver.py tag_type data_file
     tag_type = string('diagnostic'|'sentiment')
@@ -25,7 +25,7 @@ USAGE: annotation_driver.py tag_type data_file
 #### Automatic Learning
 Automatic learning is the practice of automatically assigning labels to data, where the classifier is sufficiently confident. This file explores this process, it performs a number of passes over the data, training a classifier on each pass and selecting two sentences that it is most confident about in positive and negative tags and are also above a given threshold and applying the tags. It does this process until it has finished all passes and then writes the file. As well as actually applying these most confident tags it also keeps track of most confident tags in other buckets and at the end of the process provides a report of these tags for review. The buckets are (70,80), (80, 90) (90, 100]. 
 
-__automatic_learning.py__
+_automatic_learning.py_
 ```
 USAGE: automatic_learning.py type passes input_file output_file [saved_model]
     type = string('diagnostic'|'sentiment')
@@ -38,7 +38,7 @@ USAGE: automatic_learning.py type passes input_file output_file [saved_model]
         File to write the resulting data to 
     saved_model = string
         File that contains the model parameters to be loaded into the pipeline.
-        default - count_lsi_random_forest pipeline will be used
+        default - count_lsi_random_forest pipeline will be used with default parameters
 ```
 
 #### Model Generation
@@ -54,7 +54,7 @@ USAGE: model_generation.py input_file output_model_file
 #### Performance Evaluation
 This driver facilitates testing a given model, or a default model. If a model is supplied, loads the parameters, otherwise default parameters are used. Splits data into training and testing sets, trains the model and evaluates the test set. Outputs a classification report as well as graphs of Recevier Operating Characteristics and Precision Recall for both training and testing.
 
-__perf_eval.py__
+_perf_eval.py_
 ```
 USAGE: perf_eval.py type split_value data_file [saved_model]
     type = string('diagnostic'|'sentiment')
@@ -65,13 +65,13 @@ USAGE: perf_eval.py type split_value data_file [saved_model]
         File that the data will be read from
     saved_model = string
         File that contains the model parameters to be loaded into the pipeline.
-        default - count_lsi_random_forest pipeline will be used
+        default - count_lsi_random_forest pipeline will be used with default parameters
 ```
 ### Helpers
 See `data_utils.py` and `pipelines.py` for helper function documentation.
 
 #### Data class
-This is the class that defines the structure of the report sentence object that are passed around, serialized and deserialized extensively throughout the project, contained in `data_utils.py`
+This is the class that defines the structure of the report sentence objects that are passed around, serialized and deserialized extensively throughout the project, contained in `data_utils.py`
 ```python
 class SentenceRecord(object):
     def __init__(self, sentence):
@@ -91,7 +91,7 @@ Data should be placed in a sub directory called `sentence_label_data` to keep it
 ##### Core Data Files
 The data that this project works with is stored in csv format, with each row being a single sentence and the columns being:
 ```
-    sentence,processed sentence,diagnostic label,sentiment label,report id, report class
+    sentence,processed sentence,diagnostic label,sentiment label,report id,report class
 ```
 
 - _sentence_ - Original sentence extracted from the radiology report
@@ -100,7 +100,7 @@ The data that this project works with is stored in csv format, with each row bei
     - Text is converted to lower case
     - Medical words are stemmed
 - _diagnostic label_ - (p)ositive/(n)egative/(u)nsure - Value of the label assigned to this sentence for diagnostic
-- _sentiment label_ - (p)ositive/(n)egative/(u)nsure - Value of the label assigned to this sentence for diagnostic
+- _sentiment label_ - (p)ositive/(n)egative/(u)nsure - Value of the label assigned to this sentence for sentiment
 - _report id_ - ID of the original report that this sentence came from.
 - _report class_ - Class or type of report that this sentence came from.
 

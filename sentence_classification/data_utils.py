@@ -141,7 +141,8 @@ def generate_sentences_from_raw():
                  "./sentence_label_data/CleanedPlainabFull.csv",
                  "./sentence_label_data/CleanedPvabFull.csv"]
 
-        output_file = './sentence_label_data/sentences_ALL.csv'
+        output_file = './sentence_label_data/sentences_generated' \
+                      '.csv'
         write_to_csv(output_file, remove_duplicates(generate_sentences(files)))
     else:
         print "Cancelled."

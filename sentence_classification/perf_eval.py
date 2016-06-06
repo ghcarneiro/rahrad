@@ -48,11 +48,6 @@ if __name__ == "__main__":
     report_ids = [x.report_id for x in filtered_data]
     sentences = [x.processed_sentence for x in filtered_data]
 
-    print "0:" + str(len([x for x in filtered_data if getattr(x, tag_attr) == 0]))
-    print "1:" + str(len([x for x in filtered_data if getattr(x, tag_attr) == 1]))
-    print "2:" + str(len([x for x in filtered_data if getattr(x, tag_attr) == 2]))
-    print "3:" + str(len([x for x in filtered_data if getattr(x, tag_attr) == 3]))
-
     train_data, train_labels, test_data, test_labels = data_utils.split_data(sentences, labels, report_ids, split_value)
 
     # Create transformation pipeline
