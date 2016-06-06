@@ -6,8 +6,9 @@ import pipelines
 import data_utils
 import numpy as np
 
-# change this variable to false to use svm
+# Change this variable to false to use svm
 USE_RF = True
+# Target class for report class classification so that it can be a binary task
 TARGET_CLASS = 3
 
 if __name__ == "__main__":

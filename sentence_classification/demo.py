@@ -1,15 +1,20 @@
 import json
 import sys
-import data_utils
-import numpy as np
-import pipelines
 from random import shuffle
+import numpy as np
+import data_utils
+import pipelines
 
 sys.path.append("..")  # Adds higher directory to python modules path.
 
 import preprocess
 
+
 def input_game():
+    """
+    This game accepts a 'report sentence' from a user and attempts to classify it.
+    :return: None
+    """
     print "Write a sentence to see if the system thinks it's diagnostic:"
     sys.stdout.write("> ")
     ans = sys.stdin.readline()
@@ -29,34 +34,32 @@ def input_game():
             print "[Positive] That output is diagnostic with a confidence of " + str(probs[1])
 
 
-def isint(number):
-    try:
-        val = int(number)
-        return True
-    except ValueError:
-        return False
+def guess_game(index_so_far):
+    """
+    This game presents the user with two sentences and asks them to classify the diagnostic sentence.
+    Says if the user agreed or disagreed with the classifier.
+    :param index_so_far:
+    :return:
+    """
+    lower_sentence = ""
+    lower_probability = 0.0
+    upper_sentence = ""
+    upper_probability = 0.0
 
-
-def guess_game(index):
-    lower_s = ""
-    lower_p = 0.0
-    upper_s = ""
-    upper_p = 0.0
-
-    while lower_s == "" or upper_s == "":
-        current = untagged_data[index]
-        index += 1
+    while lower_sentence == "" or upper_sentence == "":
+        current = untagged_data[index_so_far]
+        index_so_far += 1
 
         probs = pipe.predict_proba([current.processed_sentence])[0]
-        if (probs[0] > 0.70) and probs[0] > lower_p:
-            lower_s = current.sentence
-            lower_p = probs[0]
+        if (probs[0] > 0.70) and probs[0] > lower_probability:
+            lower_sentence = current.sentence
+            lower_probability = probs[0]
 
-        if (probs[1] > 0.70) and probs[1] > upper_p:
-            upper_s = current.sentence
-            upper_p = probs[1]
+        if (probs[1] > 0.70) and probs[1] > upper_probability:
+            upper_sentence = current.sentence
+            upper_probability = probs[1]
 
-    answers = [(lower_s, lower_p, 'n'), (upper_s, upper_p, 'p')]
+    answers = [(lower_sentence, lower_probability, 'n'), (upper_sentence, upper_probability, 'p')]
     shuffle(answers)
     print "Choose which of these two sentences you think is diagnostic:"
     print "\t 1. " + answers[0][0]
@@ -65,7 +68,7 @@ def guess_game(index):
 
     sys.stdout.write("> ")
     ans = sys.stdin.readline()
-    while not isint(ans) or int(ans) < 1 or int(ans) > 2:
+    while not data_utils.isint(ans) or int(ans) < 1 or int(ans) > 2:
         sys.stdout.write("> ")
         ans = sys.stdin.readline()
 
@@ -75,7 +78,7 @@ def guess_game(index):
     else:
         print "Incorrect. The classifier chose opposite to you. Who's right?"
 
-    return index
+    return index_so_far
 
 
 if __name__ == "__main__":
@@ -83,6 +86,7 @@ if __name__ == "__main__":
         print "USAGE: " + sys.argv[0] + " type input_file saved_model\n\t type - (input|guess)"
         sys.exit(1)
 
+    # Read in command line parameters
     game_type = sys.argv[1]
     input_file = sys.argv[2]
     prebuilt_model_file = sys.argv[3]
@@ -115,6 +119,7 @@ if __name__ == "__main__":
         print "The machine has learnt what a diagnostic sentence is."
         print ""
 
+    # Game loop, runs until killed.
     while True:
         if game_type == "input":
             input_game()

@@ -11,6 +11,7 @@ if __name__ == "__main__":
         print usage
         sys.exit(1)
 
+    # Read and interpret command line parameters
     tag_type = sys.argv[1]
     passes = int(float(sys.argv[2]))
     input_file = sys.argv[3]
@@ -29,6 +30,7 @@ if __name__ == "__main__":
     else:
         raise ValueError("Unknown tag: " + tag_type)
 
+    # Read in data file
     data = read_from_csv(input_file)
 
     new_pos = 0
@@ -135,7 +137,7 @@ if __name__ == "__main__":
         print str(new_pos_this_pass) + " new positive tags added this pass"
         print str(new_neg_this_pass) + " new negative tags added this pass"
 
-    # Save the ouput of the automatic learning
+    # Save the output of the automatic learning
     write_to_csv(output_file, data)
 
     print ""

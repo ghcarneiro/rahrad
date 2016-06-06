@@ -1,11 +1,10 @@
-import sys, signal
+import signal
 from random import shuffle
-import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from data_utils import *
-import pipelines
 
-DATA_FILE = './sentence_label_data/sentences_ALL_LukeLabelled.csv'
+import numpy as np
+
+import pipelines
+from data_utils import *
 
 
 # Stop the process being killed accidentally so results aren't lost.
@@ -13,18 +12,26 @@ def signal_handler(signal, frame):
     print "To exit please press CTL+D so the results can be saved."
 
 
-# Control loop for labelling sentences, returns the data list with tags changed
-def label_sentences(sentence_tags, tag, ignore_probs):
+def label_sentences(list_sentence_record, tag_to_label, ignore_probs):
+    """
+    Control loop for labelling sentences. Takes in a list of SentenceRecords and labels each until probability
+     difference threshold is reached, no more data is available or user quits.
+    :param list_sentence_record: List of SentenceRecord objects to collect tags for
+    :param tag_to_label: Which tag type to label (diagnostic/sentiment)
+    :param ignore_probs: If true ignores the probability difference threshold as an exit condition.
+    :return: List of SentenceRecord objects with labels applied.
+    """
     user_exits = False
-    diff = 0
+    probability_difference = 0
 
-    if not isinstance(sentence_tags[0], SentenceRecord):
+    # Ensures that the datatype in the list is SentenceRecord
+    if not isinstance(list_sentence_record[0], SentenceRecord):
         raise ValueError("Expected SentenceRecord")
 
-    for sentence in sentence_tags:
-        if tag == "diagnostic" and sentence.diag_tag == "" and len(sentence.diag_probs) != 0 or ignore_probs:
+    for sentence in list_sentence_record:
+        if tag_to_label == "diagnostic" and sentence.diag_tag == "" and len(sentence.diag_probs) != 0 or ignore_probs:
             if not ignore_probs:
-                diff = abs(sentence.diag_probs[0] - sentence.diag_probs[1])
+                probability_difference = abs(sentence.diag_probs[0] - sentence.diag_probs[1])
             user_exits, ans = get_tags(
                 "Is this sentence DIAGNOSTIC, (p)ositive / (n)egative / (u)nsure?",
                 ["p", "n", "u"],
@@ -33,10 +40,10 @@ def label_sentences(sentence_tags, tag, ignore_probs):
 
             sentence.diag_tag = ans
 
-        elif tag == "sentiment" and sentence.diag_tag == "p" and sentence.sent_tag == "" and len(
+        elif tag_to_label == "sentiment" and sentence.diag_tag == "p" and sentence.sent_tag == "" and len(
                 sentence.sent_probs) != 0 or ignore_probs:
             if not ignore_probs:
-                diff = abs(sentence.sent_probs[0] - sentence.sent_probs[1])
+                probability_difference = abs(sentence.sent_probs[0] - sentence.sent_probs[1])
             user_exits, ans = get_tags(
                 "Is the diagnostic OUTCOME (p)ositive / (n)egative / (u)nsure?",
                 ["p", "n", "u"],
@@ -45,7 +52,7 @@ def label_sentences(sentence_tags, tag, ignore_probs):
 
             sentence.sent_tag = ans
 
-        if not ignore_probs and diff > diff_tolerance:
+        if not ignore_probs and probability_difference > diff_tolerance:
             print "Uncertainty tolerance reached. Rerun to classify more."
             user_exits = True
 
@@ -58,18 +65,25 @@ def label_sentences(sentence_tags, tag, ignore_probs):
         print "Finished tagging! If you were tagging diagnostic, " \
               "change 'diagnostic' to 'sentiment' to tag the second feature."
 
-    return sentence_tags
+    return list_sentence_record
 
 
 # Controls tagging of single sentence
 # Returns whether the user wants to exit and the tag chosen
-def get_tags(prompt, possible_answers, current_row):
+def get_tags(prompt, possible_answers, current_sentence_record):
+    """
+    Controls the tagging of a single sentence, issuing a prompt and looping until exit or acceptable input is received.
+    :param prompt: The question presented to the user.
+    :param possible_answers: List of acceptable answers from the user.
+    :param current_sentence_record: Current SentenceRecord that is being tagged.
+    :return: Tuple containing whether the user chose to exit the application and the tag that was inputted.
+    """
     user_exits = False
 
-    if not isinstance(current_row, SentenceRecord):
+    if not isinstance(current_sentence_record, SentenceRecord):
         raise ValueError("Expected SentenceRecord")
 
-    print "---> " + current_row.sentence
+    print "---> " + current_sentence_record.sentence
     print prompt
 
     while True:
@@ -94,6 +108,7 @@ def get_tags(prompt, possible_answers, current_row):
     return user_exits, ""
 
 
+# Custom comparison function for diagnostic label probability for two SentenceRecord objects.
 def compare_diag_prob(item1, item2):
     diff1 = 1 if item1.diag_probs == [] else abs(item1.diag_probs[0] - item1.diag_probs[1])
     diff2 = 1 if item2.diag_probs == [] else abs(item2.diag_probs[0] - item2.diag_probs[1])
@@ -106,6 +121,7 @@ def compare_diag_prob(item1, item2):
         return 1
 
 
+# Custom comparison function for sentiment label probability for two SentenceRecord objects.
 def compare_sent_prob(item1, item2):
     diff1 = 1 if item1.sent_probs == [] else abs(item1.sent_probs[0] - item1.sent_probs[1])
     diff2 = 1 if item2.sent_probs == [] else abs(item2.sent_probs[0] - item2.sent_probs[1])
@@ -121,11 +137,12 @@ def compare_sent_prob(item1, item2):
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
 
-    if len(sys.argv) != 2:
-        print "USAGE: " + sys.argv[0] + " (diagnostic|sentiment)"
+    if len(sys.argv) != 3:
+        print "USAGE: " + sys.argv[0] + " (diagnostic|sentiment) data_file"
         sys.exit(1)
 
     tag = sys.argv[1]
+    data_file = sys.argv[2]
 
     if tag == "diagnostic":
         diff_tolerance = 0.15
@@ -143,7 +160,7 @@ if __name__ == "__main__":
     ########################
 
     print "Reading data file"
-    data = read_from_csv(DATA_FILE)
+    data = read_from_csv(data_file)
 
     ########################
     ### Classification   ###
@@ -171,7 +188,7 @@ if __name__ == "__main__":
         pipe = pipelines.get_count_lsi_randomforest()
         pipe.fit(tagged_sentences, labels)
 
-        # Take smaller working set, not need to classify everything
+        # Take smaller working set, no need to classify everything
         working_list = [x for x in data if x not in tagged_sentences]
         if len(working_list) > 300:
             working_list = working_list[0:299]
@@ -180,7 +197,6 @@ if __name__ == "__main__":
         if tag == "diagnostic":
             for row in working_list:
                 row.diag_probs = pipe.predict_proba([row.processed_sentence])[0]
-                # print row.diag_probs
         elif tag == "sentiment":
             for row in working_list:
                 row.sent_probs = pipe.predict_proba([row.processed_sentence])[0]
@@ -201,4 +217,4 @@ if __name__ == "__main__":
 
     print "Saving data"
     shuffle(data)
-    write_to_csv(DATA_FILE, data)
+    write_to_csv(data_file, data)

@@ -19,7 +19,7 @@ USAGE: annotation_driver.py tag_type data_file
     tag_type = string('diagnostic'|'sentiment')
         Selects whether the diagnostic or sentiment labels will be tagged
     data_file = string
-        The data file that the sentences will be read from adn written back to with the respective tags
+        The data file that the sentences will be read from and written back to with the respective tags
 ```
 
 #### Automatic Learning
@@ -27,7 +27,7 @@ Automatic learning is the practice of automatically assigning labels to data, wh
 
 __automatic_learning.py__
 ```
-USAGE: automatic_learning.py type passes input_file output_file
+USAGE: automatic_learning.py type passes input_file output_file [saved_model]
     type = string('diagnostic'|'sentiment')
         Selects whether the diagnostic or sentiment labels will be tagged
     passes = integer
@@ -36,10 +36,21 @@ USAGE: automatic_learning.py type passes input_file output_file
         File that the data will be read from
     output_file = string
         File to write the resulting data to 
+    saved_model = string
+        File that contains the model parameters to be loaded into the pipeline.
+        default - count_lsi_random_forest pipeline will be used
 ```
 
 #### Model Generation
-__In progress__
+Model generation uses a labelled data set to optimise model parameters for it and saves the resulting model to json. The paramters to be evaluated by grid search are defined in the file in a dictionary as is a flag which defines whether random forest or SVM is being evaluated, so modifying this file is necessary to set the search parameters.
+```
+USAGE: model_generation.py input_file output_model_file
+    input_file = string
+        File that the data will be read from
+    output_model_file = string
+        File to write the resulting optimal model to in json format
+```
+
 #### Performance Evaluation
 This driver facilitates testing a given model, or a default model. If a model is supplied, loads the parameters, otherwise default parameters are used. Splits data into training and testing sets, trains the model and evaluates the test set. Outputs a classification report as well as graphs of Recevier Operating Characteristics and Precision Recall for both training and testing.
 
@@ -57,8 +68,10 @@ USAGE: perf_eval.py type split_value data_file [saved_model]
         default - count_lsi_random_forest pipeline will be used
 ```
 ### Helpers
-#### Data Utils
-This file defines functions that generally operate on the data to be used in the driver code.
+See `data_utils.py` and `pipelines.py` for helper function documentation.
+
+#### Data class
+This is the class that defines the structure of the report sentence object that are passed around, serialized and deserialized extensively throughout the project, contained in `data_utils.py`
 ```python
 class SentenceRecord(object):
     def __init__(self, sentence):
@@ -69,121 +82,18 @@ class SentenceRecord(object):
         self.diag_tag = ""              # string
         self.sent_tag = ""              # string
         self.report_id = ""             # string
-```
-Main data class that the sentences are read and written with and passed around.
-
-
-```python
-def write_to_csv(sentence_file, sentence_tags):
-    sentence_file: string
-        File path to write data to
-    sentence_tags: list(SentenceRecord))
-        List of SentenceRecord objects to write to the given filepath.
-    
-    return None
-        Function does not return anything
+        self.report_class = -1          # integer
+        self.feature_vector = []        # list(float)
 ```
 
-```python
-def read_from_csv(sentence_file{string}):
-    sentence_file: string
-        File path to read from.
-
-    return list(SentenceRecord)
-        Returns the list of Sentence Record objects that were read from disk.
-```
-
-```python
-def generate_sentences(data_files):
-    sentence_file: list(string)
-        List of data files containing raw reports to generate sentences from
-
-    return list(SentenceRecord)
-        Returns the list of Sentence Record objects that were generated from the raw data.
-```
-
-```python
-def remove_duplicates(data):
-    data: list(SentenceRecord)
-        Removes all duplicates records where the processed sentences are the same from the given data.
-    
-    return list(SentenceRecord)
-        List of unique sentences
-```
-
-```python
-def strip_labels(data):
-    data: list(SentenceRecord)
-        Removes all duplicates records where the processed sentences are the same from the given data.
-
-    return list(SentenceRecord)
-        Returns the original list with all sent_tags and diag_tags set to ""
-```
-
-```python
-# Subject to change
-def generate_sentences_from_raw():
-
-    return None
-        Doesnt return anything but writes the output file with sentences from all 4 report types generated
-        output_file = './sentence_label_data/sentences_ALL.csv'
-```
-
-```python
-def generate_sentence_id_dict():
-  
-    return dict(string, string)
-        Returns a dictionary mapping from sentence to a list of report IDs
-```
-
-```python
-def add_sentence_report_ids(data_file, sentence_id_file='./sentence_label_data/sentence_id_mappings.csv'):
-    data_file: string
-        file path of data file
-    sentence_id_file: string, default='./sentence_label_data/sentence_id_mappings.csv'
-        file path of serialised dictionary
-    return None
-        writes data back to file with ids added
-```
-
-```python
-def split_data(data, labels, report_ids, split=0.5, shuffle_items=True):
-    data: list(string)
-        each processed sentence in the set to split
-    labels:  list(int)
-        each processed sentence in the set to split
-    report_ids: list(string)
-        each report ID in the set to split
-    split: float default=0.5
-        proportion to make the training set of the data
-    shuffle_items=True
-        whether to shuffle the data to perrform the splits
-
-    return train_data, train_labels, test_data, test_labels - each is list(SentenceRecord)
-        Returns the corresponding list for each section of the split
-```
-#### Pipelines
-Each function returns an sklearn pipeline with the respective components.
-```python
-# CountVectorizer -> LSI -> RandomForest
-def get_count_lsi_randomforest():
-
-# TFIDFVectorizer -> LSI -> RandomForest
-def get_tfidf_lsi_randomforest():
-
-# CountVectorizer -> LSI -> SVM
-def get_count_lsi_SVM():
-
-# TFIDFVectorizer -> LSI -> SVM
-def get_tfidf_lsi_SVM():
-```
 ## [Data](#data-structure)
 Data should be placed in a sub directory called `sentence_label_data` to keep it all in one place.
 ##### Core Data Files
 The data that this project works with is stored in csv format, with each row being a single sentence and the columns being:
 ```
-    sentence,processed sentence,diagnostic label,sentiment label,report id
+    sentence,processed sentence,diagnostic label,sentiment label,report id, report class
 ```
+
 - _sentence_ - Original sentence extracted from the radiology report
 - _processed sentence_ - This is the original sentence after it has undergone preprocessing, this involves:
     - Punctuation, single letter words and stop words are removed
@@ -192,19 +102,13 @@ The data that this project works with is stored in csv format, with each row bei
 - _diagnostic label_ - (p)ositive/(n)egative/(u)nsure - Value of the label assigned to this sentence for diagnostic
 - _sentiment label_ - (p)ositive/(n)egative/(u)nsure - Value of the label assigned to this sentence for diagnostic
 - _report id_ - ID of the original report that this sentence came from.
+- _report class_ - Class or type of report that this sentence came from.
 
-This is the most important datafile in this project.
+This is the most important datafile in this project and each row can be deserialized as a SentenceRecord object as in the `data_utils.read_from_csv` function. 
 ##### Raw report files
-There are also csv files that contain raw reports, the above data files are generated from these reports: The format for these reports is
+There are also csv files that contain raw reports, the above data files are generated from these report. The format for these reports is:
 ```
     report ID, full report
-```
-
-##### Report ID Mappings
-In order to convert pre-report ID data to include report IDs the `generate_sentence_id_dict` and `add_sentence_report_ids` functions can be used.
-The former outputs a dictionary of `sentence => report ID` mappings which can be serialised to save time for future uses. Since it is just a dictionary the format is:
-```
-    sentences, list of report IDs
 ```
 
 Using a database to store this information was considered and would likely be a better solution than simply storing csv files as rarely does the entire dataset need to be in memory at one time, would allow for better structure and more efficient queries.
