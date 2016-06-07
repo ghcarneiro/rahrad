@@ -4,4 +4,5 @@ class StudentReport < ActiveRecord::Base
   belongs_to :user
   serialize :correct_sentences, Array
   serialize :missing_sentences, Array
+  serialize :ignore_sentences, Array
 end

@@ -262,14 +262,99 @@ end
 
 		# SYSTEM SELECT - SYSTEM DECIDES WHAT DIAGNOSES TO SHOW #
 		if params[:system_select]
-			@string = EndDx.where(:id => 2070)
-			@string.each do |n|
-				@select = ExpertReport.where(:end_dx_id => n.id)
-				@select.each do |s|
-					s.learner_info_id = @learnerinfo.id
-					s.save
-				end
+			@dx_array = Array.new
+			@practice_array = Array.new
+
+			# Clear old report array
+			@learnerinfo.report_array.length.times do
+				@learnerinfo.report_array.pop
 			end
+
+			# Get diagnoses
+			@spaced = LearnerDx.spaced.where(:user_id => current_user.id).first
+			@number = 0
+
+			if @spaced.nil?
+				@string = LearnerDx.needs_practice.where(:user_id => current_user.id).limit(5).order("RANDOM()")
+				@number = 5
+			else
+				@string = LearnerDx.needs_practice.where(:user_id => current_user.id).limit(4).order("RANDOM()")
+				@number = 4
+			end
+
+			# Add to array - round 1
+			@string.each do |n|
+				@end = EndDx.where(:id => n.end_dx_id).first
+				@dx_array << @end.id
+				@practice_array << @end.id
+				@number -= 1
+			end
+
+			# Get other dx to fill array if needed
+			@number.times do
+					# Get dx not previously done before
+					@end = EndDx.joins(:learner_dxes).where("learner_dxes.user_id != ?", current_user.id).sample
+					if !@end.nil?
+						@learnerdx = LearnerDx.new
+						@learnerdx.name = @end.name
+						@learnerdx.end_dx_id = @end.id
+						@learnerdx.user_id = current_user.id
+						@learnerdx.cases_attempted = 0
+						@learnerdx.correct_dx = 0
+						@learnerdx.missed_dx = 0
+						@learnerdx.accuracy = 0
+						@learnerdx.excellent_cases = 0
+						@learnerdx.recent_incorrect = 0
+						@learnerdx.recent_correct = 0
+						@learnerdx.recent_excellent = 0
+						@learnerdx.save
+					else
+						# Get any dx
+						@end = EndDx.sample
+					end
+					@dx_array << @end.id
+					@practice_array << @end.id
+					@number -= 1
+			end
+
+
+
+			if @spaced.nil?
+				5.times do
+					@learnerinfo.report_array << @practice_array.shift
+				end
+			else
+				3.times do
+					@learnerinfo.report_array << @practice_array.shift
+				end
+				@end = EndDx.where(:id => @spaced.end_dx_id).first
+				@dx_array << @end.id
+				@learnerinfo.report_array << @end.id
+				@learnerinfo.report_array << @practice_array.shift
+			end
+
+
+			# Add to array - round 2
+			# Make sure fifth and sixth report are not the same
+			@element = @dx_array[-1]
+			until @element != @dx_array[-1] do
+				@element = @dx_array.sample
+			end
+
+			# Add sixth report to array
+			@dx_array.delete_at(@dx_array.index(@element))
+			@learnerinfo.report_array << @element
+
+			# Add last four reports to array
+			4.times do
+				@element = @dx_array.sample
+				@dx_array.delete_at(@dx_array.index(@element))
+				@learnerinfo.report_array << @element
+			end
+
+			@learnerinfo.current_index = 1
+			@learnerinfo.save
+
 		end
 
 		# USER SELECT OR REVIEW LIST DIAGNOSES #

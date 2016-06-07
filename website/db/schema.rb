@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526005903) do
+ActiveRecord::Schema.define(version: 20160607122532) do
 
   create_table "dx_level1s", force: :cascade do |t|
     t.string   "name"
@@ -90,8 +90,10 @@ ActiveRecord::Schema.define(version: 20160526005903) do
     t.integer  "user_id"
     t.integer  "expert_report_id"
     t.boolean  "test"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.text     "report_array",     default: "--- []\n"
+    t.integer  "current_index"
   end
 
   add_index "learner_infos", ["expert_report_id"], name: "index_learner_infos_on_expert_report_id"
