@@ -383,7 +383,7 @@ end
 				@string = EndDx.where(:id => params[:id]).limit(5).order("RANDOM()")
 				@number = 5
 			else
-				@string = LearnerDx.needs_practice.where("user_id LIKE ? AND id != ?", current_user.id, @spaced.id).limit(4).order("RANDOM()")
+				@string = EndDx.where(:id => params[:id]).limit(4).order("RANDOM()")
 				@number = 4
 				@learnerinfo.spaced_dx = @spaced.end_dx_id
 			end
@@ -422,8 +422,10 @@ end
 			# Add to array - round 2
 			# Make sure fifth and sixth report are not the same
 			@element = @learnerinfo.report_array[-1]
-			until @element != @learnerinfo.report_array[-1] do
-				@element = @dx_array.sample
+			if @string.length > 1
+				until @element != @learnerinfo.report_array[-1] do
+					@element = @dx_array.sample
+				end
 			end
 
 			# Add sixth report to array
@@ -442,6 +444,9 @@ end
 			# Get first report
 			@id = @learnerinfo.report_array[@learnerinfo.current_index]
 			@currentreport = ExpertReport.where("end_dx_id LIKE ? AND updated_at < ?", @id, Time.now-3.days).sample
+			if @currentreport.nil?
+				@currentreport = ExpertReport.where("end_dx_id LIKE ?", @id).sample
+			end
 			@learnerinfo.expert_report_id = @currentreport.id
 			@learnerinfo.save
 
@@ -530,7 +535,7 @@ end
 			# FOR TEST CODE ONLY - MOCK DATA   (used for usability testing)
 			###################################################################################
 			else
-				if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252)
+				if GlobalVars::Admin::Test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252)
 					r.correct_sentences << "0"
 					r.correct_sentences << "1"
 					r.correct_sentences << "2"
@@ -547,6 +552,7 @@ end
 					r.diagnosis_found = false
 				end
 
+				@student_sentences = r.report_text.split(".")
 				@percentage = ((r.correct_sentences.length).to_f/(r.correct_sentences.length + r.missing_sentences.length))*100
 				r.score = @percentage
 			end
