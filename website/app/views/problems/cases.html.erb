@@ -3,64 +3,11 @@
 	<title>Search</title>
 	<link href="/index_files/cornerstone.min.css" rel="stylesheet">
 <% end %>
-<script>
-$(document).ready(function(){
-    $(".sentence-toggle").click(function(){
-	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
-       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-right');
-       		$(this).children(':first-child').next().addClass('glyphicon-menu-down');
-		$(this).children(':first-child').text('Hide ');
-    	}
-	else {
-       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-down');
-       		$(this).children(':first-child').next().addClass('glyphicon-menu-right');
-		$(this).children(':first-child').text('View ');
-	}
-
-    $(this).next().slideToggle();
-
-    }); 
-
-    $(document).on('click', '.add-review', function(){
-		var id = $(this).attr("id");
-		var $this = $(this)
-        	// Get data from model
-		$.ajax({
-  			type:"GET",
-  			url:"add",
-  			dataType:"html",
-  			data: {l: id},
-  			success: function(data) {
-				$this.removeClass('add-review');
-				$this.addClass('remove-review');
-				$this.html(data);
-			}
-		});
-
-    }); 
-    $(document).on('click', '.remove-review', function(){
-		var id = $(this).attr("id");
-		var $this = $(this)
-        	// Get data from model
-		$.ajax({
-  			type:"GET",
-  			url:"remove",
-  			dataType:"html",
-  			data: {l: id},
-  			success: function(data) {
-				$this.removeClass('remove-review');
-				$this.addClass('add-review');
-				$this.html(data);
-			}
-		});
-
-    }); 
-
-
-
-});
-
-</script>
+<% if params[:viewreport].present? %>
+<script src="/assets/cases-show.js"></script>
+<% else %>
+<script src="/assets/cases.js"></script>
+<% end %>
 <!-- include the cornerstone library -->
 <script src="/index_files/cornerstone.min.js"></script>
 <script src="/index_files/cornerstoneMath.js"></script>
@@ -75,7 +22,7 @@ $(document).ready(function(){
 <!-- include the cornerstoneWADOImageLoader library -->
 <script src="/index_files/cornerstoneWADOImageLoader.js"></script>
 <div class="row container" style="max-width:1100px; margin: 0 auto">
-		<% if @learnerinfo.current_index <=9 %>
+		<% if (@learnerinfo.current_index <=9) or (params[:q].present?) %>
 		<%= link_to problems_path do %>
 		<div class="col-md-12 back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Case Selection</div>
 		<% end %>
@@ -278,10 +225,10 @@ $(document).ready(function(){
 				<p></p>
 			<!-- Display image to be reported by trainee -->
 			<% else %>
-			<div class="col-md-4" style="text-align: right">
+			<div class="col-md-5" style="text-align: right">
 			  Case number: <%= @learnerinfo.current_index + 1 %>/10
 			</div>
-			<div class="col-md-8" style="text-align: left">
+			<div class="col-md-7" style="text-align: left">
 			  <div class="progress">
   			    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:<%= (@learnerinfo.current_index + 1)*10 %>%"%>
     			      <span class="sr-only"><%= (@learnerinfo.current_index + 1)*10 %>% Complete</span>
@@ -363,8 +310,18 @@ Gross vascular congestion is evident, with interstitial and alveolar opacities n
       				</div>
       <% if @excellent !=0 %><%= @excellent*10 %>% excellent, <% end %><% if @good !=0 %><%= @good*10 %>% good, <% end %><% if @incorrect !=0 %><%= @incorrect*10 %>% needs more work, <% end %><% if @skipped !=0 %><%= @skipped*10 %>% skipped<% end %>
 				</p>
-
-<table class="table" style="width:600px; margin: 0 auto">
+<% if !@skippedlist.blank? %>
+<div class="well well-sm" style="margin-top: 10px; font-style: italic; width: 600px; margin: 0 auto">
+<b>Diagnoses you skipped:</b> 
+<% @count = @skippedlist.length %>
+<% @skippedlist.each do |s| %>
+<%= s.name %> <% if !@attempted_dx.nil? %><% if @attempted_dx.include? s.id %>(1)<% else %>(2)<% end %><% end %><% if @count != 1 %>, <% end %>
+<% @count -= 1 %>
+<% end %>
+</div>
+<% end %>
+<% if !@attempted_dx.blank? %>
+<table class="table" style="width:600px; margin: 0 auto; margin-top: 10px">
 <tr>
 <td>
 <b>Category</b>
@@ -385,7 +342,7 @@ Gross vascular congestion is evident, with interstitial and alveolar opacities n
 <% @totalreports.each do |r| %>
 <% if r.diagnosis_found != true %>
 <% @color = "danger" %>
-<% elsif r.score <= 70 %>
+<% elsif r.score <= GlobalVars::Admin::Excellent %>
 <% @color = "warning" %>
 <% else %>
 <% @color = "success" %>
@@ -418,15 +375,16 @@ No
 <% end %>
 <% end %>
 </table>
+<% end %>
 <p></p>
 				<p>
 				<%= link_to "Keep practising the same diagnoses", cases_problems_path(:continue => true), class: "btn btn-primary" %>
 				</p>
 				<p>
-				<%= link_to "Let the system choose new diagnoses to practise", cases_problems_path(:system_select => true), class: "btn btn-primary" %>
+				<%= link_to "Let the system choose new diagnoses for me to practise", cases_problems_path(:system_select => true), class: "btn btn-primary" %>
 				</p>
 				<p>				
-				<%= link_to "I want to choose new diagnoses to practise", user_select_problems_path, class: "btn btn-primary" %>
+				<%= link_to "Let me choose the diagnoses", user_select_problems_path, class: "btn btn-primary" %>
 				</p>
 				
 			<% end %>
@@ -434,7 +392,7 @@ No
 </div>
 
 <!------- Modal: Compare expert report with trainee report --->
-<% if params[:q].present? %>
+<% if params[:q].present? or params[:viewreport].present? %>
   <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -444,12 +402,14 @@ No
         <div class="modal-body row" style="width:100%">
 	<div class="col-md-6">
 	<h4>Expert's report</h4>
+	<!-- Test code -->
 	<% if GlobalVars::Admin::Test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
 There is cardiomegaly even allowing for the AP projection. 
 There is gross vascular congestion, with interstitial and alveolar opacities on the right. The left lung appears significantly less affected.
 Findings are compatible with pulmonary oedema. 
 <span style="color: red">Recent decubitus positioning may account for the asymmetry. 
 Remaining bones and soft tissues are unremarkable.</span>
+	<!-- end of test code -->
 	<% else %>
 	<% if @expert_sentences.present? %>
 	<% @count = 0 %>

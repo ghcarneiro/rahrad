@@ -65,7 +65,7 @@
     <span class="dropdown-toggle pull-right navtext" data-toggle="dropdown"><span class="glyphicon glyphicon-pencil"></span> Practise <span class="caret"></span></span>
     <ul class="dropdown-menu dropdown-menu-right" style="margin-right: 260px">
 	<li><%= link_to problems_path do-%><span class="glyphicon glyphicon-home"></span> Case selection<% end %></li>
-        <li><%= link_to cases_problems_path do-%><span class="glyphicon glyphicon-pencil"></span> Practise cases<% end %></li>
+        <li><%= link_to cases_problems_path(:system_select => true) do-%><span class="glyphicon glyphicon-pencil"></span> Practise cases<% end %></li>
         <li><%= link_to user_select_problems_path do-%><span class="glyphicon glyphicon-search"></span> Search for cases<% end %></li>
         <li><%= link_to review_list_problems_path do-%><span class="glyphicon glyphicon-list-alt"></span> My review list<% end %></li>
      </ul>

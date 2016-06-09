@@ -20,7 +20,7 @@
 	<script src="/index_files/customEvents.js"></script>
 
 <a href="top"></a>
-<div class="row container" style="max-width: 800px; margin: 0 auto">
+<div class="row container" style="max-width: 820px; margin: 0 auto">
 <%= render "nav" %>
 <div class="col-md-12">
 <p></p>
@@ -64,9 +64,12 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
         <b>Total reports</b>
     </td>
     <td style="width: 130px">
-        <b>Correct diagnoses</b>
+        <b>Missed diagnoses</b>
     </td>
-    <td style="width: 120px">
+    <td style="width: 130px">
+        <b>Good reports</b>
+    </td>
+    <td style="width: 130px">
         <b>Excellent reports</b>
     </td>
     </tr>
@@ -81,6 +84,14 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
     </td>
     <td>
         <%= l.cases_attempted %>
+    </td>
+    <td>
+        <% if l.cases_attempted != 0 %>
+        <% @incorrect = ((l.cases_attempted - (l.correct_dx + l.excellent_cases))/l.cases_attempted.to_f)*100.00 %>
+        <%= sprintf('%.2f', @incorrect) %>%
+        <% else %>
+            -
+        <% end %>
     </td>
     <td>
         <% if l.cases_attempted != 0 %>
@@ -116,6 +127,10 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
             </td>
             <td>
             <% if l.cases_attempted != 0 %>
+                <% @incorrect = ((l.cases_attempted - (l.correct_dx + l.excellent_cases))/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @incorrect) %>%
+                </td>
+                <td>
                 <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
                 <%= sprintf('%.2f', @correct) %>%
                 </td>
@@ -127,12 +142,18 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
                 </td>
                 <td>
                 -
+                </td>
+                <td>
+                -
             <% end %>
         <% else %>
             <%= d.name %>
             </td>
             <td>
             0
+            </td>
+            <td>
+            -
             </td>
             <td>
             -
@@ -158,6 +179,9 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
         <b>Total reports</b>
     </td>
     <td style="width: 130px">
+        <b>Missed diagnoses</b>
+    </td>
+    <td style="width: 130px">
         <b>Correct diagnoses</b>
     </td>
     <td style="width: 120px">
@@ -177,6 +201,10 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
             </td>
             <td>
             <% if l.cases_attempted != 0 %>
+                <% @incorrect = ((l.cases_attempted - (l.correct_dx + l.excellent_cases))/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @incorrect) %>%
+                </td>
+                <td>
                 <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
                 <%= sprintf('%.2f', @correct) %>%
                 </td>
@@ -184,6 +212,9 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
                 <% @excellent = (l.excellent_cases/l.cases_attempted.to_f)*100.00 %>
                 <%= sprintf('%.2f', @excellent) %>%
             <% else %>
+		-
+	        </td>
+                <td>
                 -
                 </td>
                 <td>
@@ -194,6 +225,9 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
             </td>
             <td>
             0
+            </td>
+            <td>
+            -
             </td>
             <td>
             -
@@ -221,6 +255,10 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
             </td>
             <td>
             <% if l.cases_attempted != 0 %>
+                <% @incorrect = ((l.cases_attempted - (l.correct_dx + l.excellent_cases))/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @incorrect) %>%
+                </td>
+                <td>
                 <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
                 <%= sprintf('%.2f', @correct) %>%
                 </td>
@@ -232,12 +270,18 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
                 </td>
                 <td>
                 -
+                </td>
+                <td>
+                -
             <% end %>
         <% else %>
             <%= d.name %>
             </td>
             <td>
             0
+            </td>
+            <td>
+            -
             </td>
             <td>
             -
@@ -262,6 +306,10 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
             </td>
             <td>
             <% if l.cases_attempted != 0 %>
+                <% @incorrect = (l.missed_dx/l.cases_attempted.to_f)*100.00 %>
+                <%= sprintf('%.2f', @incorrect) %>%
+                </td>
+                <td>
                 <% @correct = (l.correct_dx/l.cases_attempted.to_f)*100.00 %>
                 <%= sprintf('%.2f', @correct) %>%
                 </td>
@@ -273,12 +321,18 @@ You are here: <%= link_to "Body systems", list_performances_path %> -> <%= link_
                 </td>
                 <td>
                 -
+                </td>
+                <td>
+                -
             <% end %>
         <% else %>
             <%= e.name %>
             </td>
             <td>
             0
+            </td>
+            <td>
+            -
             </td>
             <td>
             -

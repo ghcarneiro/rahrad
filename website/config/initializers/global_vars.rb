@@ -1,6 +1,6 @@
 module GlobalVars
 	class Admin
 		Test = false
-		Excellent = 0.7
+		Excellent = 70
 	end
 end

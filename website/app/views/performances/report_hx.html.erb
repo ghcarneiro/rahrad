@@ -5,6 +5,7 @@
 <% end %>
 <script>
 $(document).ready(function() {
+    $('#modal-window').modal('show');
     $.ajaxSetup({ cache: false });
     jQuery.noConflict();
     $(".sentence-toggle").click(function(){
@@ -22,7 +23,7 @@ $(document).ready(function() {
     $(this).next().slideToggle();
 
     }); 
-    $('#modal-window').modal('show');
+
 
     // Old code - for showing/hiding categories
     /** $(document).on('click', 'input', function(){
@@ -139,7 +140,7 @@ No
 <%= render "report_pagination" %>
 
 <% if params[:id].present? %>
-  <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
  <div class="modal-header row">
