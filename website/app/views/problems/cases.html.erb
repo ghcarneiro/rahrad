@@ -75,11 +75,11 @@ $(document).ready(function(){
 <!-- include the cornerstoneWADOImageLoader library -->
 <script src="/index_files/cornerstoneWADOImageLoader.js"></script>
 <div class="row container" style="max-width:1100px; margin: 0 auto">
+		<% if @learnerinfo.current_index <=9 %>
 		<%= link_to problems_path do %>
 		<div class="col-md-12 back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Case Selection</div>
 		<% end %>
                 <div class="col-md-6" style="margin: 0 auto; max-width: 550px">
-		<%= @learnerinfo.report_array %>
                 <!-- This is the real code for a dicom image: <div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:relative"></div> --> 
 		<!-- <% if params[:system_select] %>
 		System select active
@@ -89,7 +89,7 @@ $(document).ready(function(){
 		<%= image_tag(@currentreport.report_image, position: "relative") %> 
 		<% else %>
 			<!------- TEST IMAGE --->
-			<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+			<% if GlobalVars::Admin::Test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
 			<%= image_tag("testcase.jpg", width: "500px", style: "border: 1px solid #666666") %>  
 			<% else %>
 		<div style="color: white; font-size: 2em; background-color: black; width: 500px; height: 500px; padding-top: 200px">
@@ -133,7 +133,7 @@ $(document).ready(function(){
 				<% end %>
 				</div>
 				<br>
-				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+				<% if GlobalVars::Admin::Test and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
 				<!--- START OF TEST CODE--->
 				<div class="correct-categories">
 				<% @missinglength = @studentreport.missing_sentences.length %>
@@ -278,15 +278,33 @@ $(document).ready(function(){
 				<p></p>
 			<!-- Display image to be reported by trainee -->
 			<% else %>
+			<div class="col-md-4" style="text-align: right">
+			  Case number: <%= @learnerinfo.current_index + 1 %>/10
+			</div>
+			<div class="col-md-8" style="text-align: left">
+			  <div class="progress">
+  			    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:<%= (@learnerinfo.current_index + 1)*10 %>%"%>
+    			      <span class="sr-only"><%= (@learnerinfo.current_index + 1)*10 %>% Complete</span>
+ 			    </div>
+			  </div>
+			</div>
+			<% if @learnerinfo.spaced_dx == @id.to_s %>
+			<div class="col-md-12" style="text-align: left">
+			    <div class="well well-sm" style="margin-top: 10px">
+					<span class="glyphicon glyphicon-star"></span> This is a revision diagnosis. What does this mean?
+			    </div>
+			</div>
+			<% end %>
 			<div class="col-md-6" style="text-align: left">
+
 			<%= label_tag :q,"Write a report:",:id => "teaching-label" %>
 			</div>
 			<div class="col-md-6" style="text-align: right">
-			<%= link_to "Skip to new case", cases_problems_path %>
+			<%= link_to "Skip this case", cases_problems_path(:skip => true) %>
 			</div>
 			<div class="col-md-12">
 			<form  class="form-group form-group-lg" action="/problems/cases" role="search">	
-				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+				<% if GlobalVars::Admin::Test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
 <textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus>There is cardiomegaly exceeding the amount expected even for an AP projection.
 Gross vascular congestion is evident, with interstitial and alveolar opacities noted in the right lung field. These features are consistent with pulmonary oedema. Congestion in the left lung is less prominent than the right. A well-circumscribed nodule is noted in the midzone of the left lung.</textarea>
 				<% else %>
@@ -294,7 +312,7 @@ Gross vascular congestion is evident, with interstitial and alveolar opacities n
 				<input id="search-box-button" type="submit" class="btn btn-default btn-lg" value="Submit" style="display:block"/>
 			</form>
 			</div>
-			<% if current_user.learner_info.test != true %>
+			<% if GlobalVars::Admin::Test != true %>
 			<div class="col-md-12 well well-sm" style="text-align: left; margin-top: 20px">
 				<span class="sentence-toggle">
 					<span class="viewhide">View</span> image adjustment options <span class="glyphicon glyphicon-menu-right"></span>
@@ -310,6 +328,107 @@ Gross vascular congestion is evident, with interstitial and alveolar opacities n
 			</div>
 			<% end %>
 
+		<!-- Test mode: Show heuristic -->
+		<% if GlobalVars::Admin::Test == true %>
+		<span style="color: green">
+		<p><b>** Test mode only **</b></p>
+		Report array:  
+		<br />
+		<% @count = 1 %>
+		<% @learnerinfo.report_array.each do |l| %>
+		<%= @count%>. <% @find_dx = EndDx.where(:id => l).first %>
+		<% if @find_dx.id.to_s == @learnerinfo.spaced_dx %>
+		<span style="text-decoration: underline"><%= @find_dx.name %>, </span>
+		<% else %>
+		<%= @find_dx.name %>, 
+		<% end %>
+		<br />
+		<% @count += 1%>
+		<% end %>
+		</span>
+		<% end %>
+
+			<% end %>
+			<% else %>
+				<h2>Progress review</h2>
+				This is an overview of your performance on the last 10 cases.
+				<p>
+     				 <div class="progress" style="border: 1px solid #444444; width: 500px; margin: 0 auto">
+       					 <div class="progress-bar progress-bar-success" role="progressbar" style="width: <%= (@excellent*10).to_s %>%">
+        				</div>
+       					 <div class="progress-bar progress-bar-warning" role="progressbar" style="width: <%= (@good*10).to_s %>%">
+       					 </div>
+       					 <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <%= (@incorrect*10).to_s %>%">
+        				</div>
+      				</div>
+      <% if @excellent !=0 %><%= @excellent*10 %>% excellent, <% end %><% if @good !=0 %><%= @good*10 %>% good, <% end %><% if @incorrect !=0 %><%= @incorrect*10 %>% needs more work, <% end %><% if @skipped !=0 %><%= @skipped*10 %>% skipped<% end %>
+				</p>
+
+<table class="table" style="width:600px; margin: 0 auto">
+<tr>
+<td>
+<b>Category</b>
+</td>
+<td>
+<b>Diagnosis</b>
+</td>
+<td>
+<b>Correct diagnosis</b>
+</td>
+<td>
+<b>Report accuracy</b>
+</td>
+<td>
+<b>View report</b>
+</td>
+</tr>
+<% @totalreports.each do |r| %>
+<% if r.diagnosis_found != true %>
+<% @color = "danger" %>
+<% elsif r.score <= 70 %>
+<% @color = "warning" %>
+<% else %>
+<% @color = "success" %>
+<% end %>
+<% @string = @color + " report-" + r.learner_dx.end_dx.category %>
+<%= content_tag_for(:tr, r, class: @string, style: "display: table-row") do %>
+<td>
+<% if r.learner_dx.end_dx.category == "key" %>
+Key
+<% else %>
+<%= r.learner_dx.end_dx.category %>
+<% end %>
+</td>
+<td>
+<%= r.learner_dx.name %> 
+</td>
+<td>
+<% if r.diagnosis_found == true %>
+Yes
+<% else %>
+No
+<% end %>
+</td>
+<td>
+<%= sprintf('%.2f', r.score) %>%
+</td>
+<td>
+<%= link_to "Compare report with original", cases_problems_path(:viewreport => r.id) %>
+</td>
+<% end %>
+<% end %>
+</table>
+<p></p>
+				<p>
+				<%= link_to "Keep practising the same diagnoses", cases_problems_path(:continue => true), class: "btn btn-primary" %>
+				</p>
+				<p>
+				<%= link_to "Let the system choose new diagnoses to practise", cases_problems_path(:system_select => true), class: "btn btn-primary" %>
+				</p>
+				<p>				
+				<%= link_to "I want to choose new diagnoses to practise", user_select_problems_path, class: "btn btn-primary" %>
+				</p>
+				
 			<% end %>
                 </div>
 </div>
@@ -325,7 +444,7 @@ Gross vascular congestion is evident, with interstitial and alveolar opacities n
         <div class="modal-body row" style="width:100%">
 	<div class="col-md-6">
 	<h4>Expert's report</h4>
-	<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+	<% if GlobalVars::Admin::Test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
 There is cardiomegaly even allowing for the AP projection. 
 There is gross vascular congestion, with interstitial and alveolar opacities on the right. The left lung appears significantly less affected.
 Findings are compatible with pulmonary oedema. 
@@ -346,7 +465,7 @@ Remaining bones and soft tissues are unremarkable.</span>
 	<% end %>
 	</div>
 	<div class="col-md-6"><h4>Your report</h4>	
-	<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691) %>
+	<% if GlobalVars::Admin::Test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691) %>
 <span style="color: green">THERE IS A 1CM DIAMETER RIGHT SIDED SUBDURAL HAEMATOMA CONSISTENT WITH VARYING AGE OF FORMATION INCLUDING SOME HIGH ATTENUATION ANTERIORLY CONSISTENT WITH RECENT HAEMORRHAGE. THIS IS CAUSING 1CM OF MIDLINE SHIFT TO THE LEFT.</span> <span style="color: orange">NO OTHER AREAS OF HAEMORRHAGE NOTED.</span>
 	<% else %>		
 	<% if @student_sentences.present? %>

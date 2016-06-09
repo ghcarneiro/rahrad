@@ -2,24 +2,6 @@
 <% content_for :for_head do %>
 	<title>CRISTAL: Search for cases</title>
 <% end %>
-<a href="top"></a>
-<div class="row container" style="max-width: 600px; margin: 0 auto">
-  <div class="col-md-12 back">
-    <%= link_to problems_path do %><span class="glyphicon glyphicon-triangle-left"></span>  Back to Case Selection<% end %>
-  </div>
-
-  <p class="section_title">
-    Search for cases
-  </p>
-	<% if @noparam == true %>
-	<span class="error">ERROR: Please enter a search term.</span>
-	<% elsif @nofound == true %>
-	<span class="error">ERROR: No matching search terms found.</span></p><p>
-	<% end %>
-	</p>
-
-<!----- DROPDOWN MENU MODE ---->
-<% if params[:dropdown] %>
 <script>
 $(document).ready(function(){
     $.ajaxSetup({ cache: false });
@@ -40,7 +22,6 @@ $(document).ready(function(){
 	}
 	else {
 		var level = $(this).attr("id");
-		var $this = $(this)
         	// Get data from model
 		$.ajax({
   			type:"GET",
@@ -48,7 +29,7 @@ $(document).ready(function(){
   			dataType:"html",
   			data: {l: level},
   			success: function(data){
-    				$this.after(data);
+    				$("#" + level).after(data);
   			}
 		});
 	}
@@ -85,6 +66,24 @@ $(document).ready(function(){
 	});
 });
 </script>
+<a href="top"></a>
+<div class="row container" style="max-width: 600px; margin: 0 auto">
+  <div class="col-md-12 back">
+    <%= link_to problems_path do %><span class="glyphicon glyphicon-triangle-left"></span>  Back to Case Selection<% end %>
+  </div>
+
+  <p class="section_title">
+    Search for cases
+  </p>
+	<% if @noparam == true %>
+	<span class="error">ERROR: Please enter a search term.</span>
+	<% elsif @nofound == true %>
+	<span class="error">ERROR: No matching search terms found.</span></p><p>
+	<% end %>
+	</p>
+
+<!----- DROPDOWN MENU MODE ---->
+<% if params[:dropdown] %>
 <div class="col-md-12">
 	<div class="well well-sm">
 	<b>Looking for a specific diagnosis?</b>
@@ -138,42 +137,6 @@ Use the arrows to explore different sections of the RANZCR Body Systems Syllabus
 	</div>
 	</div>
 <% else %>
-<script>
-$(document).ready(function(){
-	$.ajaxSetup({ cache: false });
-	var count = 0;
-	var buttonHTML = '<input id="submit-button" class="hidden" name="commit" value="Find practice cases" type="submit" style="display: none"></input>';
-    	$(document).on('change', 'input[type=checkbox]', function(){
-	if ($(this).is(':checked')) {
-		$(this).closest('td').addClass('info');  // unchecked
-		count++;	
-	}
-	else {
-    		$(this).closest('td').removeClass('info');  // checked
-		count--;
-	}
-	if (count == 0) {
-		if ($('#submit-label').hasClass('btn btn-primary')) {
-			$('#submit-label').removeClass('btn btn-primary');
-			$('#submit-label').addClass('btn btn-primary disabled');
-			$('#submit-button').remove();
-		}
-	}
-	else if (count > 0) {
-		if ($('#submit-label').hasClass('disabled')) {
-			$('#submit-label').removeClass('disabled');
-			$('#submit-label').after(buttonHTML)
-		}
-	}
-
-    	}); 
-    	$(document).on('click', '#submit-label', function(){
-	if (count == 0) {
-		alert('ERROR: You must select at least one diagnosis.');
-	}
-	}); 
-});
-</script>
 <div class="col-md-12">
 <p></p>
 

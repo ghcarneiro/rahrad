@@ -270,16 +270,23 @@ end
 				@learnerinfo.report_array.pop
 			end
 
+			# Clear old student report array
+			@learnerinfo.answers_array.length.times do
+				@learnerinfo.answers_array.pop
+			end
+
 			# Get diagnoses
+			@learnerinfo.spaced_dx = -1
 			@spaced = LearnerDx.spaced.where(:user_id => current_user.id).first
 			@number = 0
 
 			if @spaced.nil?
-				@string = LearnerDx.needs_practice.where(:user_id => current_user.id).limit(5).order("RANDOM()")
+				@string = EndDx.where(:id => params[:id]).limit(5).order("RANDOM()")
 				@number = 5
 			else
-				@string = LearnerDx.needs_practice.where(:user_id => current_user.id).limit(4).order("RANDOM()")
+				@string = LearnerDx.needs_practice.where("user_id LIKE ? AND id != ?", current_user.id, @spaced.id).limit(4).order("RANDOM()")
 				@number = 4
+				@learnerinfo.spaced_dx = @spaced.end_dx_id
 			end
 
 			# Add to array - round 1
@@ -295,22 +302,8 @@ end
 					# Get dx not previously done before
 					@end = EndDx.joins(:learner_dxes).where("learner_dxes.user_id != ?", current_user.id).sample
 					if !@end.nil?
-						@learnerdx = LearnerDx.new
-						@learnerdx.name = @end.name
-						@learnerdx.end_dx_id = @end.id
-						@learnerdx.user_id = current_user.id
-						@learnerdx.cases_attempted = 0
-						@learnerdx.correct_dx = 0
-						@learnerdx.missed_dx = 0
-						@learnerdx.accuracy = 0
-						@learnerdx.excellent_cases = 0
-						@learnerdx.recent_incorrect = 0
-						@learnerdx.recent_correct = 0
-						@learnerdx.recent_excellent = 0
-						@learnerdx.save
-					else
 						# Get any dx
-						@end = EndDx.sample
+						@end = EndDx.where("category LIKE '1'").sample
 					end
 					@dx_array << @end.id
 					@practice_array << @end.id
@@ -336,8 +329,8 @@ end
 
 			# Add to array - round 2
 			# Make sure fifth and sixth report are not the same
-			@element = @dx_array[-1]
-			until @element != @dx_array[-1] do
+			@element = @learnerinfo.report_array[-1]
+			until @element != @learnerinfo.report_array[-1] do
 				@element = @dx_array.sample
 			end
 
@@ -352,7 +345,12 @@ end
 				@learnerinfo.report_array << @element
 			end
 
-			@learnerinfo.current_index = 1
+			@learnerinfo.current_index = 0
+
+			# Get first report
+			@id = @learnerinfo.report_array[@learnerinfo.current_index]
+			@currentreport = ExpertReport.where("end_dx_id LIKE ? AND updated_at < ?", @id, Time.now-3.days).sample
+			@learnerinfo.expert_report_id = @currentreport.id
 			@learnerinfo.save
 
 		end
@@ -360,31 +358,87 @@ end
 		# USER SELECT OR REVIEW LIST DIAGNOSES #
 		# Shows a new problem to the trainee based on the diagnoses they have selected
 		if params[:id]
-			# Remove old current report
-			if @currentreport.present?
-				@currentreport = "0"
+			@dx_array = Array.new
+			@practice_array = Array.new
+
+			# Clear old report array
+			@learnerinfo.report_array.length.times do
+				@learnerinfo.report_array.pop
 			end
 
-			# Disconnect old selected reports from the learner info
-			@oldreports = ExpertReport.where(:learner_info_id => @learnerinfo.id)
-			@oldreports.each do |r|
-				r.learner_info_id = "-1"
-				r.save
+			# Clear old student report array
+			@learnerinfo.answers_array.length.times do
+				@learnerinfo.answers_array.pop
 			end
 
-			# Connect reports from the new selected diagnoses to the learner info
-			@string = EndDx.where(:id => params[:id])
+			# Get diagnoses
+			@learnerinfo.spaced_dx = -1
+			@spaced = LearnerDx.spaced.where(:user_id => current_user.id).first
+			@number = 0
+
+			if @spaced.nil?
+				@string = EndDx.where(:id => params[:id]).limit(5).order("RANDOM()")
+				@number = 5
+			else
+				@string = LearnerDx.needs_practice.where("user_id LIKE ? AND id != ?", current_user.id, @spaced.id).limit(4).order("RANDOM()")
+				@number = 4
+				@learnerinfo.spaced_dx = @spaced.end_dx_id
+			end
+
+			# Add to array - round 1
 			@string.each do |n|
-				@select = ExpertReport.where(:end_dx_id => n.id)
-				@select.each do |s|
-					s.learner_info_id = @learnerinfo.id
-					s.save
-				end
+				@dx_array << n.id
+				@practice_array << n.id
+				@number -= 1
 			end
 
-			# Select a random report from the selected diagnoses and set as the new current report
-			@ids = ExpertReport.where(:learner_info_id => @learnerinfo.id)
-			@currentreport = ExpertReport.find(@ids.sample)
+			# Get other dx to fill array if needed
+			@number.times do
+					# Get dx not previously done before
+					@end = EndDx.where(:id => params[:id]).sample
+					@dx_array << @end.id
+					@practice_array << @end.id
+					@number -= 1
+			end
+
+			if @spaced.nil?
+				5.times do
+					@learnerinfo.report_array << @practice_array.shift
+				end
+			else
+				3.times do
+					@learnerinfo.report_array << @practice_array.shift
+				end
+				@end = EndDx.where(:id => @spaced.end_dx_id).first
+				@dx_array << @end.id
+				@learnerinfo.report_array << @end.id
+				@learnerinfo.report_array << @practice_array.shift
+			end
+
+
+			# Add to array - round 2
+			# Make sure fifth and sixth report are not the same
+			@element = @learnerinfo.report_array[-1]
+			until @element != @learnerinfo.report_array[-1] do
+				@element = @dx_array.sample
+			end
+
+			# Add sixth report to array
+			@dx_array.delete_at(@dx_array.index(@element))
+			@learnerinfo.report_array << @element
+
+			# Add last four reports to array
+			4.times do
+				@element = @dx_array.sample
+				@dx_array.delete_at(@dx_array.index(@element))
+				@learnerinfo.report_array << @element
+			end
+
+			@learnerinfo.current_index = 0
+
+			# Get first report
+			@id = @learnerinfo.report_array[@learnerinfo.current_index]
+			@currentreport = ExpertReport.where("end_dx_id LIKE ? AND updated_at < ?", @id, Time.now-3.days).sample
 			@learnerinfo.expert_report_id = @currentreport.id
 			@learnerinfo.save
 
@@ -422,7 +476,7 @@ end
 
 			
 			# PROPER CODE FOR SENDING REPORT TO PYTHON SERVER FOR ANALYSIS - DOES NOT RUN IN TEST MODE #
-			if current_user.learner_info.test == false
+			if GlobalVars::Admin::Test == false
 
 			# Send request to python server - response is stored in @resultTemp
 			@resultTemp = HTTP.post("http://localhost:5000", :json => { :expert_report => @currentreport.report_text, :learner_report => @user_report}).to_s
@@ -508,7 +562,7 @@ end
 			@recent_excellent = 0
 			@recentfive.each do |f|
 				if f.diagnosis_found == true
-					if f.score > 70
+					if f.score > GlobalVars::Admin::Excellent
 						@recent_excellent += 0.2
 					else
 						@recent_correct += 0.2
@@ -587,7 +641,7 @@ end
 				if @learner_l3.present?
 					@learner_l3.correct_dx += 1
 				end
-				if @percentage > 70
+				if @percentage > GlobalVars::Admin::Excellent
 					@learnerdx.excellent_cases += 1
 					@learner_l1.excellent_cases += 1
 					if @learner_l2.present?
@@ -613,16 +667,67 @@ end
 			if @learner_l3.present?
 				@learner_l3.save
 			end
-			
+
+			# Add student report id to array
+			@learnerinfo.answers_array << @studentreport.id
+
+			# Increment index
+			@learnerinfo.current_index += 1
+			@learnerinfo.save
 			
 		else
-			# If user goes directly to 'practise cases' then it will just show stuff from the previous session
-			@ids = ExpertReport.where(:learner_info_id => @learnerinfo.id)
-			@currentreport = ExpertReport.find(@ids.sample)
-			@learnerinfo.expert_report_id = @currentreport.id
-			@learnerinfo.save
+			if params[:skip]
+				@learnerinfo.current_index += 1
+				@learnerinfo.save
+			end
+
+			if params[:continue] and @learnerinfo.current_index > 9
+				# Clear old student report array
+				@learnerinfo.answers_array.length.times do
+					@learnerinfo.answers_array.pop
+				end
+
+				@learnerinfo.current_index = 0
+
+				# Get first report
+				@id = @learnerinfo.report_array[@learnerinfo.current_index]
+				@currentreport = ExpertReport.where("end_dx_id LIKE ? AND updated_at < ?", @id, Time.now-3.days).sample
+				@learnerinfo.expert_report_id = @currentreport.id
+				@learnerinfo.save
+			end
+	
+			if @learnerinfo.current_index < 10
+				# If user goes directly to 'practise cases' then it will just show stuff from the previous session
+				@id = @learnerinfo.report_array[@learnerinfo.current_index]
+				@currentreport = ExpertReport.where("end_dx_id LIKE ? AND updated_at < ?", @id, Time.now-3.days).sample
+				@learnerinfo.expert_report_id = @currentreport.id
+				@learnerinfo.save
+
+			else
+				# Show data
+				@attempted = 0
+				@excellent = 0
+				@good = 0
+				@incorrect = 0
+				@learnerinfo.answers_array.each do |a|
+					@l = StudentReport.where(:id => a).first
+					if @l.diagnosis_found == true
+						if @l.score > GlobalVars::Admin::Excellent
+							@excellent += 1
+						else
+							@good += 1
+						end
+					else
+						@incorrect += 1
+					end
+				end
+				@skipped = 10 - @learnerinfo.answers_array.length
+				@totalreports = StudentReport.where("id IN (?)", @learnerinfo.answers_array).order('score asc, diagnosis_found asc')
+			end
+
 		end
-			
-		@showdx = EndDx.where(:id => @currentreport.end_dx_id).first
+			if !@currentreport.nil?
+				@showdx = EndDx.where(:id => @currentreport.end_dx_id).first
+			end
 	end
 end

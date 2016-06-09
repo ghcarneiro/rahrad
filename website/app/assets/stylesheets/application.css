@@ -125,7 +125,7 @@ div.graylink a:hover, div.graylink a:active {
 .correction-text {
   text-align:right;
   float:right;
-  color:blue
+  color:blue;
   margin-bottom:0px;
 }
 .correction-stats {

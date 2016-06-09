@@ -45,7 +45,7 @@
         <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <%= @incorrect.to_s %>%">
         </div>
       </div>
-      <% if @excellent !=0 %><%= sprintf('%.2f', @excellent) %>% excellent, <% end %><% if @good !=0 %><%= sprintf('%.2f', @good) %>% good, <% end %><% if @incorrect !=0 %><%= sprintf('%.2f', @incorrect) %>% needs more work, <% end %><%= sprintf('%.2f', @notseen) %>% not seen
+      <% if @excellent != 0 %><%= sprintf('%.2f', @excellent) %>% excellent, <% end %><% if @good !=0 %><%= sprintf('%.2f', @good) %>% good, <% end %><% if @incorrect !=0 %><%= sprintf('%.2f', @incorrect) %>% needs more work, <% end %><% if @notseen !=0 %><%= sprintf('%.2f', @notseen) %>% not seen<% end %>
     </div>
   </div>
 <% end %>

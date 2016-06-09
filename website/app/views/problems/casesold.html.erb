@@ -1,0 +1,581 @@
+<!-- Append content in the head tag -->
+<% content_for :for_head do %>
+	<title>Search</title>
+	<link href="/index_files/cornerstone.min.css" rel="stylesheet">
+<% end %>
+<script>
+$(document).ready(function(){
+    $(".sentence-toggle").click(function(){
+	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
+       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-right');
+       		$(this).children(':first-child').next().addClass('glyphicon-menu-down');
+		$(this).children(':first-child').text('Hide ');
+    	}
+	else {
+       	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-down');
+       		$(this).children(':first-child').next().addClass('glyphicon-menu-right');
+		$(this).children(':first-child').text('View ');
+	}
+
+    $(this).next().slideToggle();
+
+    }); 
+
+    $(document).on('click', '.add-review', function(){
+		var id = $(this).attr("id");
+		var $this = $(this)
+        	// Get data from model
+		$.ajax({
+  			type:"GET",
+  			url:"add",
+  			dataType:"html",
+  			data: {l: id},
+  			success: function(data) {
+				$this.removeClass('add-review');
+				$this.addClass('remove-review');
+				$this.html(data);
+			}
+		});
+
+    }); 
+    $(document).on('click', '.remove-review', function(){
+		var id = $(this).attr("id");
+		var $this = $(this)
+        	// Get data from model
+		$.ajax({
+  			type:"GET",
+  			url:"remove",
+  			dataType:"html",
+  			data: {l: id},
+  			success: function(data) {
+				$this.removeClass('remove-review');
+				$this.addClass('add-review');
+				$this.html(data);
+			}
+		});
+
+    }); 
+
+
+
+});
+
+</script>
+<!-- include the cornerstone library -->
+<script src="/index_files/cornerstone.min.js"></script>
+<script src="/index_files/cornerstoneMath.js"></script>
+<script src="/index_files/cornerstoneTools.js"></script>
+
+<!-- include the dicomParser library as the WADO image loader depends on it -->
+<script src="/index_files/dicomParser.min.js"></script>
+
+<!-- jpeg 2000 codec -->
+<script src="/index_files/jpx.min.js"></script>
+
+<!-- include the cornerstoneWADOImageLoader library -->
+<script src="/index_files/cornerstoneWADOImageLoader.js"></script>
+<div class="row container" style="max-width:1100px; margin: 0 auto">
+		<% if @learnerinfo.current_index <=9 %>
+		<%= link_to problems_path do %>
+		<div class="col-md-12 back"><span class="glyphicon glyphicon-triangle-left"></span>  Back to Case Selection</div>
+		<% end %>
+                <div class="col-md-6" style="margin: 0 auto; max-width: 550px">
+		<% @learnerinfo.report_array.each do |l| %>
+		<% @find_dx = EndDx.where(:id => l).first %>
+		<%= @find_dx.name %>, 
+		<% end %>
+                <!-- This is the real code for a dicom image: <div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:relative"></div> --> 
+		<!-- <% if params[:system_select] %>
+		System select active
+		<% end %> -->
+		<!-- INTERIM MOCK IMAGE CODE START -->
+		<% if !@currentreport.report_image.nil? %>
+		<%= image_tag(@currentreport.report_image, position: "relative") %> 
+		<% else %>
+			<!------- TEST IMAGE --->
+			<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+			<%= image_tag("testcase.jpg", width: "500px", style: "border: 1px solid #666666") %>  
+			<% else %>
+		<div style="color: white; font-size: 2em; background-color: black; width: 500px; height: 500px; padding-top: 200px">
+			IMAGE GOES HERE FOR REPORT #<%= @currentreport.report_number %> <br /> (<%= @showdx.name %>)
+
+		</div>
+		<% end %>
+		<% end %>
+		<!-- INTERIM MOCK IMAGE CODE END -->
+		<p></p><p></p>
+                </div>
+			
+                <div class="col-md-6" style="margin: 0 auto; max-width: 500px">
+			<!-- Display report feedback -->
+			<% if params[:q].present? %>
+				<div class="corrections-box">
+				<b>Report feedback</b>
+				<% if @percentage > 70 %>
+				<h2 class="key" style="text-align: left"><%= sprintf('%.2f', @percentage) %>% correct</h2>
+				<% elsif @percentage > 50 %>
+				<h2 style="color: orange" style="text-align: left"><%= sprintf('%.2f', @percentage) %>% correct</h2>
+				<% else %>
+				<h2 class="error" style="text-align: left"><%= sprintf('%.2f', @percentage) %>% correct</h2>
+				<% end %>
+				<% if @studentreport.diagnosis_found == true %>
+					<span style="font-size: 1.5em; color: green">Correct diagnosis: Yes</span><br />Diagnosis: <%= @showdx.name %>
+				<% else %>
+					<span style="font-size: 1.5em; color: red">Correct diagnosis: No</span><br />Actual diagnosis: <%= @showdx.name %>
+				<% end %>
+				</p>				
+				<% if @learnerdx.review_list == true %>
+				<%= content_tag :span, class: "remove-review", id: @learnerdx.id do -%>
+				<span class="key">Already in review list</span>
+				<br />
+				<span class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Remove from review list</span>
+				<% end %>
+				<% else %>
+				<%= content_tag :span, class: "add-review", id: @learnerdx.id do -%>
+				<span class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add to review list</span>
+				<% end %>
+				<% end %>
+				</div>
+				<br>
+				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+				<!--- START OF TEST CODE--->
+				<div class="correct-categories">
+				<% @missinglength = @studentreport.missing_sentences.length %>
+				<strong style="background-color:red"> <%=  @missinglength %> </strong>
+				Missing 
+				<% if @missinglength == 1 %>
+				sentence
+				<% else %>
+				sentences
+				<% end %>
+				<hr>
+				</div>
+				<% if @missinglength > 0 %>
+					<span class="sentence-toggle">
+						<span class="viewhide">View </span>
+						<% if @missinglength == 1 %>
+							sentence
+						<% else %>
+							sentences
+						<% end %>
+						<span class="glyphicon glyphicon-menu-right"></span>
+					</span>
+				<% end %>
+				<div style="display:none; text-align: left">
+				<% @count = 0 %>
+				<ul>
+				<li>Recent decubitus positioning may account for the asymmetry. </li>
+				<li>Remaining bones and soft tissues are unremarkable.</li>
+				</ul>
+				</div>
+				<!--- END OF TEST CODE--->
+				<% else %>
+				<div class="correct-categories">
+				<% @missinglength = @studentreport.missing_sentences.length %>
+				<strong style="background-color:red"> <%=  @missinglength %> </strong>
+				Missing 
+				<% if @missinglength == 1 %>
+				sentence
+				<% else %>
+				sentences
+				<% end %>
+				<hr>
+				</div>
+				<% if @missinglength > 0 %>
+					<span class="sentence-toggle">
+						<span class="viewhide">View </span>
+						<% if @missinglength == 1 %>
+							sentence
+						<% else %>
+							sentences
+						<% end %>
+						<span class="glyphicon glyphicon-menu-right"></span>
+					</span>
+				<% end %>
+				<div style="display:none; text-align: left">
+				<% @count = 0 %>
+				<ul>
+				<% @expert_sentences.each do |i| %>	
+				<% if @studentreport.missing_sentences.include? @count.to_s %>
+				<li>
+						<%= i %>. <% if current_user.year_of_training == "5" %><a href="#">Ignore</a><% end %>
+				</li>
+				<% end %>
+				<% @count = @count + 1 %>
+				<% end %>	
+				</ul>
+				</div>
+				<% end %>
+				<div class="correct-categories">
+				<% @correctlength = @studentreport.correct_sentences.length %> 
+				<strong style="background-color:green"> <%= @correctlength  %> </strong>
+				Correct 
+				<% if @correctlength == 1 %>
+				sentence
+				<% else %>
+				sentences
+				<% end %>
+				<hr>
+				</div>
+				<% if @correctlength > 0 %>
+					<span class="sentence-toggle">
+						<span class="viewhide">View </span>
+						<% if @correctlength == 1 %>
+							sentence
+						<% else %>
+							sentences
+						<% end %>
+						<span class="glyphicon glyphicon-menu-right"></span>
+					</span>
+				<% end %>
+				<div style="display:none; text-align: left">
+				<% @count = 0 %>
+				<ul>
+				<% @student_sentences.each do |i| %>
+				<% if @studentreport.correct_sentences.include?(@count.to_s) %>	
+						<li><%= i %>. </li>
+				<% end %>
+				<% @count = @count + 1 %>
+				<% end %>
+				</ul>	
+				</div>
+
+
+				<div class="correct-categories">
+				<% @extralength = (@student_sentences.length - @studentreport.correct_sentences.length) %>
+				<strong style="background-color:orange"> <%= @extralength %> </strong>
+				Extra 
+				<% if @extralength == 1 %>
+				sentence
+				<% else %>
+				sentences
+				<% end %>
+				<hr>
+				</div>
+				<% if @extralength > 0 %>
+					<span class="sentence-toggle">
+						<span class="viewhide">View </span>
+						<% if @extralength == 1 %>
+							sentence
+						<% else %>
+							sentences
+						<% end %>
+						<span class="glyphicon glyphicon-menu-right"></span>
+					</span>
+				<% end %>
+				<div style="display:none; text-align: left">
+				<% @count = 0 %>
+				<ul>
+				<% @student_sentences.each do |i| %>
+				<% if !@studentreport.correct_sentences.include?(@count.to_s) %>		
+						<li><%= i %>. </li>
+				<% end %>
+				<% @count = @count + 1 %>
+				<% end %>
+				</li>	
+				</div>
+				<p></p>
+				
+
+				<button class="btn btn-primary" data-toggle="modal" data-target="#modal-window">Compare with original report</button>
+				<%= link_to "Next report", cases_problems_path, class: "btn btn-primary" %> 
+				<p></p>
+			<!-- Display image to be reported by trainee -->
+			<% else %>
+			<div class="col-md-4" style="text-align: right">
+			  Case number: <%= @learnerinfo.current_index + 1 %>/10
+			</div>
+			<div class="col-md-8" style="text-align: left">
+			  <div class="progress">
+  			    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:<%= (@learnerinfo.current_index + 1)*10 %>%"%>
+    			      <span class="sr-only"><%= (@learnerinfo.current_index + 1)*10 %>% Complete</span>
+ 			    </div>
+			  </div>
+			</div>
+			<% if @learnerinfo.spaced_dx == @id.to_s %>
+			<div class="col-md-12" style="text-align: left">
+			    <div class="well well-sm" style="margin-top: 10px">
+					<span class="glyphicon glyphicon-star"></span> This is a revision diagnosis. What does this mean?
+			    </div>
+			</div>
+			<% end %>
+			<div class="col-md-6" style="text-align: left">
+
+			<%= label_tag :q,"Write a report:",:id => "teaching-label" %>
+			</div>
+			<div class="col-md-6" style="text-align: right">
+			<%= link_to "Skip this case", cases_problems_path(:skip => true) %>
+			</div>
+			<div class="col-md-12">
+			<form  class="form-group form-group-lg" action="/problems/cases" role="search">	
+				<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus>There is cardiomegaly exceeding the amount expected even for an AP projection.
+Gross vascular congestion is evident, with interstitial and alveolar opacities noted in the right lung field. These features are consistent with pulmonary oedema. Congestion in the left lung is less prominent than the right. A well-circumscribed nodule is noted in the midzone of the left lung.</textarea>
+				<% else %>
+				<textarea id="search-box" name="q" type="text" class="form-control" placeholder="Search" required pattern=".*\S+.*" autofocus></textarea>			<% end %>
+				<input id="search-box-button" type="submit" class="btn btn-default btn-lg" value="Submit" style="display:block"/>
+			</form>
+			</div>
+			<% if current_user.learner_info.test != true %>
+			<div class="col-md-12 well well-sm" style="text-align: left; margin-top: 20px">
+				<span class="sentence-toggle">
+					<span class="viewhide">View</span> image adjustment options <span class="glyphicon glyphicon-menu-right"></span>
+				</span>
+			<div style="display: none">
+			<ul>
+			<li><strong>Zoom in</strong> Mouse scroll down or right click + drag down</li>
+			<li><strong>Zoom out</strong> Mouse scroll up or right click + drag up</li>
+			<li><strong>Lighten</strong> Left click + drag up</li>
+			<li><strong>Darken</strong> Left click + drag down</li>
+			</ul>
+			</div>
+			</div>
+			<% end %>
+
+			<% end %>
+			<% else %>
+				Done!
+				<p>
+     				 <div class="progress" style="border: 1px solid #444444; width: 500px; margin: 0 auto">
+       					 <div class="progress-bar progress-bar-success" role="progressbar" style="width: <%= (@excellent*10).to_s %>%">
+        				</div>
+       					 <div class="progress-bar progress-bar-warning" role="progressbar" style="width: <%= (@good*10).to_s %>%">
+       					 </div>
+       					 <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <%= (@incorrect*10).to_s %>%">
+        				</div>
+      				</div>
+      <% if @excellent !=0 %><%= @excellent*10 %>% excellent, <% end %><% if @good !=0 %><%= @good*10 %>% good, <% end %><% if @incorrect !=0 %><%= @incorrect*10 %>% needs more work, <% end %><% if @skipped !=0 %><%= @skipped*10 %>% skipped<% end %>
+				</p>
+<% @count = 1 %>
+<% @totaldx.each do |t| %>
+<% @learner = LearnerDx.where(:end_dx_id => t.id).first %>
+<% if !@learner.nil? %>
+<% @sreports = StudentReport.where(:learner_dx_id => @learner.id).where("id IN (?)", @learnerinfo.answers_array).order("created_at desc") %>
+<% end %>
+
+
+<table width="100%">
+<tr>
+<td style="width: 66%; text-align: left">
+<span class="dx"><%= @count %>. <%= t.name %></span> 
+<% if t.category == "key" %>
+<strong class="key-strong">Key condition</strong>
+<% elsif t.category == "1" %>
+<strong>Category 1</strong>
+<% elsif t.category == "2" %>
+<strong>Category 2</strong>
+<% elsif t.category == "3" %>
+<strong>Category 3</strong>
+<% end %>
+<br />
+<span style="font-style: italic; color: #555555"><%= t.l1_name %>
+<% if t.dxable_type != "DxLevel1" %>
+-> <%= t.l2_name %>
+	<% if t.dxable_type == "DxLevel3" %>
+	-> <%= t.l3_name %>
+	<% end %>
+<% end %> 
+</span>	
+<br />
+<% if @sreports.length != 0 %>
+	<div style="padding-left:60px; padding-top:5px">
+	<% @miss = 0 %>
+	<% @reportcount = @sreports.length %>
+	<% @sreports.each do |s| %>
+		<% if s.diagnosis_found == false %>
+			<%= link_to cases_problems_path(:viewreport => s.id), class: "btn btn-danger btn-xs" do-%><%= @reportcount %><% end %>
+			<% @miss += 1 %>
+		<% elsif s.score < 70 %>
+			<%= link_to cases_problems_path(:viewreport => s.id), class: "btn btn-warning btn-xs" do-%><%= @reportcount %><% end %>
+		<% else %>
+			<%= link_to cases_problems_path(:viewreport => s.id), class: "btn btn-success btn-xs" do-%><%= @reportcount %><% end %>
+		<% end %>
+		<% @reportcount = @reportcount - 1 %>
+	<% end %>
+	<% @correct_percent = @miss/@sreports.length %>
+	</div>
+</td>
+<td style="width: 33%; text-align: right">
+<span class="dx" style="color: red"><font color="red"><%= @correct_percent %>% correct</font></span>
+<br />
+<%= @miss %> missed out of <%= @sreports.length %>
+<% else %>
+	<div style="padding-left:60px; padding-top:5px; display: none">
+		2 diagnoses skipped
+	</div>
+<% end %>
+<br />
+<% if !@learner.nil? and @learner.review_list == true %>
+<%= content_tag :span, class: "remove-review", id: t.id do -%>
+<span class="key">Already in review list</span>
+<br />
+<span class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> Remove from review list</span>
+<% end %>
+<% else %>
+<%= content_tag :span, class: "add-review", id: t.id do -%>
+<span class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Add to review list</span>
+<% end %>
+<% end %>
+</td>
+</tr>
+</table>
+<hr>
+<% @count = @count + 1 %>
+<% end %>
+				<p>
+				<%= link_to "Keep practising the same diagnoses", cases_problems_path(:continue => true), class: "btn btn-primary" %>
+				</p>
+				<p>
+				<%= link_to "Let the system choose new diagnoses to practise", cases_problems_path(:system_select => true), class: "btn btn-primary" %>
+				</p>
+				<p>				
+				<%= link_to "I want to choose new diagnoses to practise", user_select_problems_path, class: "btn btn-primary" %>
+				</p>
+				
+			<% end %>
+                </div>
+</div>
+
+<!------- Modal: Compare expert report with trainee report --->
+<% if params[:q].present? %>
+  <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header row">
+          <h4 class="modal-title" id="thing">Report review</h4>
+        </div>
+        <div class="modal-body row" style="width:100%">
+	<div class="col-md-6">
+	<h4>Expert's report</h4>
+	<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2049 or @currentreport.end_dx.id == 252) %>
+There is cardiomegaly even allowing for the AP projection. 
+There is gross vascular congestion, with interstitial and alveolar opacities on the right. The left lung appears significantly less affected.
+Findings are compatible with pulmonary oedema. 
+<span style="color: red">Recent decubitus positioning may account for the asymmetry. 
+Remaining bones and soft tissues are unremarkable.</span>
+	<% else %>
+	<% if @expert_sentences.present? %>
+	<% @count = 0 %>
+	<% @expert_sentences.each do |i| %>
+		<% if @studentreport.missing_sentences.include?(@count.to_s) %>
+			<span style="color: red"><%= i %>.</span>
+		<% else %>
+			<%= i %>.
+		<% end %>
+		<% @count = @count + 1 %>
+	<% end %>
+	<% end %>
+	<% end %>
+	</div>
+	<div class="col-md-6"><h4>Your report</h4>	
+	<% if current_user.learner_info.test == true and (@currentreport.end_dx.id == 2063 or @currentreport.end_dx.id == 691) %>
+<span style="color: green">THERE IS A 1CM DIAMETER RIGHT SIDED SUBDURAL HAEMATOMA CONSISTENT WITH VARYING AGE OF FORMATION INCLUDING SOME HIGH ATTENUATION ANTERIORLY CONSISTENT WITH RECENT HAEMORRHAGE. THIS IS CAUSING 1CM OF MIDLINE SHIFT TO THE LEFT.</span> <span style="color: orange">NO OTHER AREAS OF HAEMORRHAGE NOTED.</span>
+	<% else %>		
+	<% if @student_sentences.present? %>
+	<% @count = 0 %>
+	<% @student_sentences.each do |i| %>
+		<% if @studentreport.correct_sentences.include?(@count.to_s) %>
+			<span style="color: green"><%= i %>.</span>
+		<% else %>
+			<span style="color: orange"><%= i %>.</span>
+		<% end %>
+		<% @count = @count + 1 %>
+	<% end %>
+	<% end %>
+	<% end %>
+	</div>
+        </div>
+			<div class="col-md-12 well well-sm" style="text-align: left; padding-left: 20px">
+				<span class="sentence-toggle">
+					<span class="viewhide">View</span> colour key <span class="glyphicon glyphicon-menu-right"></span>
+				</span>
+			<div style="display: none">
+			<ul>
+			<li><%= image_tag("red.gif", width: "15px", height: "15px") %> Missing sentences</li>
+			<li><%= image_tag("yellow.gif", width: "15px", height: "15px") %> Extra sentences</li>
+			<li><%= image_tag("green.gif", width: "15px", height: "15px") %> Correct sentences</li>
+			</ul>
+			</div>
+			</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+	cornerstoneWADOImageLoader.configure({
+        	beforeSend: function(xhr) {
+            		// Add custom headers here (e.g. auth tokens)
+            		//xhr.setRequestHeader('x-auth-token', 'my auth token');
+        	}
+   	});
+	var loaded = false;
+    function loadAndViewImage(imageId) {
+        var element = $('#dicomImage').get(0);
+        //try {
+            cornerstone.loadImage(imageId).then(function(image) {
+                console.log(image);
+                var viewport = cornerstone.getDefaultViewportForImage(element, image);
+                $('#toggleModalityLUT').attr("checked",viewport.modalityLUT !== undefined);
+                $('#toggleVOILUT').attr("checked",viewport.voiLUT !== undefined);
+                cornerstone.displayImage(element, image, viewport);
+                if(loaded === false) {
+                    cornerstoneTools.mouseInput.enable(element);
+                    cornerstoneTools.mouseWheelInput.enable(element);
+                    cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+                    cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
+                    cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
+                    cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+                    loaded = true;
+                }
+            }, function(err) {
+                alert(err);
+            });
+        /*}
+        catch(err) {
+            alert(err);
+        }*/
+    }
+
+    function downloadAndView()
+    {
+        var url = "http://rade134.github.io/IM-0239-0012.dcm";
+
+        // prefix the url with wadouri: so cornerstone can find the image loader
+        url = "wadouri:" + url;
+
+
+        // image enable the dicomImage element and activate a few tools
+        loadAndViewImage(url);
+    }
+    function showValue(num) {
+        var result = document.getElementById('resultOfBar');
+	result.value = num;
+    }
+    $(document).ready(function() {
+        var element = $('#dicomImage').get(0);
+        cornerstone.enable(element);
+        downloadAndView();
+        //loadDocument();
+	$(".correction2-text").toggle();
+	$(".show-hide-button").click(function(){
+		$(".correction2-text").toggle();
+		buttonToggle = $(".show-hide-button");
+		if (buttonToggle.innerHTML != "Hide"){
+			buttonToggle.innerHTML = "Hide";
+		}else{
+			buttonToggle.innerHTML = "Show";
+		}
+	});
+	var slider = new Slider("#threshold",{
+		formatter: function(value) {
+			return 'Current value'+value;
+		}
+	});
+    });
+
+
+</script>

@@ -9,15 +9,6 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
 
-    <!-- I used Bootstrap a lot including button, and other stuffs -->
-    <!-- Bootstrap latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="/jquery-1.12.3.min.js"></script>
-    <!-- Latest bootstrap compiled JavaScript -->
-    <script src="/bootstrap.min.js"></script>
-
-
     <!-- link to font awesome, I used their icon in the graph page navigation pane icon -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
@@ -33,7 +24,7 @@
 
     <!-- Display buttons only if user is logged in  -->
     <% if user_signed_in? %>
-      <% if current_user.learner_info.test == true %>
+      <% if GlobalVars::Admin::Test == true %>
         <div style="position: absolute; float: left; margin-left: 45%; margin-top: 20px; text-align: center">
           <span class="key">** Test mode active **</span>
         </div>

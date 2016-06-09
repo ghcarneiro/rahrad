@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160607122532) do
+ActiveRecord::Schema.define(version: 20160608073804) do
 
   create_table "dx_level1s", force: :cascade do |t|
     t.string   "name"
@@ -94,6 +94,8 @@ ActiveRecord::Schema.define(version: 20160607122532) do
     t.datetime "updated_at",                            null: false
     t.text     "report_array",     default: "--- []\n"
     t.integer  "current_index"
+    t.text     "answers_array",    default: "--- []\n"
+    t.string   "spaced_dx"
   end
 
   add_index "learner_infos", ["expert_report_id"], name: "index_learner_infos_on_expert_report_id"
