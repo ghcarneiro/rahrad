@@ -281,29 +281,32 @@ end
 			@number = 0
 
 			if @spaced.nil?
-				@string = EndDx.where(:id => params[:id]).limit(5).order("RANDOM()")
+				@string = EndDx.dxable_search(current_user.year_of_training).limit(5).order("RANDOM()")
 				@number = 5
 			else
-				@string = LearnerDx.needs_practice.where("user_id LIKE ? AND id != ?", current_user.id, @spaced.id).limit(4).order("RANDOM()")
-				@number = 4
 				@learnerinfo.spaced_dx = @spaced.end_dx_id
+				@string = EndDx.dxable_search(current_user.year_of_training).where.not("id LIKE ?", @spaced.end_dx_id).limit(4).order("RANDOM()")
+				@number = 4
+	
 			end
 
 			# Add to array - round 1
 			@string.each do |n|
-				@end = EndDx.where(:id => n.end_dx_id).first
-				@dx_array << @end.id
-				@practice_array << @end.id
+				#@end = EndDx.where(:id => n.end_dx_id).first
+				@dx_array << n.id
+				@practice_array << n.id
 				@number -= 1
 			end
 
 			# Get other dx to fill array if needed
 			@number.times do
-					# Get dx not previously done before
-					@end = EndDx.joins(:learner_dxes).where("learner_dxes.user_id != ?", current_user.id).sample
-					if !@end.nil?
+					# Get a dx that needs practice
+					@e = LearnerDx.needs_practice.where("user_id LIKE ? AND id != ?", current_user.id, @spaced.id).sample
+					if @e.nil?
 						# Get any dx
 						@end = EndDx.where("category LIKE '1'").sample
+					else
+						@end = EndDx.where("id IN (?)", @e.id).first
 					end
 					@dx_array << @end.id
 					@practice_array << @end.id

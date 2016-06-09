@@ -97,6 +97,7 @@ def data
 	    params[:search_id] = @id.to_i
 	    params[:year_level] = current_user.year_of_training
 	    @isend = 0
+
 	    if @level == "l1"
 		@next = DxLevel2.where(:dx_level1_id => @id.to_i)
 		params[:search_type] = "DxLevel1"
@@ -112,43 +113,115 @@ def data
 		params[:search_type] = "DxLevel3"
 	    	@next = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 	    end
+
 	    @html= "<div class='subdata' style='margin-left: 50px'>"
-	    @next.each do |n|
-		@html = @html + "<table><tr><td>"
+
+   	    @next.each do |n|
 
 		# Retrieve data from learner model
 	    	if @level == "l1"
+		    params[:l2_name] = n.name
+		    @checkdx = EndDx.dxable_search2b(params[:l2_name], params[:year_level])
+		    if !@checkdx.blank?
+			@excellent = 0
+            		@good = 0
+            		@total = 0
+
+			@checkdx.each do |c|
+            		    #Calculate performance in that category
+              		    @c_ldx = LearnerDx.where(:end_dx_id => c.id, :user_id => current_user.id).first
+
+              		    if @c_ldx.present?
+                		@excellent += @c_ldx.excellent_cases
+               			@good += @c_ldx.excellent_cases
+               			@good += @c_ldx.correct_dx
+	       			@total += @c_ldx.cases_attempted
+              		    end
+			end
+
+			if @total != 0
+             		   @good = @good/@total.to_f
+             		    @excellent = @excellent/@total.to_f
+			end
+		    end
 		    @ldx = LearnerLevel2.where(:dx_level2_id => n.id).where(:user_id => current_user.id).first
 		    @i = "l2_" + n.id.to_s
 		elsif @level == "l2"
 		    if @isend == 1
 		    	@ldx = LearnerDx.where(:end_dx_id => n.id).where(:user_id => current_user.id).first
 		        @i = "e_" + n.id.to_s
+			@checkdx = EndDx.where(:id => n.id).first
 		    else
+		        params[:l2_name] = n.dx_level2.name
+		        params[:l3_name] = n.name
+		        @checkdx = EndDx.dxable_search2c(params[:l2_name], params[:l3_name], params[:year_level])
+		    if !@checkdx.blank?
+			@excellent = 0
+            		@good = 0
+            		@total = 0
+
+			@checkdx.each do |c|
+
+            		    #Calculate performance in that category
+              		    @c_ldx = LearnerDx.where(:end_dx_id => c.id, :user_id => current_user.id).first
+
+              		    if @c_ldx.present?
+                		@excellent += @c_ldx.excellent_cases
+               			@good += @c_ldx.excellent_cases
+               			@good += @c_ldx.correct_dx
+	       			@total += @c_ldx.cases_attempted
+              		    end
+			end
+
+			if @total != 0
+             		   @good = @good/@total.to_f
+             		   @excellent = @excellent/@total.to_f
+			end
+		    end
 			@ldx = LearnerLevel3.where(:dx_level3_id => n.id).where(:user_id => current_user.id).first
 		    	@i = "l3_" + n.id.to_s
 		    end
 		elsif @level == "l3"
 			@ldx = LearnerDx.where(:end_dx_id => n.id).where(:user_id => current_user.id).first
 		        @i = "e_" + n.id.to_s
+			@checkdx = EndDx.where(:id => n.id).first
 		end
 
-		if (@ldx.nil?) or (@ldx.cases_attempted == 0)
-		    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
-		else
-		    @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
-		    @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
-			if @excellent > 0.5
-		    	    @html = @html + "<img src='/assets/green.gif' width='15' height='15' /> "
-			elsif @correct > 0.5
-		    	    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' /> "
+		# Only display data if there are any relevant diagnoses in the sub-topic
+		if !@checkdx.blank?
+		    @html = @html + "<table><tr><td>"
+
+		    if !@i.include?("e_")
+			if (@ldx.nil?) or (@ldx.cases_attempted == 0)
+		   	    @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
 			else
-		    	    @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
+			    if @total == 0
+				@html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
+			    elsif @excellent > 0.5
+		    	    	@html = @html + "<img src='/assets/green.gif' width='15' height='15' /> "
+			    elsif @good > 0.5
+		    	   	 @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' /> "
+			    else
+		    	  	  @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
+			    end
 			end
-		end
-		if !@i.include?("e_")
-  	    	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
-		else
+  	    	 	@html = @html + "<span class='dx-toggle' id='" + @i + "'>" + n.name + "<span class='glyphicon glyphicon-menu-right'></span></span></td></tr></table>"
+		     else
+
+			if (@ldx.nil?) or (@ldx.cases_attempted == 0)
+		   	 @html = @html + "<img src='/assets/grey.gif' width='15' height='15' /> "
+			else
+		   	 @correct = @ldx.correct_dx/@ldx.cases_attempted.to_f
+		   	 @excellent = @ldx.excellent_cases/@ldx.cases_attempted.to_f
+				if @excellent > 0.5
+		    		    @html = @html + "<img src='/assets/green.gif' width='15' height='15' /> "
+				elsif @correct > 0.5
+		    		    @html = @html + "<img src='/assets/yellow.gif' width='15' height='15' /> "
+				else
+		    	 	   @html = @html + "<img src='/assets/red.gif' width='15' height='15' /> "
+				end
+			end
+
 			# Pop-up progress bar for diagnosis
 		   	if !@ldx.nil?
 		   	     @meter = ((@ldx.recent_correct + @ldx.recent_excellent)/(@ldx.recent_correct + @ldx.recent_excellent + @ldx.recent_incorrect))
@@ -183,6 +256,8 @@ def data
 		end
 
   	    	@html = @html + "<span class='endDx'>" + n.name + @reviewhtml + @categorytext + "</span>" + @popup + "</td></tr></table>"	
+		end
+
 		end
 	    end
 
@@ -269,7 +344,8 @@ def list
 		    params[:search_id] = @dxlevel2.id
 		    params[:search_type] = "DxLevel2"
 		    params[:year_level] = current_user.year_of_training
-		    @end_dxes = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
+		    @end_dxes = EndDx.where(:dxable_type => "DxLevel2", :dxable_id => @dxlevel2.id)
+		    #@end_dxes = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 		end
 	    end
 	    if params[:l3]  
@@ -282,15 +358,16 @@ def list
 		    params[:search_id] = @dxlevel3.id
 		    params[:search_type] = "DxLevel3"
 		    params[:year_level] = current_user.year_of_training
-		@end_dxes = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
+		    @end_dxes = EndDx.where(:dxable_type => "DxLevel3", :dxable_id => @dxlevel3.id)
+		    #@end_dxes = EndDx.dxable_search3(params[:search_id], params[:search_type], params[:year_level])
 	    end
 end
 
 def missed_dx
 	    @pagetype = "misseddx"
-	    @missed = LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).limit(5).order('accuracy asc, cases_attempted desc')
+	    @missed = LearnerDx.dxable_search(current_user.year_of_training).where('missed_dx > ?', 0).where(:user_id => current_user.id).limit(5).order('accuracy asc, cases_attempted desc')
 	    if params[:type]
-		@missed = LearnerDx.where('missed_dx > ?', 0).where(:user_id => current_user.id).limit(5).order('missed_dx desc, cases_attempted desc')
+		@missed = LearnerDx.dxable_search(current_user.year_of_training).where('missed_dx > ?', 0).where(:user_id => current_user.id).limit(5).order('missed_dx desc, cases_attempted desc')
 	    end
 	    if params[:id]
 	    	@currentreport = StudentReport.where(:id => params[:id]).first

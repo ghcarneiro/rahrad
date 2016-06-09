@@ -77,4 +77,20 @@ class EndDx < ActiveRecord::Base
 			where("name LIKE ? AND (category LIKE '3')", "%#{search}%").order('category ASC')
 		end
 	end
+
+	# Search for diagnoses by year level
+	def self.dxable_search(year_level)
+		if year_level == "1"  
+			where("category LIKE 'key'").order('category ASC')
+		elsif year_level == "2"
+			where("category LIKE '1' OR category LIKE 'key'").order('category DESC')
+			# Key conditions come after Cat 1 in ascending order
+		elsif year_level == "3"
+			where("category LIKE '1' OR category LIKE '2'").order('category ASC')
+		elsif year_level == "4"
+			where("category LIKE '2' OR category LIKE '3'").order('category ASC')
+		elsif year_level == "5"
+			where("category LIKE '3'").order('category ASC')
+		end
+	end
 end

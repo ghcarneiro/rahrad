@@ -2,7 +2,7 @@
 	<title>Performance Data</title>
 <% end %>
 <a href="top"></a>
-<div class="row container" style="max-width: 600px; margin: 0 auto">
+<div class="row container" style="max-width: 650px; margin: 0 auto">
   <%= render "nav" %>
   <% @l1.each do |l| %>
     <% params[:l1_name] = l.name %>
@@ -45,7 +45,7 @@
         <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <%= @incorrect.to_s %>%">
         </div>
       </div>
-      <% if @excellent != 0 %><%= sprintf('%.2f', @excellent) %>% excellent, <% end %><% if @good !=0 %><%= sprintf('%.2f', @good) %>% good, <% end %><% if @incorrect !=0 %><%= sprintf('%.2f', @incorrect) %>% needs more work, <% end %><% if @notseen !=0 %><%= sprintf('%.2f', @notseen) %>% not seen<% end %>
+      <% if @excellent != 0 %><%= sprintf('%.2f', @excellent) %>% excellent, <% end %><% if @good !=0 %><%= sprintf('%.2f', @good) %>% good, <% end %><% if @incorrect !=0 %><%= sprintf('%.2f', @incorrect) %>% needs more work, <% end %><% if @notseen !=0 %><%= sprintf('%.2f', @notseen) %>% incomplete<% end %>
     </div>
   </div>
 <% end %>
