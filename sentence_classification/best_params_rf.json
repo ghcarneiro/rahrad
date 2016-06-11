@@ -1,0 +1,1 @@
+{"classifier__min_samples_leaf": 20, "lsi__n_components": 100, "classifier__n_estimators": 2000, "classifier__max_depth": 2, "classifier__min_samples_split": 40}

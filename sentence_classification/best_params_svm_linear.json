@@ -1,0 +1,1 @@
+{"classifier__kernel": "linear", "classifier__C": 7, "lsi__n_components": 100}

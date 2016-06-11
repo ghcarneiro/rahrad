@@ -1,0 +1,1 @@
+{"classifier__kernel": "rbf", "classifier__C": 6, "lsi__n_components": 100}
