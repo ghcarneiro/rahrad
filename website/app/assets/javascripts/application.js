@@ -11,6 +11,12 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
 //= require_tree .
+//= require highcharts
+//= require highcharts/highcharts-more
+//= require highcharts/modules/exporting
+//= require highcharts/modules/drilldown
+//= require turbolinks
+

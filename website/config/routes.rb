@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'users/new'
+
   get 'search/index'
 
   get 'table/index'
@@ -7,6 +9,7 @@ Rails.application.routes.draw do
   get '/table_save_search' => "table#save_search"
   
   get 'graph/index'
+  get 'performances/index'
   
   get 'saved_search/index'
   get '/saved_search_destroy_reoccurence' => "saved_search#destroy_reoccurence"
@@ -31,6 +34,15 @@ Rails.application.routes.draw do
   #   resources :products
   resources :table
   resources :saved_search
+  resources :performances do
+    collection do
+      get 'report'
+      get 'radar'
+      get 'skillmeters'
+      get 'list'
+      get 'concept'
+    end
+  end
 
   # Example resource route with options:
   #   resources :products do

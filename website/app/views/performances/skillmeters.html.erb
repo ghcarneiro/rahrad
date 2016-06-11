@@ -1,0 +1,72 @@
+<% content_for :for_head do %>
+	<title>Performance Data</title>
+<style>
+
+#mainpage {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+#reports {
+	width: 600px;
+	text-align: left;
+	align: center;
+}
+</style>
+
+	<!-- <script src="/index_files/chart.js"></script> -->
+
+<% end %>
+	<!-- JQuery library must be loaded before Highcharts code for it to work-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="/index_files/customEvents.js"></script>
+
+<!-- <div style="max-width: 1400px; position: absolute; bottom: 40%; left: 0; right: 0; margin: auto; max-height: 100%; height: auto;" >
+</div> -->
+<table id="mainpage">
+<tr>
+<td>
+<p></p>
+<div class = style="align: center; width: 100%; margin: 0 auto">
+<%= render "nav" %>
+</div>
+<p></p>
+<%= render "skillmeters" %>
+</td>
+<td>
+<p></p>
+<button class="btn btn-primary btn-sm">Top missed diagnoses</button> <button class="btn btn-default btn-sm">Report history</button> <button class="btn btn-default btn-sm">Progress</button> 
+<div id="reportdata" style="width: 600px; height: 500px; margin: 0 auto">
+<%= render "missedDx" %>
+
+</div>
+</td>
+</tr>
+</table>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="modal-window" width="1000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="thing">Report review</h4>
+        </div>
+        <div class="modal-body">
+          <table><tr>
+	<td width="300">
+	IMAGE HERE
+	</td>
+	<td>
+<h4>Report corrections</h4>
+CT ABDOMEN & PELVIS - PLAIN L3  CLINICAL: SECOND EPISODE OF RENAL COLIC.  NON CONTRAST CT OF THE RENAL TRACT HAS BEEN PERFORMED. MILD RIGHT SIDED HYDRONEPHROSIS EXTENDING DOWN TO AND OBSTRUCTING CALCULUS AT SOME 4 TO 5CM PROXIMAL TO THE RIGHT VUJ AND IS APPROXIMATELY 5MM IN LENGTH. RETICULATION CAN BE SEEN OF THE RIGHT PERINEPHRIC SPACE  EXTENDING INFERIORLY TO THE L4/5 LEVEL. THIS MOST LIKELY REPRESENTS FLUID IN THE RIGHT PERINEPHRIC SPACE. SMALL FOCI OF CALCIFICATION CAN BE SEEN IN THE RIGHT MID POLE, RIGHT LOWER POLE AND LEFT LOWER POLE. BOTH KIDNEYS ARE IRREGULAR IN OUTLINE. PREVIOUS CHOLECYSTECTOMY IS NOTED.  COMMENT: 5MM OBSTRUCTING CALCULUS AT THE RIGHT PELVIC URETER RESULTING IN MILD RIGHT HYDRONEPHROSIS.
+	</td></tr></table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
