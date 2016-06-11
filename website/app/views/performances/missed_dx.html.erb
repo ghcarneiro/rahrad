@@ -3,9 +3,8 @@
 <% end %>
 <script>
 $(document).ready(function(){
-    $.ajaxSetup({ cache: false });
-    jQuery.noConflict();
     $('#modal-window').modal('show');
+    $.ajaxSetup({ cache: false });
     $(".sentence-toggle").click(function(){
 	if ($(this).children('span').hasClass('glyphicon-menu-right')) {
        	 	$(this).children(':first-child').next().removeClass('glyphicon-menu-right');
