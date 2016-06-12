@@ -27,7 +27,7 @@ def contrastive_loss(y_true, y_pred):
     return (K.mean(y_true * K.square(y_pred) + (1 - y_true) * K.square(K.maximum(margin - y_pred, 0))))
 
 REPORT_FILES = ['nlp_data/CleanedBrainsFull.csv','nlp_data/CleanedCTPAFull.csv','nlp_data/CleanedPlainabFull.csv','nlp_data/CleanedPvabFull.csv']
-continueTraining =False
+continueTraining =True
 try:
     print('Loading Corpus')
     # change textR so that each files reports is one big string
@@ -38,8 +38,8 @@ try:
     totalTextLen = 5000000
     step = 3
     # make sure this is even
-    totalNumSent = totalTextLen/((maxlen/step) )
-    totalNumSent=833332
+    totalNumSent = totalTextLen/((maxlen/step)*20 )
+    #totalNumSent=833332
     #totalNumSent=20832
     print(totalNumSent)
     #totalNumSent = 256 
@@ -101,10 +101,6 @@ def create_base_network(input_dim):
     model.add(Dropout(0.2))
     model.add(LSTM(512, return_sequences=True))
     model.add(Dropout(0.2))
-    #model.add(Dense(len(chars)))
-    model.add(TimeDistributedDense(len(chars)))
-    model.add(Activation('softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
     return model 
 
 def euclidean_distance(inputs):
@@ -124,9 +120,26 @@ def euclidean_distance(inputs):
 print('Build model...')
 if not continueTraining:
     base_network = create_base_network((maxlen,len(chars),))
+    norm_network = create_base_network((maxlen,len(chars),))
+    to_char = Sequential()
+    to_char.add(TimeDistributedDense(len(chars),input_shape=(maxlen,512)))
+    to_char.add(Activation('softmax'))
+    to_char2 = Sequential()
+    to_char2.add(TimeDistributedDense(len(chars),input_shape=(maxlen,512)))
+    to_char2.add(Activation('softmax'))
+
+
+
 else:
     base_network = model_from_json(open('./model_files/reports.rnn_char_architecture.json').read())
     base_network.load_weights('./model_files/reports.rnn_char_weights.h5')
+    norm_network = model_from_json(open('./model_files/reports.rnn_norm_char_architecture.json').read())
+    norm_network.load_weights('./model_files/reports.rnn_norm_char_weights.h5')
+    to_char = model_from_json(open('./model_files/reports.rep2Char_char_architecture.json').read())
+    to_char.load_weights('./model_files/reports.rep2Char_char_weights.h5')
+    to_char2 = model_from_json(open('./model_files/reports.rep2Char2_char_architecture.json').read())
+    to_char2.load_weights('./model_files/reports.rep2Char2_char_weights.h5')
+
 
 g = Graph()
 g.add_input(name='input_a', input_shape=(maxlen,len(chars)))
@@ -137,6 +150,21 @@ g.add_node(Lambda(euclidean_distance,output_shape=eucl_dist_output_shape), name=
 g.add_output(name='output', input='d')
 
 g.compile(loss={'output': contrastive_loss}, optimizer='rmsprop')
+
+g2 = Graph()
+g2.add_input(name='input',input_shape=(maxlen,len(chars)))
+g2.add_node(base_network,name='rnn',input='input')
+g2.add_node(to_char,name='charRep',input='rnn')
+g2.add_output(name='output',input='charRep')
+g2.compile(loss={'output': 'categorical_crossentropy'},optimizer='rmsprop')
+
+g3 = Graph()
+g3.add_input(name='input',input_shape=(maxlen,len(chars)))
+g3.add_node(norm_network,name='rnn',input='input')
+g3.add_node(to_char2,name='charRep',input='rnn')
+g3.add_output(name='output',input='charRep')
+g3.compile(loss={'output': 'categorical_crossentropy'},optimizer='rmsprop')
+
 
 model = base_network
 
@@ -200,12 +228,22 @@ for iteration in range(1, 60):
 		print(z)
 	print(z)
         g.fit({'input_a': X1, 'input_b': X2, 'output': z2}, batch_size=256,nb_epoch=1)
-	model.fit(X, y, batch_size=256, nb_epoch=1)
+	g2.fit({'input':X,'output':y},batch_size=256,nb_epoch=1)
+	g3.fit({'input':X,'output':y},batch_size=256,nb_epoch=1)
 
 	random_sentence = random.randint(0, totalNumSent - 1)
 	model.save_weights('./model_files/reports.rnn_char_weights.h5',overwrite=True)
 	json_string = model.to_json()
 	open('./model_files/reports.rnn_char_architecture.json', 'w').write(json_string)
+	to_char.save_weights('./model_files/reports.rep2Char_char_weights.h5',overwrite=True)
+	json_string = to_char.to_json()
+	open('./model_files/reports.rep2Char_char_architecture.json', 'w').write(json_string)
+	to_char2.save_weights('./model_files/reports.rep2Char2_char_weights.h5',overwrite=True)
+	json_string = to_char2.to_json()
+	open('./model_files/reports.rep2Char2_char_architecture.json', 'w').write(json_string)
+	norm_network.save_weights('./model_files/reports.rnn_norm_char_weights.h5',overwrite=True)
+	json_string = norm_network.to_json()
+	open('./model_files/reports.rnn_norm_char_architecture.json', 'w').write(json_string)
 	if (curSents-1) % 10 == 0:
 		for diversity in [0.2, 0.5, 1.0, 1.2]:
 		    print()
@@ -220,8 +258,8 @@ for iteration in range(1, 60):
 			for t, char in enumerate(sentence):
 			   x[0, t, char_indices[char]] = 1.
 	     
-			preds = model.predict(x,verbose=0)
-			preds = preds[-1]
+			preds = g2.predict({'input':x}, verbose=0)
+			preds = preds['output'][0][-1]
 			next_index = sample(preds, diversity)
 			next_char = indices_char[next_index]
 			generated += next_char
