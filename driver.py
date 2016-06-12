@@ -23,9 +23,12 @@ import rnn
 
 # # Train the RNN sentence model using the small dataset
 #rnn.preprocessReports()
+#rnn.preprocessSentences(['nlp_data/t8.shakespeare.txt']);
 #rnn.buildWord2VecSentences()
-rnn.buildSentenceRNN(epochs=10)
-rnn.sentenceToEncoder()
+#rnn.buildSentenceRNN(epochs=10)
+#rnn.sentenceToEncoder()
+#rnn.nextWords("What can my own praise",numWords=50);
+rnn.nextWords("CT HEAD - PLAIN L3   CT HEAD CLINICAL DETAILS:",numWords=50);
 
 # # Train the RNN sentence model using the full dataset
 # rnn.preprocessFullReports()

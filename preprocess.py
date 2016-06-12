@@ -47,12 +47,12 @@ def textPreprocess(text,minimal=False):
 		file.close()
 
 	if not minimal:
-		text = re.sub("[^a-zA-Z\-]"," ",text) # remove non-letters, except for hyphens
+		# text = re.sub("[^a-zA-Z\-]"," ",text) # remove non-letters, except for hyphens
 		text = text.lower() # convert to lower-case
 		text = text.split() # tokenise string
-		text = [word for word in text if len(word) > 1] # remove all single-letter words
+		# text = [word for word in text if len(word) > 1] # remove all single-letter words
 		# remove stop words
-		text = [word for word in text if not word in stop]
+		# text = [word for word in text if not word in stop]
 	else:
 		# Alterative Minimal processing, lowercase and keep punctuation
 		text = text.lower()
@@ -116,6 +116,24 @@ def getData(fileNames=REPORT_FILES):
 				data.append(row)
 
 	return data
+
+# retrieves a list of all reports in its raw unprocessed state
+# input must be an ARRAY of fileNames. By default, fetches all reports in directory.
+# output is an array containing the reports
+def getReportsSectioned(fileNames=REPORT_FILES):
+	fileReports = []
+
+	for fileName in fileNames:
+		reports = "" 
+		with open(fileName,'rb') as file:
+			file.readline() # skip header line
+			reader = csv.reader(file)
+			for row in reader:
+				reports+='\n'+row[1]+'\n'
+		fileReports.append(reports)
+
+	return fileReports 
+
 
 
 # retrieves a list of all reports in its raw unprocessed state

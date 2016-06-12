@@ -23,39 +23,32 @@ try:
     textR = preprocess.getReports(REPORT_FILES)
     text = ""
     #text = open("./shakespeareEdit.txt").read().lower()
+
+    testText = ""
+    fullText = ""
+    totalTextLen = 5000000
+    maxlen = 20 
+    allText = []
     for i in xrange(len(textR)):
-	text += textR[i]
-	
-    text=text[1:5000000]
+	text += textR[i][:len(textR[i])/2]
+	testText += textR[i][len(textR[i])/2:]
+	fullText += textR[i]
+    chars = set(fullText)
+    fullText = ""
+    textText = ""
+
+    for i in range(0,len(text) - totalTextLen,totalTextLen):
+	allText.append(text[i:i+totalTextLen])
+    #text=allText[0]
 except UnicodeDecodeError:
     import codecs
     text = codecs.open(path, encoding='utf-8').read().lower()
 
 print('corpus length:', len(text))
 
-chars = set(text)
 print('total chars:', len(chars))
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
-
-# cut the text in semi-redundant sequences of maxlen characters
-maxlen = 20 
-step = 3
-sentences = []
-next_chars = []
-for i in range(0, len(text) - maxlen, step):
-    sentences.append(text[i: i + maxlen])
-    next_chars.append(text[i + maxlen])
-print('nb sequences:', len(sentences))
-
-print('Vectorization...')
-X = np.zeros((len(sentences), maxlen, len(chars)), dtype=np.bool)
-y = np.zeros((len(sentences), len(chars)), dtype=np.bool)
-for i, sentence in enumerate(sentences):
-    for t, char in enumerate(sentence):
-        X[i, t, char_indices[char]] = 1
-    y[i, char_indices[next_chars[i]]] = 1
-
 
 # build the model: 2 stacked LSTM
 print('Build model...')
@@ -81,50 +74,59 @@ def sample(a, temperature=1.0):
     return np.argmax(np.random.multinomial(1, a, 1))
 
 
-x = np.zeros((1, maxlen, len(chars)))
-sentence = text[800:800+ maxlen]
-for t, char in enumerate(sentence):
-    x[0, t, char_indices[char]] = 1.
-preds = model.predict(x, verbose=0)[0]
-print(preds)
-next_index = sample(preds, 0.2)
-print(next_index)
-
-# train the model, output generated text after each iteration
 for iteration in range(1, 60):
-    print()
-    print('-' * 50)
-    print('Iteration', iteration)
-    model.fit(X, y, batch_size=256, nb_epoch=1)
+    for curText in range(1,len(allText)):
+	# cut the text in semi-redundant sequences of maxlen characters
+	print('Preprocessing')
+	step = 3
+	sentences = []
+	next_chars = []
+	for i in range(0, len(allText[curText]) - maxlen, step):
+		sentences.append(allText[curText][i: i + maxlen])
+		next_chars.append(allText[curText][i + maxlen])
 
-    start_index = random.randint(0, len(text) - maxlen - 1)
+	X = np.zeros((len(sentences), maxlen, len(chars)), dtype=np.bool)
+	y = np.zeros((len(sentences), len(chars)), dtype=np.bool)
+	for i, sentence in enumerate(sentences):
+		for t, char in enumerate(sentence):
+			X[i, t, char_indices[char]] = 1
+		y[i, char_indices[next_chars[i]]] = 1
+	print('Finished Preprocessing')
 
-    for diversity in [0.2, 0.5, 1.0, 1.2]:
-        print()
-        print('----- diversity:', diversity)
+	# train the model, output generated text after each iteration
+	print()
+	print('-' * 50)
+	print('Iteration', iteration)
+	model.fit(X, y, batch_size=256, nb_epoch=1)
 
-        generated = ''
-        sentence = text[start_index: start_index + maxlen]
-        generated += sentence
-        print('----- Generating with seed: "' + sentence + '"')
-        sys.stdout.write(generated)
+	start_index = random.randint(0, totalTextLen - maxlen - 1)
 
-        for i in range(800):
-            x = np.zeros((1, maxlen, len(chars)))
-            for t, char in enumerate(sentence):
-                x[0, t, char_indices[char]] = 1.
+	for diversity in [0.2, 0.5, 1.0, 1.2]:
+	    print()
+	    print('----- diversity:', diversity)
 
-            preds = model.predict(x, verbose=0)[0]
-            next_index = sample(preds, diversity)
-            next_char = indices_char[next_index]
+	    generated = ''
+	    sentence = allText[curText][start_index: start_index + maxlen]
+	    generated += sentence
+	    print('----- Generating with seed: "' + sentence + '"')
+	    sys.stdout.write(generated)
 
-            generated += next_char
-            sentence = sentence[1:] + next_char
+	    for i in range(800):
+		x = np.zeros((1, maxlen, len(chars)))
+		for t, char in enumerate(sentence):
+		    x[0, t, char_indices[char]] = 1.
 
-            sys.stdout.write(next_char)
-            sys.stdout.flush()
-        print()
-    model.save_weights('./model_files/reports.rnn_char_weights.h5',overwrite=True)
-    json_string = model.to_json()
-    open('./model_files/reports.rnn_char_architecture.json', 'w').write(json_string)
+		preds = model.predict(x, verbose=0)[0]
+		next_index = sample(preds, diversity)
+		next_char = indices_char[next_index]
+
+		generated += next_char
+		sentence = sentence[1:] + next_char
+
+		sys.stdout.write(next_char)
+		sys.stdout.flush()
+	    print()
+	model.save_weights('./model_files/reports.rnn_char_weights.h5',overwrite=True)
+	json_string = model.to_json()
+	open('./model_files/reports.rnn_char_architecture.json', 'w').write(json_string)
 

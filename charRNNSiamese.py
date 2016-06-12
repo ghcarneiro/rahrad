@@ -58,7 +58,7 @@ try:
     totalTextLen = 5000000
     step = 3
     # make sure this is even
-    totalNumSent = totalTextLen/(maxlen/step) * 2
+    totalNumSent = totalTextLen/((maxlen/step) * 2)
     #totalNumSent = 256 
     reportSentences=[]
     print('Formatting Sentences')
@@ -90,9 +90,9 @@ if not continueTraining:
     model.add(Dropout(0.2))
     model.add(Dense(len(chars)))
     model.add(Activation('softmax'))
-    #model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
     #model.compile(loss=categoricalcrossentropy, optimizer='rmsprop')
-    model.compile(loss=siamese, optimizer='rmsprop')
+    #model.compile(loss=siamese, optimizer='rmsprop')
 else:
     m = model_from_json(open('./model_files/reports.rnn_char_architecture.json').read())
     m.load_weights('./model_files/reports.rnn_char_weights.h5')
@@ -126,16 +126,16 @@ for iteration in range(1, 60):
 	print('Preprocessing')
 	X = np.zeros((totalNumSent, maxlen, len(chars)), dtype=np.bool)
 	y = np.zeros((totalNumSent, len(chars)), dtype=np.bool)
-	z = np.zeros((totalNumSent, len(chars)), dtype=np.bool)
+	#z = np.zeros((totalNumSent, len(chars)), dtype=np.bool)
 	for i, sentence in enumerate(allSentences[curSents]):
 		for t, char in enumerate(sentence[0]):
 			X[i, t, char_indices[char]] = 1
-		if i % 2 == 0:
-		    y[i, 0:len(chars)] = [sentence[2]]*(len(chars))
-		    y[i+1,char_indices[sentence[1]]] = 1
+		#if i % 2 == 0:
+		 #   y[i, 0:len(chars)] = [sentence[2]]*(len(chars))
+		  #  y[i+1,char_indices[sentence[1]]] = 1
 		    #y[i, 0:len(chars)] = sentence[2]
 		#else:
-		    #y[i, char_indices[sentence[1]]] = 1
+		y[i, char_indices[sentence[1]]] = 1
 	print('Finished Preprocessing')
 	# train the model, output generated text after each iteration
 	print()
@@ -146,25 +146,25 @@ for iteration in range(1, 60):
 	model.save_weights('./model_files/reports.rnn_char_weights.h5',overwrite=True)
 	json_string = model.to_json()
 	open('./model_files/reports.rnn_char_architecture.json', 'w').write(json_string)
-    for diversity in [0.2, 0.5, 1.0, 1.2]:
-	print()
-	print('----- diversity:', diversity)
-	generated = ''
-	sentence = allSentences[curSents][random_sentence][0] 
-	generated += sentence
-	print('----- Generating with seed: "' + sentence + '"')
-	sys.stdout.write(generated)
-	for i in range(800):
-	    x = np.zeros((1, maxlen, len(chars)))
-	    for t, char in enumerate(sentence):
-		x[0, t, char_indices[char]] = 1.
-
-	    preds = model.predict(x, verbose=0)[0]
-	    next_index = sample(preds, diversity)
-	    next_char = indices_char[next_index]
-	    generated += next_char
-	    sentence = sentence[1:] + next_char
-	    sys.stdout.write(next_char)
-	    sys.stdout.flush()
-	print()
-
+        for diversity in [0.2, 0.5, 1.0, 1.2]:
+	    print()
+	    print('----- diversity:', diversity)
+	    generated = ''
+	    sentence = allSentences[curSents][random_sentence][0] 
+	    generated += sentence
+	    print('----- Generating with seed: "' + sentence + '"')
+	    sys.stdout.write(generated)
+	    for i in range(800):
+		x = np.zeros((1, maxlen, len(chars)))
+		for t, char in enumerate(sentence):
+		   x[0, t, char_indices[char]] = 1.
+     
+      	    	preds = model.predict(x, verbose=0)[0]
+      	    	next_index = sample(preds, diversity)
+      	    	next_char = indices_char[next_index]
+      	    	generated += next_char
+      	    	sentence = sentence[1:] + next_char
+      	    	sys.stdout.write(next_char)
+      	    	sys.stdout.flush()
+    	    print()
+    

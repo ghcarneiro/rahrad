@@ -17,7 +17,7 @@ try:
     for i in xrange(len(textR)):
 	text += textR[i]
 	
-    text=text[1:5000000]
+    #text=text[1:5000000]
 except UnicodeDecodeError:
     import codecs
     text = codecs.open(path, encoding='utf-8').read().lower()
