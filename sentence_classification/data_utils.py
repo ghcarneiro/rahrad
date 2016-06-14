@@ -86,12 +86,12 @@ def generate_sentences(data_files):
         with open(file_name, 'rb') as file:
             file.readline()  # skip header line
             reader = csv.reader(file)
-            for row in reader:
-                for sentence in tokenizer.tokenize(row[1]):
+            for report in reader:
+                for sentence in tokenizer.tokenize(report[1]):
                     tmp = SentenceRecord(sentence)
                     tmp.processed_sentence = " ".join(
                         preprocess.textPreprocess(sentence, removeNegationsFromSentences=False))
-                    tmp.report_id = row[0]
+                    tmp.report_id = report[0]
                     tmp.report_class = i
                     list_sentence_record.append(tmp)
 
