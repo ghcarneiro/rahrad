@@ -17,7 +17,7 @@ dirspec==13.10
 duplicity==0.7.2
 enum34==1.0.4
 gensim==0.12.4
-html5lib==0.999
+html5lib==0.99999999
 httplib2==0.9
 httpretty==0.8.10
 idna==2.0
